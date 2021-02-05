@@ -26,9 +26,8 @@ class RudderClient {
     platform.invokeMethod("initializeSDK", params);
   }
 
-  static void identify(
-      {String userId,
-      RudderTraits traits,
+  static void identify(String userId,
+      {RudderTraits traits,
       RudderOption options,
       RudderTraitsBuilder builder}) {
     if (traits == null && builder != null) {
@@ -89,7 +88,6 @@ class RudderClient {
     if (options != null) {
       params["options"] = options.externalIds;
     }
-    print(groupTraits.traitsMap.toString());
     platform.invokeMethod("group", params);
   }
 

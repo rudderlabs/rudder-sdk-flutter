@@ -11,37 +11,24 @@ class PlatformChannel extends StatefulWidget {
 
 class _PlatformChannelState extends State<PlatformChannel> {
   void __identify() {
-    //userId
-    //userId, RudderTraits, RudderOption
-    //Ruddertraits,. Rudderoption
-    //RudderTraits
     RudderTraits traits = RudderTraits()
         .putFirstName("Desu")
         .putLastName("Sai Venkat")
         .putAge("22")
         .putEmail("saivenkatdesu@gmail.com")
         .putGender("Male");
-    RudderClient.identify(userId: "161FA04009", traits: traits);
-    //platform.invokeMethod("identify", params);
+    RudderClient.identify("161FA04009", traits: traits);
   }
 
   void __track() {
-    //eventName
-    // eventName, Property
-    // eventName, RudderProperty property, RudderOption option
     RudderProperty property = RudderProperty();
     property.put("colour", "red");
     property.put("manufacturer", "hyundai");
     property.put("model", "i20");
     RudderClient.track("Went on a drive", properties: property);
-    //platform.invokeMethod("track", params);
   }
 
   void __screen() {
-    // screen name
-    // screen name , RudderProperty property
-    // screen name, category, RudderProperty property, RudderOption option
-    //  screen name, RudderProperty property, RudderOption option
     RudderProperty screenProperty = new RudderProperty();
     screenProperty.put("browser", "chrome");
     screenProperty.put("device", "mac book pro");

@@ -44,6 +44,7 @@ public class RudderSdkFlutterPlugin
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     if (call.method.equals("initializeSDK")) {
       rudderClient = new RudderSdkFlutterApplication().initializeSDK(call);
+      return;
     } else if (call.method.equals("identify")) {
       HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
       String userId = null;
@@ -71,6 +72,7 @@ public class RudderSdkFlutterPlugin
         traits.putId(userId);
       }
       rudderClient.identify(traits, options);
+      return;
     } else if (call.method.equals("track")) {
       HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
       RudderMessageBuilder builder = new RudderMessageBuilder();
@@ -91,6 +93,7 @@ public class RudderSdkFlutterPlugin
           );
       }
       rudderClient.track(builder.build());
+      return;
     } else if (call.method.equals("screen")) {
       HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
       RudderMessageBuilder builder = new RudderMessageBuilder();
@@ -112,6 +115,7 @@ public class RudderSdkFlutterPlugin
           );
       }
       rudderClient.screen(builder.build());
+      return;
     } else if (call.method.equals("group")) {
       HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
       RudderMessageBuilder builder = new RudderMessageBuilder();
@@ -131,6 +135,7 @@ public class RudderSdkFlutterPlugin
         );
       }
       rudderClient.group(builder.build());
+      return;
     } else if (call.method.equals("alias")) {
       HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
       RudderOption options = null;
@@ -141,10 +146,10 @@ public class RudderSdkFlutterPlugin
           );
       }
       rudderClient.alias((String) argumentsMap.get("newId"), options);
+      return;
     } else if (call.method.equals("reset")) {
       rudderClient.reset();
-    } else {
-      result.notImplemented();
+      return;
     }
   }
 
@@ -213,6 +218,7 @@ public class RudderSdkFlutterPlugin
           builder.setIndustry((String) companyMap.get("industry"));
         }
       }
+    }
       if (traitsMap.containsKey("createdAt")) {
         builder.setCreateAt((String) traitsMap.get("createdAt"));
       }
@@ -246,8 +252,16 @@ public class RudderSdkFlutterPlugin
       if (traitsMap.containsKey("userName")) {
         builder.setUserName((String) traitsMap.get("userName"));
       }
-    }
-    return builder.build();
+    RudderTraits traits = builder.build();
+    if(traitsMap.containsKey("extras"))
+    {
+      Map<String,Object> extras = (Map<String,Object>) traitsMap.get("extras");
+      for(Map.Entry<String,Object> entry : extras.getEntrySet())
+      {
+        traits.put(entry.getKey(),entry.getValue());
+      }
+    }   
+    return traits;
   }
 
   public RudderOption getRudderOptionsObject(
