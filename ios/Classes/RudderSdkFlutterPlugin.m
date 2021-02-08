@@ -57,21 +57,21 @@
     else if ([@"screen" isEqualToString:call.method]) {
         RSMessageBuilder *builder = [[RSMessageBuilder alloc] init];
         [builder setEventName:[call.arguments objectForKey:@"screenName"]];
-           NSMutableDictionary *property;
-           if ([call.arguments objectForKey:@"properties"] == nil) {
-               property = [[NSMutableDictionary alloc] init];
-           } else {
-               property = [[call.arguments objectForKey:@"properties"] mutableCopy];
-           }
-           [property setValue:[call.arguments objectForKey:@"screenName"] forKey:@"name"];
+        NSMutableDictionary *property;
+        if ([call.arguments objectForKey:@"properties"] == nil) {
+            property = [[NSMutableDictionary alloc] init];
+        } else {
+            property = [[call.arguments objectForKey:@"properties"] mutableCopy];
+        }
+        [property setValue:[call.arguments objectForKey:@"screenName"] forKey:@"name"];
         [builder setPropertyDict:property];
-         if([call.arguments objectForKey:@"options"])
-          {
+        if([call.arguments objectForKey:@"options"])
+        {
             [builder setRSOption:[self getRudderOptionsObject:[call.arguments objectForKey:@"options"]]];
-           }
+        }
         [[RSClient sharedInstance]screenWithBuilder:builder];
         return;
-           
+        
     }
     else if ([@"group" isEqualToString:call.method]) {
         NSString* groupId = [call.arguments objectForKey:@"groupId"];
