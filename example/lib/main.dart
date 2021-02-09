@@ -61,7 +61,8 @@ class _PlatformChannelState extends State<PlatformChannel> {
               child: Text('Initialize SDK'),
               onPressed: () {
                 RudderConfigBuilder config = RudderConfigBuilder();
-                config.withDataPlaneUrl("https://cc673055e307.ngrok.io");
+                config.withDataPlaneUrl("https://0292cbcbd5e2.ngrok.io");
+                config.withLogLevel(5);
                 RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
                     builder: config);
               },
