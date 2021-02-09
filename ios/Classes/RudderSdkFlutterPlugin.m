@@ -1,4 +1,5 @@
 #import "RudderSdkFlutterPlugin.h"
+#import "RSMessageType.h"
 #import <Rudder/Rudder.h>
 
 @implementation RudderSdkFlutterPlugin
@@ -20,7 +21,8 @@
         NSString *userId = [call.arguments objectForKey:@"userId"];
         if([call.arguments objectForKey:@"traits"])
         {
-            traits = [self getRudderTraitsObject:[call.arguments objectForKey:@"traits"]];
+            traits = [[RSTraits alloc] initWithDict: [call.arguments objectForKey:@"traits"]];
+            //traits = [self getRudderTraitsObject:[call.arguments objectForKey:@"traits"]];
         }
         if(!traits)
         {
@@ -28,6 +30,7 @@
         }
         [traits setUserId:userId];
         RSMessageBuilder *builder = [[RSMessageBuilder alloc] init];
+        [builder setEventName:RSIdentify];
         [builder setUserId:userId];
         [builder setTraits:traits];
         if([call.arguments objectForKey:@"options"])
@@ -79,7 +82,8 @@
         RSOption* options;
         if([call.arguments objectForKey:@"groupTraits"])
         {
-            groupTraits = [call.arguments objectForKey:@"groupTraits"];
+            groupTraits = [[self getRudderTraitsObject:[call.arguments objectForKey:@"groupTraits"]]dict];
+            groupTraits = [self filterGroupTraits:groupTraits];
         }
         if([call.arguments objectForKey:@"options"])
         {
@@ -188,6 +192,34 @@
         [options putExternalId:[optionsDict objectForKey:@"type"] withId:[optionsDict objectForKey:@"id"]];
     }
     return options;
+}
+
+
+- (BOOL)isNull:(NSObject*) obj{
+    if (!obj) return YES;
+    else if (obj == [NSNull null]) return YES;
+    else if ([obj isKindOfClass:[NSString class]]) {
+        return ([((NSString *)obj)isEqualToString : @""]
+                || [((NSString *)obj)isEqualToString : @"null"]
+                || [((NSString *)obj)isEqualToString : @"<null>"]
+                || [((NSString *)obj)isEqualToString : @"(null)"]
+                );
+    }
+    return NO;
+
+}
+
+- (NSDictionary<NSString *,NSObject *>*) filterGroupTraits:(NSDictionary*) groupTraits {
+    NSMutableDictionary<NSString*, NSObject*> *filteredGroupTraits = [[NSMutableDictionary alloc] init];
+    for(id key in groupTraits)
+    {
+        NSObject* value = [groupTraits objectForKey:key];
+        if(![self isNull:value])
+        {
+            [filteredGroupTraits setValue:value forKey:key];
+        }
+    }
+    return [filteredGroupTraits copy];
 }
 
 

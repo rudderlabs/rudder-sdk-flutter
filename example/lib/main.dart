@@ -12,11 +12,15 @@ class PlatformChannel extends StatefulWidget {
 class _PlatformChannelState extends State<PlatformChannel> {
   void __identify() {
     RudderTraits traits = RudderTraits()
-        .putFirstName("Desu")
-        .putLastName("Sai Venkat")
+        .putName("Sai Venkat")
         .putAge("22")
-        .putEmail("saivenkatdesu@gmail.com")
-        .putGender("Male");
+        .putEmail("saivenkatdesu@gmail.com");
+    RudderClient.identify("161FA04009", traits: traits);
+  }
+
+  void __identify2() {
+    RudderTraits traits =
+        RudderTraits().putName("Sirisha").putEmail("siri@gmail.com");
     RudderClient.identify("161FA04009", traits: traits);
   }
 
@@ -60,11 +64,12 @@ class _PlatformChannelState extends State<PlatformChannel> {
             ElevatedButton(
               child: Text('Initialize SDK'),
               onPressed: () {
-                RudderConfigBuilder config = RudderConfigBuilder();
-                config.withDataPlaneUrl("https://0292cbcbd5e2.ngrok.io");
-                config.withLogLevel(5);
+                RudderConfigBuilder builder = RudderConfigBuilder();
+                builder.withDataPlaneUrl("https://0292cbcbd5e2.ngrok.io");
+                builder.withLogLevel(5);
+                builder.withRecordScreenViews(true);
                 RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
-                    builder: config);
+                    config: builder.build());
               },
             ),
             ElevatedButton(
@@ -72,8 +77,8 @@ class _PlatformChannelState extends State<PlatformChannel> {
               onPressed: __identify,
             ),
             ElevatedButton(
-              child: Text('Track Call'),
-              onPressed: __track,
+              child: Text('Identify 2'),
+              onPressed: __identify2,
             ),
             ElevatedButton(
               child: Text('Screen'),

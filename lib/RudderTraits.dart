@@ -76,12 +76,13 @@ class RudderTraits {
   ///
   /// @param birthday Date
   /// @return traits RudderTraits
-  RudderTraits putBirthday({DateTime birthdayDate, String birthdayString}) {
-    if (birthdayString != null) {
-      traitsMap["birthday"] = birthdayString;
-      return this;
-    }
+  RudderTraits putBirthdayDate(DateTime birthdayDate) {
     traitsMap["birthday"] = Utils.toDateString(birthdayDate);
+    return this;
+  }
+
+  RudderTraits putBirthdayString(String birthdayString) {
+    traitsMap["birthday"] = birthdayString;
     return this;
   }
 

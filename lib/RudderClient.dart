@@ -13,12 +13,9 @@ class RudderClient {
      * @return RudderClient instance to be used further
      */
   static const platform = const MethodChannel('rudder_sdk_flutter');
-  static void getInstance(String writeKey,
-      {RudderConfigBuilder builder, RudderConfig config}) {
-    if (config == null && builder == null) {
+  static void getInstance(String writeKey, {RudderConfig config}) {
+    if (config == null) {
       config = RudderConfig();
-    } else if (config == null && builder != null) {
-      config = builder.build();
     }
     Map<String, dynamic> params = new Map();
     params['writeKey'] = writeKey;
@@ -26,11 +23,34 @@ class RudderClient {
     platform.invokeMethod("initializeSDK", params);
   }
 
+  static void getInstanceWithConfigBuilder(String writeKey,
+      {RudderConfigBuilder builder}) {
+    if (builder != null) {
+      getInstance(writeKey, config: builder.build());
+      return;
+    }
+    getInstance(writeKey, config: null);
+  }
+
   static void identify(String userId,
-      {RudderTraits traits,
-      RudderOption options,
-      RudderTraitsBuilder builder}) {
-    if (traits == null && builder != null) {
+      {RudderTraits traits, RudderOption options}) {
+    Map<String, dynamic> params = new Map();
+    if (userId != null) {
+      params["userId"] = userId;
+    }
+    if (traits != null) {
+      params["traits"] = traits.traitsMap;
+    }
+    if (options != null) {
+      params["options"] = options.externalIds;
+    }
+    platform.invokeMethod("identify", params);
+  }
+
+  static void identifyWithTraitsBuilder(String userId,
+      {RudderTraitsBuilder builder, RudderOption options}) {
+    RudderTraits traits;
+    if (builder != null) {
       traits = builder.build();
     }
     Map<String, dynamic> params = new Map();
