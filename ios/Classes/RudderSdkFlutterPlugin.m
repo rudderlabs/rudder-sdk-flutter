@@ -21,8 +21,8 @@
         NSString *userId = [call.arguments objectForKey:@"userId"];
         if([call.arguments objectForKey:@"traits"])
         {
-            traits = [[RSTraits alloc] initWithDict: [call.arguments objectForKey:@"traits"]];
-            //traits = [self getRudderTraitsObject:[call.arguments objectForKey:@"traits"]];
+            NSDictionary* traitsDict = [[self getRudderTraitsObject:[call.arguments objectForKey:@"traits"]]dict];  
+            traits = [[RSTraits alloc] initWithDict: traitsDict];
         }
         if(!traits)
         {
@@ -46,7 +46,6 @@
         [builder setEventName:[call.arguments objectForKey:@"eventName"]];
         if([call.arguments objectForKey:@"properties"])
         {
-            //NSDictionary<NSString *,NSObject *>* properties = [call.arguments objectForKey:@"properties"];
             [builder setPropertyDict:[call.arguments objectForKey:@"properties"]];
         }
         if([call.arguments objectForKey:@"options"])
@@ -83,7 +82,6 @@
         if([call.arguments objectForKey:@"groupTraits"])
         {
             groupTraits = [[self getRudderTraitsObject:[call.arguments objectForKey:@"groupTraits"]]dict];
-            groupTraits = [self filterGroupTraits:groupTraits];
         }
         if([call.arguments objectForKey:@"options"])
         {
@@ -193,35 +191,5 @@
     }
     return options;
 }
-
-
-- (BOOL)isNull:(NSObject*) obj{
-    if (!obj) return YES;
-    else if (obj == [NSNull null]) return YES;
-    else if ([obj isKindOfClass:[NSString class]]) {
-        return ([((NSString *)obj)isEqualToString : @""]
-                || [((NSString *)obj)isEqualToString : @"null"]
-                || [((NSString *)obj)isEqualToString : @"<null>"]
-                || [((NSString *)obj)isEqualToString : @"(null)"]
-                );
-    }
-    return NO;
-
-}
-
-- (NSDictionary<NSString *,NSObject *>*) filterGroupTraits:(NSDictionary*) groupTraits {
-    NSMutableDictionary<NSString*, NSObject*> *filteredGroupTraits = [[NSMutableDictionary alloc] init];
-    for(id key in groupTraits)
-    {
-        NSObject* value = [groupTraits objectForKey:key];
-        if(![self isNull:value])
-        {
-            [filteredGroupTraits setValue:value forKey:key];
-        }
-    }
-    return [filteredGroupTraits copy];
-}
-
-
 
 @end
