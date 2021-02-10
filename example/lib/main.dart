@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rudder_sdk_flutter/RudderClient.dart';
 import 'package:rudder_sdk_flutter/RudderConfig.dart';
+import 'package:rudder_sdk_flutter/RudderLogger.dart';
 import 'package:rudder_sdk_flutter/RudderTraits.dart';
+import 'package:rudder_sdk_flutter/RudderTraitsBuilder.dart';
 import 'package:rudder_sdk_flutter/RudderProperty.dart';
 
 class PlatformChannel extends StatefulWidget {
@@ -19,9 +21,10 @@ class _PlatformChannelState extends State<PlatformChannel> {
   }
 
   void __identify2() {
-    RudderTraits traits =
-        RudderTraits().putName("Sirisha").putEmail("siri@gmail.com");
-    RudderClient.identify("161FA04009", traits: traits);
+    // Identify call with Traits Builder Object
+    RudderTraitsBuilder builder = new RudderTraitsBuilder();
+    builder.setName("sirisha").setEmail("siri@gmail.com");
+    RudderClient.identifyWithTraitsBuilder("161FA04009", builder: builder);
   }
 
   void __track() {
@@ -65,11 +68,17 @@ class _PlatformChannelState extends State<PlatformChannel> {
               child: Text('Initialize SDK'),
               onPressed: () {
                 RudderConfigBuilder builder = RudderConfigBuilder();
-                builder.withDataPlaneUrl("https://0292cbcbd5e2.ngrok.io");
-                builder.withLogLevel(5);
+                builder.withDataPlaneUrl("https://d4691106870d.ngrok.io");
+                builder.withLogLevel(RudderLogger.VERBOSE);
                 builder.withRecordScreenViews(true);
-                RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
-                    config: builder.build());
+                // 1. with RudderConfig Object
+                //RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
+                //   config: builder.build());
+
+                //2. With RudderConfigBuilder object
+                RudderClient.getInstanceWithConfigBuilder(
+                    "1n0JdVPZTRUIkLXYccrWzZwdGSx",
+                    builder: builder);
               },
             ),
             ElevatedButton(
@@ -79,6 +88,10 @@ class _PlatformChannelState extends State<PlatformChannel> {
             ElevatedButton(
               child: Text('Identify 2'),
               onPressed: __identify2,
+            ),
+            ElevatedButton(
+              child: Text('Track'),
+              onPressed: __track,
             ),
             ElevatedButton(
               child: Text('Screen'),
