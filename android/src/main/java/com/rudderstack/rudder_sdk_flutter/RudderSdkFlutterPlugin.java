@@ -1,5 +1,6 @@
 package com.rudderstack.rudder_sdk_flutter;
 
+import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import com.rudderstack.android.sdk.core.RudderClient;
 import com.rudderstack.android.sdk.core.RudderConfig;
@@ -151,6 +152,31 @@ public class RudderSdkFlutterPlugin
     } else if (call.method.equals("reset")) {
       rudderClient.reset();
       return;
+    } else if (call.method.equals("putDeviceToken")) {
+      if (rudderClient == null) {
+        return;
+      }
+      HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
+      if (argumentsMap.containsKey("deviceToken")) {
+        String deviceToken = (String) argumentsMap.get("deviceToken");
+        if (!TextUtils.isEmpty(deviceToken)) {
+          rudderClient.putDeviceToken(deviceToken);
+        }
+      }
+      return;
+    } else if (call.method.equals("setAdvertisingId")) {
+      HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
+      if (argumentsMap.containsKey("advertisingId")) {
+        RudderClient.updateWithAdvertisingId(
+          (String) argumentsMap.get("advertisingId")
+        );
+      }
+      return;
+    } else if (call.method.equals("setAnonymousId")) {
+      HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
+      if (argumentsMap.containsKey("anonymousId")) {
+        RudderClient.setAnonymousId((String) argumentsMap.get("anonymousId"));
+      }
     }
   }
 

@@ -60,7 +60,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
               child: Text('Initialize SDK'),
               onPressed: () {
                 RudderConfigBuilder builder = RudderConfigBuilder();
-                builder.withDataPlaneUrl("https://d4691106870d.ngrok.io");
+                builder.withDataPlaneUrl("https://81e812b9af06.ngrok.io");
                 builder.withLogLevel(RudderLogger.VERBOSE);
                 builder.withRecordScreenViews(true);
                 // 1. with RudderConfig Object
@@ -96,6 +96,24 @@ class _PlatformChannelState extends State<PlatformChannel> {
             ElevatedButton(
               child: Text('Alias'),
               onPressed: __alias,
+            ),
+            ElevatedButton(
+              child: Text('Set Anonymous Id'),
+              onPressed: () {
+                RudderClient.setAnonymousId("anon-user");
+              },
+            ),
+            ElevatedButton(
+              child: Text('Set Advertsing ID'),
+              onPressed: () {
+                RudderClient.setAdvertisingId("899jj-hguscb");
+              },
+            ),
+            ElevatedButton(
+              child: Text('Set Device Token'),
+              onPressed: () {
+                RudderClient.putDeviceToken("device-token-format");
+              },
             )
           ],
         ),

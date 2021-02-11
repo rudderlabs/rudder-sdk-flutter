@@ -107,10 +107,41 @@
             options = [self getRudderOptionsObject:[call.arguments objectForKey:@"options"]];
         }
         [[RSClient sharedInstance]alias:[call.arguments objectForKey:@"newId"] options:options];
-        
+        return;
     }
     else if ([@"reset" isEqualToString:call.method]) {
         [[RSClient sharedInstance] reset];
+        return;
+    }
+    else if ([@"putDeviceToken" isEqualToString:call.method])
+    {
+        if([call.arguments objectForKey:@"deviceToken"])
+        {
+            NSString* token =  [call.arguments objectForKey:@"deviceToken"];
+            if ([RSClient sharedInstance] == nil) return;
+            RSContext* rudderContext = [[RSClient sharedInstance] getContext];
+            if (rudderContext != nil && [token length] != 0) {
+                [rudderContext putDeviceToken:token];
+            }
+        }
+    }
+    else if ([@"setAdvertisingId" isEqualToString:call.method])
+    {
+        if ([RSClient sharedInstance] == nil) return;
+        if([call.arguments objectForKey:@"advertisingId"])
+        {
+            RSContext* rudderContext = [[RSClient sharedInstance] getContext];
+            if (rudderContext != nil) {
+                [rudderContext putAdvertisementId:[call.arguments objectForKey:@"advertisingId"]];
+            }
+        }
+    }
+    else if ([@"setAnonymousId" isEqualToString:call.method])
+    {
+        if([call.arguments objectForKey:@"anonymousId"])
+        {
+            [RSClient setAnonymousId:[call.arguments objectForKey:@"anonymousId"]];
+        }
     }
 }
 - (RSConfig*)getRudderConfigObject:(NSDictionary *)configDict {

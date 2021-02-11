@@ -105,4 +105,28 @@ class RudderClient {
   static void reset() {
     platform.invokeMethod("reset");
   }
+
+  static void putDeviceToken(String token) {
+    Map<String, dynamic> params = new Map();
+    if (token != null) {
+      params["deviceToken"] = token;
+      platform.invokeMethod("putDeviceToken", params);
+    }
+  }
+
+  static void setAdvertisingId(String id) {
+    Map<String, dynamic> params = new Map();
+    if (id != null) {
+      params["advertisingId"] = id;
+      platform.invokeMethod("setAdvertisingId", params);
+    }
+  }
+
+  static void setAnonymousId(String id) {
+    Map<String, dynamic> params = new Map();
+    if (id != null) {
+      params["anonymousId"] = id;
+      platform.invokeMethod("setAnonymousId", params);
+    }
+  }
 }
