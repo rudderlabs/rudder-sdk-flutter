@@ -3,7 +3,6 @@ import 'package:rudder_sdk_flutter/RudderClient.dart';
 import 'package:rudder_sdk_flutter/RudderConfig.dart';
 import 'package:rudder_sdk_flutter/RudderLogger.dart';
 import 'package:rudder_sdk_flutter/RudderTraits.dart';
-import 'package:rudder_sdk_flutter/RudderTraitsBuilder.dart';
 import 'package:rudder_sdk_flutter/RudderProperty.dart';
 
 class PlatformChannel extends StatefulWidget {
@@ -18,13 +17,6 @@ class _PlatformChannelState extends State<PlatformChannel> {
         .putAge("22")
         .putEmail("saivenkatdesu@gmail.com");
     RudderClient.identify("161FA04009", traits: traits);
-  }
-
-  void __identify2() {
-    // Identify call with Traits Builder Object
-    RudderTraitsBuilder builder = new RudderTraitsBuilder();
-    builder.setName("sirisha").setEmail("siri@gmail.com");
-    RudderClient.identifyWithTraitsBuilder("161FA04009", builder: builder);
   }
 
   void __track() {
@@ -84,10 +76,6 @@ class _PlatformChannelState extends State<PlatformChannel> {
             ElevatedButton(
               child: Text('Identify call'),
               onPressed: __identify,
-            ),
-            ElevatedButton(
-              child: Text('Identify 2'),
-              onPressed: __identify2,
             ),
             ElevatedButton(
               child: Text('Track'),

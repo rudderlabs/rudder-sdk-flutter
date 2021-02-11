@@ -1,6 +1,5 @@
 import './RudderConfig.dart';
 import './RudderTraits.dart';
-import './RudderTraitsBuilder.dart';
 import './RudderOption.dart';
 import './RudderProperty.dart';
 import 'package:flutter/services.dart';
@@ -34,25 +33,6 @@ class RudderClient {
 
   static void identify(String userId,
       {RudderTraits traits, RudderOption options}) {
-    Map<String, dynamic> params = new Map();
-    if (userId != null) {
-      params["userId"] = userId;
-    }
-    if (traits != null) {
-      params["traits"] = traits.traitsMap;
-    }
-    if (options != null) {
-      params["options"] = options.externalIds;
-    }
-    platform.invokeMethod("identify", params);
-  }
-
-  static void identifyWithTraitsBuilder(String userId,
-      {RudderTraitsBuilder builder, RudderOption options}) {
-    RudderTraits traits;
-    if (builder != null) {
-      traits = builder.build();
-    }
     Map<String, dynamic> params = new Map();
     if (userId != null) {
       params["userId"] = userId;

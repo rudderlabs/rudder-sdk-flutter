@@ -261,8 +261,12 @@ class Address {
   /// @param postalCode String
   /// @param state      String
   /// @param street     String
-  Address(String city, String country, String postalCode, String state,
-      String street) {
+  Address(
+      {String city,
+      String country,
+      String postalCode,
+      String state,
+      String street}) {
     if (city != null) {
       addressMap["city"] = city;
     }
@@ -334,7 +338,7 @@ class Company {
   /// @param name     String
   /// @param id       String
   /// @param industry String
-  Company(String name, String id, String industry) {
+  Company({String name, String id, String industry}) {
     if (name != null) {
       companyMap["name"] = name;
     }
