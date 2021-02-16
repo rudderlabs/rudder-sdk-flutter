@@ -224,10 +224,11 @@ class RudderConfigBuilder {
 
   /// @param shouldRecordScreenViews Whether we should record screen views automatically
   /// @return RudderConfigBuilder
-  RudderConfigBuilder withRecordScreenViews(bool shouldRecordScreenViews) {
-    __recordScreenViews = shouldRecordScreenViews;
-    return this;
-  }
+  /// commented as we are not supporting this as of now
+  // RudderConfigBuilder withRecordScreenViews(bool shouldRecordScreenViews) {
+  //   __recordScreenViews = shouldRecordScreenViews;
+  //   return this;
+  // }
 
   bool __trackLifecycleEvents = Constants.TRACK_LIFECYCLE_EVENTS;
 

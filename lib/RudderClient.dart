@@ -20,6 +20,7 @@ class RudderClient {
     params['writeKey'] = writeKey;
     params['config'] = config.toMap();
     platform.invokeMethod("initializeSDK", params);
+    track("Application Opened");
   }
 
   static void getInstanceWithConfigBuilder(String writeKey,
