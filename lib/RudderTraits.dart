@@ -20,8 +20,7 @@ class RudderTraits {
   /// @param phone       String
   /// @param title
   /// @param userName    String
-  RudderTraits(
-      {Address address,
+  RudderTraits({Address address,
       String age,
       String birthday,
       Company company,

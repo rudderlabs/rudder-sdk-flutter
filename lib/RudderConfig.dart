@@ -55,7 +55,8 @@ class RudderConfig {
   ) {
     if (Utils.isEmpty(dataPlaneUrl)) {
       RudderLogger.logError(
-          "endPointUri can not be null or empty. Set to default.");
+          "endPointUri can not be null or empty. Set to default."
+          );
       config['dataPlaneUrl'] = Constants.DATA_PLANE_URL;
     } else if (!Utils.isValidUrl(dataPlaneUrl)) {
       RudderLogger.logError("Malformed endPointUri. Set to default");
@@ -127,19 +128,19 @@ class RudderConfigBuilder {
   /// @param endPointUri Your data-plane Url
   /// @return RudderConfigBuilder
   /// @deprecated use withDataPlaneUrl(String dataPlaneUrl)
-  RudderConfigBuilder withEndPointUri(String endPointUri) {
-    if (Utils.isEmpty(endPointUri)) {
-      RudderLogger.logError(
-          "endPointUri can not be null or empty. Set to default");
-      return this;
-    }
-    if (!Utils.isValidUrl(endPointUri)) {
-      RudderLogger.logError("Malformed endPointUri. Set to default");
-      return this;
-    }
-    __dataPlaneUrl = endPointUri;
-    return this;
-  }
+  // RudderConfigBuilder withEndPointUri(String endPointUri) {
+  //   if (Utils.isEmpty(endPointUri)) {
+  //     RudderLogger.logError(
+  //         "endPointUri can not be null or empty. Set to default");
+  //     return this;
+  //   }
+  //   if (!Utils.isValidUrl(endPointUri)) {
+  //     RudderLogger.logError("Malformed endPointUri. Set to default");
+  //     return this;
+  //   }
+  //   __dataPlaneUrl = endPointUri;
+  //   return this;
+  // }
 
   /// @param dataPlaneUrl Your data-plane Url
   /// @return RudderConfigBuilder
@@ -246,10 +247,10 @@ class RudderConfigBuilder {
   /// @param configPlaneUrl Your hosted version of sourceConfig
   /// @return RudderConfigBuilder
   /// @deprecated use withControlPlaneUrl(String controlPlaneUrl)
-  RudderConfigBuilder withConfigPlaneUrl(String configPlaneUrl) {
-    __controlPlaneUrl = configPlaneUrl;
-    return this;
-  }
+  // RudderConfigBuilder withConfigPlaneUrl(String configPlaneUrl) {
+  //   __controlPlaneUrl = configPlaneUrl;
+  //   return this;
+  // }
 
   /// @param controlPlaneUrl Your hosted version of sourceConfig
   /// @return RudderConfigBuilder
