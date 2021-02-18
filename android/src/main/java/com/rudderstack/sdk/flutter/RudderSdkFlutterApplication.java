@@ -1,4 +1,4 @@
-package com.rudderstack.rudder_sdk_flutter;
+package com.rudderstack.sdk.flutter;
 
 import android.app.Application;
 

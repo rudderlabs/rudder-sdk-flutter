@@ -29,7 +29,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.rudderstack.rudder_sdk_flutter
+        package: com.rudderstack.sdk.flutter
         pluginClass: RudderSdkFlutterPlugin
       ios:
         pluginClass: RudderSdkFlutterPlugin
