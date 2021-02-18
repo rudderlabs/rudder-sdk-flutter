@@ -1,0 +1,17 @@
+.dart_tool/
+
+.packages
+.pub/
+.vscode
+**/.DS_Store
+*.iml
+**/build/
+.gradle/
+.idea/
+local.properties
+**/.project
+**/.settings
+**/.classpath
+**/bin/
+pubspec.lock
+**/.project
