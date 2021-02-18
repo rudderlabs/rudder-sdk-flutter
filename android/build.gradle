@@ -1,0 +1,49 @@
+group 'com.rudderstack.rudder_sdk_flutter'
+version '1.0'
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.0'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 16
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+
+
+repositories {
+  maven { url  "https://dl.bintray.com/rudderstack/rudderstack" }
+}
+
+dependencies {
+    implementation 'com.rudderstack.android.sdk:core:1.0.10'
+    implementation 'com.google.code.gson:gson:2.8.6'
+}

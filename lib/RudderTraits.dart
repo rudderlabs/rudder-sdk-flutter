@@ -20,7 +20,8 @@ class RudderTraits {
   /// @param phone       String
   /// @param title
   /// @param userName    String
-  RudderTraits({Address address,
+  RudderTraits(
+      {Address address,
       String age,
       String birthday,
       Company company,
@@ -35,52 +36,22 @@ class RudderTraits {
       String phone,
       String title,
       String userName}) {
-    if (address != null) {
-      traitsMap["address"] = address != null ? address.addressMap : null;
-    }
-    if (age != null) {
-      traitsMap["age"] = age;
-    }
-    if (birthday != null) {
-      traitsMap["birthday"] = birthday;
-    }
-    if (company != null) {
-      traitsMap["company"] = company != null ? company.companyMap : null;
-    }
-    if (createdAt != null) {
-      traitsMap["createdAt"] = createdAt;
-    }
-    if (description != null) {
-      traitsMap["description"] = description;
-    }
-    if (email != null) {
-      traitsMap["email"] = email;
-    }
-    if (firstName != null) {
-      traitsMap["firstName"] = firstName;
-    }
-    if (gender != null) {
-      traitsMap["gender"] = gender;
-    }
-    if (id != null) {
-      traitsMap["id"] = id;
-      traitsMap["oldId"] = id;
-    }
-    if (lastName != null) {
-      traitsMap["lastName"] = lastName;
-    }
-    if (name != null) {
-      traitsMap["name"] = name;
-    }
-    if (phone != null) {
-      traitsMap["phone"] = phone;
-    }
-    if (title != null) {
-      traitsMap["title"] = title;
-    }
-    if (userName != null) {
-      traitsMap["userName"] = userName;
-    }
+    traitsMap["address"] = address != null ? address.addressMap : null;
+    traitsMap["age"] = age;
+    traitsMap["birthday"] = birthday;
+    traitsMap["company"] = company != null ? company.companyMap : null;
+    traitsMap["createdAt"] = createdAt;
+    traitsMap["description"] = description;
+    traitsMap["email"] = email;
+    traitsMap["firstName"] = firstName;
+    traitsMap["gender"] = gender;
+    traitsMap["id"] = id;
+    traitsMap["oldId"] = id;
+    traitsMap["lastName"] = lastName;
+    traitsMap["name"] = name;
+    traitsMap["phone"] = phone;
+    traitsMap["title"] = title;
+    traitsMap["userName"] = userName;
   }
 
   /// Put Address
@@ -105,13 +76,12 @@ class RudderTraits {
   ///
   /// @param birthday Date
   /// @return traits RudderTraits
-  RudderTraits putBirthdayDate(DateTime birthdayDate) {
+  RudderTraits putBirthday({DateTime birthdayDate, String birthdayString}) {
+    if (birthdayString != null) {
+      traitsMap["birthday"] = birthdayString;
+      return this;
+    }
     traitsMap["birthday"] = Utils.toDateString(birthdayDate);
-    return this;
-  }
-
-  RudderTraits putBirthdayString(String birthdayString) {
-    traitsMap["birthday"] = birthdayString;
     return this;
   }
 
@@ -231,7 +201,7 @@ class RudderTraits {
   /// @return traits RudderTraits
   RudderTraits put(String key, dynamic value) {
     if (traitsMap["extras"] == null) {
-      traitsMap["extras"] = new Map<String, dynamic>();
+      traitsMap["extras"] = new Map();
     }
     Map<String, dynamic> extras = traitsMap["extras"];
     extras[key] = value;
@@ -260,27 +230,13 @@ class Address {
   /// @param postalCode String
   /// @param state      String
   /// @param street     String
-  Address(
-      {String city,
-      String country,
-      String postalCode,
-      String state,
-      String street}) {
-    if (city != null) {
-      addressMap["city"] = city;
-    }
-    if (country != null) {
-      addressMap["country"] = country;
-    }
-    if (postalCode != null) {
-      addressMap["postalCode"] = postalCode;
-    }
-    if (state != null) {
-      addressMap["state"] = state;
-    }
-    if (street != null) {
-      addressMap["street"] = street;
-    }
+  Address(String city, String country, String postalCode, String state,
+      String street) {
+    addressMap["city"] = city;
+    addressMap["country"] = country;
+    addressMap["postalCode"] = postalCode;
+    addressMap["state"] = state;
+    addressMap["street"] = street;
   }
 
   /// put city
@@ -337,16 +293,10 @@ class Company {
   /// @param name     String
   /// @param id       String
   /// @param industry String
-  Company({String name, String id, String industry}) {
-    if (name != null) {
-      companyMap["name"] = name;
-    }
-    if (id != null) {
-      companyMap["id"] = id;
-    }
-    if (industry != null) {
-      companyMap["industry"] = industry;
-    }
+  Company(String name, String id, String industry) {
+    companyMap["name"] = name;
+    companyMap["id"] = id;
+    companyMap["industry"] = industry;
   }
 
   /// put name

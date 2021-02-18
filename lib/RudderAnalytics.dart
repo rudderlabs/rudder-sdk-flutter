@@ -1,0 +1,3 @@
+class RudderAnalytics {}
+
+class RudderClient {}

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rudder_sdk_flutter/RudderClient.dart';
 import 'package:rudder_sdk_flutter/RudderConfig.dart';
-import 'package:rudder_sdk_flutter/RudderLogger.dart';
 import 'package:rudder_sdk_flutter/RudderTraits.dart';
 import 'package:rudder_sdk_flutter/RudderProperty.dart';
 
@@ -12,43 +11,40 @@ class PlatformChannel extends StatefulWidget {
 
 class _PlatformChannelState extends State<PlatformChannel> {
   void __identify() {
+    //userId
+    //userId, RudderTraits, RudderOption
+    //Ruddertraits,. Rudderoption
+    //RudderTraits
     RudderTraits traits = RudderTraits()
-        .putName("Sai Venkat")
+        .putFirstName("Desu")
+        .putLastName("Sai Venkat")
         .putAge("22")
-        .putEmail("saivenkatdesu@gmail.com");
+        .putEmail("saivenkatdesu@gmail.com")
+        .putGender("Male");
     RudderClient.identify("161FA04009", traits: traits);
+    //platform.invokeMethod("identify", params);
   }
 
   void __track() {
+    //eventName
+    // eventName, Property
+    // eventName, RudderProperty property, RudderOption option
     RudderProperty property = RudderProperty();
     property.put("colour", "red");
     property.put("manufacturer", "hyundai");
     property.put("model", "i20");
     RudderClient.track("Went on a drive", properties: property);
+    //platform.invokeMethod("track", params);
   }
 
   void __screen() {
-    RudderProperty screenProperty = new RudderProperty();
-    screenProperty.put("browser", "chrome");
-    screenProperty.put("device", "mac book pro");
-    RudderClient.screen("Walmart Cart", properties: screenProperty);
+    // screen name
+    // screen name , RudderProperty property
+    // screen name, category, RudderProperty property, RudderOption option
+    //  screen name, RudderProperty property, RudderOption option
   }
-
-  void __group() {
-    RudderTraits groupTraits = RudderTraits();
-    groupTraits.put("place", "kolkata");
-    groupTraits.put("size", "fiteen");
-    RudderClient.group("Integrations-Rudder", groupTraits: groupTraits);
-  }
-
-  void __reset() {
-    RudderClient.reset();
-  }
-
-  void __alias() {
-    RudderClient.alias("4009");
-  }
-
+  void __group() {}
+  void __reset() {}
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -59,15 +55,10 @@ class _PlatformChannelState extends State<PlatformChannel> {
             ElevatedButton(
               child: Text('Initialize SDK'),
               onPressed: () {
-                RudderConfigBuilder builder = RudderConfigBuilder();
-                builder.withDataPlaneUrl("https://130aeb5f4222.ngrok.io");
-                builder.withLogLevel(RudderLogger.VERBOSE);
-                // 1. with RudderConfig Object
-                //RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
-                //   config: builder.build());
-                //2. With RudderConfigBuilder object
+                RudderConfigBuilder config = RudderConfigBuilder();
+                config.withDataPlaneUrl("https://dd3eb460155a.ngrok.io");
                 RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
-                    config: builder.build());
+                    builder: config);
               },
             ),
             ElevatedButton(
@@ -75,7 +66,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
               onPressed: __identify,
             ),
             ElevatedButton(
-              child: Text('Track'),
+              child: Text('Track Call'),
               onPressed: __track,
             ),
             ElevatedButton(
@@ -89,28 +80,6 @@ class _PlatformChannelState extends State<PlatformChannel> {
             ElevatedButton(
               child: Text('Reset'),
               onPressed: __reset,
-            ),
-            ElevatedButton(
-              child: Text('Alias'),
-              onPressed: __alias,
-            ),
-            ElevatedButton(
-              child: Text('Set Anonymous Id'),
-              onPressed: () {
-                RudderClient.setAnonymousId("anon-user");
-              },
-            ),
-            ElevatedButton(
-              child: Text('Set Advertsing ID'),
-              onPressed: () {
-                RudderClient.setAdvertisingId("899jj-hguscb");
-              },
-            ),
-            ElevatedButton(
-              child: Text('Set Device Token'),
-              onPressed: () {
-                RudderClient.putDeviceToken("device-token-format");
-              },
             )
           ],
         ),
