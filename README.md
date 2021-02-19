@@ -15,13 +15,13 @@ Released under [MIT License](https://opensource.org/licenses/MIT)
 1. Open `pubspec.yaml`  and add `rudder_sdk_flutter` under `dependencies` section:
 ```groovy
 dependencies:
-  rudder_sdk_flutter: ^1.0.0-beta.3
+  rudder_sdk_flutter: ^1.0.0
 ```
 2. Navigate to your Application's root folder and install all the required dependencies with:
 ```bash
 flutter pub get
 ```
-3. If the `AndroidManifest.xml` of your Flutter application contains `android:name` attribute in the `<application>` tag then please remove it from there and it at `<manifest>` tag as following : 
+3. If the `AndroidManifest.xml` of your Flutter application contains `android:name` attribute in the `<application>` tag then please remove it from there and it at `<manifest>` tag as following :
 ```bash
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
    package="YOUR_PACKAGE_NAME"
