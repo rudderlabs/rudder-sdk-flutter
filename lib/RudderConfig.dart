@@ -54,12 +54,10 @@ class RudderConfig {
     String controlPlaneUrl,
   ) {
     if (Utils.isEmpty(dataPlaneUrl)) {
-      RudderLogger.logError(
-          "endPointUri can not be null or empty. Set to default."
-          );
+      RudderLogger.logError("dataPlaneUrl can not be null or empty. Set to default.");
       config['dataPlaneUrl'] = Constants.DATA_PLANE_URL;
     } else if (!Utils.isValidUrl(dataPlaneUrl)) {
-      RudderLogger.logError("Malformed endPointUri. Set to default");
+      RudderLogger.logError("Malformed dataPlaneUrl. Set to default");
       config['dataPlaneUrl'] = Constants.DATA_PLANE_URL;
     } else {
       if (!dataPlaneUrl.endsWith("/")) dataPlaneUrl += "/";
@@ -68,8 +66,7 @@ class RudderConfig {
 
     if (flushQueueSize < Utils.MIN_FLUSH_QUEUE_SIZE ||
         flushQueueSize > Utils.MAX_FLUSH_QUEUE_SIZE) {
-      RudderLogger.logError(
-          "flushQueueSize is out of range. Min: 1, Max: 100. Set to default");
+      RudderLogger.logError("flushQueueSize is out of range. Min: 1, Max: 100. Set to default");
       config['flushQueueSize'] = Constants.FLUSH_QUEUE_SIZE;
     } else {
       config['flushQueueSize'] = flushQueueSize;
@@ -103,8 +100,7 @@ class RudderConfig {
     config['recordScreenViews'] = recordScreenViews;
 
     if (Utils.isEmpty(controlPlaneUrl)) {
-      RudderLogger.logError(
-          "configPlaneUrl can not be null or empty. Set to default.");
+      RudderLogger.logError("configPlaneUrl can not be null or empty. Set to default.");
       config['controlPlaneUrl'] = Constants.CONTROL_PLANE_URL;
     } else if (!Utils.isValidUrl(controlPlaneUrl)) {
       RudderLogger.logError("Malformed configPlaneUrl. Set to default");
@@ -124,23 +120,6 @@ class RudderConfig {
 /// RudderConfigBuilder class for RudderConfig
 class RudderConfigBuilder {
   String __dataPlaneUrl = Constants.DATA_PLANE_URL;
-
-  /// @param endPointUri Your data-plane Url
-  /// @return RudderConfigBuilder
-  /// @deprecated use withDataPlaneUrl(String dataPlaneUrl)
-  // RudderConfigBuilder withEndPointUri(String endPointUri) {
-  //   if (Utils.isEmpty(endPointUri)) {
-  //     RudderLogger.logError(
-  //         "endPointUri can not be null or empty. Set to default");
-  //     return this;
-  //   }
-  //   if (!Utils.isValidUrl(endPointUri)) {
-  //     RudderLogger.logError("Malformed endPointUri. Set to default");
-  //     return this;
-  //   }
-  //   __dataPlaneUrl = endPointUri;
-  //   return this;
-  // }
 
   /// @param dataPlaneUrl Your data-plane Url
   /// @return RudderConfigBuilder
@@ -243,14 +222,6 @@ class RudderConfigBuilder {
   }
 
   String __controlPlaneUrl = Constants.CONTROL_PLANE_URL;
-
-  /// @param configPlaneUrl Your hosted version of sourceConfig
-  /// @return RudderConfigBuilder
-  /// @deprecated use withControlPlaneUrl(String controlPlaneUrl)
-  // RudderConfigBuilder withConfigPlaneUrl(String configPlaneUrl) {
-  //   __controlPlaneUrl = configPlaneUrl;
-  //   return this;
-  // }
 
   /// @param controlPlaneUrl Your hosted version of sourceConfig
   /// @return RudderConfigBuilder

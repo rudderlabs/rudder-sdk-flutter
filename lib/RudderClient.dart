@@ -23,14 +23,6 @@ class RudderClient {
     track("Application Opened");
   }
 
-  // static void getInstanceWithConfigBuilder(String writeKey, {RudderConfigBuilder builder}) {
-  //   if (builder != null) {
-  //     getInstance(writeKey, config: builder.build());
-  //     return;
-  //   }
-  //   getInstance(writeKey, config: null);
-  // }
-
   static void identify(String userId, {RudderTraits traits, RudderOption options}) {
     Map<String, dynamic> params = new Map();
 

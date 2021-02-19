@@ -1,6 +1,4 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.rudderstack.rudder_sdk_flutter">
-  <application
-        android:name="com.rudderstack.sdk.flutter.RudderSdkFlutterApplication">
-    </application>
+<application android:name="com.rudderstack.sdk.flutter.RudderSdkFlutterApplication"/>
 </manifest>
