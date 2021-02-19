@@ -22,16 +22,6 @@ class RudderLogger {
     );
   }
 
-  // static void logError(Throwable throwable) {
-  //   if (logLevel >= ERROR) {
-  //     Loge(TAG, "Error: ", throwable);
-  //   }
-  // }
-
-  // static void logError(Exception ex) {
-  //   logError(exgetMessage());
-  // }
-
   static void logError(String message) {
     if (__logLevel >= ERROR) {
       logger.e(__TAG, "Error: " + message);
