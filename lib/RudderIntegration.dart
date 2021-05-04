@@ -1,0 +1,3 @@
+class RudderIntegration {
+  void addFactory() {}
+}

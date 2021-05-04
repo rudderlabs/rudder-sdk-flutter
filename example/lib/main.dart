@@ -4,6 +4,7 @@ import 'package:rudder_sdk_flutter/RudderConfig.dart';
 import 'package:rudder_sdk_flutter/RudderLogger.dart';
 import 'package:rudder_sdk_flutter/RudderTraits.dart';
 import 'package:rudder_sdk_flutter/RudderProperty.dart';
+import 'package:rudder_integration_appcenter_flutter/Appcenter.dart';
 
 class PlatformChannel extends StatefulWidget {
   @override
@@ -12,11 +13,12 @@ class PlatformChannel extends StatefulWidget {
 
 class _PlatformChannelState extends State<PlatformChannel> {
   void __identify() {
-    RudderTraits traits = RudderTraits()
-        .putName("Sai Venkat")
-        .putAge("22")
-        .putEmail("saivenkatdesu@gmail.com");
-    RudderClient.identify("161FA04009", traits: traits);
+    Appcenter();
+    // RudderTraits traits = RudderTraits()
+    //     .putName("Sai Venkat")
+    //     .putAge("22")
+    //     .putEmail("saivenkatdesu@gmail.com");
+    // RudderClient.identify("161FA04009", traits: traits);
   }
 
   void __track() {
@@ -60,13 +62,13 @@ class _PlatformChannelState extends State<PlatformChannel> {
               child: Text('Initialize SDK'),
               onPressed: () {
                 RudderConfigBuilder builder = RudderConfigBuilder();
-                builder.withDataPlaneUrl("https://130aeb5f4222.ngrok.io");
+                builder.withDataPlaneUrl("https://fbb590b7d3a1.ngrok.io");
                 builder.withLogLevel(RudderLogger.VERBOSE);
                 // 1. with RudderConfig Object
                 //RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
                 //   config: builder.build());
                 //2. With RudderConfigBuilder object
-                RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
+                RudderClient.getInstance("1rC6xZFSesTnCG8UT1s6AOQmOvD",
                     config: builder.build());
               },
             ),
