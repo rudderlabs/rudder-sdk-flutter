@@ -2,19 +2,19 @@ import './Utils.dart';
 
 // we left fetching the external ids from the scratch here
 class RudderOption {
-  List<Map<String, dynamic>> externalIds;
+  List<Map<String, dynamic>>? externalIds;
 
   RudderOption putExternalId(String type, String id) {
     if (this.externalIds == null) {
-      this.externalIds = List();
+      this.externalIds = [];
     }
 
-    Map<String, Object> externalIdMap;
+    Map<String, Object>? externalIdMap;
     int mapIndex = -1;
-    for (int index = 0; index < this.externalIds.length; index++) {
-      Map<String, Object> map = this.externalIds.elementAt(index);
+    for (int index = 0; index < this.externalIds!.length; index++) {
+      Map<String, Object> map = this.externalIds!.elementAt(index) as Map<String, Object>;
       String mapType = map["type"].toString();
-      if (mapType != null && Utils.equalsIgnoreCase(mapType, type)) {
+      if (Utils.equalsIgnoreCase(mapType, type)) {
         externalIdMap = map;
         mapIndex = index;
         break;
@@ -33,9 +33,9 @@ class RudderOption {
     // finally update existing position or add new id
     if (mapIndex == -1) {
       // not found in existing storage
-      this.externalIds.add(externalIdMap);
+      this.externalIds!.add(externalIdMap);
     } else {
-      this.externalIds.elementAt(mapIndex)["id"] = id;
+      this.externalIds!.elementAt(mapIndex)["id"] = id;
     }
 
     // return for builder pattern
