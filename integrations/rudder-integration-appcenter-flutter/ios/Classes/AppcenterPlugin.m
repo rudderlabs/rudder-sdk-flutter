@@ -1,5 +1,6 @@
 #import "AppcenterPlugin.h"
 #import "RudderAppCenterFactory.h"
+#import <rudder_sdk_flutter/RudderSdkFlutterPlugin.h>
 
 @implementation AppcenterPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {

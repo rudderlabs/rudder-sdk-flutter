@@ -45,7 +45,7 @@ public class RudderSdkFlutterPlugin
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     if (call.method.equals("initializeSDK")) {
-      rudderClient = new RudderSdkFlutterApplication().initializeSDK(call);
+      rudderClient = RudderSdkFlutterApplication.initializeSDK(call);
       return;
     } else if (call.method.equals("identify")) {
       HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
@@ -183,22 +183,6 @@ public class RudderSdkFlutterPlugin
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
     channel.setMethodCallHandler(null);
-  }
-
-  public RudderConfig getRudderConfigObject(Map<String, Object> configMap) {
-    return new RudderConfig.Builder()
-      .withDataPlaneUrl((String) configMap.get("dataPlaneUrl"))
-      .withFlushQueueSize((Integer) configMap.get("flushQueueSize"))
-      .withDbThresholdCount((Integer) configMap.get("dbCountThreshold"))
-      .withConfigRefreshInterval(
-        (Integer) configMap.get("configRefreshInterval")
-      )
-      .withLogLevel((Integer) configMap.get("logLevel"))
-      .withSleepCount((Integer) configMap.get("sleepTimeOut"))
-      .withTrackLifecycleEvents((Boolean) configMap.get("trackLifecycleEvents"))
-      .withRecordScreenViews((Boolean) configMap.get("recordScreenViews"))
-      .withControlPlaneUrl((String) configMap.get("controlPlaneUrl"))
-      .build();
   }
 
   public RudderTraits getRudderTraitsObject(Map<String, Object> traitsMap) {
