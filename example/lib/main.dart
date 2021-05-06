@@ -13,12 +13,11 @@ class PlatformChannel extends StatefulWidget {
 
 class _PlatformChannelState extends State<PlatformChannel> {
   void __identify() {
-    Appcenter();
-    // RudderTraits traits = RudderTraits()
-    //     .putName("Sai Venkat")
-    //     .putAge("22")
-    //     .putEmail("saivenkatdesu@gmail.com");
-    // RudderClient.identify("161FA04009", traits: traits);
+    RudderTraits traits = RudderTraits()
+        .putName("Sai Venkat")
+        .putAge("22")
+        .putEmail("saivenkatdesu@gmail.com");
+    RudderClient.identify("161FA04009", traits: traits);
   }
 
   void __track() {
@@ -62,13 +61,14 @@ class _PlatformChannelState extends State<PlatformChannel> {
               child: Text('Initialize SDK'),
               onPressed: () {
                 RudderConfigBuilder builder = RudderConfigBuilder();
-                builder.withDataPlaneUrl("https://fbb590b7d3a1.ngrok.io");
+                builder.withDataPlaneUrl("https://5f4cae4bd0e8.ngrok.io");
                 builder.withLogLevel(RudderLogger.VERBOSE);
+                builder.withFactory(Appcenter());
                 // 1. with RudderConfig Object
                 //RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
                 //   config: builder.build());
                 //2. With RudderConfigBuilder object
-                RudderClient.getInstance("1rC6xZFSesTnCG8UT1s6AOQmOvD",
+                RudderClient.getInstance("1pcZviVxgjd3rTUUmaTUBinGH0A",
                     config: builder.build());
               },
             ),

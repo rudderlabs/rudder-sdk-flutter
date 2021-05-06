@@ -3,6 +3,9 @@
 #import <Rudder/Rudder.h>
 
 @implementation RudderSdkFlutterPlugin
+
+NSMutableArray* integrationList;
+
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
     FlutterMethodChannel* channel = [FlutterMethodChannel
                                      methodChannelWithName:@"rudder_sdk_flutter"
@@ -132,6 +135,11 @@
     [configBuilder withTrackLifecycleEvens:[[configDict objectForKey:@"trackLifecycleEvents"]boolValue]];
     [configBuilder withRecordScreenViews:[[configDict objectForKey:@"recordScreenViews"]boolValue]];
     [configBuilder withControlPlaneUrl:[configDict objectForKey:@"controlPlaneUrl"]];
+    if (integrationList != nil) {
+        for (id<RSIntegrationFactory> integration in integrationList) {
+            [configBuilder withFactory:integration];
+        }
+    }
     return [configBuilder build];
 }
 
@@ -194,6 +202,13 @@
         [options putExternalId:[optionsDict objectForKey:@"type"] withId:[optionsDict objectForKey:@"id"]];
     }
     return options;
+}
+
++ (void) addIntegration:(id<RSIntegrationFactory>)integration {
+    if (integrationList == nil) {
+        integrationList = [[NSMutableArray alloc] init];
+    }
+    [integrationList addObject:integration];
 }
 
 @end

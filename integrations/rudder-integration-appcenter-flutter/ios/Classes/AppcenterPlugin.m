@@ -13,7 +13,7 @@
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
   if ([@"addFactory" isEqualToString:call.method]) {
-    NSLog(@"The Factory key is %@",[[RudderAppCenterFactory instance] key]);
+    [RudderSdkFlutterPlugin addIntegration:[RudderAppCenterFactory instance]];
   } else {
     result(FlutterMethodNotImplemented);
   }

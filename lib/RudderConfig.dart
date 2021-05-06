@@ -39,6 +39,7 @@ class RudderConfig {
       Constants.TRACK_LIFECYCLE_EVENTS,
       Constants.RECORD_SCREEN_VIEWS,
       Constants.CONTROL_PLANE_URL,
+      null
     );
   }
 
@@ -52,6 +53,7 @@ class RudderConfig {
     bool trackLifecycleEvents,
     bool recordScreenViews,
     String controlPlaneUrl,
+    List<RudderIntegration> factories,
   ) {
     if (Utils.isEmpty(dataPlaneUrl)) {
       RudderLogger.logError("dataPlaneUrl can not be null or empty. Set to default.");
@@ -108,6 +110,14 @@ class RudderConfig {
     } else {
       if (!controlPlaneUrl.endsWith("/")) controlPlaneUrl += "/";
       config['controlPlaneUrl'] = controlPlaneUrl;
+    }
+     
+    if(factories!=null)
+    {
+      for(RudderIntegration factory in factories)
+      {
+         factory.addFactory();
+      }
     }
     return this;
   }
@@ -230,6 +240,32 @@ class RudderConfigBuilder {
     return this;
   }
 
+  List<RudderIntegration> __factories = null;
+  
+  /// @param factory Object of the device mode integration class
+  /// @return RudderConfigBuilder
+  RudderConfigBuilder withFactory(RudderIntegration factory)
+  {
+    if(__factories==null)
+    {
+      __factories = [];
+    }
+     __factories.add(factory);
+     return this;
+  }
+
+  /// @param list of factory objects of the device mode integrations
+  /// @return RudderConfigBuilder
+  RudderConfigBuilder withFactories(List<RudderIntegration> factories)
+  {
+    if(__factories==null)
+    {
+       __factories = [];
+    }
+    __factories.addAll(factories);
+    return this;
+  }
+
   /// Finalize your config building
   /// @return RudderConfig
   RudderConfig build() {
@@ -242,6 +278,7 @@ class RudderConfigBuilder {
         __configRefreshInterval,
         __trackLifecycleEvents,
         __recordScreenViews,
-        __controlPlaneUrl);
+        __controlPlaneUrl
+        __factories);
   }
 }
