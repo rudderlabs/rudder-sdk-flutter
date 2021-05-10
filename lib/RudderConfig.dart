@@ -1,6 +1,7 @@
 import './Constants.dart';
 import './RudderLogger.dart';
 import './Utils.dart';
+import './RudderIntegration.dart';
 
 /*
  * Config class for RudderClient
@@ -278,7 +279,7 @@ class RudderConfigBuilder {
         __configRefreshInterval,
         __trackLifecycleEvents,
         __recordScreenViews,
-        __controlPlaneUrl
+        __controlPlaneUrl,
         __factories);
   }
 }
