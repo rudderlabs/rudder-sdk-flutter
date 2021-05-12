@@ -1,4 +1,4 @@
-# appcenter
+# Appcenter
 
 A new flutter plugin project.
 

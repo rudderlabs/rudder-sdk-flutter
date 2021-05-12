@@ -32,7 +32,7 @@ android {
 dependencies {
     // rudderstack dependencies
     implementation 'com.rudderstack.android.sdk:core:1.+'
-    implementation 'com.rudderstack.android.integration:appcenter:1.0.1'
+    implementation 'com.rudderstack.android.integration:appcenter:1.+'
     implementation 'com.google.code.gson:gson:2.8.6'
 
     // Appcenter dependency
