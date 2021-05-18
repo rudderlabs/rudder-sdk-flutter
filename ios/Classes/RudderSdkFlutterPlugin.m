@@ -16,7 +16,7 @@ NSMutableArray* integrationList;
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
     if ([@"initializeSDK" isEqualToString:call.method]) {
-        [RSClient getInstance:[call.arguments objectForKey:@"writeKey"] config:[self getRudderConfigObject:[call.arguments objectForKey:@"config"]]];
+        [RSClient getInstance:[call.arguments objectForKey:@"writeKey"] config:[self getRudderConfigObject:[call.arguments objectForKey:@"config"]] options:[self getRudderOptionsObject:[call.arguments objectForKey:@"options"]]];
         return;
     } else if ([@"identify" isEqualToString:call.method]) {
         RSTraits *traits;
@@ -196,10 +196,22 @@ NSMutableArray* integrationList;
     return traits;
 }
 
--(RSOption*) getRudderOptionsObject:(NSArray*) optionsArray {
+-(RSOption*) getRudderOptionsObject:(NSDictionary *) optionsDict {
     RSOption * options = [[RSOption alloc]init];
-    for(NSDictionary *optionsDict in optionsArray) {
-        [options putExternalId:[optionsDict objectForKey:@"type"] withId:[optionsDict objectForKey:@"id"]];
+    if([optionsDict objectForKey:@"externalIds"])
+    {
+      NSArray *externalIdsArray =  [optionsDict objectForKey:@"externalIds"];
+      for(NSDictionary *externalId in externalIdsArray) {
+        [options putExternalId:[externalId objectForKey:@"type"] withId:[externalId objectForKey:@"id"]];
+       } 
+    }
+    if([optionsDict objectForKey:@"integrations"])
+    {
+      NSDictionary *integrationsDict = [optionsDict objectForKey:@"integrations"];
+      for(NSString* key in integrationsDict)
+      {
+          [options putIntegration:key isEnabled:[[integrationsDict objectForKey:key] boolValue]];
+      }
     }
     return options;
 }
