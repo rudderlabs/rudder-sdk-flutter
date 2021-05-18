@@ -2,7 +2,7 @@ package com.rudderstack.sdk.flutter.integrations.appcenter;
 
 import androidx.annotation.NonNull;
 import com.rudderstack.android.integrations.appcenter.AppcenterIntegrationFactory;
-import com.rudderstack.sdk.flutter.RudderSdkFlutterApplication;
+import com.rudderstack.sdk.flutter.RudderSdkFlutterPlugin;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -31,7 +31,7 @@ public class AppcenterPlugin implements FlutterPlugin, MethodCallHandler {
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     if (call.method.equals("addFactory")) {
-      RudderSdkFlutterApplication.addIntegration(
+      RudderSdkFlutterPlugin.addIntegration(
         AppcenterIntegrationFactory.FACTORY
       );
     } else {

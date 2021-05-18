@@ -21,17 +21,6 @@ dependencies:
 ```bash
 flutter pub get
 ```
-3. If the `AndroidManifest.xml` of your Flutter application contains `android:name` attribute in the `<application>` tag then please remove it from there and it at `<manifest>` tag as following :
-```bash
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-   package="YOUR_PACKAGE_NAME"
-   xmlns:tools="http://schemas.android.com/tools"
-   tools:replace="name"
-   android:name="YOUR_APPLICATION_NAME"
-   >
-```
-Make sure you add both `xmlns:tools` & `tools:replace` keys in your `<manifest>` tag along with `android:name` key.
-
 ## Import `RudderClient`
 Add the below line to `import` the RudderClient.
 ```dart
