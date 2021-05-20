@@ -4,6 +4,7 @@ import 'package:rudder_sdk_flutter/RudderConfig.dart';
 import 'package:rudder_sdk_flutter/RudderLogger.dart';
 import 'package:rudder_sdk_flutter/RudderTraits.dart';
 import 'package:rudder_sdk_flutter/RudderProperty.dart';
+import 'package:rudder_integration_appcenter_flutter/Appcenter.dart';
 
 class PlatformChannel extends StatefulWidget {
   @override
@@ -60,13 +61,15 @@ class _PlatformChannelState extends State<PlatformChannel> {
               child: Text('Initialize SDK'),
               onPressed: () {
                 RudderConfigBuilder builder = RudderConfigBuilder();
-                builder.withDataPlaneUrl("https://130aeb5f4222.ngrok.io");
+                builder.withDataPlaneUrl("https://friendly-badger-28.loca.lt");
+                builder.withControlPlaneUrl("https://56d9996d386b.ngrok.io");
                 builder.withLogLevel(RudderLogger.VERBOSE);
+                builder.withFactory(Appcenter());
                 // 1. with RudderConfig Object
                 //RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
                 //   config: builder.build());
                 //2. With RudderConfigBuilder object
-                RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
+                RudderClient.getInstance("1shL9hswhzo3C0oAIfrnz8cMbjU",
                     config: builder.build());
               },
             ),

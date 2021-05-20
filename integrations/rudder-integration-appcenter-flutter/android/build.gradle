@@ -1,0 +1,40 @@
+group 'com.rudderstack.sdk.flutter.integrations.appcenter'
+version '1.0'
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.0'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        minSdkVersion 21
+    }
+}
+
+dependencies {
+    // rudderstack dependencies
+    implementation 'com.rudderstack.android.sdk:core:1.+'
+    implementation 'com.rudderstack.android.integration:appcenter:1.+'
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    // Appcenter dependency
+    implementation 'com.microsoft.appcenter:appcenter-analytics:4.1.0'
+}
