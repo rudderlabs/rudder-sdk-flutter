@@ -55,10 +55,20 @@ public class RudderSdkFlutterPlugin
     RudderConfig config = getRudderConfig(
       (Map<String, Object>) argumentsMap.get("config")
     );
+
+    RudderOption options = null;
+      if (argumentsMap.containsKey("options")) {
+        options =
+          getRudderOptionsObject(
+            (Map<String, Object>) argumentsMap.get("options")
+          );
+      }
+
     RudderClient rudderClient = RudderClient.getInstance(
       context,
       writeKey,
-      config
+      config,
+      options
     );
     return rudderClient;
   }
@@ -85,7 +95,7 @@ public class RudderSdkFlutterPlugin
       if (argumentsMap.containsKey("options")) {
         options =
           getRudderOptionsObject(
-            (List<Map<String, Object>>) argumentsMap.get("options")
+            (Map<String, Object>) argumentsMap.get("options")
           );
       }
       if (traits == null) {
@@ -111,7 +121,7 @@ public class RudderSdkFlutterPlugin
         builder =
           builder.setRudderOption(
             getRudderOptionsObject(
-              (List<Map<String, Object>>) argumentsMap.get("options")
+              (Map<String, Object>) argumentsMap.get("options")
             )
           );
       }
@@ -133,7 +143,7 @@ public class RudderSdkFlutterPlugin
         builder =
           builder.setRudderOption(
             getRudderOptionsObject(
-              (List<Map<String, Object>>) argumentsMap.get("options")
+              (Map<String, Object>) argumentsMap.get("options")
             )
           );
       }
@@ -153,7 +163,7 @@ public class RudderSdkFlutterPlugin
       if (argumentsMap.containsKey("options")) {
         builder.setRudderOption(
           getRudderOptionsObject(
-            (List<Map<String, Object>>) argumentsMap.get("options")
+            (Map<String, Object>) argumentsMap.get("options")
           )
         );
       }
@@ -165,7 +175,7 @@ public class RudderSdkFlutterPlugin
       if (argumentsMap.containsKey("options")) {
         options =
           getRudderOptionsObject(
-            (List<Map<String, Object>>) argumentsMap.get("options")
+            (Map<String, Object>) argumentsMap.get("options")
           );
       }
       rudderClient.alias((String) argumentsMap.get("newId"), options);
@@ -325,17 +335,29 @@ public class RudderSdkFlutterPlugin
   }
 
   public RudderOption getRudderOptionsObject(
-    List<Map<String, Object>> traitsMap
+    Map<String, Object> optionsMap
   ) {
     RudderOption option = new RudderOption();
-    for (int i = 0; i < traitsMap.size(); i++) {
-      Map<String, Object> externalIdMap = (Map<String, Object>) traitsMap.get(
+    if(optionsMap.containsKey("externalIds"))
+    {
+      List<Map<String,Object>> externalIdsList = (List<Map<String,Object>>)optionsMap.get("externalIds");
+     for (int i = 0; i < externalIdsList.size(); i++) {
+      Map<String, Object> externalIdMap = (Map<String, Object>) externalIdsList.get(
         i
       );
       String type = (String) externalIdMap.get("type");
       String id = (String) externalIdMap.get("id");
       option.putExternalId(type, id);
     }
+  }
+
+  if(optionsMap.containsKey("integrations"))
+  {
+    Map<String,Object> integrationsMap = (Map<String,Object>)optionsMap.get("integrations");
+    for (Map.Entry<String, Object> entry : integrationsMap.entrySet()) {
+      option.putIntegration(entry.getKey(), (boolean)entry.getValue());
+    }
+  }
     return option;
   }
 }
