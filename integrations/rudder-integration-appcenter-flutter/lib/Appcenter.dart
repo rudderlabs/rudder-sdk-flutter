@@ -7,10 +7,10 @@ class Appcenter implements RudderIntegration {
   static const MethodChannel _channel = const MethodChannel('appcenter');
   
   String getKey() {
-     return "App Center";
+    return "App Center";
   }
   
   void addFactory() {
-     _channel.invokeMethod('addFactory');
+    _channel.invokeMethod('addFactory');
   }
 }
