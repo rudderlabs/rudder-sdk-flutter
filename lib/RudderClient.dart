@@ -13,13 +13,17 @@ class RudderClient {
      */
   static const platform = const MethodChannel('rudder_sdk_flutter');
 
-  static void getInstance(String writeKey, {RudderConfig? config}) {
+  static void getInstance(String writeKey,
+      {RudderConfig? config, RudderOption? options}) {
     if (config == null) {
       config = RudderConfig();
     }
     Map<String, dynamic> params = new Map();
     params['writeKey'] = writeKey;
     params['config'] = config.toMap();
+    if (options != null) {
+      params['options'] = options.toMap();
+    }
     platform.invokeMethod("initializeSDK", params);
     track("Application Opened");
   }
@@ -35,7 +39,7 @@ class RudderClient {
     }
 
     if (options != null) {
-      params["options"] = options.externalIds;
+      params["options"] = options.toMap();
     }
 
     platform.invokeMethod("identify", params);
@@ -52,7 +56,7 @@ class RudderClient {
     }
 
     if (options != null) {
-      params["options"] = options.externalIds;
+      params["options"] = options.toMap();
     }
 
     platform.invokeMethod("track", params);
@@ -69,7 +73,7 @@ class RudderClient {
     }
 
     if (options != null) {
-      params["options"] = options.externalIds;
+      params["options"] = options.toMap();
     }
 
     platform.invokeMethod("screen", params);
@@ -86,7 +90,7 @@ class RudderClient {
     }
 
     if (options != null) {
-      params["options"] = options.externalIds;
+      params["options"] = options.toMap();
     }
 
     platform.invokeMethod("group", params);
@@ -98,7 +102,7 @@ class RudderClient {
     params["newId"] = newId;
 
     if (options != null) {
-      params["options"] = options;
+      params["options"] = options.toMap();
     }
 
     platform.invokeMethod("alias", params);

@@ -3,7 +3,9 @@ import 'package:rudder_sdk_flutter/RudderClient.dart';
 import 'package:rudder_sdk_flutter/RudderConfig.dart';
 import 'package:rudder_sdk_flutter/RudderLogger.dart';
 import 'package:rudder_sdk_flutter/RudderTraits.dart';
+import 'package:rudder_sdk_flutter/RudderOption.dart';
 import 'package:rudder_sdk_flutter/RudderProperty.dart';
+import 'package:rudder_integration_appcenter_flutter/Appcenter.dart';
 
 class PlatformChannel extends StatefulWidget {
   @override
@@ -24,7 +26,12 @@ class _PlatformChannelState extends State<PlatformChannel> {
     property.put("colour", "red");
     property.put("manufacturer", "hyundai");
     property.put("model", "i20");
-    RudderClient.track("Went on a drive", properties: property);
+    RudderOption options = new RudderOption();
+    options.putIntegration("All", false);
+    options.putIntegration("Mixpanel", false);
+    options.putIntegrationWithFactory(Appcenter(), true);
+    RudderClient.track("Went on a drive",
+        properties: property, options: options);
   }
 
   void __screen() {
@@ -60,14 +67,18 @@ class _PlatformChannelState extends State<PlatformChannel> {
               child: Text('Initialize SDK'),
               onPressed: () {
                 RudderConfigBuilder builder = RudderConfigBuilder();
-                builder.withDataPlaneUrl("https://130aeb5f4222.ngrok.io");
+                builder.withDataPlaneUrl("https://friendly-badger-28.loca.lt");
+                builder.withControlPlaneUrl("https://56d9996d386b.ngrok.io");
                 builder.withLogLevel(RudderLogger.VERBOSE);
+                RudderOption options = new RudderOption();
+                options.putIntegration("Amplitude", true);
+                //builder.withFactory(Appcenter());
                 // 1. with RudderConfig Object
                 //RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
                 //   config: builder.build());
                 //2. With RudderConfigBuilder object
-                RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
-                    config: builder.build());
+                RudderClient.getInstance("1shL9hswhzo3C0oAIfrnz8cMbjU",
+                    config: builder.build(),options: options);
               },
             ),
             ElevatedButton(
