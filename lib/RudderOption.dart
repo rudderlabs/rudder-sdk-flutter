@@ -4,7 +4,7 @@ import './RudderIntegration.dart';
 // we left fetching the external ids from the scratch here
 class RudderOption {
   List<Map<String, dynamic>>? externalIds;
-  late Map<String, Object> integrations;
+  Map<String, Object>? integrations;
 
   RudderOption putExternalId(String type, String id) {
     if (this.externalIds == null) {
@@ -26,7 +26,7 @@ class RudderOption {
 
     // if not present from previous runs: create new and assign the type
     if (externalIdMap == null) {
-      externalIdMap = new Map();
+      externalIdMap = Map();
       externalIdMap["type"] = type;
     }
 
@@ -47,29 +47,27 @@ class RudderOption {
 
   RudderOption putIntegration(String type, bool enabled) {
     if (integrations == null) {
-      integrations = new Map();
+      integrations = Map();
     }
-    integrations[type] = enabled;
+    integrations![type] = enabled;
     return this;
   }
 
   RudderOption putIntegrationWithFactory(
       RudderIntegration factory, bool enabled) {
     if (integrations == null) {
-      integrations = new Map();
+      integrations = Map();
     }
-    if (factory.getKey() != null) {
-      integrations[factory.getKey()!] = enabled;
-    }
+    integrations![factory.getKey()] = enabled;
     return this;
   }
 
   Map<String, Object> toMap() {
-    Map<String, Object> optionsMap = new Map();
+    Map<String, Object> optionsMap = Map();
     if (externalIds != null) {
       optionsMap["externalIds"] = externalIds!;
     }
-    optionsMap["integrations"] = integrations;
+    optionsMap["integrations"] = integrations ?? Map();
     return optionsMap;
   }
 }

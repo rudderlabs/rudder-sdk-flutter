@@ -1,4 +1,6 @@
 class RudderIntegration {
-  String? getKey() {}
+  String getKey() {
+    return 'Integration';
+  }
   void addFactory() {}
 }
