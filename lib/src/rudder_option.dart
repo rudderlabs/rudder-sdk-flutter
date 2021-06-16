@@ -1,5 +1,4 @@
-import 'package:rudder_integration_appcenter_flutter/rudder_integration_appcenter_flutter.dart';
-
+import 'rudder_integration.dart';
 import 'utils.dart';
 
 // we left fetching the external ids from the scratch here

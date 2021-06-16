@@ -1,4 +1,4 @@
-class RudderIntegration {
-  String getKey() => '';
-  void addFactory() {}
+abstract class RudderIntegration {
+  String getKey();
+  void addFactory();
 }

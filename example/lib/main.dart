@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rudder_integration_appcenter_flutter/rudder_integration_appcenter_flutter.dart';
 import 'package:rudder_sdk_flutter/rudder_sdk_flutter.dart';
 
 class PlatformChannel extends StatefulWidget {
@@ -67,7 +66,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
                 builder.withLogLevel(RudderLogger.verbose);
                 RudderOption options = new RudderOption();
                 options.putIntegration("Amplitude", true);
-                // builder.withFactory(AppCenter());
+                builder.withFactory(AppCenter());
                 // 1. with RudderConfig Object
                 //RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
                 //   config: builder.build());

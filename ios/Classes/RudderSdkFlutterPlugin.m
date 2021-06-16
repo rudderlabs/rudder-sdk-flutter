@@ -1,4 +1,5 @@
 #import "RudderSdkFlutterPlugin.h"
+#import "RudderAppCenterFactory.h"
 #import "RSMessageType.h"
 #import <Rudder/Rudder.h>
 
@@ -122,6 +123,10 @@ NSMutableArray* integrationList;
         if([call.arguments objectForKey:@"anonymousId"]) {
             [RSClient setAnonymousId:[call.arguments objectForKey:@"anonymousId"]];
         }
+    } else if ([@"addFactory" isEqualToString:call.method]) {
+        [self addIntegration:[RudderAppCenterFactory instance]];
+    } else {
+        result(FlutterMethodNotImplemented);
     }
 }
 - (RSConfig*)getRudderConfigObject:(NSDictionary *)configDict {
@@ -216,7 +221,7 @@ NSMutableArray* integrationList;
     return options;
 }
 
-+ (void) addIntegration:(id<RSIntegrationFactory>)integration {
+- (void) addIntegration:(id<RSIntegrationFactory>)integration {
     if (integrationList == nil) {
         integrationList = [[NSMutableArray alloc] init];
     }

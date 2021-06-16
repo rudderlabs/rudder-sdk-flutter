@@ -1,3 +1,4 @@
+export 'src/app_center.dart';
 export 'src/constants.dart';
 export 'src/rudder_client.dart';
 export 'src/rudder_config.dart';

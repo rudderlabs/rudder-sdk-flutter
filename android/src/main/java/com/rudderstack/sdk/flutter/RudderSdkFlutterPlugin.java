@@ -3,6 +3,8 @@ package com.rudderstack.sdk.flutter;
 import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import android.content.Context;
+
+import com.rudderstack.android.integrations.appcenter.AppcenterIntegrationFactory;
 import com.rudderstack.android.sdk.core.RudderClient;
 import com.rudderstack.android.sdk.core.RudderConfig;
 import com.rudderstack.android.sdk.core.RudderMessageBuilder;
@@ -208,6 +210,10 @@ public class RudderSdkFlutterPlugin
       if (argumentsMap.containsKey("anonymousId")) {
         RudderClient.setAnonymousId((String) argumentsMap.get("anonymousId"));
       }
+    } else if (call.method.equals("addFactory")) {
+      addIntegration(AppcenterIntegrationFactory.FACTORY);
+    } else {
+      result.notImplemented();
     }
   }
 
