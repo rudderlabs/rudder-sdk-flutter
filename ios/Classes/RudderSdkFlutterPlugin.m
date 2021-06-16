@@ -51,7 +51,7 @@ NSMutableArray* integrationList;
         }
         [[RSClient sharedInstance] trackWithBuilder:builder];
         return;
-
+        
     } else if ([@"screen" isEqualToString:call.method]) {
         RSMessageBuilder *builder = [[RSMessageBuilder alloc] init];
         [builder setEventName:[call.arguments objectForKey:@"screenName"]];
@@ -68,7 +68,7 @@ NSMutableArray* integrationList;
         }
         [[RSClient sharedInstance]screenWithBuilder:builder];
         return;
-
+        
     } else if ([@"group" isEqualToString:call.method]) {
         NSString* groupId = [call.arguments objectForKey:@"groupId"];
         NSDictionary<NSString *,NSObject *>* groupTraits;
@@ -79,16 +79,7 @@ NSMutableArray* integrationList;
         if([call.arguments objectForKey:@"options"]) {
             options = [self getRudderOptionsObject:[call.arguments objectForKey:@"options"]];
         }
-        if(groupTraits != nil && options !=nil) {
-            [[RSClient sharedInstance]group:groupId traits:groupTraits options:options];
-            return;
-        }
-        if(groupTraits != nil) {
-            [[RSClient sharedInstance]group:groupId traits:groupTraits];
-            return;
-        }
-        [[RSClient sharedInstance]group:groupId];
-        return;
+        [[RSClient sharedInstance]group:groupId traits:groupTraits options:options];
     } else if ([@"alias" isEqualToString:call.method]) {
         RSOption* options;
         if([call.arguments objectForKey:@"options"]) {
@@ -103,7 +94,7 @@ NSMutableArray* integrationList;
         if([call.arguments objectForKey:@"deviceToken"]) {
             NSString* token =  [call.arguments objectForKey:@"deviceToken"];
             if ([RSClient sharedInstance] == nil) {
-              return;
+                return;
             }
             RSContext* rudderContext = [[RSClient sharedInstance] getContext];
             if (rudderContext != nil && [token length] != 0) {
@@ -200,18 +191,18 @@ NSMutableArray* integrationList;
     RSOption * options = [[RSOption alloc]init];
     if([optionsDict objectForKey:@"externalIds"])
     {
-      NSArray *externalIdsArray =  [optionsDict objectForKey:@"externalIds"];
-      for(NSDictionary *externalId in externalIdsArray) {
-        [options putExternalId:[externalId objectForKey:@"type"] withId:[externalId objectForKey:@"id"]];
-       } 
+        NSArray *externalIdsArray =  [optionsDict objectForKey:@"externalIds"];
+        for(NSDictionary *externalId in externalIdsArray) {
+            [options putExternalId:[externalId objectForKey:@"type"] withId:[externalId objectForKey:@"id"]];
+        }
     }
     if([optionsDict objectForKey:@"integrations"])
     {
-      NSDictionary *integrationsDict = [optionsDict objectForKey:@"integrations"];
-      for(NSString* key in integrationsDict)
-      {
-          [options putIntegration:key isEnabled:[[integrationsDict objectForKey:key] boolValue]];
-      }
+        NSDictionary *integrationsDict = [optionsDict objectForKey:@"integrations"];
+        for(NSString* key in integrationsDict)
+        {
+            [options putIntegration:key isEnabled:[[integrationsDict objectForKey:key] isEqual: @1] ? YES : NO];
+        }
     }
     return options;
 }
