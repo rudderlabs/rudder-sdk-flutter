@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rudder_sdk_flutter/RudderClient.dart';
-import 'package:rudder_sdk_flutter/RudderConfig.dart';
-import 'package:rudder_sdk_flutter/RudderLogger.dart';
-import 'package:rudder_sdk_flutter/RudderTraits.dart';
-import 'package:rudder_sdk_flutter/RudderOption.dart';
-import 'package:rudder_sdk_flutter/RudderProperty.dart';
-import 'package:rudder_integration_appcenter_flutter/Appcenter.dart';
+import 'package:rudder_integration_appcenter_flutter/rudder_integration_appcenter_flutter.dart';
+import 'package:rudder_sdk_flutter/rudder_sdk_flutter.dart';
 
 class PlatformChannel extends StatefulWidget {
   @override
@@ -29,7 +24,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
     RudderOption options = new RudderOption();
     options.putIntegration("All", false);
     options.putIntegration("Mixpanel", false);
-    options.putIntegrationWithFactory(Appcenter(), true);
+    // options.putIntegrationWithFactory(Appcenter(), true);
     RudderClient.track("Went on a drive",
         properties: property, options: options);
   }
@@ -69,16 +64,16 @@ class _PlatformChannelState extends State<PlatformChannel> {
                 RudderConfigBuilder builder = RudderConfigBuilder();
                 builder.withDataPlaneUrl("https://friendly-badger-28.loca.lt");
                 builder.withControlPlaneUrl("https://56d9996d386b.ngrok.io");
-                builder.withLogLevel(RudderLogger.VERBOSE);
+                builder.withLogLevel(RudderLogger.verbose);
                 RudderOption options = new RudderOption();
                 options.putIntegration("Amplitude", true);
-                //builder.withFactory(Appcenter());
+                // builder.withFactory(AppCenter());
                 // 1. with RudderConfig Object
                 //RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
                 //   config: builder.build());
                 //2. With RudderConfigBuilder object
                 RudderClient.getInstance("1shL9hswhzo3C0oAIfrnz8cMbjU",
-                    config: builder.build(),options: options);
+                    config: builder.build(), options: options);
               },
             ),
             ElevatedButton(

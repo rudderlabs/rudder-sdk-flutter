@@ -30,6 +30,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
+  rudder_integration_appcenter_flutter:
+    git:
+      url: https://github.com/chandrabezzo/rudder-integration-appcenter-flutter
+      ref: support/null-safety
 
 dev_dependencies:
   flutter_test:
