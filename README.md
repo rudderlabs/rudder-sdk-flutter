@@ -15,7 +15,7 @@ Released under [MIT License](https://opensource.org/licenses/MIT)
 1. Open `pubspec.yaml`  and add `rudder_sdk_flutter` under `dependencies` section:
 ```groovy
 dependencies:
-  rudder_sdk_flutter: ^1.0.1
+  rudder_sdk_flutter: ^2.0.0
 ```
 2. Navigate to your Application's root folder and install all the required dependencies with:
 ```bash
@@ -24,17 +24,21 @@ flutter pub get
 ## Import `RudderClient`
 Add the below line to `import` the RudderClient.
 ```dart
-import 'package:rudder_sdk_flutter/RudderClient.dart';
+import 'package:rudder_sdk_flutter/src/rudder_client.dart';
+```
+Or you can just add the below line
+```dart
+import 'package:rudder_sdk_flutter/rudder_sdk_flutter.dart';
 ```
 
 ## Initialize `RudderClient`
 Somewhere in your Application, add the following code
 ```dart
     RudderConfigBuilder builder = RudderConfigBuilder();
-    builder.withDataPlaneUrl(DATA_PLANE_URL);
+    builder.withDataPlaneUrl(dataPlaneUrl);
     builder.withTrackLifecycleEvents(true);
     builder.withRecordScreenViews(true);
-    RudderClient.getInstance(WRITE_KEY,config: builder.build());
+    RudderClient.getInstance(writeKey,config: builder.build());
 ```
 
 ## Send Events
