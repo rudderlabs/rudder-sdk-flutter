@@ -7,14 +7,19 @@ issue_tracker: https://github.com/rudderlabs/rudder-sdk-flutter/issues
 documentation: https://docs.rudderstack.com/rudderstack-sdk-integration-guides/rudderstack-flutter-sdk
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
   flutter: ">=1.20.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  logger: ^0.9.4
-  intl: ^0.16.1
+  logger: ^1.0.0
+  intl: ^0.17.0
+  pedantic: ^1.11.0
+  rudder_integration_appcenter_flutter:
+    git:
+      url: https://github.com/chandrabezzo/rudder-integration-appcenter-flutter
+      ref: support/null-safety
 
 dev_dependencies:
   flutter_test:

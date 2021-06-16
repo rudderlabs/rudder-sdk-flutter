@@ -1,7 +1,7 @@
 class RudderProperty {
-  Map<String, dynamic> __map = new Map();
+  Map<String?, dynamic> __map = new Map();
 
-  Map<String, dynamic> getMap() {
+  Map<String?, dynamic> getMap() {
     return this.__map;
   }
 
@@ -14,7 +14,7 @@ class RudderProperty {
   }
 
   RudderProperty putValue(
-      {String key, dynamic value, Map<String, dynamic> map}) {
+      {String? key, dynamic value, Map<String?, dynamic>? map}) {
     if (map != null) {
       this.__map.addAll(map);
       return this;
@@ -22,7 +22,7 @@ class RudderProperty {
     if (value is RudderProperty) {
       this.__map[key] = value.getMap();
     } else {
-      map[key] = value;
+      map![key] = value;
     }
     return this;
   }

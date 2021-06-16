@@ -1,4 +1,4 @@
-import './Utils.dart';
+import 'utils.dart';
 
 class RudderTraits {
   Map<String, dynamic> traitsMap = new Map();
@@ -20,23 +20,24 @@ class RudderTraits {
   /// @param phone       String
   /// @param title
   /// @param userName    String
-  RudderTraits({Address address,
-      String age,
-      String birthday,
-      Company company,
-      String createdAt,
-      String description,
-      String email,
-      String firstName,
-      String gender,
-      String id,
-      String lastName,
-      String name,
-      String phone,
-      String title,
-      String userName}) {
+  RudderTraits(
+      {Address? address,
+      String? age,
+      String? birthday,
+      Company? company,
+      String? createdAt,
+      String? description,
+      String? email,
+      String? firstName,
+      String? gender,
+      String? id,
+      String? lastName,
+      String? name,
+      String? phone,
+      String? title,
+      String? userName}) {
     if (address != null) {
-      traitsMap["address"] = address != null ? address.addressMap : null;
+      traitsMap["address"] = address.addressMap;
     }
     if (age != null) {
       traitsMap["age"] = age;
@@ -45,7 +46,7 @@ class RudderTraits {
       traitsMap["birthday"] = birthday;
     }
     if (company != null) {
-      traitsMap["company"] = company != null ? company.companyMap : null;
+      traitsMap["company"] = company.companyMap;
     }
     if (createdAt != null) {
       traitsMap["createdAt"] = createdAt;
@@ -261,11 +262,11 @@ class Address {
   /// @param state      String
   /// @param street     String
   Address(
-      {String city,
-      String country,
-      String postalCode,
-      String state,
-      String street}) {
+      {String? city,
+      String? country,
+      String? postalCode,
+      String? state,
+      String? street}) {
     if (city != null) {
       addressMap["city"] = city;
     }
@@ -337,7 +338,7 @@ class Company {
   /// @param name     String
   /// @param id       String
   /// @param industry String
-  Company({String name, String id, String industry}) {
+  Company({String? name, String? id, String? industry}) {
     if (name != null) {
       companyMap["name"] = name;
     }
