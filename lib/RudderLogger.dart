@@ -10,7 +10,7 @@ class RudderLogger {
 
   static int __logLevel = INFO;
   static final String __TAG = "RudderFlutterSDK";
-  static var logger;
+  static late var logger;
 
   static void init(int l) {
     if (l > VERBOSE)

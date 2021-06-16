@@ -14,15 +14,17 @@ class RudderProperty {
   }
 
   RudderProperty putValue(
-      {String key, dynamic value, Map<String, dynamic> map}) {
+      {String? key, dynamic value, Map<String, dynamic>? map}) {
     if (map != null) {
       this.__map.addAll(map);
       return this;
     }
-    if (value is RudderProperty) {
-      this.__map[key] = value.getMap();
-    } else {
-      map[key] = value;
+    if (key != null) {
+      if (value is RudderProperty) {
+        this.__map[key] = value.getMap();
+      } else {
+        this.__map[key] = value;
+      }
     }
     return this;
   }

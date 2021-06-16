@@ -19,29 +19,29 @@ import './RudderIntegration.dart';
  *
  * */
 class RudderConfig {
-  String dataPlaneUrl;
-  int flushQueueSize;
-  int dbCountThreshold;
-  int sleepTimeOut;
-  int logLevel;
-  int configRefreshInterval;
-  bool trackLifecycleEvents;
-  bool recordScreenViews;
-  String controlPlaneUrl;
+  String? dataPlaneUrl;
+  int? flushQueueSize;
+  int? dbCountThreshold;
+  int? sleepTimeOut;
+  int? logLevel;
+  int? configRefreshInterval;
+  bool? trackLifecycleEvents;
+  bool? recordScreenViews;
+  String? controlPlaneUrl;
   Map<String, dynamic> config = new Map();
+
   RudderConfig() {
     __RudderConfig(
-      Constants.DATA_PLANE_URL,
-      Constants.FLUSH_QUEUE_SIZE,
-      Constants.DB_COUNT_THRESHOLD,
-      Constants.SLEEP_TIMEOUT,
-      RudderLogger.ERROR,
-      Constants.CONFIG_REFRESH_INTERVAL,
-      Constants.TRACK_LIFECYCLE_EVENTS,
-      Constants.RECORD_SCREEN_VIEWS,
-      Constants.CONTROL_PLANE_URL,
-      null
-    );
+        Constants.DATA_PLANE_URL,
+        Constants.FLUSH_QUEUE_SIZE,
+        Constants.DB_COUNT_THRESHOLD,
+        Constants.SLEEP_TIMEOUT,
+        RudderLogger.ERROR,
+        Constants.CONFIG_REFRESH_INTERVAL,
+        Constants.TRACK_LIFECYCLE_EVENTS,
+        Constants.RECORD_SCREEN_VIEWS,
+        Constants.CONTROL_PLANE_URL,
+        null);
   }
 
   __RudderConfig(
@@ -54,10 +54,11 @@ class RudderConfig {
     bool trackLifecycleEvents,
     bool recordScreenViews,
     String controlPlaneUrl,
-    List<RudderIntegration> factories,
+    List<RudderIntegration>? factories,
   ) {
     if (Utils.isEmpty(dataPlaneUrl)) {
-      RudderLogger.logError("dataPlaneUrl can not be null or empty. Set to default.");
+      RudderLogger.logError(
+          "dataPlaneUrl can not be null or empty. Set to default.");
       config['dataPlaneUrl'] = Constants.DATA_PLANE_URL;
     } else if (!Utils.isValidUrl(dataPlaneUrl)) {
       RudderLogger.logError("Malformed dataPlaneUrl. Set to default");
@@ -69,7 +70,8 @@ class RudderConfig {
 
     if (flushQueueSize < Utils.MIN_FLUSH_QUEUE_SIZE ||
         flushQueueSize > Utils.MAX_FLUSH_QUEUE_SIZE) {
-      RudderLogger.logError("flushQueueSize is out of range. Min: 1, Max: 100. Set to default");
+      RudderLogger.logError(
+          "flushQueueSize is out of range. Min: 1, Max: 100. Set to default");
       config['flushQueueSize'] = Constants.FLUSH_QUEUE_SIZE;
     } else {
       config['flushQueueSize'] = flushQueueSize;
@@ -103,7 +105,8 @@ class RudderConfig {
     config['recordScreenViews'] = recordScreenViews;
 
     if (Utils.isEmpty(controlPlaneUrl)) {
-      RudderLogger.logError("configPlaneUrl can not be null or empty. Set to default.");
+      RudderLogger.logError(
+          "configPlaneUrl can not be null or empty. Set to default.");
       config['controlPlaneUrl'] = Constants.CONTROL_PLANE_URL;
     } else if (!Utils.isValidUrl(controlPlaneUrl)) {
       RudderLogger.logError("Malformed configPlaneUrl. Set to default");
@@ -112,12 +115,10 @@ class RudderConfig {
       if (!controlPlaneUrl.endsWith("/")) controlPlaneUrl += "/";
       config['controlPlaneUrl'] = controlPlaneUrl;
     }
-     
-    if(factories!=null)
-    {
-      for(RudderIntegration factory in factories)
-      {
-         factory.addFactory();
+
+    if (factories != null) {
+      for (RudderIntegration factory in factories) {
+        factory.addFactory();
       }
     }
     return this;
@@ -241,29 +242,25 @@ class RudderConfigBuilder {
     return this;
   }
 
-  List<RudderIntegration> __factories = null;
-  
+  List<RudderIntegration>? __factories;
+
   /// @param factory Object of the device mode integration class
   /// @return RudderConfigBuilder
-  RudderConfigBuilder withFactory(RudderIntegration factory)
-  {
-    if(__factories==null)
-    {
+  RudderConfigBuilder withFactory(RudderIntegration factory) {
+    if (__factories == null) {
       __factories = [];
     }
-     __factories.add(factory);
-     return this;
+    __factories!.add(factory);
+    return this;
   }
 
   /// @param list of factory objects of the device mode integrations
   /// @return RudderConfigBuilder
-  RudderConfigBuilder withFactories(List<RudderIntegration> factories)
-  {
-    if(__factories==null)
-    {
-       __factories = [];
+  RudderConfigBuilder withFactories(List<RudderIntegration> factories) {
+    if (__factories == null) {
+      __factories = [];
     }
-    __factories.addAll(factories);
+    __factories!.addAll(factories);
     return this;
   }
 
