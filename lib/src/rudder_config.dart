@@ -29,6 +29,7 @@ class RudderConfig {
   bool? recordScreenViews;
   String? controlPlaneUrl;
   Map<String, dynamic> config = new Map();
+
   RudderConfig() {
     __rudderConfig(
         Constants.dataPlaneUrl,

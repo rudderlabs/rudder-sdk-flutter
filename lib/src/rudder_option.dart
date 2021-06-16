@@ -26,7 +26,7 @@ class RudderOption {
 
     // if not present from previous runs: create new and assign the type
     if (externalIdMap == null) {
-      externalIdMap = new Map();
+      externalIdMap = Map();
       externalIdMap["type"] = type;
     }
 
@@ -46,8 +46,8 @@ class RudderOption {
   }
 
   RudderOption putIntegration(String type, bool enabled) {
-    if (this.integrations == null) {
-      integrations = new Map();
+    if (integrations == null) {
+      integrations = Map();
     }
 
     integrations![type] = enabled;

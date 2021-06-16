@@ -12,6 +12,7 @@ class RudderClient {
      * @return RudderClient instance to be used further
      */
   static const platform = const MethodChannel('rudder_sdk_flutter');
+
   static void getInstance(String writeKey,
       {RudderConfig? config, RudderOption? options}) {
     if (config == null) {
