@@ -38,7 +38,7 @@ Somewhere in your Application, add the following code
     builder.withDataPlaneUrl(dataPlaneUrl);
     builder.withTrackLifecycleEvents(true);
     builder.withRecordScreenViews(true);
-    RudderClient.getInstance(writeKey,config: builder.build());
+    RudderClient.getInstance(WRITE_KEY,config: builder.build());
 ```
 
 ## Send Events
