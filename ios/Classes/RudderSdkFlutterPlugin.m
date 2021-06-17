@@ -114,6 +114,10 @@ NSMutableArray* integrationList;
             [RSClient setAnonymousId:[call.arguments objectForKey:@"anonymousId"]];
         }
     }
+    else if ([@"getRudderContext" isEqualToString:call.method]) {
+        if ([RSClient sharedInstance] == nil) return;
+        result([[[RSClient sharedInstance] getContext] dict]);
+    }
 }
 - (RSConfig*)getRudderConfigObject:(NSDictionary *)configDict {
     RSConfigBuilder *configBuilder = [[RSConfigBuilder alloc] init ];

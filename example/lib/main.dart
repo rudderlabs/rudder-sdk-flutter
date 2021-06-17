@@ -104,9 +104,9 @@ class _PlatformChannelState extends State<PlatformChannel> {
               onPressed: __alias,
             ),
             ElevatedButton(
-              child: Text('Set Anonymous Id'),
-              onPressed: () {
-                RudderClient.setAnonymousId("anon-user");
+              child: Text('Rudder Context'),
+              onPressed: () async {
+                Map context = await RudderClient.getRudderContext();
               },
             ),
             ElevatedButton(

@@ -132,4 +132,8 @@ class RudderClient {
     params["anonymousId"] = anonymousId;
     platform.invokeMethod("setAnonymousId", params);
   }
+
+  static Future<Map> getRudderContext() async {
+    return await platform.invokeMethod("getRudderContext") as Map;
+  }
 }
