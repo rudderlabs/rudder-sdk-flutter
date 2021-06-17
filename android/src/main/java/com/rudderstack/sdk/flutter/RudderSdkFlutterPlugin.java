@@ -12,7 +12,7 @@ import com.rudderstack.android.sdk.core.RudderOption;
 import com.rudderstack.android.sdk.core.RudderProperty;
 import com.rudderstack.android.sdk.core.RudderTraits;
 import com.rudderstack.android.sdk.core.RudderTraitsBuilder;
-
+import com.rudderstack.android.sdk.core.RudderIntegration;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -28,44 +28,53 @@ import java.util.*;
 public class RudderSdkFlutterPlugin
         implements FlutterPlugin, MethodCallHandler {
 
-    /// The MethodChannel that will the communication between Flutter and native Android
-    ///
-    /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-    /// when the Flutter Engine is detached from the Activity
-    private MethodChannel channel;
-    private static RudderClient rudderClient;
-    private Context context;
+  /// The MethodChannel that will the communication between Flutter and native Android
+  ///
+  /// This local reference serves to register the plugin with the Flutter Engine and unregister it
+  /// when the Flutter Engine is detached from the Activity
+  private MethodChannel channel;
+  private static RudderClient rudderClient;
+  private Context context;
+  private static List<RudderIntegration.Factory> integrationList;
 
-    @Override
-    public void onAttachedToEngine(
-            @NonNull FlutterPluginBinding flutterPluginBinding
-    ) {
-        channel =
-                new MethodChannel(
-                        flutterPluginBinding.getBinaryMessenger(),
-                        "rudder_sdk_flutter"
-                );
-        channel.setMethodCallHandler(this);
+  @Override
+  public void onAttachedToEngine(
+    @NonNull FlutterPluginBinding flutterPluginBinding
+  ) {
+    channel =
+      new MethodChannel(
+        flutterPluginBinding.getBinaryMessenger(),
+        "rudder_sdk_flutter"
+      );
+    channel.setMethodCallHandler(this);
+    context = flutterPluginBinding.getApplicationContext();
+  }
 
-        context = flutterPluginBinding.getApplicationContext();
-    }
 
-    public RudderClient initializeSDK(MethodCall call) {
-        Map<String, Object> argumentsMap = (Map<String, Object>) call.arguments;
-        String writeKey = (String) argumentsMap.get("writeKey");
-        Map<String, Object> configMap = (Map<String, Object>) argumentsMap.get(
-                "config"
-        );
-        RudderConfig config = new RudderSdkFlutterPlugin()
-                .getRudderConfigObject(configMap);
+  public RudderClient initializeSDK(MethodCall call) {
+    Map<String, Object> argumentsMap = (Map<String, Object>) call.arguments;
+    String writeKey = (String) argumentsMap.get("writeKey");
 
-        RudderClient rudderClient = RudderClient.getInstance(
-                context,
-                writeKey,
-                config
-        );
-        return rudderClient;
-    }
+    RudderConfig config = getRudderConfig(
+      (Map<String, Object>) argumentsMap.get("config")
+    );
+
+    RudderOption options = null;
+      if (argumentsMap.containsKey("options")) {
+        options =
+          getRudderOptionsObject(
+            (Map<String, Object>) argumentsMap.get("options")
+          );
+      }
+
+    RudderClient rudderClient = RudderClient.getInstance(
+      context,
+      writeKey,
+      config,
+      options
+    );
+    return rudderClient;
+  }
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
@@ -88,7 +97,7 @@ public class RudderSdkFlutterPlugin
             if (argumentsMap.containsKey("options")) {
                 options =
                         getRudderOptionsObject(
-                                (List<Map<String, Object>>) argumentsMap.get("options")
+                                (Map<String, Object>) argumentsMap.get("options")
                         );
             }
             if (traits == null) {
@@ -113,7 +122,7 @@ public class RudderSdkFlutterPlugin
                 builder =
                         builder.setRudderOption(
                                 getRudderOptionsObject(
-                                        (List<Map<String, Object>>) argumentsMap.get("options")
+                                        (Map<String, Object>) argumentsMap.get("options")
                                 )
                         );
             }
@@ -134,7 +143,7 @@ public class RudderSdkFlutterPlugin
                 builder =
                         builder.setRudderOption(
                                 getRudderOptionsObject(
-                                        (List<Map<String, Object>>) argumentsMap.get("options")
+                                        (Map<String, Object>) argumentsMap.get("options")
                                 )
                         );
             }
@@ -153,7 +162,7 @@ public class RudderSdkFlutterPlugin
             if (argumentsMap.containsKey("options")) {
                 builder.setRudderOption(
                         getRudderOptionsObject(
-                                (List<Map<String, Object>>) argumentsMap.get("options")
+                                (Map<String, Object>) argumentsMap.get("options")
                         )
                 );
             }
@@ -164,7 +173,7 @@ public class RudderSdkFlutterPlugin
             if (argumentsMap.containsKey("options")) {
                 options =
                         getRudderOptionsObject(
-                                (List<Map<String, Object>>) argumentsMap.get("options")
+                                (Map<String, Object>) argumentsMap.get("options")
                         );
             }
             rudderClient.alias((String) argumentsMap.get("newId"), options);
@@ -201,8 +210,9 @@ public class RudderSdkFlutterPlugin
         channel.setMethodCallHandler(null);
     }
 
-    public RudderConfig getRudderConfigObject(Map<String, Object> configMap) {
-        return new RudderConfig.Builder()
+    public RudderConfig getRudderConfig(Map<String, Object> configMap) {
+        RudderConfig.Builder builder = new RudderConfig.Builder();
+    builder
                 .withDataPlaneUrl((String) configMap.get("dataPlaneUrl"))
                 .withFlushQueueSize((Integer) configMap.get("flushQueueSize"))
                 .withDbThresholdCount((Integer) configMap.get("dbCountThreshold"))
@@ -213,8 +223,18 @@ public class RudderSdkFlutterPlugin
                 .withSleepCount((Integer) configMap.get("sleepTimeOut"))
                 .withTrackLifecycleEvents((Boolean) configMap.get("trackLifecycleEvents"))
                 .withRecordScreenViews((Boolean) configMap.get("recordScreenViews"))
-                .withControlPlaneUrl((String) configMap.get("controlPlaneUrl"))
-                .build();
+                .withControlPlaneUrl((String) configMap.get("controlPlaneUrl"));
+                if (integrationList != null) {
+      builder.withFactories(integrationList);
+    }
+    return builder.build();
+  }
+
+  public static void addIntegration(RudderIntegration.Factory integration) {
+    if (integrationList == null) {
+      integrationList = new ArrayList<>();
+    }
+    integrationList.add(integration);
     }
 
     public RudderTraits getRudderTraitsObject(Map<String, Object> traitsMap) {
@@ -309,16 +329,27 @@ public class RudderSdkFlutterPlugin
     }
 
     public RudderOption getRudderOptionsObject(
-            List<Map<String, Object>> traitsMap
+            Map<String, Object> optionsMap
     ) {
         RudderOption option = new RudderOption();
-        for (int i = 0; i < traitsMap.size(); i++) {
-            Map<String, Object> externalIdMap = (Map<String, Object>) traitsMap.get(
+        if(optionsMap.containsKey("externalIds"))
+    {
+      List<Map<String,Object>> externalIdsList = (List<Map<String,Object>>)optionsMap.get("externalIds");
+     for (int i = 0; i < externalIdsList.size(); i++) {
+            Map<String, Object> externalIdMap = (Map<String, Object>) externalIdsList.get(
                     i
             );
             String type = (String) externalIdMap.get("type");
             String id = (String) externalIdMap.get("id");
-            option.putExternalId(type, id);
+            option.putExternalId(type, id);}
+  }
+
+  if(optionsMap.containsKey("integrations"))
+  {
+    Map<String,Object> integrationsMap = (Map<String,Object>)optionsMap.get("integrations");
+    for (Map.Entry<String, Object> entry : integrationsMap.entrySet()) {
+      option.putIntegration(entry.getKey(), (boolean)entry.getValue());
+    }
         }
         return option;
     }

@@ -3,6 +3,9 @@
 #import <Rudder/Rudder.h>
 
 @implementation RudderSdkFlutterPlugin
+
+NSMutableArray* integrationList;
+
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
     FlutterMethodChannel* channel = [FlutterMethodChannel
                                      methodChannelWithName:@"rudder_sdk_flutter"
@@ -13,7 +16,7 @@
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
     if ([@"initializeSDK" isEqualToString:call.method]) {
-        [RSClient getInstance:[call.arguments objectForKey:@"writeKey"] config:[self getRudderConfigObject:[call.arguments objectForKey:@"config"]]];
+        [RSClient getInstance:[call.arguments objectForKey:@"writeKey"] config:[self getRudderConfigObject:[call.arguments objectForKey:@"config"]] options:[self getRudderOptionsObject:[call.arguments objectForKey:@"options"]]];
         return;
     } else if ([@"identify" isEqualToString:call.method]) {
         RSTraits *traits;
@@ -132,6 +135,11 @@
     [configBuilder withTrackLifecycleEvens:[[configDict objectForKey:@"trackLifecycleEvents"]boolValue]];
     [configBuilder withRecordScreenViews:[[configDict objectForKey:@"recordScreenViews"]boolValue]];
     [configBuilder withControlPlaneUrl:[configDict objectForKey:@"controlPlaneUrl"]];
+    if (integrationList != nil) {
+        for (id<RSIntegrationFactory> integration in integrationList) {
+            [configBuilder withFactory:integration];
+        }
+    }
     return [configBuilder build];
 }
 
@@ -188,12 +196,31 @@
     return traits;
 }
 
--(RSOption*) getRudderOptionsObject:(NSArray*) optionsArray {
+-(RSOption*) getRudderOptionsObject:(NSDictionary *) optionsDict {
     RSOption * options = [[RSOption alloc]init];
-    for(NSDictionary *optionsDict in optionsArray) {
-        [options putExternalId:[optionsDict objectForKey:@"type"] withId:[optionsDict objectForKey:@"id"]];
+    if([optionsDict objectForKey:@"externalIds"])
+    {
+      NSArray *externalIdsArray =  [optionsDict objectForKey:@"externalIds"];
+      for(NSDictionary *externalId in externalIdsArray) {
+        [options putExternalId:[externalId objectForKey:@"type"] withId:[externalId objectForKey:@"id"]];
+       } 
+    }
+    if([optionsDict objectForKey:@"integrations"])
+    {
+      NSDictionary *integrationsDict = [optionsDict objectForKey:@"integrations"];
+      for(NSString* key in integrationsDict)
+      {
+          [options putIntegration:key isEnabled:[[integrationsDict objectForKey:key] boolValue]];
+      }
     }
     return options;
+}
+
++ (void) addIntegration:(id<RSIntegrationFactory>)integration {
+    if (integrationList == nil) {
+        integrationList = [[NSMutableArray alloc] init];
+    }
+    [integrationList addObject:integration];
 }
 
 @end
