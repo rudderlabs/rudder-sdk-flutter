@@ -19,15 +19,6 @@ import './RudderIntegration.dart';
  *
  * */
 class RudderConfig {
-  String? dataPlaneUrl;
-  int? flushQueueSize;
-  int? dbCountThreshold;
-  int? sleepTimeOut;
-  int? logLevel;
-  int? configRefreshInterval;
-  bool? trackLifecycleEvents;
-  bool? recordScreenViews;
-  String? controlPlaneUrl;
   Map<String, dynamic> config = new Map();
 
   RudderConfig() {

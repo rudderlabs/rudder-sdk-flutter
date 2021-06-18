@@ -5,7 +5,6 @@ import 'package:rudder_sdk_flutter/RudderLogger.dart';
 import 'package:rudder_sdk_flutter/RudderTraits.dart';
 import 'package:rudder_sdk_flutter/RudderOption.dart';
 import 'package:rudder_sdk_flutter/RudderProperty.dart';
-import 'package:rudder_integration_appcenter_flutter/Appcenter.dart';
 
 class PlatformChannel extends StatefulWidget {
   @override
@@ -29,7 +28,6 @@ class _PlatformChannelState extends State<PlatformChannel> {
     RudderOption options = new RudderOption();
     options.putIntegration("All", false);
     options.putIntegration("Mixpanel", false);
-    options.putIntegrationWithFactory(Appcenter(), true);
     RudderClient.track("Went on a drive",
         properties: property, options: options);
   }
@@ -106,9 +104,9 @@ class _PlatformChannelState extends State<PlatformChannel> {
               onPressed: __alias,
             ),
             ElevatedButton(
-              child: Text('Set Anonymous Id'),
-              onPressed: () {
-                RudderClient.setAnonymousId("anon-user");
+              child: Text('Rudder Context'),
+              onPressed: () async {
+                Map context = await RudderClient.getRudderContext();
               },
             ),
             ElevatedButton(
