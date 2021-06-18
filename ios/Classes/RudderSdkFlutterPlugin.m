@@ -113,9 +113,10 @@ NSMutableArray* integrationList;
         if([call.arguments objectForKey:@"anonymousId"]) {
             [RSClient setAnonymousId:[call.arguments objectForKey:@"anonymousId"]];
         }
-    }
-    else if ([@"getRudderContext" isEqualToString:call.method]) {
-        if ([RSClient sharedInstance] == nil) return;
+    } else if ([@"getRudderContext" isEqualToString:call.method]) {
+        if ([RSClient sharedInstance] == nil) {
+          return;
+        }
         result([[[RSClient sharedInstance] getContext] dict]);
     }
 }
