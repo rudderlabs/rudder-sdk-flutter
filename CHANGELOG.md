@@ -6,3 +6,8 @@
 
 * Added Support for Sending Selective Integrations Object while initializing the SDK as well as at each event level
 * Changed the repository source for Android libraries from Jcenter to MavenCentral.
+
+## 1.0.2
+
+* Updated Flutter SDK to support Sound Null Safety
+* Added Support for getting RudderContext Object from Native SDK's
