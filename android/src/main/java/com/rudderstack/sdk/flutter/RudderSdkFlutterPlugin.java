@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import android.content.Context;
 
+import com.rudderstack.android.integrations.appcenter.AppcenterIntegrationFactory;
 import com.rudderstack.android.sdk.core.RudderClient;
 import com.rudderstack.android.sdk.core.RudderConfig;
 import com.rudderstack.android.sdk.core.RudderMessageBuilder;
@@ -218,6 +219,10 @@ public class RudderSdkFlutterPlugin
             Gson gson = new Gson();
             HashMap context = gson.fromJson(gson.toJson(rudderClient.getRudderContext()), HashMap.class);
             result.success(context);
+        } else if (call.method.equals("addFactory")) {
+            addIntegration(AppcenterIntegrationFactory.FACTORY);
+        } else {
+            result.notImplemented();
         }
     }
 

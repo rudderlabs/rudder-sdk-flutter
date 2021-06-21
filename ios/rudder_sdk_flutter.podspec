@@ -13,6 +13,7 @@ RudderStack flutter SDK ios plugin project
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
   s.dependency 'Rudder'
+  s.dependency 'Rudder-AppCenter'
   s.platform = :ios, '8.0'
 
   # Flutter.framework does not contain a i386 slice.
