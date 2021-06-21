@@ -1,39 +1,39 @@
 class RudderProperty {
-  Map<String, dynamic> __map = new Map();
+  final Map<String, dynamic> __map = {};
 
   Map<String, dynamic> getMap() {
-    return this.__map;
+    return __map;
   }
 
   bool hasProperty(String key) {
-    return this.__map.containsKey(key);
+    return __map.containsKey(key);
   }
 
   void put(String key, dynamic value) {
-    this.__map[key] = value;
+    __map[key] = value;
   }
 
   RudderProperty putValue(
       {String? key, dynamic value, Map<String, dynamic>? map}) {
     if (map != null) {
-      this.__map.addAll(map);
+      __map.addAll(map);
       return this;
     }
     if (key != null) {
       if (value is RudderProperty) {
-        this.__map[key] = value.getMap();
+        __map[key] = value.getMap();
       } else {
-        this.__map[key] = value;
+        __map[key] = value;
       }
     }
     return this;
   }
 
   void putRevenue(double revenue) {
-    this.__map["revenue"] = revenue;
+    __map["revenue"] = revenue;
   }
 
   void putCurrency(String currency) {
-    this.__map["currency"] = currency;
+    __map["currency"] = currency;
   }
 }

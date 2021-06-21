@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:rudder_sdk_flutter/RudderClient.dart';
-import 'package:rudder_sdk_flutter/RudderConfig.dart';
-import 'package:rudder_sdk_flutter/RudderLogger.dart';
-import 'package:rudder_sdk_flutter/RudderTraits.dart';
-import 'package:rudder_sdk_flutter/RudderOption.dart';
-import 'package:rudder_sdk_flutter/RudderProperty.dart';
+import 'package:rudder_sdk_flutter/src/rudder_traits.dart';
+import 'package:rudder_sdk_flutter/src/rudder_client.dart';
+import 'package:rudder_sdk_flutter/src/rudder_property.dart';
+import 'package:rudder_sdk_flutter/src/rudder_option.dart';
+import 'package:rudder_sdk_flutter/src/rudder_config.dart';
+import 'package:rudder_sdk_flutter/src/rudder_logger.dart';
 
 class PlatformChannel extends StatefulWidget {
   @override
@@ -67,7 +67,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
                 RudderConfigBuilder builder = RudderConfigBuilder();
                 builder.withDataPlaneUrl("https://friendly-badger-28.loca.lt");
                 builder.withControlPlaneUrl("https://56d9996d386b.ngrok.io");
-                builder.withLogLevel(RudderLogger.VERBOSE);
+                builder.withLogLevel(RudderLogger.verbose);
                 RudderOption options = new RudderOption();
                 options.putIntegration("Amplitude", true);
                 //builder.withFactory(Appcenter());
@@ -76,7 +76,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
                 //   config: builder.build());
                 //2. With RudderConfigBuilder object
                 RudderClient.getInstance("1shL9hswhzo3C0oAIfrnz8cMbjU",
-                    config: builder.build(),options: options);
+                    config: builder.build(), options: options);
               },
             ),
             ElevatedButton(
@@ -107,6 +107,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
               child: Text('Rudder Context'),
               onPressed: () async {
                 Map context = await RudderClient.getRudderContext();
+                print(context.toString());
               },
             ),
             ElevatedButton(

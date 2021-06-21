@@ -1,7 +1,7 @@
-import './Constants.dart';
-import './RudderLogger.dart';
-import './Utils.dart';
-import './RudderIntegration.dart';
+import 'constants.dart';
+import 'rudder_integration.dart';
+import 'rudder_logger.dart';
+import 'utils.dart';
 
 /*
  * Config class for RudderClient
@@ -10,7 +10,8 @@ import './RudderIntegration.dart';
  * - dbCountThreshold -> maximum number of events to be persisted in local DB
  * - sleepTimeOut -> timeout for automatic flushing since last successful flush
  * - logLevel -> level of logging for debugging
- * - configRefreshInterval -> time in hours as interval of downloading config from config server
+ * - configRefreshInterval -> time in hours as interval of downloading config
+ *   from config server
  * - trackLifecycleEvents -> whether track lifecycle events automatically
  * - recordScreenViews -> whether we should record screen views automatically
  * - controlPlaneUrl -> link to self-hosted sourceConfig
@@ -19,23 +20,23 @@ import './RudderIntegration.dart';
  *
  * */
 class RudderConfig {
-  Map<String, dynamic> config = new Map();
+  Map<String, dynamic> config = {};
 
   RudderConfig() {
-    __RudderConfig(
-        Constants.DATA_PLANE_URL,
-        Constants.FLUSH_QUEUE_SIZE,
-        Constants.DB_COUNT_THRESHOLD,
-        Constants.SLEEP_TIMEOUT,
-        RudderLogger.ERROR,
-        Constants.CONFIG_REFRESH_INTERVAL,
-        Constants.TRACK_LIFECYCLE_EVENTS,
-        Constants.RECORD_SCREEN_VIEWS,
-        Constants.CONTROL_PLANE_URL,
+    __rudderConfig(
+        Constants.dataPlaneUrl,
+        Constants.flushQueueSize,
+        Constants.dbCountTreshold,
+        Constants.sleepTimeout,
+        RudderLogger.error,
+        Constants.configRefreshInterval,
+        Constants.trackLifecycleEvents,
+        Constants.recordScreenViews,
+        Constants.controlPlaneUrl,
         null);
   }
 
-  __RudderConfig(
+  __rudderConfig(
     String dataPlaneUrl,
     int flushQueueSize,
     int dbCountThreshold,
@@ -46,24 +47,24 @@ class RudderConfig {
     bool recordScreenViews,
     String controlPlaneUrl,
     List<RudderIntegration>? factories,
-  ) {
+  ) async {
     if (Utils.isEmpty(dataPlaneUrl)) {
       RudderLogger.logError(
           "dataPlaneUrl can not be null or empty. Set to default.");
-      config['dataPlaneUrl'] = Constants.DATA_PLANE_URL;
+      config['dataPlaneUrl'] = Constants.dataPlaneUrl;
     } else if (!Utils.isValidUrl(dataPlaneUrl)) {
       RudderLogger.logError("Malformed dataPlaneUrl. Set to default");
-      config['dataPlaneUrl'] = Constants.DATA_PLANE_URL;
+      config['dataPlaneUrl'] = Constants.dataPlaneUrl;
     } else {
       if (!dataPlaneUrl.endsWith("/")) dataPlaneUrl += "/";
       config['dataPlaneUrl'] = dataPlaneUrl;
     }
 
-    if (flushQueueSize < Utils.MIN_FLUSH_QUEUE_SIZE ||
-        flushQueueSize > Utils.MAX_FLUSH_QUEUE_SIZE) {
+    if (flushQueueSize < Utils.minFlushQueueSize ||
+        flushQueueSize > Utils.maxFlushQueueSize) {
       RudderLogger.logError(
           "flushQueueSize is out of range. Min: 1, Max: 100. Set to default");
-      config['flushQueueSize'] = Constants.FLUSH_QUEUE_SIZE;
+      config['flushQueueSize'] = Constants.flushQueueSize;
     } else {
       config['flushQueueSize'] = flushQueueSize;
     }
@@ -72,22 +73,22 @@ class RudderConfig {
 
     if (dbCountThreshold < 0) {
       RudderLogger.logError("invalid dbCountThreshold. Set to default");
-      config['dbCountThreshold'] = Constants.DB_COUNT_THRESHOLD;
+      config['dbCountThreshold'] = Constants.dbCountTreshold;
     } else {
       config['dbCountThreshold'] = dbCountThreshold;
     }
 
-    if (configRefreshInterval > Utils.MAX_CONFIG_REFRESH_INTERVAL) {
-      config['configRefreshInterval'] = Utils.MAX_CONFIG_REFRESH_INTERVAL;
-    } else if (configRefreshInterval < Utils.MIN_CONFIG_REFRESH_INTERVAL) {
-      config['configRefreshInterval'] = Utils.MIN_CONFIG_REFRESH_INTERVAL;
+    if (configRefreshInterval > Utils.maxConfigRefershInterval) {
+      config['configRefreshInterval'] = Utils.maxConfigRefershInterval;
+    } else if (configRefreshInterval < Utils.minConfigRefreshInterval) {
+      config['configRefreshInterval'] = Utils.minConfigRefreshInterval;
     } else {
       config['configRefreshInterval'] = configRefreshInterval;
     }
 
-    if (sleepTimeOut < Utils.MIN_SLEEP_TIMEOUT) {
+    if (sleepTimeOut < Utils.minSleepTimeout) {
       RudderLogger.logError("invalid sleepTimeOut. Set to default");
-      config['sleepTimeOut'] = Constants.SLEEP_TIMEOUT;
+      config['sleepTimeOut'] = Constants.sleepTimeout;
     } else {
       config['sleepTimeOut'] = sleepTimeOut;
     }
@@ -98,10 +99,10 @@ class RudderConfig {
     if (Utils.isEmpty(controlPlaneUrl)) {
       RudderLogger.logError(
           "configPlaneUrl can not be null or empty. Set to default.");
-      config['controlPlaneUrl'] = Constants.CONTROL_PLANE_URL;
+      config['controlPlaneUrl'] = Constants.controlPlaneUrl;
     } else if (!Utils.isValidUrl(controlPlaneUrl)) {
       RudderLogger.logError("Malformed configPlaneUrl. Set to default");
-      config['controlPlaneUrl'] = Constants.CONTROL_PLANE_URL;
+      config['controlPlaneUrl'] = Constants.controlPlaneUrl;
     } else {
       if (!controlPlaneUrl.endsWith("/")) controlPlaneUrl += "/";
       config['controlPlaneUrl'] = controlPlaneUrl;
@@ -122,7 +123,7 @@ class RudderConfig {
 
 /// RudderConfigBuilder class for RudderConfig
 class RudderConfigBuilder {
-  String __dataPlaneUrl = Constants.DATA_PLANE_URL;
+  String __dataPlaneUrl = Constants.dataPlaneUrl;
 
   /// @param dataPlaneUrl Your data-plane Url
   /// @return RudderConfigBuilder
@@ -140,9 +141,10 @@ class RudderConfigBuilder {
     return this;
   }
 
-  int __flushQueueSize = Constants.FLUSH_QUEUE_SIZE;
+  int __flushQueueSize = Constants.flushQueueSize;
 
-  /// @param flushQueueSize No. of events you want to send in a batch (min = 1, max = 100)
+  /// @param flushQueueSize No. of events you want to send in a batch
+  /// (min = 1, max = 100)
   /// @return RudderConfigBuilder
   RudderConfigBuilder withFlushQueueSize(int flushQueueSize) {
     if (flushQueueSize < 1 || flushQueueSize > 100) {
@@ -164,7 +166,7 @@ class RudderConfigBuilder {
     return this;
   }
 
-  int __logLevel = RudderLogger.NONE;
+  int __logLevel = RudderLogger.none;
 
   /// @param logLevel Determine how much log you want to generate.
   /// Use RudderLogger.NONE for production
@@ -174,7 +176,7 @@ class RudderConfigBuilder {
     return this;
   }
 
-  int __dbThresholdCount = Constants.DB_COUNT_THRESHOLD;
+  int __dbThresholdCount = Constants.dbCountTreshold;
 
   /// @param dbThresholdCount No of events to be persisted in DB
   /// @return RudderConfigBuilder
@@ -183,7 +185,7 @@ class RudderConfigBuilder {
     return this;
   }
 
-  int __sleepTimeout = Constants.SLEEP_TIMEOUT;
+  int __sleepTimeout = Constants.sleepTimeout;
 
   /// @param sleepCount No of seconds to wait before sending any batch
   /// @return RudderConfigBuilder
@@ -192,9 +194,10 @@ class RudderConfigBuilder {
     return this;
   }
 
-  int __configRefreshInterval = Constants.CONFIG_REFRESH_INTERVAL;
+  int __configRefreshInterval = Constants.configRefreshInterval;
 
-  /// @param configRefreshInterval How often you want to fetch the config from the server.
+  /// @param configRefreshInterval How often you want to fetch the config from
+  /// the server.
   /// Min : 1 hr
   /// Max : 24 hrs
   /// @return RudderConfigBuilder
@@ -203,9 +206,10 @@ class RudderConfigBuilder {
     return this;
   }
 
-  bool __recordScreenViews = Constants.RECORD_SCREEN_VIEWS;
+  final bool __recordScreenViews = Constants.recordScreenViews;
 
-  /// @param shouldRecordScreenViews Whether we should record screen views automatically
+  /// @param shouldRecordScreenViews Whether we should record screen views
+  /// automatically
   /// @return RudderConfigBuilder
   /// commented as we are not supporting this as of now
   // RudderConfigBuilder withRecordScreenViews(bool shouldRecordScreenViews) {
@@ -213,9 +217,10 @@ class RudderConfigBuilder {
   //   return this;
   // }
 
-  bool __trackLifecycleEvents = Constants.TRACK_LIFECYCLE_EVENTS;
+  bool __trackLifecycleEvents = Constants.trackLifecycleEvents;
 
-  /// @param shouldTrackLifecycleEvents Whether we should track Application lifecycle events automatically
+  /// @param shouldTrackLifecycleEvents Whether we should track Application
+  /// lifecycle events automatically
   /// "Application Installed" and "Application Updated" will always be tracked
   /// @return RudderConfigBuilder
   RudderConfigBuilder withTrackLifecycleEvents(
@@ -224,7 +229,7 @@ class RudderConfigBuilder {
     return this;
   }
 
-  String __controlPlaneUrl = Constants.CONTROL_PLANE_URL;
+  String __controlPlaneUrl = Constants.controlPlaneUrl;
 
   /// @param controlPlaneUrl Your hosted version of sourceConfig
   /// @return RudderConfigBuilder
@@ -238,9 +243,7 @@ class RudderConfigBuilder {
   /// @param factory Object of the device mode integration class
   /// @return RudderConfigBuilder
   RudderConfigBuilder withFactory(RudderIntegration factory) {
-    if (__factories == null) {
-      __factories = [];
-    }
+    __factories ??= [];
     __factories!.add(factory);
     return this;
   }
@@ -248,9 +251,7 @@ class RudderConfigBuilder {
   /// @param list of factory objects of the device mode integrations
   /// @return RudderConfigBuilder
   RudderConfigBuilder withFactories(List<RudderIntegration> factories) {
-    if (__factories == null) {
-      __factories = [];
-    }
+    __factories ??= [];
     __factories!.addAll(factories);
     return this;
   }
@@ -258,12 +259,12 @@ class RudderConfigBuilder {
   /// Finalize your config building
   /// @return RudderConfig
   RudderConfig build() {
-    return RudderConfig().__RudderConfig(
+    return RudderConfig().__rudderConfig(
         __dataPlaneUrl,
         __flushQueueSize,
         __dbThresholdCount,
         __sleepTimeout,
-        __isDebug ? RudderLogger.DEBUG : __logLevel,
+        __isDebug ? RudderLogger.debug : __logLevel,
         __configRefreshInterval,
         __trackLifecycleEvents,
         __recordScreenViews,
