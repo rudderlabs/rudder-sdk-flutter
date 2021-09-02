@@ -11,3 +11,7 @@
 
 * Updated Flutter SDK to support Sound Null Safety
 * Added Support for getting RudderContext Object from Native SDK's
+
+## 1.0.3
+
+* Added GDPR Support for the SDK so that User's can Opt-out from tracking as per them.
