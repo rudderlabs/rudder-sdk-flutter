@@ -90,13 +90,7 @@ NSMutableArray* integrationList;
     } else if ([@"reset" isEqualToString:call.method]) {
         [[RSClient sharedInstance] reset];
         return;
-    } else if ([@"optOut" isEqualToString:call.method]) {
-        if([call.arguments objectForKey:@"optOut"]) {
-            NSNumber* optOut = [call.arguments objectForKey:@"optOut"];
-            [[RSClient sharedInstance] optOut:[optOut boolValue]];
-        }
-    } 
-    else if ([@"putDeviceToken" isEqualToString:call.method]) {
+    } else if ([@"putDeviceToken" isEqualToString:call.method]) {
         if([call.arguments objectForKey:@"deviceToken"]) {
             NSString* token =  [call.arguments objectForKey:@"deviceToken"];
             if ([RSClient sharedInstance] == nil) {

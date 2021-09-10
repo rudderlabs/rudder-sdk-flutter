@@ -189,15 +189,7 @@ public class RudderSdkFlutterPlugin
             return;
         } else if (call.method.equals("reset")) {
             rudderClient.reset();
-            return;
-        } else if (call.method.equals("optOut")) {
-            HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
-            if (argumentsMap.containsKey("optOut")) {
-            rudderClient.optOut((boolean) argumentsMap.get("optOut"));
-            }
-            return;
-        }
-         else if (call.method.equals("putDeviceToken")) {
+        } else if (call.method.equals("putDeviceToken")) {
             if (rudderClient == null) {
                 return;
             }
