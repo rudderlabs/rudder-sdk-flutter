@@ -2,6 +2,8 @@
 #import "RSMessageType.h"
 #import <Rudder/Rudder.h>
 
+static NSNotification* _notification;
+
 @implementation RudderSdkFlutterPlugin
 
 NSMutableArray* integrationList;
@@ -12,11 +14,21 @@ NSMutableArray* integrationList;
                                      binaryMessenger:[registrar messenger]];
     RudderSdkFlutterPlugin* instance = [[RudderSdkFlutterPlugin alloc] init];
     [registrar addMethodCallDelegate:instance channel:channel];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listenAppLaunchNotification:) name:UIApplicationDidFinishLaunchingNotification object:UIApplication.sharedApplication];
+}
+
++ (void)listenAppLaunchNotification:(NSNotification *)notification
+{
+    _notification = notification;
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
     if ([@"initializeSDK" isEqualToString:call.method]) {
         [RSClient getInstance:[call.arguments objectForKey:@"writeKey"] config:[self getRudderConfigObject:[call.arguments objectForKey:@"config"]] options:[self getRudderOptionsObject:[call.arguments objectForKey:@"options"]]];
+        if(_notification!= nil)
+        {
+            [[RSClient sharedInstance] trackLifecycleEvents:_notification.userInfo];
+        }
         return;
     } else if ([@"identify" isEqualToString:call.method]) {
         RSTraits *traits;
