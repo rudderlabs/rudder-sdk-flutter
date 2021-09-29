@@ -25,7 +25,6 @@ class RudderClient {
       params['options'] = options.toMap();
     }
     platform.invokeMethod("initializeSDK", params);
-    track("Application Opened");
   }
 
   static void identify(String userId,

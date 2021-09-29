@@ -1,8 +1,11 @@
 package com.rudderstack.sdk.flutter;
 
+import android.app.Activity;
+import android.os.Bundle;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import android.content.Context;
 
@@ -37,9 +40,14 @@ public class RudderSdkFlutterPlugin
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
     /// when the Flutter Engine is detached from the Activity
     private MethodChannel channel;
-    private static RudderClient rudderClient;
+    static RudderClient rudderClient;
     private Context context;
     private static List<RudderIntegration.Factory> integrationList;
+
+
+    static boolean trackLifeCycleEvents = false;
+    static boolean initialized = false;
+
 
     @Override
     public void onAttachedToEngine(
@@ -52,15 +60,17 @@ public class RudderSdkFlutterPlugin
                 );
         channel.setMethodCallHandler(this);
         context = flutterPluginBinding.getApplicationContext();
+        ActivityLifeCycleHandler.registerActivityLifeCycleCallBacks(context);
     }
 
 
     public RudderClient initializeSDK(MethodCall call) {
         Map<String, Object> argumentsMap = (Map<String, Object>) call.arguments;
         String writeKey = (String) argumentsMap.get("writeKey");
-
+        Map<String, Object> configMap = (Map<String, Object>) argumentsMap.get("config");
+        trackLifeCycleEvents = (Boolean) configMap.get("trackLifecycleEvents");
         RudderConfig config = getRudderConfig(
-                (Map<String, Object>) argumentsMap.get("config")
+                configMap
         );
 
         RudderOption options = null;
@@ -84,6 +94,10 @@ public class RudderSdkFlutterPlugin
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
         if (call.method.equals("initializeSDK")) {
             rudderClient = initializeSDK(call);
+            for (Runnable runnableTask : ActivityLifeCycleHandler.runnableTasks) {
+                runnableTask.run();
+            }
+            initialized = true;
             return;
         } else if (call.method.equals("identify")) {
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
@@ -368,4 +382,5 @@ public class RudderSdkFlutterPlugin
         }
         return option;
     }
+
 }
