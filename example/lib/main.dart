@@ -39,6 +39,14 @@ class _PlatformChannelState extends State<PlatformChannel> {
     RudderClient.screen("Walmart Cart", properties: screenProperty);
   }
 
+  void __optOut() {
+    RudderClient.optOut(true);
+  }
+
+  void __optIn() {
+    RudderClient.optOut(false);
+  }
+
   void __group() {
     RudderTraits groupTraits = RudderTraits();
     groupTraits.put("place", "kolkata");
@@ -106,7 +114,8 @@ class _PlatformChannelState extends State<PlatformChannel> {
             ElevatedButton(
               child: Text('Rudder Context'),
               onPressed: () async {
-                Map context = await RudderClient.getRudderContext();
+                Map? context = await RudderClient.getRudderContext();
+                print(context);
               },
             ),
             ElevatedButton(

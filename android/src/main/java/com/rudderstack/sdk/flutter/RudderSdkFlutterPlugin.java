@@ -66,27 +66,20 @@ public class RudderSdkFlutterPlugin
 
     public RudderClient initializeSDK(MethodCall call) {
         Map<String, Object> argumentsMap = (Map<String, Object>) call.arguments;
+
         String writeKey = (String) argumentsMap.get("writeKey");
         Map<String, Object> configMap = (Map<String, Object>) argumentsMap.get("config");
         trackLifeCycleEvents = (Boolean) configMap.get("trackLifecycleEvents");
-        RudderConfig config = getRudderConfig(
-                configMap
-        );
-
         RudderOption options = null;
+
+        RudderConfig config = getRudderConfig(configMap);
+
         if (argumentsMap.containsKey("options")) {
-            options =
-                    getRudderOptionsObject(
-                            (Map<String, Object>) argumentsMap.get("options")
-                    );
+            options = getRudderOptionsObject((Map<String, Object>) argumentsMap.get("options"));
         }
 
-        RudderClient rudderClient = RudderClient.getInstance(
-                context,
-                writeKey,
-                config,
-                options
-        );
+        RudderClient rudderClient = RudderClient.getInstance(context, writeKey, config, options);
+
         return rudderClient;
     }
 
@@ -101,104 +94,88 @@ public class RudderSdkFlutterPlugin
             return;
         } else if (call.method.equals("identify")) {
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
+
             String userId = null;
+            RudderTraits traits = null;
+            RudderOption options = null;
+
             if (argumentsMap.containsKey("userId")) {
                 userId = (String) argumentsMap.get("userId");
             }
-            RudderTraits traits = null;
             if (argumentsMap.containsKey("traits")) {
-                traits =
-                        getRudderTraitsObject(
-                                (Map<String, Object>) argumentsMap.get("traits")
-                        );
+                traits = getRudderTraitsObject((Map<String, Object>) argumentsMap.get("traits"));
             }
-            RudderOption options = null;
             if (argumentsMap.containsKey("options")) {
-                options =
-                        getRudderOptionsObject(
-                                (Map<String, Object>) argumentsMap.get("options")
-                        );
+                options = getRudderOptionsObject((Map<String, Object>) argumentsMap.get("options"));
             }
+
             if (traits == null) {
                 traits = new RudderTraits();
             }
             if (userId != null) {
                 traits.putId(userId);
             }
+
             rudderClient.identify(traits, options);
             return;
         } else if (call.method.equals("track")) {
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
-            RudderMessageBuilder builder = new RudderMessageBuilder();
-            builder = builder.setEventName((String) argumentsMap.get("eventName"));
+
+            String eventName = (String) argumentsMap.get("eventName");
+            RudderProperty eventProperties = null;
+            RudderOption options = null;
+
             if (argumentsMap.containsKey("properties")) {
-                builder =
-                        builder.setProperty(
-                                new RudderProperty()
-                                        .putValue((Map<String, Object>) (argumentsMap.get("properties")))
-                        );
+                eventProperties = new RudderProperty().putValue((Map<String, Object>) (argumentsMap.get("properties")));
             }
             if (argumentsMap.containsKey("options")) {
-                builder =
-                        builder.setRudderOption(
-                                getRudderOptionsObject(
-                                        (Map<String, Object>) argumentsMap.get("options")
-                                )
-                        );
+                options = getRudderOptionsObject((Map<String, Object>) argumentsMap.get("options"));
             }
-            rudderClient.track(builder.build());
+
+            rudderClient.track(eventName, eventProperties, options);
             return;
         } else if (call.method.equals("screen")) {
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
-            RudderMessageBuilder builder = new RudderMessageBuilder();
-            builder.setEventName((String) argumentsMap.get("screenName"));
-            RudderProperty properties = new RudderProperty();
-            properties.put("name", (String) argumentsMap.get("screenName"));
+
+            String screenName = (String) argumentsMap.get("screenName");
+            RudderProperty screenProperties = null;
+            RudderOption options = null;
+
             if (argumentsMap.containsKey("properties")) {
-                properties.putValue(
-                        (Map<String, Object>) (argumentsMap.get("properties"))
-                );
+                screenProperties = new RudderProperty().putValue((Map<String, Object>) (argumentsMap.get("properties")));
             }
-            builder = builder.setProperty(properties);
             if (argumentsMap.containsKey("options")) {
-                builder =
-                        builder.setRudderOption(
-                                getRudderOptionsObject(
-                                        (Map<String, Object>) argumentsMap.get("options")
-                                )
-                        );
+                options = getRudderOptionsObject((Map<String, Object>) argumentsMap.get("options"));
             }
-            rudderClient.screen(builder.build());
+
+            rudderClient.screen(screenName, screenProperties, options);
             return;
         } else if (call.method.equals("group")) {
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
-            RudderMessageBuilder builder = new RudderMessageBuilder();
-            builder = builder.setGroupId((String) argumentsMap.get("groupId"));
+
+            String groupId = (String) argumentsMap.get("groupId");
+            RudderTraits groupTraits = null;
+            RudderOption options = null;
+
             if (argumentsMap.containsKey("groupTraits")) {
-                builder.setGroupTraits(
-                        getRudderTraitsObject(
-                                (Map<String, Object>) argumentsMap.get("groupTraits")
-                        )
-                );
+                groupTraits = getRudderTraitsObject((Map<String, Object>) argumentsMap.get("groupTraits"));
             }
+
             if (argumentsMap.containsKey("options")) {
-                builder.setRudderOption(
-                        getRudderOptionsObject(
-                                (Map<String, Object>) argumentsMap.get("options")
-                        )
-                );
+                options = getRudderOptionsObject((Map<String, Object>) argumentsMap.get("options"));
             }
-            rudderClient.group(builder.build());
+
+            rudderClient.group(groupId, groupTraits, options);
             return;
         } else if (call.method.equals("alias")) {
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
+
             RudderOption options = null;
+
             if (argumentsMap.containsKey("options")) {
-                options =
-                        getRudderOptionsObject(
-                                (Map<String, Object>) argumentsMap.get("options")
-                        );
+                options = getRudderOptionsObject((Map<String, Object>) argumentsMap.get("options"));
             }
+
             rudderClient.alias((String) argumentsMap.get("newId"), options);
             return;
         } else if (call.method.equals("reset")) {
@@ -206,36 +183,44 @@ public class RudderSdkFlutterPlugin
             return;
         } else if (call.method.equals("optOut")) {
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
+
             if (argumentsMap.containsKey("optOut")) {
-            rudderClient.optOut((boolean) argumentsMap.get("optOut"));
+                rudderClient.optOut((boolean) argumentsMap.get("optOut"));
             }
+
             return;
-        }
-         else if (call.method.equals("putDeviceToken")) {
+        } else if (call.method.equals("putDeviceToken")) {
             if (rudderClient == null) {
                 return;
             }
+
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
+
             if (argumentsMap.containsKey("deviceToken")) {
                 String deviceToken = (String) argumentsMap.get("deviceToken");
                 if (!TextUtils.isEmpty(deviceToken)) {
                     rudderClient.putDeviceToken(deviceToken);
                 }
             }
+
             return;
         } else if (call.method.equals("setAdvertisingId")) {
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
+
             if (argumentsMap.containsKey("advertisingId")) {
                 RudderClient.updateWithAdvertisingId(
                         (String) argumentsMap.get("advertisingId")
                 );
             }
+
             return;
         } else if (call.method.equals("setAnonymousId")) {
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
+
             if (argumentsMap.containsKey("anonymousId")) {
                 RudderClient.setAnonymousId((String) argumentsMap.get("anonymousId"));
             }
+
         } else if (call.method.equals("getRudderContext")) {
             Gson gson = new Gson();
             HashMap context = gson.fromJson(gson.toJson(rudderClient.getRudderContext()), HashMap.class);
