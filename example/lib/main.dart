@@ -5,6 +5,7 @@ import 'package:rudder_sdk_flutter/RudderLogger.dart';
 import 'package:rudder_sdk_flutter/RudderTraits.dart';
 import 'package:rudder_sdk_flutter/RudderOption.dart';
 import 'package:rudder_sdk_flutter/RudderProperty.dart';
+import 'package:rudder_integration_appcenter_flutter/Appcenter.dart';
 
 class PlatformChannel extends StatefulWidget {
   @override
@@ -26,7 +27,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
     property.put("manufacturer", "hyundai");
     property.put("model", "i20");
     RudderOption options = new RudderOption();
-    options.putIntegration("All", false);
+    options.putIntegration("All", true);
     options.putIntegration("Mixpanel", false);
     RudderClient.track("Went on a drive",
         properties: property, options: options);
@@ -65,17 +66,16 @@ class _PlatformChannelState extends State<PlatformChannel> {
               child: Text('Initialize SDK'),
               onPressed: () {
                 RudderConfigBuilder builder = RudderConfigBuilder();
-                builder.withDataPlaneUrl("https://friendly-badger-28.loca.lt");
-                builder.withControlPlaneUrl("https://56d9996d386b.ngrok.io");
+                builder.withDataPlaneUrl("https://9c46-175-101-36-4.ngrok.io");
                 builder.withLogLevel(RudderLogger.VERBOSE);
                 RudderOption options = new RudderOption();
                 options.putIntegration("Amplitude", true);
-                //builder.withFactory(Appcenter());
+                builder.withFactory(Appcenter());
                 // 1. with RudderConfig Object
                 //RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
                 //   config: builder.build());
                 //2. With RudderConfigBuilder object
-                RudderClient.getInstance("1shL9hswhzo3C0oAIfrnz8cMbjU",
+                RudderClient.getInstance("1pTxG1Tqxr7FCrqIy7j0p28AENV",
                     config: builder.build(),options: options);
               },
             ),
