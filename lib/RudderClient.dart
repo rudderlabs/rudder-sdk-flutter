@@ -111,6 +111,12 @@ class RudderClient {
     platform.invokeMethod("reset");
   }
 
+  static void optOut(bool optOut) {
+    Map<String, dynamic> params = new Map();
+    params["optOut"] = optOut;
+    platform.invokeMethod("optOut", params);
+  }
+
   static void putDeviceToken(String deviceToken) {
     Map<String, dynamic> params = new Map();
 
@@ -132,7 +138,7 @@ class RudderClient {
     platform.invokeMethod("setAnonymousId", params);
   }
 
-  static Future<Map> getRudderContext() async {
-    return await platform.invokeMethod("getRudderContext") as Map;
+  static Future<Map?> getRudderContext() async {
+    return await platform.invokeMethod("getRudderContext") as Map?;
   }
 }

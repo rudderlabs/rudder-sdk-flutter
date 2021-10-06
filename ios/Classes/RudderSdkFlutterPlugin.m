@@ -31,60 +31,55 @@ NSMutableArray* integrationList;
         }
         return;
     } else if ([@"identify" isEqualToString:call.method]) {
-        RSTraits *traits;
-        RSOption *options;
         NSString *userId = [call.arguments objectForKey:@"userId"];
+        NSDictionary *traits= nil;
+        RSOption *options = nil;
+        
         if([call.arguments objectForKey:@"traits"]) {
-            NSDictionary* traitsDict = [[self getRudderTraitsObject:[call.arguments objectForKey:@"traits"]]dict];
-            traits = [[RSTraits alloc] initWithDict: traitsDict];
+            traits = [[self getRudderTraitsObject:[call.arguments objectForKey:@"traits"]]dict];
         }
-        if(!traits) {
-            traits = [[RSTraits alloc]init];
-        }
-        [traits setUserId:userId];
-        RSMessageBuilder *builder = [[RSMessageBuilder alloc] init];
-        [builder setEventName:RSIdentify];
-        [builder setUserId:userId];
-        [builder setTraits:traits];
+        
         if([call.arguments objectForKey:@"options"]) {
             options = [self getRudderOptionsObject:[call.arguments objectForKey:@"options"]];
-            [builder setRSOption:options];
         }
-        [[RSClient sharedInstance] identifyWithBuilder:builder];
+        
+        [[RSClient sharedInstance] identify:userId traits:traits options:options];
         return;
     } else if ([@"track" isEqualToString:call.method]) {
-        RSMessageBuilder *builder = [[RSMessageBuilder alloc] init];
-        [builder setEventName:[call.arguments objectForKey:@"eventName"]];
+        
+        NSString* eventName = [call.arguments objectForKey:@"eventName"];
+        NSDictionary* eventProperties = nil;
+        RSOption* options = nil;
+        
         if([call.arguments objectForKey:@"properties"]) {
-            [builder setPropertyDict:[call.arguments objectForKey:@"properties"]];
+            eventProperties = [call.arguments objectForKey:@"properties"];
         }
         if([call.arguments objectForKey:@"options"]) {
-            [builder setRSOption:[self getRudderOptionsObject:[call.arguments objectForKey:@"options"]]];
+            options = [self getRudderOptionsObject:[call.arguments objectForKey:@"options"]];
         }
-        [[RSClient sharedInstance] trackWithBuilder:builder];
+        [[RSClient sharedInstance] track:eventName properties:eventProperties options:options];
         return;
         
     } else if ([@"screen" isEqualToString:call.method]) {
-        RSMessageBuilder *builder = [[RSMessageBuilder alloc] init];
-        [builder setEventName:[call.arguments objectForKey:@"screenName"]];
-        NSMutableDictionary *property;
-        if ([call.arguments objectForKey:@"properties"] == nil) {
-            property = [[NSMutableDictionary alloc] init];
-        } else {
-            property = [[call.arguments objectForKey:@"properties"] mutableCopy];
+
+        NSString* screenName = [call.arguments objectForKey:@"screenName"];
+        NSMutableDictionary *screenProperties = nil;
+        RSOption* options = nil;
+
+        if([call.arguments objectForKey:@"properties"]) {
+            screenProperties = [call.arguments objectForKey:@"properties"];
         }
-        [property setValue:[call.arguments objectForKey:@"screenName"] forKey:@"name"];
-        [builder setPropertyDict:property];
         if([call.arguments objectForKey:@"options"]) {
-            [builder setRSOption:[self getRudderOptionsObject:[call.arguments objectForKey:@"options"]]];
+            options = [self getRudderOptionsObject:[call.arguments objectForKey:@"options"]];
         }
-        [[RSClient sharedInstance]screenWithBuilder:builder];
+        [[RSClient sharedInstance]screen:screenName properties:screenProperties options:options];
         return;
-        
     } else if ([@"group" isEqualToString:call.method]) {
+
         NSString* groupId = [call.arguments objectForKey:@"groupId"];
-        NSDictionary<NSString *,NSObject *>* groupTraits;
-        RSOption* options;
+        NSDictionary<NSString *,NSObject *>* groupTraits = nil;
+        RSOption* options = nil;
+
         if([call.arguments objectForKey:@"groupTraits"]) {
             groupTraits = [[self getRudderTraitsObject:[call.arguments objectForKey:@"groupTraits"]]dict];
         }
@@ -92,8 +87,10 @@ NSMutableArray* integrationList;
             options = [self getRudderOptionsObject:[call.arguments objectForKey:@"options"]];
         }
         [[RSClient sharedInstance]group:groupId traits:groupTraits options:options];
+        return;
     } else if ([@"alias" isEqualToString:call.method]) {
-        RSOption* options;
+        RSOption* options = nil;
+
         if([call.arguments objectForKey:@"options"]) {
             options = [self getRudderOptionsObject:[call.arguments objectForKey:@"options"]];
         }
@@ -102,7 +99,14 @@ NSMutableArray* integrationList;
     } else if ([@"reset" isEqualToString:call.method]) {
         [[RSClient sharedInstance] reset];
         return;
-    } else if ([@"putDeviceToken" isEqualToString:call.method]) {
+    } else if ([@"optOut" isEqualToString:call.method]) {
+        if([call.arguments objectForKey:@"optOut"]) {
+            NSNumber* optOut = [call.arguments objectForKey:@"optOut"];
+            [[RSClient sharedInstance] optOut:[optOut boolValue]];
+        }
+        return;
+    }
+    else if ([@"putDeviceToken" isEqualToString:call.method]) {
         if([call.arguments objectForKey:@"deviceToken"]) {
             NSString* token =  [call.arguments objectForKey:@"deviceToken"];
             if ([RSClient sharedInstance] == nil) {
@@ -113,6 +117,7 @@ NSMutableArray* integrationList;
                 [rudderContext putDeviceToken:token];
             }
         }
+        return;
     } else if ([@"setAdvertisingId" isEqualToString:call.method]) {
         if ([RSClient sharedInstance] == nil) return;
         if([call.arguments objectForKey:@"advertisingId"]) {
@@ -121,13 +126,15 @@ NSMutableArray* integrationList;
                 [rudderContext putAdvertisementId:[call.arguments objectForKey:@"advertisingId"]];
             }
         }
+        return;
     } else if ([@"setAnonymousId" isEqualToString:call.method]) {
         if([call.arguments objectForKey:@"anonymousId"]) {
             [RSClient setAnonymousId:[call.arguments objectForKey:@"anonymousId"]];
         }
+        return;
     } else if ([@"getRudderContext" isEqualToString:call.method]) {
         if ([RSClient sharedInstance] == nil) {
-          return;
+            return;
         }
         result([[[RSClient sharedInstance] getContext] dict]);
     }
