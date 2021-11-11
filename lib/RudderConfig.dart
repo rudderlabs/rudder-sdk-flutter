@@ -1,7 +1,7 @@
 import './Constants.dart';
+import './RudderIntegration.dart';
 import './RudderLogger.dart';
 import './Utils.dart';
-import './RudderIntegration.dart';
 
 /*
  * Config class for RudderClient
@@ -19,7 +19,7 @@ import './RudderIntegration.dart';
  *
  * */
 class RudderConfig {
-  Map<String, dynamic> config = new Map();
+  Map<String, dynamic> config = {};
 
   RudderConfig() {
     __RudderConfig(
@@ -203,7 +203,7 @@ class RudderConfigBuilder {
     return this;
   }
 
-  bool __recordScreenViews = Constants.RECORD_SCREEN_VIEWS;
+  final bool __recordScreenViews = Constants.RECORD_SCREEN_VIEWS;
 
   /// @param shouldRecordScreenViews Whether we should record screen views automatically
   /// @return RudderConfigBuilder
@@ -238,9 +238,7 @@ class RudderConfigBuilder {
   /// @param factory Object of the device mode integration class
   /// @return RudderConfigBuilder
   RudderConfigBuilder withFactory(RudderIntegration factory) {
-    if (__factories == null) {
-      __factories = [];
-    }
+    __factories ??= [];
     __factories!.add(factory);
     return this;
   }
@@ -248,9 +246,7 @@ class RudderConfigBuilder {
   /// @param list of factory objects of the device mode integrations
   /// @return RudderConfigBuilder
   RudderConfigBuilder withFactories(List<RudderIntegration> factories) {
-    if (__factories == null) {
-      __factories = [];
-    }
+    __factories ??= [];
     __factories!.addAll(factories);
     return this;
   }
