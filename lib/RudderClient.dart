@@ -6,21 +6,13 @@ import './RudderProperty.dart';
 import './RudderTraits.dart';
 
 class RudderClient {
-  /* API for getting RudderClient instance with bare minimum
-     *
-     * @param context  Your Application context
-     * @param writeKey Your Android WriteKey from RudderStack dashboard
-     * @return RudderClient instance to be used further
-     */
-  static const platform = MethodChannel('rudder_sdk_flutter');
+  RudderClient._();
+  static final RudderClient _instance = RudderClient._();
+  static RudderClient get instance => _instance;
 
-  @Deprecated('Only functions that return a value should be called getX')
-  static void getInstance(String writeKey,
-      {RudderConfig? config, RudderOption? options}) {
-    initialize(writeKey, config: config, options: options);
-  }
+  final _platformChannel = const MethodChannel('rudder_sdk_flutter');
 
-  static void initialize(String writeKey,
+  void initialize(String writeKey,
       {RudderConfig? config, RudderOption? options}) {
     config ??= RudderConfig();
     Map<String, dynamic> params = {};
@@ -29,11 +21,10 @@ class RudderClient {
     if (options != null) {
       params['options'] = options.toMap();
     }
-    platform.invokeMethod("initializeSDK", params);
+    _platformChannel.invokeMethod("initializeSDK", params);
   }
 
-  static void identify(String userId,
-      {RudderTraits? traits, RudderOption? options}) {
+  void identify(String userId, {RudderTraits? traits, RudderOption? options}) {
     Map<String, dynamic> params = {};
 
     params["userId"] = userId;
@@ -46,10 +37,10 @@ class RudderClient {
       params["options"] = options.toMap();
     }
 
-    platform.invokeMethod("identify", params);
+    _platformChannel.invokeMethod("identify", params);
   }
 
-  static void track(String eventName,
+  void track(String eventName,
       {RudderProperty? properties, RudderOption? options}) {
     Map<String, dynamic> params = {};
 
@@ -63,10 +54,10 @@ class RudderClient {
       params["options"] = options.toMap();
     }
 
-    platform.invokeMethod("track", params);
+    _platformChannel.invokeMethod("track", params);
   }
 
-  static void screen(String screenName,
+  void screen(String screenName,
       {RudderProperty? properties, RudderOption? options}) {
     Map<String, dynamic> params = {};
 
@@ -80,10 +71,10 @@ class RudderClient {
       params["options"] = options.toMap();
     }
 
-    platform.invokeMethod("screen", params);
+    _platformChannel.invokeMethod("screen", params);
   }
 
-  static void group(String groupId,
+  void group(String groupId,
       {RudderTraits? groupTraits, RudderOption? options}) {
     Map<String, dynamic> params = {};
 
@@ -97,10 +88,10 @@ class RudderClient {
       params["options"] = options.toMap();
     }
 
-    platform.invokeMethod("group", params);
+    _platformChannel.invokeMethod("group", params);
   }
 
-  static void alias(String newId, {RudderOption? options}) {
+  void alias(String newId, {RudderOption? options}) {
     Map<String, dynamic> params = {};
 
     params["newId"] = newId;
@@ -109,41 +100,41 @@ class RudderClient {
       params["options"] = options.toMap();
     }
 
-    platform.invokeMethod("alias", params);
+    _platformChannel.invokeMethod("alias", params);
   }
 
-  static void reset() {
-    platform.invokeMethod("reset");
+  void reset() {
+    _platformChannel.invokeMethod("reset");
   }
 
-  static void optOut(bool optOut) {
+  void optOut(bool optOut) {
     Map<String, dynamic> params = {};
     params["optOut"] = optOut;
-    platform.invokeMethod("optOut", params);
+    _platformChannel.invokeMethod("optOut", params);
   }
 
-  static void putDeviceToken(String deviceToken) {
+  void putDeviceToken(String deviceToken) {
     Map<String, dynamic> params = {};
 
     params["deviceToken"] = deviceToken;
-    platform.invokeMethod("putDeviceToken", params);
+    _platformChannel.invokeMethod("putDeviceToken", params);
   }
 
-  static void setAdvertisingId(String advertisingId) {
+  void setAdvertisingId(String advertisingId) {
     Map<String, dynamic> params = {};
 
     params["advertisingId"] = advertisingId;
-    platform.invokeMethod("setAdvertisingId", params);
+    _platformChannel.invokeMethod("setAdvertisingId", params);
   }
 
-  static void setAnonymousId(String anonymousId) {
+  void setAnonymousId(String anonymousId) {
     Map<String, dynamic> params = {};
 
     params["anonymousId"] = anonymousId;
-    platform.invokeMethod("setAnonymousId", params);
+    _platformChannel.invokeMethod("setAnonymousId", params);
   }
 
-  static Future<Map?> getRudderContext() async {
-    return await platform.invokeMethod("getRudderContext") as Map?;
+  Future<Map?> getRudderContext() async {
+    return await _platformChannel.invokeMethod("getRudderContext") as Map?;
   }
 }
