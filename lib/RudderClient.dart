@@ -1,8 +1,9 @@
+import 'package:flutter/services.dart';
+
 import './RudderConfig.dart';
-import './RudderTraits.dart';
 import './RudderOption.dart';
 import './RudderProperty.dart';
-import 'package:flutter/services.dart';
+import './RudderTraits.dart';
 
 class RudderClient {
   /* API for getting RudderClient instance with bare minimum
@@ -13,7 +14,13 @@ class RudderClient {
      */
   static const platform = const MethodChannel('rudder_sdk_flutter');
 
+  @Deprecated('Only functions that return a value should be called getX')
   static void getInstance(String writeKey,
+      {RudderConfig? config, RudderOption? options}) {
+    initialize(writeKey, config: config, options: options);
+  }
+
+  static void initialize(String writeKey,
       {RudderConfig? config, RudderOption? options}) {
     if (config == null) {
       config = RudderConfig();
