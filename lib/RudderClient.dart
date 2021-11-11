@@ -5,6 +5,7 @@ import './RudderOption.dart';
 import './RudderProperty.dart';
 import './RudderTraits.dart';
 
+
 class RudderClient {
   /* API for getting RudderClient instance with bare minimum
      *

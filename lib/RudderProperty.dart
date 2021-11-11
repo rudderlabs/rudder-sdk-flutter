@@ -36,4 +36,6 @@ class RudderProperty {
   void putCurrency(String currency) {
     this.__map["currency"] = currency;
   }
+
+  RudderProperty.fromMap(Map<String, dynamic> map) : __map = map;
 }
