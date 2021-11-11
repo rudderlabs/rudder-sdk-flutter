@@ -1,5 +1,6 @@
 class RudderProperty {
-  final Map<String, dynamic> __map = {};
+  RudderProperty() : __map = {};
+  final Map<String, dynamic> __map;
 
   Map<String, dynamic> getMap() {
     return __map;
