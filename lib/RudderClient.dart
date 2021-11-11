@@ -1,8 +1,9 @@
+import 'package:flutter/services.dart';
+
 import './RudderConfig.dart';
-import './RudderTraits.dart';
 import './RudderOption.dart';
 import './RudderProperty.dart';
-import 'package:flutter/services.dart';
+import './RudderTraitts.dart';
 
 class RudderClient {
   /* API for getting RudderClient instance with bare minimum
