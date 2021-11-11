@@ -1,7 +1,7 @@
 import './Utils.dart';
 
 class RudderTraits {
-  Map<String, dynamic> traitsMap = new Map();
+  Map<String, dynamic> traitsMap = {};
 
   /// Initialise RudderTraits
   ///
@@ -232,7 +232,7 @@ class RudderTraits {
   /// @return traits RudderTraits
   RudderTraits put(String key, dynamic value) {
     if (traitsMap["extras"] == null) {
-      traitsMap["extras"] = new Map<String, dynamic>();
+      traitsMap["extras"] = <String, dynamic>{};
     }
     Map<String, dynamic> extras = traitsMap["extras"];
     extras[key] = value;
@@ -242,7 +242,7 @@ class RudderTraits {
 
   RudderTraits putValue(Map<String, dynamic> map) {
     if (traitsMap["extras"] == null) {
-      traitsMap["extras"] = new Map();
+      traitsMap["extras"] = {};
     }
     Map<String, dynamic> extras = traitsMap["extras"];
     extras.addAll(map);
@@ -252,7 +252,7 @@ class RudderTraits {
 }
 
 class Address {
-  Map<String, String> addressMap = new Map();
+  Map<String, String> addressMap = {};
 
   /// constructor
   ///
@@ -331,7 +331,7 @@ class Address {
 }
 
 class Company {
-  Map<String, String> companyMap = new Map();
+  Map<String, String> companyMap = {};
 
   /// constructor
   ///

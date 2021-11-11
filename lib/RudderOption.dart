@@ -1,5 +1,5 @@
-import './Utils.dart';
 import './RudderIntegration.dart';
+import './Utils.dart';
 
 // we left fetching the external ids from the scratch here
 class RudderOption {
@@ -7,15 +7,13 @@ class RudderOption {
   Map<String, Object>? integrations;
 
   RudderOption putExternalId(String type, String id) {
-    if (this.externalIds == null) {
-      this.externalIds = [];
-    }
+    externalIds ??= [];
 
     Map<String, Object>? externalIdMap;
     int mapIndex = -1;
-    for (int index = 0; index < this.externalIds!.length; index++) {
+    for (int index = 0; index < externalIds!.length; index++) {
       Map<String, Object> map =
-          this.externalIds!.elementAt(index) as Map<String, Object>;
+          externalIds!.elementAt(index) as Map<String, Object>;
       String mapType = map["type"].toString();
       if (Utils.equalsIgnoreCase(mapType, type)) {
         externalIdMap = map;
@@ -26,7 +24,7 @@ class RudderOption {
 
     // if not present from previous runs: create new and assign the type
     if (externalIdMap == null) {
-      externalIdMap = Map();
+      externalIdMap = {};
       externalIdMap["type"] = type;
     }
 
@@ -36,9 +34,9 @@ class RudderOption {
     // finally update existing position or add new id
     if (mapIndex == -1) {
       // not found in existing storage
-      this.externalIds!.add(externalIdMap);
+      externalIds!.add(externalIdMap);
     } else {
-      this.externalIds!.elementAt(mapIndex)["id"] = id;
+      externalIds!.elementAt(mapIndex)["id"] = id;
     }
 
     // return for builder pattern
@@ -46,28 +44,24 @@ class RudderOption {
   }
 
   RudderOption putIntegration(String type, bool enabled) {
-    if (integrations == null) {
-      integrations = Map();
-    }
+    integrations ??= {};
     integrations![type] = enabled;
     return this;
   }
 
   RudderOption putIntegrationWithFactory(
       RudderIntegration factory, bool enabled) {
-    if (integrations == null) {
-      integrations = Map();
-    }
+    integrations ??= {};
     integrations![factory.getKey()] = enabled;
     return this;
   }
 
   Map<String, Object> toMap() {
-    Map<String, Object> optionsMap = Map();
+    Map<String, Object> optionsMap = {};
     if (externalIds != null) {
       optionsMap["externalIds"] = externalIds!;
     }
-    optionsMap["integrations"] = integrations ?? Map();
+    optionsMap["integrations"] = integrations ?? {};
     return optionsMap;
   }
 }
