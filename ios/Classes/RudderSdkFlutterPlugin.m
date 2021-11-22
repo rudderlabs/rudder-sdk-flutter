@@ -109,12 +109,8 @@ NSMutableArray* integrationList;
     else if ([@"putDeviceToken" isEqualToString:call.method]) {
         if([call.arguments objectForKey:@"deviceToken"]) {
             NSString* token =  [call.arguments objectForKey:@"deviceToken"];
-            if ([RSClient sharedInstance] == nil) {
-                return;
-            }
-            RSContext* rudderContext = [[RSClient sharedInstance] getContext];
-            if (rudderContext != nil && [token length] != 0) {
-                [rudderContext putDeviceToken:token];
+            if ([token length] != 0) {
+                [RSClient putDeviceToken:token];
             }
         }
         return;

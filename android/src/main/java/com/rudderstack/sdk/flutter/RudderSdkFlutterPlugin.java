@@ -190,16 +190,12 @@ public class RudderSdkFlutterPlugin
 
             return;
         } else if (call.method.equals("putDeviceToken")) {
-            if (rudderClient == null) {
-                return;
-            }
-
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
 
             if (argumentsMap.containsKey("deviceToken")) {
                 String deviceToken = (String) argumentsMap.get("deviceToken");
                 if (!TextUtils.isEmpty(deviceToken)) {
-                    rudderClient.putDeviceToken(deviceToken);
+                    RudderClient.putDeviceToken(deviceToken);
                 }
             }
 
