@@ -124,18 +124,18 @@ class RudderClient {
     platform.invokeMethod("putDeviceToken", params);
   }
 
-  static void setAdvertisingId(String advertisingId) {
+  static void putAdvertisingId(String advertisingId) {
     Map<String, dynamic> params = new Map();
 
     params["advertisingId"] = advertisingId;
-    platform.invokeMethod("setAdvertisingId", params);
+    platform.invokeMethod("putAdvertisingId", params);
   }
 
-  static void setAnonymousId(String anonymousId) {
+  static void putAnonymousId(String anonymousId) {
     Map<String, dynamic> params = new Map();
 
     params["anonymousId"] = anonymousId;
-    platform.invokeMethod("setAnonymousId", params);
+    platform.invokeMethod("putAnonymousId", params);
   }
 
   static Future<Map?> getRudderContext() async {

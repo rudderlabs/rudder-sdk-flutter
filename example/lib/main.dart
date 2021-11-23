@@ -121,7 +121,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
             ElevatedButton(
               child: Text('Set Advertsing ID'),
               onPressed: () {
-                RudderClient.setAdvertisingId("899jj-hguscb");
+                RudderClient.putAdvertisingId("899jj-hguscb");
               },
             ),
             ElevatedButton(

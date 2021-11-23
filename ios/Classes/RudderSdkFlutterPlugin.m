@@ -114,7 +114,7 @@ NSMutableArray* integrationList;
             }
         }
         return;
-    } else if ([@"setAdvertisingId" isEqualToString:call.method]) {
+    } else if ([@"putAdvertisingId" isEqualToString:call.method]) {
         if ([RSClient sharedInstance] == nil) return;
         if([call.arguments objectForKey:@"advertisingId"]) {
             RSContext* rudderContext = [[RSClient sharedInstance] getContext];
@@ -123,9 +123,9 @@ NSMutableArray* integrationList;
             }
         }
         return;
-    } else if ([@"setAnonymousId" isEqualToString:call.method]) {
+    } else if ([@"putAnonymousId" isEqualToString:call.method]) {
         if([call.arguments objectForKey:@"anonymousId"]) {
-            [RSClient setAnonymousId:[call.arguments objectForKey:@"anonymousId"]];
+            [RSClient putAnonymousId:[call.arguments objectForKey:@"anonymousId"]];
         }
         return;
     } else if ([@"getRudderContext" isEqualToString:call.method]) {

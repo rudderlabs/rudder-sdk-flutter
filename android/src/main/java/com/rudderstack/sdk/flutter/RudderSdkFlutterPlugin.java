@@ -200,21 +200,21 @@ public class RudderSdkFlutterPlugin
             }
 
             return;
-        } else if (call.method.equals("setAdvertisingId")) {
+        } else if (call.method.equals("putAdvertisingId")) {
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
 
             if (argumentsMap.containsKey("advertisingId")) {
-                RudderClient.updateWithAdvertisingId(
+                RudderClient.putAdvertisingId(
                         (String) argumentsMap.get("advertisingId")
                 );
             }
 
             return;
-        } else if (call.method.equals("setAnonymousId")) {
+        } else if (call.method.equals("putAnonymousId")) {
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
 
             if (argumentsMap.containsKey("anonymousId")) {
-                RudderClient.setAnonymousId((String) argumentsMap.get("anonymousId"));
+                RudderClient.putAnonymousId((String) argumentsMap.get("anonymousId"));
             }
 
         } else if (call.method.equals("getRudderContext")) {
