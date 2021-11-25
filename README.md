@@ -15,7 +15,7 @@ Released under [MIT License](https://opensource.org/licenses/MIT)
 1. Open `pubspec.yaml`  and add `rudder_sdk_flutter` under `dependencies` section:
 ```groovy
 dependencies:
-  rudder_sdk_flutter: ^1.0.7
+  rudder_sdk_flutter: ^1.1.0
 ```
 2. Navigate to your Application's root folder and install all the required dependencies with:
 ```bash
