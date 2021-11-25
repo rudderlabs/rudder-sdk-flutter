@@ -191,32 +191,31 @@ public class RudderSdkFlutterPlugin
             return;
         } else if (call.method.equals("putDeviceToken")) {
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
-
             if (argumentsMap.containsKey("deviceToken")) {
                 String deviceToken = (String) argumentsMap.get("deviceToken");
                 if (!TextUtils.isEmpty(deviceToken)) {
                     RudderClient.putDeviceToken(deviceToken);
                 }
             }
-
             return;
         } else if (call.method.equals("putAdvertisingId")) {
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
-
             if (argumentsMap.containsKey("advertisingId")) {
-                RudderClient.putAdvertisingId(
-                        (String) argumentsMap.get("advertisingId")
-                );
+                String advertisingId = (String) argumentsMap.get("advertisingId");
+                if (!TextUtils.isEmpty(advertisingId)) {
+                RudderClient.putAdvertisingId(advertisingId);
+                }
             }
-
             return;
         } else if (call.method.equals("putAnonymousId")) {
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
-
             if (argumentsMap.containsKey("anonymousId")) {
-                RudderClient.putAnonymousId((String) argumentsMap.get("anonymousId"));
+                String anonymousId = (String) argumentsMap.get("anonymousId");
+                if (!TextUtils.isEmpty(anonymousId)) {
+                    RudderClient.putAnonymousId(anonymousId);
+                }
             }
-
+            return;
         } else if (call.method.equals("getRudderContext")) {
             Gson gson = new Gson();
             HashMap context = gson.fromJson(gson.toJson(rudderClient.getRudderContext()), HashMap.class);

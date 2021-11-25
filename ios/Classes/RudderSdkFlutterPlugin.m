@@ -109,7 +109,7 @@ NSMutableArray* integrationList;
     else if ([call.method isEqualToString:@"putDeviceToken"]) {
         if([call.arguments objectForKey:@"deviceToken"]) {
             NSString* token =  [call.arguments objectForKey:@"deviceToken"];
-            if ([token length] != 0) {
+            if (token != nil && [token length] != 0) {
                 [RSClient putDeviceToken:token];
             }
         }
@@ -118,14 +118,18 @@ NSMutableArray* integrationList;
         if ([RSClient sharedInstance] == nil) return;
         if([call.arguments objectForKey:@"advertisingId"]) {
             RSContext* rudderContext = [[RSClient sharedInstance] getContext];
-            if (rudderContext != nil) {
-                [rudderContext putAdvertisementId:[call.arguments objectForKey:@"advertisingId"]];
+            NSString* advertisingId =  [call.arguments objectForKey:@"advertisingId"];
+            if (rudderContext != nil && advertisingId != nil && [advertisingId length] != 0) {
+                [rudderContext putAdvertisementId:advertisingId];
             }
         }
         return;
     } else if ([call.method isEqualToString:@"putAnonymousId" ]) {
         if([call.arguments objectForKey:@"anonymousId"]) {
+            NSString* anonymousId =  [call.arguments objectForKey:@"anonymousId"];
+            if (anonymousId != nil && [anonymousId length] != 0) {
             [RSClient putAnonymousId:[call.arguments objectForKey:@"anonymousId"]];
+            }
         }
         return;
     } else if ([call.method isEqualToString:@"getRudderContext"]) {
