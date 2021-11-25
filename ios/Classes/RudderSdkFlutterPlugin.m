@@ -23,14 +23,14 @@ NSMutableArray* integrationList;
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
-    if ([@"initializeSDK" isEqualToString:call.method]) {
+    if ([call.method isEqualToString:@"initializeSDK"]) {
         [RSClient getInstance:[call.arguments objectForKey:@"writeKey"] config:[self getRudderConfigObject:[call.arguments objectForKey:@"config"]] options:[self getRudderOptionsObject:[call.arguments objectForKey:@"options"]]];
         if(_notification!= nil)
         {
             [[RSClient sharedInstance] trackLifecycleEvents:_notification.userInfo];
         }
         return;
-    } else if ([@"identify" isEqualToString:call.method]) {
+    } else if ([call.method isEqualToString:@"identify"]) {
         NSString *userId = [call.arguments objectForKey:@"userId"];
         NSDictionary *traits= nil;
         RSOption *options = nil;
@@ -45,7 +45,7 @@ NSMutableArray* integrationList;
         
         [[RSClient sharedInstance] identify:userId traits:traits options:options];
         return;
-    } else if ([@"track" isEqualToString:call.method]) {
+    } else if ([call.method isEqualToString:@"track"]) {
         
         NSString* eventName = [call.arguments objectForKey:@"eventName"];
         NSDictionary* eventProperties = nil;
@@ -60,7 +60,7 @@ NSMutableArray* integrationList;
         [[RSClient sharedInstance] track:eventName properties:eventProperties options:options];
         return;
         
-    } else if ([@"screen" isEqualToString:call.method]) {
+    } else if ([call.method isEqualToString:@"screen"]) {
 
         NSString* screenName = [call.arguments objectForKey:@"screenName"];
         NSMutableDictionary *screenProperties = nil;
@@ -74,7 +74,7 @@ NSMutableArray* integrationList;
         }
         [[RSClient sharedInstance]screen:screenName properties:screenProperties options:options];
         return;
-    } else if ([@"group" isEqualToString:call.method]) {
+    } else if ([call.method isEqualToString:@"group"]) {
 
         NSString* groupId = [call.arguments objectForKey:@"groupId"];
         NSDictionary<NSString *,NSObject *>* groupTraits = nil;
@@ -88,7 +88,7 @@ NSMutableArray* integrationList;
         }
         [[RSClient sharedInstance]group:groupId traits:groupTraits options:options];
         return;
-    } else if ([@"alias" isEqualToString:call.method]) {
+    } else if ([call.method isEqualToString:@"alias"]) {
         RSOption* options = nil;
 
         if([call.arguments objectForKey:@"options"]) {
@@ -96,43 +96,43 @@ NSMutableArray* integrationList;
         }
         [[RSClient sharedInstance]alias:[call.arguments objectForKey:@"newId"] options:options];
         return;
-    } else if ([@"reset" isEqualToString:call.method]) {
+    } else if ([call.method isEqualToString:@"reset"]) {
         [[RSClient sharedInstance] reset];
         return;
-    } else if ([@"optOut" isEqualToString:call.method]) {
+    } else if ([call.method isEqualToString:@"optOut"]) {
         if([call.arguments objectForKey:@"optOut"]) {
             NSNumber* optOut = [call.arguments objectForKey:@"optOut"];
             [[RSClient sharedInstance] optOut:[optOut boolValue]];
         }
         return;
     }
-    else if ([@"putDeviceToken" isEqualToString:call.method]) {
+    else if ([call.method isEqualToString:@"putDeviceToken"]) {
         if([call.arguments objectForKey:@"deviceToken"]) {
             NSString* token =  [call.arguments objectForKey:@"deviceToken"];
-            if ([RSClient sharedInstance] == nil) {
-                return;
-            }
-            RSContext* rudderContext = [[RSClient sharedInstance] getContext];
-            if (rudderContext != nil && [token length] != 0) {
-                [rudderContext putDeviceToken:token];
+            if (token != nil && [token length] != 0) {
+                [RSClient putDeviceToken:token];
             }
         }
         return;
-    } else if ([@"setAdvertisingId" isEqualToString:call.method]) {
+    } else if ([call.method isEqualToString:@"putAdvertisingId"]) {
         if ([RSClient sharedInstance] == nil) return;
         if([call.arguments objectForKey:@"advertisingId"]) {
             RSContext* rudderContext = [[RSClient sharedInstance] getContext];
-            if (rudderContext != nil) {
-                [rudderContext putAdvertisementId:[call.arguments objectForKey:@"advertisingId"]];
+            NSString* advertisingId =  [call.arguments objectForKey:@"advertisingId"];
+            if (rudderContext != nil && advertisingId != nil && [advertisingId length] != 0) {
+                [rudderContext putAdvertisementId:advertisingId];
             }
         }
         return;
-    } else if ([@"setAnonymousId" isEqualToString:call.method]) {
+    } else if ([call.method isEqualToString:@"putAnonymousId" ]) {
         if([call.arguments objectForKey:@"anonymousId"]) {
-            [RSClient setAnonymousId:[call.arguments objectForKey:@"anonymousId"]];
+            NSString* anonymousId =  [call.arguments objectForKey:@"anonymousId"];
+            if (anonymousId != nil && [anonymousId length] != 0) {
+            [RSClient putAnonymousId:[call.arguments objectForKey:@"anonymousId"]];
+            }
         }
         return;
-    } else if ([@"getRudderContext" isEqualToString:call.method]) {
+    } else if ([call.method isEqualToString:@"getRudderContext"]) {
         if ([RSClient sharedInstance] == nil) {
             return;
         }

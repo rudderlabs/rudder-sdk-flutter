@@ -120,18 +120,28 @@ class RudderClient {
     _platformChannel.invokeMethod("putDeviceToken", params);
   }
 
+  @Deprecated("Used putAdvertisingId instead")
   void setAdvertisingId(String advertisingId) {
+    putAdvertisingId(advertisingId);
+  }
+
+  void putAdvertisingId(String advertisingId) {
     Map<String, dynamic> params = {};
 
     params["advertisingId"] = advertisingId;
-    _platformChannel.invokeMethod("setAdvertisingId", params);
+    _platformChannel.invokeMethod("putAdvertisingId", params);
   }
 
+  @Deprecated("Use putAnonymousId instead")
   void setAnonymousId(String anonymousId) {
+    putAnonymousId(anonymousId);
+  }
+
+  void putAnonymousId(String anonymousId) {
     Map<String, dynamic> params = {};
 
     params["anonymousId"] = anonymousId;
-    _platformChannel.invokeMethod("setAnonymousId", params);
+    _platformChannel.invokeMethod("putAnonymousId", params);
   }
 
   Future<Map?> getRudderContext() async {

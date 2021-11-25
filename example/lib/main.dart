@@ -123,7 +123,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
             ElevatedButton(
               child: const Text('Set Advertsing ID'),
               onPressed: () {
-                rudderClient.setAdvertisingId("899jj-hguscb");
+                rudderClient.putAdvertisingId("899jj-hguscb");
               },
             ),
             ElevatedButton(
