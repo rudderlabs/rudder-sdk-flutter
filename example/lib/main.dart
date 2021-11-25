@@ -84,7 +84,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
                 //   config: builder.build());
                 //2. With RudderConfigBuilder object
                 RudderClient.getInstance("1shL9hswhzo3C0oAIfrnz8cMbjU",
-                    config: builder.build(),options: options);
+                    config: builder.build(), options: options);
               },
             ),
             ElevatedButton(

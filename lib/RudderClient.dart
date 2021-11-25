@@ -141,4 +141,14 @@ class RudderClient {
   static Future<Map?> getRudderContext() async {
     return await platform.invokeMethod("getRudderContext") as Map?;
   }
+
+  @Deprecated("Use [putAdvertisingId]")
+  static void setAdvertisingId(String advertisingId) {
+    putAdvertisingId(advertisingId);
+  }
+
+  @Deprecated("Use [putAnonymousId]")
+  static void setAnonymousId(String anonymousId) {
+    putAnonymousId(anonymousId);
+  }
 }
