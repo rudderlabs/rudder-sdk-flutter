@@ -15,7 +15,7 @@ Released under [MIT License](https://opensource.org/licenses/MIT)
 1. Open `pubspec.yaml`  and add `rudder_sdk_flutter` under `dependencies` section:
 ```groovy
 dependencies:
-  rudder_sdk_flutter: ^1.1.0
+  rudder_sdk_flutter: ^1.2.0
 ```
 2. Navigate to your Application's root folder and install all the required dependencies with:
 ```bash
@@ -34,7 +34,8 @@ Somewhere in your Application, add the following code
     builder.withDataPlaneUrl(DATA_PLANE_URL);
     builder.withTrackLifecycleEvents(true);
     builder.withRecordScreenViews(true);
-    RudderClient.getInstance(WRITE_KEY,config: builder.build());
+    final client = RudderClient.instance;
+    client.initialize(WRITE_KEY,config: builder.build());
 ```
 
 ## Send Events
@@ -42,19 +43,19 @@ An example `track` call is as below
 ```dart
     RudderProperty property = RudderProperty();
     property.put("test_key_1", "test_key_1");
-    RudderClient.track("test_track_event", properties: property);
+    client.track("test_track_event", properties: property);
 ```
 
 ## Device Tokens
 You can pass your `device-token` for Push Notifications to be passed to the destinations which support Push Notification. We set the `token` under `context.device.token`. An example of setting the `device-token` is as below
 ```dart
-   RudderClient.putDeviceToken(<DEVICE_TOKEN>);
+   client.putDeviceToken(<DEVICE_TOKEN>);
 ```
 
 ## Anonymous ID
 We use the `deviceId` as `anonymousId` by default. You can use the following method to override and use your own `anonymousId` with the SDK. You need to call `setAnonymousId` method before calling `getInstance`. An example of setting the `anonymousId` is as below
 ```dart
-   RudderClient.setAnonymousId(<ANONYMOUS_ID>);
+   client.putAnonymousId(<ANONYMOUS_ID>);
 ```
 
 ## Advertising ID
@@ -63,7 +64,7 @@ You can use the `setAdvertisingId` method to pass your Android and iOS AAID and 
 On `Android` device you need to call `setAdvertisingId` method before calling `getInstance`
 Example Usage:
 ```dart
-   RudderClient.setAdvertisingId(<ADVERTISING_ID>);
+   client.putAdvertisingId(<ADVERTISING_ID>);
 ```
 The `advertisingId` parameter you pass to the above method is assigned as `AAID` if you are on `android` device and as `IDFA` if you are on a `iOS` device. For more detailed documentation check [the documentation page](https://docs.rudderstack.com/rudderstack-sdk-integration-guides/rudderstack-flutter-sdk).
 
