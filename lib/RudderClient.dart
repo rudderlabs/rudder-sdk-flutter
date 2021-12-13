@@ -1,4 +1,4 @@
-import 'package:flutter/services.dart';
+import 'package:rudder_sdk_flutter/RudderClientV2.dart';
 
 import './RudderConfig.dart';
 import './RudderOption.dart';
@@ -7,144 +7,80 @@ import './RudderTraits.dart';
 
 class RudderClient {
   RudderClient._();
-  static final RudderClient _instance = RudderClient._();
-  static RudderClient get instance => _instance;
+  static RudderClientV2 get instance => RudderClientV2.instance;
 
-  final _platformChannel = const MethodChannel('rudder_sdk_flutter');
-
-  void initialize(String writeKey,
+  @Deprecated("Use instance.initialize instead")
+  static void initialize(String writeKey,
       {RudderConfig? config, RudderOption? options}) {
-    config ??= RudderConfig();
-    Map<String, dynamic> params = {};
-    params['writeKey'] = writeKey;
-    params['config'] = config.toMap();
-    if (options != null) {
-      params['options'] = options.toMap();
-    }
-    _platformChannel.invokeMethod("initializeSDK", params);
+    instance.initialize(writeKey, config: config, options: options);
   }
 
-  void identify(String userId, {RudderTraits? traits, RudderOption? options}) {
-    Map<String, dynamic> params = {};
-
-    params["userId"] = userId;
-
-    if (traits != null) {
-      params["traits"] = traits.traitsMap;
-    }
-
-    if (options != null) {
-      params["options"] = options.toMap();
-    }
-
-    _platformChannel.invokeMethod("identify", params);
+  @Deprecated("Use instance.identify instead")
+  static void identify(String userId,
+      {RudderTraits? traits, RudderOption? options}) {
+    instance.identify(userId, traits: traits, options: options);
   }
 
-  void track(String eventName,
+  @Deprecated("Use instance.track instead")
+  static void track(String eventName,
       {RudderProperty? properties, RudderOption? options}) {
-    Map<String, dynamic> params = {};
-
-    params["eventName"] = eventName;
-
-    if (properties != null) {
-      params["properties"] = properties.getMap();
-    }
-
-    if (options != null) {
-      params["options"] = options.toMap();
-    }
-
-    _platformChannel.invokeMethod("track", params);
+    instance.track(eventName, properties: properties, options: options);
   }
 
-  void screen(String screenName,
+  @Deprecated("Use instance.screen instead")
+  static void screen(String screenName,
       {RudderProperty? properties, RudderOption? options}) {
-    Map<String, dynamic> params = {};
-
-    params["screenName"] = screenName;
-
-    if (properties != null) {
-      params["properties"] = properties.getMap();
-    }
-
-    if (options != null) {
-      params["options"] = options.toMap();
-    }
-
-    _platformChannel.invokeMethod("screen", params);
+    instance.screen(screenName, properties: properties, options: options);
   }
 
-  void group(String groupId,
+  @Deprecated("Use instance.group instead")
+  static void group(String groupId,
       {RudderTraits? groupTraits, RudderOption? options}) {
-    Map<String, dynamic> params = {};
-
-    params["groupId"] = groupId;
-
-    if (groupTraits != null) {
-      params["groupTraits"] = groupTraits.traitsMap;
-    }
-
-    if (options != null) {
-      params["options"] = options.toMap();
-    }
-
-    _platformChannel.invokeMethod("group", params);
+    instance.group(groupId, groupTraits: groupTraits, options: options);
   }
 
-  void alias(String newId, {RudderOption? options}) {
-    Map<String, dynamic> params = {};
-
-    params["newId"] = newId;
-
-    if (options != null) {
-      params["options"] = options.toMap();
-    }
-
-    _platformChannel.invokeMethod("alias", params);
+  @Deprecated("Use instance.alias instead")
+  static void alias(String newId, {RudderOption? options}) {
+    instance.alias(newId, options: options);
   }
 
-  void reset() {
-    _platformChannel.invokeMethod("reset");
+  @Deprecated("Use instance.reset instead")
+  static void reset() {
+    instance.reset();
   }
 
-  void optOut(bool optOut) {
-    Map<String, dynamic> params = {};
-    params["optOut"] = optOut;
-    _platformChannel.invokeMethod("optOut", params);
+  @Deprecated("Use instance.optOut instead")
+  static void optOut(bool optOut) {
+    instance.optOut(optOut);
   }
 
-  void putDeviceToken(String deviceToken) {
-    Map<String, dynamic> params = {};
-
-    params["deviceToken"] = deviceToken;
-    _platformChannel.invokeMethod("putDeviceToken", params);
+  @Deprecated("Use instance.putDeviceToken instead")
+  static void putDeviceToken(String deviceToken) {
+    instance.putDeviceToken(deviceToken);
   }
 
-  @Deprecated("Used putAdvertisingId instead")
+  @Deprecated("Used instance.putAdvertisingId instead")
   void setAdvertisingId(String advertisingId) {
     putAdvertisingId(advertisingId);
   }
 
-  void putAdvertisingId(String advertisingId) {
-    Map<String, dynamic> params = {};
-
-    params["advertisingId"] = advertisingId;
-    _platformChannel.invokeMethod("putAdvertisingId", params);
+  @Deprecated("Use instance.putAdvertisingId instead")
+  static void putAdvertisingId(String advertisingId) {
+    instance.putAdvertisingId(advertisingId);
   }
 
-  @Deprecated("Use putAnonymousId instead")
-  void setAnonymousId(String anonymousId) {
+  @Deprecated("Use instance.putAnonymousId instead")
+  static void setAnonymousId(String anonymousId) {
     putAnonymousId(anonymousId);
   }
 
-  void putAnonymousId(String anonymousId) {
-    Map<String, dynamic> params = {};
-
-    params["anonymousId"] = anonymousId;
-    _platformChannel.invokeMethod("putAnonymousId", params);
+  @Deprecated("Use instance.putAnonymousId instead")
+  static void putAnonymousId(String anonymousId) {
+    instance.putAnonymousId(anonymousId);
   }
 
-  Future<Map?> getRudderContext() async {
-    return await _platformChannel.invokeMethod("getRudderContext") as Map?;
+  @Deprecated("Use instance.getRudderContext instead")
+  static Future<Map?> getRudderContext() async {
+    return await instance.getRudderContext();
   }
 }
