@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rudder_sdk_flutter/RudderClientV2.dart';
 import 'package:rudder_sdk_flutter/RudderConfig.dart';
+import 'package:rudder_sdk_flutter/RudderController.dart';
 import 'package:rudder_sdk_flutter/RudderLogger.dart';
 import 'package:rudder_sdk_flutter/RudderOption.dart';
 import 'package:rudder_sdk_flutter/RudderProperty.dart';
@@ -13,7 +13,7 @@ class PlatformChannel extends StatefulWidget {
 }
 
 class _PlatformChannelState extends State<PlatformChannel> {
-  final RudderClientV2 rudderClient = RudderClientV2.instance;
+  final RudderController rudderClient = RudderController.instance;
   void __identify() {
     RudderTraits traits = RudderTraits()
         .putName("Sai Venkat")

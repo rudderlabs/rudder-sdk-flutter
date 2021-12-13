@@ -1,4 +1,4 @@
-import 'package:rudder_sdk_flutter/RudderClientV2.dart';
+import 'package:rudder_sdk_flutter/RudderController.dart';
 
 import './RudderConfig.dart';
 import './RudderOption.dart';
@@ -7,7 +7,7 @@ import './RudderTraits.dart';
 
 class RudderClient {
   RudderClient._();
-  static RudderClientV2 get instance => RudderClientV2.instance;
+  static RudderController get instance => RudderController.instance;
 
   @Deprecated("Use instance.initialize instead")
   static void initialize(String writeKey,

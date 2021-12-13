@@ -4,10 +4,10 @@ import 'package:rudder_sdk_flutter/RudderOption.dart';
 import 'package:rudder_sdk_flutter/RudderProperty.dart';
 import 'package:rudder_sdk_flutter/RudderTraits.dart';
 
-class RudderClientV2 {
-  RudderClientV2._();
-  static final RudderClientV2 _instance = RudderClientV2._();
-  static RudderClientV2 get instance => _instance;
+class RudderController {
+  RudderController._();
+  static final RudderController _instance = RudderController._();
+  static RudderController get instance => _instance;
 
   final _platformChannel = const MethodChannel('rudder_sdk_flutter');
 
