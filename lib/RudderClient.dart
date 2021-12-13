@@ -54,12 +54,12 @@ class RudderClient {
     instance.optOut(optOut);
   }
 
-  @Deprecated("Use instance.putDeviceToken instead")
+  @Deprecated("Use [instance.putDeviceToken] instead")
   static void putDeviceToken(String deviceToken) {
     instance.putDeviceToken(deviceToken);
   }
 
-  @Deprecated("Used instance.putAdvertisingId instead")
+  @Deprecated("Use instance.putAdvertisingId instead")
   void setAdvertisingId(String advertisingId) {
     putAdvertisingId(advertisingId);
   }
