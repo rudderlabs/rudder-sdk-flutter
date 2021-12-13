@@ -1,21 +1,21 @@
 import 'package:logger/logger.dart';
 
 class RudderLogger {
-  static final int VERBOSE = 5;
-  static final int DEBUG = 4;
-  static final int INFO = 3;
-  static final int WARN = 2;
-  static final int ERROR = 1;
-  static final int NONE = 0;
+  static const int VERBOSE = 5;
+  static const int DEBUG = 4;
+  static const int INFO = 3;
+  static const int WARN = 2;
+  static const int ERROR = 1;
+  static const int NONE = 0;
 
   static int __logLevel = INFO;
-  static final String __TAG = "RudderFlutterSDK";
-  static late var logger;
+  static const String __TAG = "RudderFlutterSDK";
+  static late Logger logger;
 
   static void init(int l) {
-    if (l > VERBOSE)
+    if (l > VERBOSE) {
       l = VERBOSE;
-    else if (l < NONE) l = NONE;
+    } else if (l < NONE) l = NONE;
     __logLevel = l;
     logger = Logger(
       printer: PrettyPrinter(),

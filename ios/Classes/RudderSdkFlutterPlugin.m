@@ -96,7 +96,7 @@ NSMutableArray* integrationList;
         }
         [[RSClient sharedInstance]alias:[call.arguments objectForKey:@"newId"] options:options];
         return;
-    } else if ([call.method isEqualToString:@"reset"]) { 
+    } else if ([call.method isEqualToString:@"reset"]) {
         [[RSClient sharedInstance] reset];
         return;
     } else if ([call.method isEqualToString:@"optOut"]) {
