@@ -10,6 +10,12 @@ class RudderClient {
   static RudderController get instance => RudderController.instance;
 
   @Deprecated("Use instance.initialize instead")
+  static void getInstance(String writeKey,
+      {RudderConfig? config, RudderOption? options}) {
+    initialize(writeKey, config: config, options: options);
+  }
+
+  @Deprecated("Use instance.initialize instead")
   static void initialize(String writeKey,
       {RudderConfig? config, RudderOption? options}) {
     instance.initialize(writeKey, config: config, options: options);
