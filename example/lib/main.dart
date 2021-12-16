@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:rudder_sdk_flutter/RudderClient.dart';
 import 'package:rudder_sdk_flutter/RudderConfig.dart';
+import 'package:rudder_sdk_flutter/RudderController.dart';
 import 'package:rudder_sdk_flutter/RudderLogger.dart';
-import 'package:rudder_sdk_flutter/RudderTraits.dart';
 import 'package:rudder_sdk_flutter/RudderOption.dart';
 import 'package:rudder_sdk_flutter/RudderProperty.dart';
+import 'package:rudder_sdk_flutter/RudderTraits.dart';
 
 class PlatformChannel extends StatefulWidget {
+  const PlatformChannel({Key? key}) : super(key: key);
   @override
   _PlatformChannelState createState() => _PlatformChannelState();
 }
 
 class _PlatformChannelState extends State<PlatformChannel> {
+  final RudderController rudderClient = RudderController.instance;
   void __identify() {
     RudderTraits traits = RudderTraits()
         .putName("Sai Venkat")
         .putAge("22")
         .putEmail("saivenkatdesu@gmail.com");
-    RudderClient.identify("161FA04009", traits: traits);
+    rudderClient.identify("161FA04009", traits: traits);
   }
 
   void __track() {
@@ -25,41 +27,41 @@ class _PlatformChannelState extends State<PlatformChannel> {
     property.put("colour", "red");
     property.put("manufacturer", "hyundai");
     property.put("model", "i20");
-    RudderOption options = new RudderOption();
+    RudderOption options = RudderOption();
     options.putIntegration("All", false);
     options.putIntegration("Mixpanel", false);
-    RudderClient.track("Went on a drive",
+    rudderClient.track("Went on a drive",
         properties: property, options: options);
   }
 
   void __screen() {
-    RudderProperty screenProperty = new RudderProperty();
+    RudderProperty screenProperty = RudderProperty();
     screenProperty.put("browser", "chrome");
     screenProperty.put("device", "mac book pro");
-    RudderClient.screen("Walmart Cart", properties: screenProperty);
+    rudderClient.screen("Walmart Cart", properties: screenProperty);
   }
 
   void __optOut() {
-    RudderClient.optOut(true);
+    rudderClient.optOut(true);
   }
 
   void __optIn() {
-    RudderClient.optOut(false);
+    rudderClient.optOut(false);
   }
 
   void __group() {
     RudderTraits groupTraits = RudderTraits();
     groupTraits.put("place", "kolkata");
     groupTraits.put("size", "fiteen");
-    RudderClient.group("Integrations-Rudder", groupTraits: groupTraits);
+    rudderClient.group("Integrations-Rudder", groupTraits: groupTraits);
   }
 
   void __reset() {
-    RudderClient.reset();
+    rudderClient.reset();
   }
 
   void __alias() {
-    RudderClient.alias("4009");
+    rudderClient.alias("4009");
   }
 
   @override
@@ -70,64 +72,64 @@ class _PlatformChannelState extends State<PlatformChannel> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ElevatedButton(
-              child: Text('Initialize SDK'),
+              child: const Text('Initialize SDK'),
               onPressed: () {
                 RudderConfigBuilder builder = RudderConfigBuilder();
                 builder.withDataPlaneUrl("https://friendly-badger-28.loca.lt");
                 builder.withControlPlaneUrl("https://56d9996d386b.ngrok.io");
                 builder.withLogLevel(RudderLogger.VERBOSE);
-                RudderOption options = new RudderOption();
+                RudderOption options = RudderOption();
                 options.putIntegration("Amplitude", true);
                 //builder.withFactory(Appcenter());
                 // 1. with RudderConfig Object
                 //RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
                 //   config: builder.build());
                 //2. With RudderConfigBuilder object
-                RudderClient.getInstance("1shL9hswhzo3C0oAIfrnz8cMbjU",
+                rudderClient.initialize("1shL9hswhzo3C0oAIfrnz8cMbjU",
                     config: builder.build(), options: options);
               },
             ),
             ElevatedButton(
-              child: Text('Identify call'),
+              child: const Text('Identify call'),
               onPressed: __identify,
             ),
             ElevatedButton(
-              child: Text('Track'),
+              child: const Text('Track'),
               onPressed: __track,
             ),
             ElevatedButton(
-              child: Text('Screen'),
+              child: const Text('Screen'),
               onPressed: __screen,
             ),
             ElevatedButton(
-              child: Text('Group'),
+              child: const Text('Group'),
               onPressed: __group,
             ),
             ElevatedButton(
-              child: Text('Reset'),
+              child: const Text('Reset'),
               onPressed: __reset,
             ),
             ElevatedButton(
-              child: Text('Alias'),
+              child: const Text('Alias'),
               onPressed: __alias,
             ),
             ElevatedButton(
-              child: Text('Rudder Context'),
+              child: const Text('Rudder Context'),
               onPressed: () async {
-                Map? context = await RudderClient.getRudderContext();
+                Map? context = await rudderClient.getRudderContext();
                 print(context);
               },
             ),
             ElevatedButton(
-              child: Text('Set Advertsing ID'),
+              child: const Text('Set Advertsing ID'),
               onPressed: () {
-                RudderClient.putAdvertisingId("899jj-hguscb");
+                rudderClient.putAdvertisingId("899jj-hguscb");
               },
             ),
             ElevatedButton(
-              child: Text('Set Device Token'),
+              child: const Text('Set Device Token'),
               onPressed: () {
-                RudderClient.putDeviceToken("device-token-format");
+                rudderClient.putDeviceToken("device-token-format");
               },
             )
           ],
@@ -138,5 +140,5 @@ class _PlatformChannelState extends State<PlatformChannel> {
 }
 
 void main() {
-  runApp(MaterialApp(home: PlatformChannel()));
+  runApp(const MaterialApp(home: PlatformChannel()));
 }
