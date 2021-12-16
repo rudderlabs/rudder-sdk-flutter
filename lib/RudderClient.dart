@@ -66,7 +66,7 @@ class RudderClient {
   }
 
   @Deprecated("Use instance.putAdvertisingId instead")
-  void setAdvertisingId(String advertisingId) {
+  static void setAdvertisingId(String advertisingId) {
     putAdvertisingId(advertisingId);
   }
 
