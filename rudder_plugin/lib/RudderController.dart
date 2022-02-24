@@ -1,15 +1,13 @@
 import 'package:flutter/services.dart';
-import 'package:rudder_sdk_flutter_platform_interface/src/models/RudderConfig.dart';
-import 'RudderOption.dart';
-import 'RudderTraits.dart';
-import 'RudderProperty.dart';
+import 'package:rudder_sdk_flutter_platform_interface/rudder_plugin_platform_interface.dart';
+import 'package:rudder_sdk_flutter_platform_interface/rudder_sdk_platform.dart';
 
 class RudderController {
   RudderController._();
   static final RudderController _instance = RudderController._();
   static RudderController get instance => _instance;
 
-  final _platformChannel = const MethodChannel('rudder_sdk_flutter');
+  // final _platformChannel = const MethodChannel('rudder_sdk_flutter');
 
   void initialize(String writeKey,
       {RudderConfig? config, RudderOption? options}) {
@@ -21,6 +19,7 @@ class RudderController {
       params['options'] = options.toMap();
     }
     _platformChannel.invokeMethod("initializeSDK", params);*/
+    RudderSdkPlatform.instance.initialize(writeKey,config: config, options: options);
   }
 
   void identify(String userId, {RudderTraits? traits, RudderOption? options}) {
@@ -37,6 +36,9 @@ class RudderController {
     }
 
     _platformChannel.invokeMethod("identify", params);*/
+
+    RudderSdkPlatform.instance.identify(userId, traits: traits, options: options);
+
   }
 
   void track(String eventName,

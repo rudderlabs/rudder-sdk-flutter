@@ -18,10 +18,10 @@ class RudderSdkFlutterIos extends RudderSdkPlatform{
 
   @override
   void initialize(String writeKey, {RudderConfig? config, RudderOption? options}) {
-    config ??= RudderConfig();
+    config ??= RudderConfigBuilder().build();
     Map<String, dynamic> params = {};
     params['writeKey'] = writeKey;
-    params['config'] = config.toMap();
+    params['config'] = config.toMapMobile();
     if (options != null) {
       params['options'] = options.toMap();
     }
@@ -109,14 +109,14 @@ class RudderSdkFlutterIos extends RudderSdkPlatform{
 
     _platformChannel.invokeMethod("alias", params);
   }
-  @override
+  /*@override
   void load(String writeKey, String dataPlaneUrl) {
     Map<String, dynamic> params = {};
     params["writeKey"] = writeKey;
     params["dataPlaneUrl"] = dataPlaneUrl;
 
     _platformChannel.invokeMethod("load", params);
-  }
+  }*/
   @override
   void reset() {
     _platformChannel.invokeMethod("reset");

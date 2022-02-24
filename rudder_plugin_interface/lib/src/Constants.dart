@@ -20,4 +20,18 @@ class Constants {
   static const bool TRACK_LIFECYCLE_EVENTS = true;
   // whether we should record screen views automatically
   static const bool RECORD_SCREEN_VIEWS = false;
+  //web load integration
+  static const bool DEFAULT_LOAD_INTEGRATION = true;
+  static const bool DEFAULT_SECURE_COOKIE = false;
+  static const bool DEFAULT_USE_BEACON = false;
+  static const int DEFAULT_MAX_RETRY_DELAY = 360000;
+  static const int DEFAULT_MIN_RETRY_DELAY = 1000;
+  static const int DEFAULT_BACK_OFF_FACTOR = 2;
+  static const int DEFAULT_MAX_ATTEMPTS = 10;
+  static const int DEFAULT_MAX_ITEMS = 100;
+  //BEACON
+  static const int DEFAULT_BEACON_FLUSH_QUEUE_INTERVAL = 600000;
+  static const int DEFAULT_BEACON_MAX_ITEMS = 10;
+
+  static const String DEFAULT_DESTINATION_SDK_BASE_URL = "https://cdn.rudderlabs.com/v1.1/js-integrations";
 }

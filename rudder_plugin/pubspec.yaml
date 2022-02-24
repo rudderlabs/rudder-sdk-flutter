@@ -14,7 +14,14 @@ dependencies:
   flutter:
     sdk: flutter
 #module dependencies
-
+  rudder_sdk_flutter_platform_interface:
+    path: "../rudder_plugin_interface"
+  rudder_plugin_android:
+    path: "../rudder_plugin_android"
+  rudder_plugin_ios:
+    path: "../rudder_plugin_ios"
+  rudder_plugin_web:
+    path: "../rudder_plugin_web"
   logger: ^1.0.0
   intl: ^0.17.0
 #  import_js_library: ^1.0.2
@@ -36,7 +43,7 @@ flutter:
         default_package: rudder_plugin_ios
 #        pluginClass: RudderSdkFlutterPlugin
       web:
-        default_package: rudder_sdk_flutter_web
+        default_package: rudder_plugin_web
 #        pluginClass: RudderSdkFlutterWeb
 #  assets:
 #    - assets/rudder_analytics.js

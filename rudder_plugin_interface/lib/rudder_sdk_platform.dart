@@ -15,7 +15,10 @@ abstract class RudderSdkPlatform extends PlatformInterface {
     PlatformInterface.verify(instance, _token);
     _instance = instance;
   }
-
+  /// The default instance of [RudderSdkPlatform] to use.
+  ///
+  /// Defaults to [MethodChannelRudderSdk].
+  static RudderSdkPlatform get instance => _instance;
   void initialize(String writeKey,
       {RudderConfig? config, RudderOption? options}) {
     throw UnimplementedError('initialize(String writeKey,{RudderConfig? config, '
@@ -48,9 +51,9 @@ abstract class RudderSdkPlatform extends PlatformInterface {
     throw UnimplementedError('alias(String newId, {RudderOption? options}) has not been implemented.');
   }
 
-  void load(String writeKey, String dataPlaneUrl) {
+  /*void load(String writeKey, String dataPlaneUrl) {
     throw UnimplementedError('load(String writeKey, String dataPlaneUrl) has not been implemented.');
-  }
+  }*/
 
   void reset() {
     throw UnimplementedError('reset() has not been implemented.');

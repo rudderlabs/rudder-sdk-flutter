@@ -6,10 +6,13 @@ import 'package:js/js.dart';
 
 @JS("rudderanalytics.load")
 // class RudderAnalytics{
-  external load(String writeKey, String dataPlaneUrl);
+  external load(String writeKey, String dataPlaneUrl,
+    Map<String, dynamic>? options);
 // external String test(String writeKey, String dataPlaneUrl);
 /*{
       print("writeKey: $writeKey");
       rudderanalytics.load()
   }*/
 // }
+
+// @JS("")
