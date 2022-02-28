@@ -56,10 +56,12 @@ class RudderController {
     }
 
     _platformChannel.invokeMethod("track", params);*/
+    RudderSdkPlatform.instance.track(eventName, properties: properties, options: options);
+
   }
 
   void screen(String screenName,
-      {RudderProperty? properties, RudderOption? options}) {
+      {String? category, RudderProperty? properties, RudderOption? options}) {
     /*Map<String, dynamic> params = {};
 
     params["screenName"] = screenName;
@@ -73,6 +75,8 @@ class RudderController {
     }
 
     _platformChannel.invokeMethod("screen", params);*/
+    RudderSdkPlatform.instance.screen(screenName, category:category, properties: properties, options: options);
+
   }
 
   void group(String groupId,
@@ -90,6 +94,8 @@ class RudderController {
     }
 
     _platformChannel.invokeMethod("group", params);*/
+    RudderSdkPlatform.instance.group(groupId, groupTraits: groupTraits, options: options);
+
   }
 
   void alias(String newId, {RudderOption? options}) {
@@ -102,24 +108,24 @@ class RudderController {
     }
 
     _platformChannel.invokeMethod("alias", params);*/
+    RudderSdkPlatform.instance.alias(newId, options: options);
+
   }
 
-  void load(String writeKey, String dataPlaneUrl){
-    /*Map<String, dynamic> params = {};
-    params["writeKey"] = writeKey;
-    params["dataPlaneUrl"] = dataPlaneUrl;
 
-    _platformChannel.invokeMethod("load", params);*/
-  }
 
   void reset() {
     // _platformChannel.invokeMethod("reset");
+    RudderSdkPlatform.instance.reset();
+
   }
 
   void optOut(bool optOut) {
     /*Map<String, dynamic> params = {};
     params["optOut"] = optOut;
     _platformChannel.invokeMethod("optOut", params);*/
+    RudderSdkPlatform.instance.optOut(optOut);
+
   }
 
   void putDeviceToken(String deviceToken) {
@@ -127,6 +133,8 @@ class RudderController {
 
     params["deviceToken"] = deviceToken;
     _platformChannel.invokeMethod("putDeviceToken", params);*/
+    RudderSdkPlatform.instance.putDeviceToken(deviceToken);
+
   }
 
   void putAdvertisingId(String advertisingId) {
@@ -134,6 +142,8 @@ class RudderController {
 
     params["advertisingId"] = advertisingId;
     _platformChannel.invokeMethod("putAdvertisingId", params);*/
+    RudderSdkPlatform.instance.putAdvertisingId(advertisingId);
+
   }
 
   void putAnonymousId(String anonymousId) {
@@ -141,9 +151,12 @@ class RudderController {
 
     params["anonymousId"] = anonymousId;
     _platformChannel.invokeMethod("putAnonymousId", params);*/
+    RudderSdkPlatform.instance.putAnonymousId(anonymousId);
+
   }
 
   Future<Map?> getRudderContext() async {
+    return RudderSdkPlatform.instance.getRudderContext();
     // return await _platformChannel.invokeMethod("getRudderContext") as Map?;
   }
 }

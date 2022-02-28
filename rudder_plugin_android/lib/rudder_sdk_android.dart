@@ -63,7 +63,7 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform{
   }
 
   @override
-  void screen(String screenName, {RudderProperty? properties, RudderOption? options}) {
+  void screen(String screenName, {String? category,RudderProperty? properties, RudderOption? options}) {
     Map<String, dynamic> params = {};
 
     params["screenName"] = screenName;
@@ -76,6 +76,7 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform{
       params["options"] = options.toMap();
     }
 
+    params["category"] = category;
     _platformChannel.invokeMethod("screen", params);
   }
 

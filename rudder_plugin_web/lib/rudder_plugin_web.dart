@@ -10,7 +10,7 @@ import 'dart:io';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:rudder_sdk_flutter_platform_interface/rudder_sdk_platform.dart';
 import 'package:rudder_sdk_flutter_platform_interface/rudder_plugin_platform_interface.dart';
-import 'internal/web_js.dart';
+import 'internal/web_js.dart' as webJs;
 
 /// A web implementation of the RudderSdkFlutter plugin.
 class RudderSdkFlutterWeb extends RudderSdkPlatform {
@@ -118,36 +118,30 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
     rudderConfig.toMapWeb();
     configMap["integrations"] = integrationMap;
     // }
-    return load(writeKey, rudderConfig.dataPlaneUrl, configMap);
+    return webJs.load(writeKey, rudderConfig.dataPlaneUrl, configMap);
   }
 
   void identify(String userId, {RudderTraits? traits, RudderOption? options}) {
-    throw UnimplementedError('identify(String userId, {RudderTraits? traits, '
-        'RudderOption? options}) has not been implemented.');
+    return webJs.identify(userId, traits?.traitsMap, options?.toMap() );
   }
 
   void track(String eventName,
       {RudderProperty? properties, RudderOption? options}) {
-    throw UnimplementedError(
-        'track(String eventName,{RudderProperty? properties, '
-        'RudderOption? options}) has not been implemented.');
+    return webJs.track(eventName, properties?.getMap(), options?.toMap());
   }
 
   void screen(String screenName,
-      {RudderProperty? properties, RudderOption? options}) {
-    throw UnimplementedError(
-        'screen(String screenName,{RudderProperty? properties, RudderOption? options}) has not been implemented.');
+      {String? category, RudderProperty? properties, RudderOption? options}) {
+    return webJs.page(category, screenName, properties?.getMap(), options?.toMap());
   }
 
   void group(String groupId,
       {RudderTraits? groupTraits, RudderOption? options}) {
-    throw UnimplementedError('group(String groupId,{RudderTraits? groupTraits, '
-        'RudderOption? options}) has not been implemented.');
+    webJs.group(groupId, groupTraits?.traitsMap, options?.toMap());
   }
 
   void alias(String newId, {RudderOption? options}) {
-    throw UnimplementedError(
-        'alias(String newId, {RudderOption? options}) has not been implemented.');
+    return webJs.alias(newId, null, options?.toMap());
   }
 
   /*void load(String writeKey, String dataPlaneUrl) {
@@ -155,29 +149,27 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   }*/
 
   void reset() {
-    throw UnimplementedError('reset() has not been implemented.');
+    return webJs.reset();
   }
 
   void optOut(bool optOut) {
-    throw UnimplementedError('optOut(bool optOut) has not been implemented.');
+    RudderLogger.logger.i("opt out is not available for web");
   }
 
   void putDeviceToken(String deviceToken) {
-    throw UnimplementedError(
-        'putDeviceToken(String deviceToken) has not been implemented.');
+    RudderLogger.logger.i("putDeviceToken is not available for web");
   }
 
   void putAdvertisingId(String advertisingId) {
-    throw UnimplementedError(
-        'putAdvertisingId(String advertisingId) has not been implemented.');
+    RudderLogger.logger.i("putAdvertisingId is not available for web");
+
   }
 
   void putAnonymousId(String anonymousId) {
-    throw UnimplementedError(
-        'putAnonymousId(String anonymousId) has not been implemented.');
+    return webJs.setAnonymousId(anonymousId);
   }
 
   Future<Map?> getRudderContext() async {
-    throw UnimplementedError('getRudderContext() has not been implemented.');
+    return null;
   }
 }

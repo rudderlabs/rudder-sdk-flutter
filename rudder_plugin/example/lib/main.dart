@@ -60,12 +60,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
     rudderClient.alias("4009");
   }
 
-  /**
-   * only available for web
-   */
-  void __load() {
-    rudderClient.load("writeKey", "dataPlaneUrl");
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -92,11 +87,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
                     config: builder.build(), options: options);
               },
             ),
-            //load for web
-            ElevatedButton(
-              child: const Text('Load for Web'),
-              onPressed: __load,
-            ),
+
             ElevatedButton(
               child: const Text('Identify call'),
               onPressed: __identify,

@@ -72,6 +72,13 @@ NSMutableArray* integrationList;
         if([call.arguments objectForKey:@"options"]) {
             options = [self getRudderOptionsObject:[call.arguments objectForKey:@"options"]];
         }
+        if([call.arguments objectForKey:@"category"]){
+            if(! screenProperties){
+                screenProperties = [[NSMutableDictionary alloc] init];
+            }
+            screenProperties[@"category"] = [call.arguments objectForKey:@"category"];
+
+        }
         [[RSClient sharedInstance]screen:screenName properties:screenProperties options:options];
         return;
     } else if ([call.method isEqualToString:@"group"]) {

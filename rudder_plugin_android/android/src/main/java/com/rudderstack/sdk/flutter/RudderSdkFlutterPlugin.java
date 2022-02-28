@@ -147,8 +147,10 @@ public class RudderSdkFlutterPlugin
             if (argumentsMap.containsKey("options")) {
                 options = getRudderOptionsObject((Map<String, Object>) argumentsMap.get("options"));
             }
-
-            rudderClient.screen(screenName, screenProperties, options);
+            if(argumentsMap.containsKey("category") && argumentsMap.get("category") != null){
+                rudderClient.screen(screenName,argumentsMap.get("category"), screenProperties, options);
+            }else
+                rudderClient.screen(screenName, screenProperties, options);
             return;
         } else if (call.method.equals("group")) {
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;

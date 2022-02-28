@@ -37,7 +37,7 @@ abstract class RudderSdkPlatform extends PlatformInterface {
   }
 
   void screen(String screenName,
-      {RudderProperty? properties, RudderOption? options}) {
+      {String? category, RudderProperty? properties, RudderOption? options}) {
     throw UnimplementedError('screen(String screenName,{RudderProperty? properties, RudderOption? options}) has not been implemented.');
   }
 
