@@ -142,19 +142,21 @@ class _PlatformChannelState extends State<PlatformChannel> {
               child: const Text('Rudder Context'),
               onPressed: () async {
                 Map? context = await rudderClient.getRudderContext();
-                print(context);
+                setOutput(context.toString());
               },
             ),
             ElevatedButton(
               child: const Text('Set Advertsing ID'),
               onPressed: () {
                 rudderClient.putAdvertisingId("899jj-hguscb");
+                setOutput("Trying to set advertising id: 899jj-hguscb");
               },
             ),
             ElevatedButton(
               child: const Text('Set Device Token'),
               onPressed: () {
                 rudderClient.putDeviceToken("device-token-format");
+                setOutput("Trying to set device token: device-token-format");
               },
             ),
             Text(_output)
