@@ -1,21 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:rudder_sdk_flutter_platform_interface/rudder_plugin_platform_interface.dart';
+import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 import 'package:rudder_sdk_flutter/RudderController.dart';
 
 class PlatformChannel extends StatefulWidget {
   const PlatformChannel({Key? key}) : super(key: key);
+
   @override
   _PlatformChannelState createState() => _PlatformChannelState();
 }
 
 class _PlatformChannelState extends State<PlatformChannel> {
   final RudderController rudderClient = RudderController.instance;
+
   void __identify() {
     RudderTraits traits = RudderTraits()
         .putName("Sai Venkat")
         .putAge("22")
         .putEmail("saivenkatdesu@gmail.com");
     rudderClient.identify("161FA04009", traits: traits);
+    setOutput("identify : \nname:Sai Venkat\nage: 22\nemail:saivenkatdesu@gmail.com"
+        "\nuserId: 161FA04009\ntraits:empty");
+  }
+
+  void __initialize() {
+    RudderConfigBuilder builder = RudderConfigBuilder();
+    builder
+        .withDataPlaneUrl("https://rudderstacgwyx.dataplane.rudderstack.com");
+    builder.withControlPlaneUrl("https://api.rudderlabs.com");
+    builder.withLogLevel(RudderLogger.VERBOSE);
+    RudderOption options = RudderOption();
+    options.putIntegration("Amplitude", true);
+    //builder.withFactory(Appcenter());
+    // 1. with RudderConfig Object
+    //RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
+    //   config: builder.build());
+    //2. With RudderConfigBuilder object
+    final String _writeKey = "25YL7MIwWWL3HPeEFT53GI5MxVh";
+    rudderClient.initialize(_writeKey,
+        config: builder.build(), options: options);
+
+    setOutput("initialize:\nwriteKey: $_writeKey");
   }
 
   void __track() {
@@ -28,6 +52,9 @@ class _PlatformChannelState extends State<PlatformChannel> {
     options.putIntegration("Mixpanel", false);
     rudderClient.track("Went on a drive",
         properties: property, options: options);
+
+    setOutput("track:\n\tproperty:\n\t\tcolour:red\n\t\tmanufacturer:hyundai\n\t\tmodel:i20"
+        "\n\toptions:\n\t\tall:false\n\t\tMixpanel:false\n\tevent: Went on a drive");
   }
 
   void __screen() {
@@ -35,6 +62,8 @@ class _PlatformChannelState extends State<PlatformChannel> {
     screenProperty.put("browser", "chrome");
     screenProperty.put("device", "mac book pro");
     rudderClient.screen("Walmart Cart", properties: screenProperty);
+
+    setOutput("screen:\n\tproperty:\n\t\tbrowser: chrome\n\t\tdevice: mac book pro\n\t\tname:Walmart Cart");
   }
 
   void __optOut() {
@@ -48,19 +77,29 @@ class _PlatformChannelState extends State<PlatformChannel> {
   void __group() {
     RudderTraits groupTraits = RudderTraits();
     groupTraits.put("place", "kolkata");
-    groupTraits.put("size", "fiteen");
+    groupTraits.put("size", "fifteen");
     rudderClient.group("Integrations-Rudder", groupTraits: groupTraits);
+    setOutput("group\n\ttraits:\n\t\tplace:kolkata\n\t\tsize:fifteen\n\tid: Integrations-Rudder");
   }
 
   void __reset() {
     rudderClient.reset();
+    setOutput("reset");
   }
 
   void __alias() {
     rudderClient.alias("4009");
+    setOutput("alias : 4009");
   }
 
+//text to be displayed
+  String _output = "";
 
+  void setOutput(String text) {
+    setState(() {
+      _output = "output - $text";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,22 +111,9 @@ class _PlatformChannelState extends State<PlatformChannel> {
             ElevatedButton(
               child: const Text('Initialize SDK'),
               onPressed: () {
-                RudderConfigBuilder builder = RudderConfigBuilder();
-                builder.withDataPlaneUrl("https://rudderstacgwyx.dataplane.rudderstack.com");
-                builder.withControlPlaneUrl("https://api.rudderlabs.com");
-                builder.withLogLevel(RudderLogger.VERBOSE);
-                RudderOption options = RudderOption();
-                options.putIntegration("Amplitude", true);
-                //builder.withFactory(Appcenter());
-                // 1. with RudderConfig Object
-                //RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
-                //   config: builder.build());
-                //2. With RudderConfigBuilder object
-                rudderClient.initialize("25YL7MIwWWL3HPeEFT53GI5MxVh",
-                    config: builder.build(), options: options);
+                __initialize();
               },
             ),
-
             ElevatedButton(
               child: const Text('Identify call'),
               onPressed: __identify,
@@ -130,7 +156,8 @@ class _PlatformChannelState extends State<PlatformChannel> {
               onPressed: () {
                 rudderClient.putDeviceToken("device-token-format");
               },
-            )
+            ),
+            Text(_output)
           ],
         ),
       ),

@@ -148,7 +148,7 @@ public class RudderSdkFlutterPlugin
                 options = getRudderOptionsObject((Map<String, Object>) argumentsMap.get("options"));
             }
             if(argumentsMap.containsKey("category") && argumentsMap.get("category") != null){
-                rudderClient.screen(screenName,argumentsMap.get("category"), screenProperties, options);
+                rudderClient.screen(screenName,(String) argumentsMap.get("category"), screenProperties, options);
             }else
                 rudderClient.screen(screenName, screenProperties, options);
             return;

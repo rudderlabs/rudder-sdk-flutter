@@ -1,5 +1,5 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-import 'package:rudder_sdk_flutter_platform_interface/rudder_plugin_platform_interface.dart';
+import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 import 'package:rudder_sdk_flutter_platform_interface/src/method_channel_rudder_sdk.dart';
 
 abstract class RudderSdkPlatform extends PlatformInterface {

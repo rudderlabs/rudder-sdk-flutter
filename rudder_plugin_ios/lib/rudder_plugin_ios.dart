@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:rudder_sdk_flutter_platform_interface/rudder_sdk_platform.dart';
 
-import 'package:rudder_sdk_flutter_platform_interface/rudder_plugin_platform_interface.dart';
+import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
 const MethodChannel _platformChannel =
 MethodChannel('rudder_sdk_flutter');
 
 /// An implementation for RudderSdk for android platform
 
-class RudderSdkFlutterAndroid extends RudderSdkPlatform{
+class RudderSdkFlutterIos extends RudderSdkPlatform{
   /// Register this class
   static void registerWith() {
-    RudderSdkPlatform.instance = RudderSdkFlutterAndroid();
+    RudderSdkPlatform.instance = RudderSdkFlutterIos();
   }
 
   @override
@@ -63,7 +63,7 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform{
   }
 
   @override
-  void screen(String screenName, {String? category,RudderProperty? properties, RudderOption? options}) {
+  void screen(String screenName, {String? category, RudderProperty? properties, RudderOption? options}) {
     Map<String, dynamic> params = {};
 
     params["screenName"] = screenName;
@@ -75,7 +75,6 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform{
     if (options != null) {
       params["options"] = options.toMap();
     }
-
     params["category"] = category;
     _platformChannel.invokeMethod("screen", params);
   }

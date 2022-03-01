@@ -1,5 +1,5 @@
 import 'RudderController.dart';
-import 'package:rudder_sdk_flutter_platform_interface/rudder_plugin_platform_interface.dart';
+import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
 class RudderClient {
   RudderClient._();

@@ -9,7 +9,7 @@ import 'dart:io';
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:rudder_sdk_flutter_platform_interface/rudder_sdk_platform.dart';
-import 'package:rudder_sdk_flutter_platform_interface/rudder_plugin_platform_interface.dart';
+import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 import 'internal/web_js.dart' as webJs;
 
 /// A web implementation of the RudderSdkFlutter plugin.
@@ -170,6 +170,9 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   }
 
   Future<Map?> getRudderContext() async {
-    return null;
+    return {
+      "traits" : webJs.getUserTraits(),
+      "anonymousId" : webJs.getAnonymousId()
+    };
   }
 }

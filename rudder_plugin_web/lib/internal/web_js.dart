@@ -37,3 +37,9 @@ external group(String groupId,
 
 @JS("rudderanalytics.reset")
 external reset();
+
+@JS("rudderanalytics.getAnonymousId")
+external String? getAnonymousId();
+
+@JS("rudderanalytics.getUserTraits")
+external Map<String,dynamic>? getUserTraits();
