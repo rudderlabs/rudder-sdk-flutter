@@ -21,6 +21,8 @@ dependencies:
     path: ../
   rudder_plugin_web:
     path: ../../rudder_plugin_web
+  rudder_plugin_ios:
+    path: ../../rudder_plugin_ios
   # rudder_integration_appcenter_flutter:
   #   # When depending on this package from a real application you should use:
   #   #   rudder_integration_appcenter_flutter: ^x.y.z

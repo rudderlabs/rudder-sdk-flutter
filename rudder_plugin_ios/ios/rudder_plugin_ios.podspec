@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name             = 'rudder_sdk_flutter'
+  s.name             = 'rudder_plugin_ios'
   s.version          = '0.0.1'
   s.summary          = 'RudderStack flutter SDK ios plugin project'
   s.description      = <<-DESC
