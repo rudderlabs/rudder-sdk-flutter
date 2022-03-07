@@ -1,9 +1,7 @@
 // Import the test package and Counter class
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rudder_plugin_web/rudder_plugin_web.dart';
-// import 'dart/html';
-import 'dart:html';
+
 void main() {
   test('sdk should load properly', () async {
     // RudderSdkFlutterWeb.init();
@@ -15,12 +13,13 @@ void main() {
 }
 
 class Arguments implements Function {
-  const Arguments( this._writeKey, this._dataPlaneUrl);
+  const Arguments(this._writeKey, this._dataPlaneUrl);
+
   final String _writeKey;
   final String _dataPlaneUrl;
 
   call(String name) {
-    if(name == "writeKey") {
+    if (name == "writeKey") {
       return _writeKey;
     } else {
       return _dataPlaneUrl;

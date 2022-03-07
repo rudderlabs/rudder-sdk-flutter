@@ -14,8 +14,8 @@ import java.util.List;
 
 public class ActivityLifeCycleHandler implements Application.ActivityLifecycleCallbacks {
 
-    private static int noOfActivities;
     static List<Runnable> runnableTasks = new ArrayList<>();
+    private static int noOfActivities;
 
     ActivityLifeCycleHandler(Context context) {
         Application application = (Application) context.getApplicationContext();

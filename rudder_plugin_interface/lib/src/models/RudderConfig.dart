@@ -1,7 +1,7 @@
 import '../Constants.dart';
-import 'RudderIntegration.dart';
 import '../RudderLogger.dart';
 import '../Utils.dart';
+import 'RudderIntegration.dart';
 
 /*
  * Config class for RudderClient
@@ -153,41 +153,27 @@ class RudderConfig {
           .clamp(Constants.DEFAULT_MIN_RETRY_DELAY,
               Constants.DEFAULT_MAX_RETRY_DELAY)
           .toString();
-      queueOpts["backoffFactor"] = webConfig._backoffFactor
-          .clamp(0,
-              10)
-          .toString();
-      queueOpts["maxAttempts"] = webConfig._maxAttempts
-          .clamp(0,
-              100)
-          .toString();
-      queueOpts["maxItems"] = webConfig._maxItems
-          .clamp(1,
-              1000)
-          .toString();
+      queueOpts["backoffFactor"] =
+          webConfig._backoffFactor.clamp(0, 10).toString();
+      queueOpts["maxAttempts"] =
+          webConfig._maxAttempts.clamp(0, 100).toString();
+      queueOpts["maxItems"] = webConfig._maxItems.clamp(1, 1000).toString();
       _webConfigMap["queueOptions"] = queueOpts;
 
       //beacon queue opts if available
-      if(webConfig._useBeacon) {
-        beaconOpts["maxItems"] = webConfig._maxBeaconItems
-            .clamp(1,
-            1000)
-            .toString();
-        beaconOpts["flushQueueInterval"] = webConfig._beaconFlushQueueInterval
-            .clamp(1,
-            60000)
-            .toString();
+      if (webConfig._useBeacon) {
+        beaconOpts["maxItems"] =
+            webConfig._maxBeaconItems.clamp(1, 1000).toString();
+        beaconOpts["flushQueueInterval"] =
+            webConfig._beaconFlushQueueInterval.clamp(1, 60000).toString();
         _webConfigMap["beaconQueueOpts"] = beaconOpts;
       }
       // cookie consent
-      if(webConfig.cookieConsentManagers != null){
+      if (webConfig.cookieConsentManagers != null) {
         webConfig.cookieConsentManagers?.forEach((key, value) {
-          cookieConsent[key] = {
-            "enabled" : true
-          };
+          cookieConsent[key] = {"enabled": true};
         });
         _webConfigMap["cookieConsentManager"] = cookieConsent;
-
       }
     }
   }

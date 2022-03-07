@@ -1,23 +1,22 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 import 'package:rudder_sdk_flutter_platform_interface/rudder_sdk_platform.dart';
 
-import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
-
-const MethodChannel _platformChannel =
-MethodChannel('rudder_sdk_flutter');
+const MethodChannel _platformChannel = MethodChannel('rudder_sdk_flutter');
 
 /// An implementation for RudderSdk for android platform
 
-class RudderSdkFlutterAndroid extends RudderSdkPlatform{
+class RudderSdkFlutterAndroid extends RudderSdkPlatform {
   /// Register this class
   static void registerWith() {
     RudderSdkPlatform.instance = RudderSdkFlutterAndroid();
   }
 
   @override
-  void initialize(String writeKey, {RudderConfig? config, RudderOption? options}) {
+  void initialize(String writeKey,
+      {RudderConfig? config, RudderOption? options}) {
     config ??= RudderConfigBuilder().build();
     Map<String, dynamic> params = {};
     params['writeKey'] = writeKey;
@@ -46,7 +45,8 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform{
   }
 
   @override
-  void track(String eventName, {RudderProperty? properties, RudderOption? options}) {
+  void track(String eventName,
+      {RudderProperty? properties, RudderOption? options}) {
     Map<String, dynamic> params = {};
 
     params["eventName"] = eventName;
@@ -63,7 +63,8 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform{
   }
 
   @override
-  void screen(String screenName, {String? category,RudderProperty? properties, RudderOption? options}) {
+  void screen(String screenName,
+      {String? category, RudderProperty? properties, RudderOption? options}) {
     Map<String, dynamic> params = {};
 
     params["screenName"] = screenName;
@@ -81,8 +82,8 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform{
   }
 
   @override
-  void group(String groupId, {RudderTraits? groupTraits, RudderOption? options}) {
-
+  void group(String groupId,
+      {RudderTraits? groupTraits, RudderOption? options}) {
     Map<String, dynamic> params = {};
 
     params["groupId"] = groupId;
@@ -110,6 +111,7 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform{
 
     _platformChannel.invokeMethod("alias", params);
   }
+
   /*@override
   void load(String writeKey, String dataPlaneUrl) {
     Map<String, dynamic> params = {};
@@ -121,7 +123,6 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform{
   @override
   void reset() {
     _platformChannel.invokeMethod("reset");
-
   }
 
   @override
@@ -160,4 +161,3 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform{
     return await _platformChannel.invokeMethod("getRudderContext") as Map?;
   }
 }
-

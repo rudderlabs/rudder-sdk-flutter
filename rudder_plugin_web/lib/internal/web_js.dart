@@ -16,23 +16,22 @@ external identify(
     String userId, Map<String, dynamic>? traits, Map<String, dynamic>? options);
 
 @JS("rudderanalytics.page")
-external page(String? category, String name,
-    Map<String, dynamic>? properties,
+external page(String? category, String name, Map<String, dynamic>? properties,
     Map<String, dynamic>? options);
 
 @JS("rudderanalytics.track")
-external track(String event,
-    Map<String, dynamic>? properties,
+external track(String event, Map<String, dynamic>? properties,
     Map<String, dynamic>? options);
 
 @JS("rudderanalytics.alias")
-external alias(String to, //Denotes the new identifier of the user.
-    String? from,//Denotes the old identifier which will be an alias for the to parameter.
+external alias(
+    String to, //Denotes the new identifier of the user.
+    String? from,
+    //Denotes the old identifier which will be an alias for the to parameter.
     Map<String, dynamic>? options);
 
 @JS("rudderanalytics.group")
-external group(String groupId,
-    Map<String, dynamic>? traits,
+external group(String groupId, Map<String, dynamic>? traits,
     Map<String, dynamic>? options);
 
 @JS("rudderanalytics.reset")
@@ -42,4 +41,4 @@ external reset();
 external String? getAnonymousId();
 
 @JS("rudderanalytics.getUserTraits")
-external Map<String,dynamic>? getUserTraits();
+external Map<String, dynamic>? getUserTraits();

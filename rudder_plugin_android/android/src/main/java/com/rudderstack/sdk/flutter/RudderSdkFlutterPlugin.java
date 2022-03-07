@@ -35,19 +35,23 @@ import com.google.gson.Gson;
 public class RudderSdkFlutterPlugin
         implements FlutterPlugin, MethodCallHandler {
 
+    static RudderClient rudderClient;
+    static boolean trackLifeCycleEvents = false;
+    static boolean initialized = false;
+    private static List<RudderIntegration.Factory> integrationList;
     /// The MethodChannel that will the communication between Flutter and native Android
     ///
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
     /// when the Flutter Engine is detached from the Activity
     private MethodChannel channel;
-    static RudderClient rudderClient;
     private Context context;
-    private static List<RudderIntegration.Factory> integrationList;
 
-
-    static boolean trackLifeCycleEvents = false;
-    static boolean initialized = false;
-
+    public static void addIntegration(RudderIntegration.Factory integration) {
+        if (integrationList == null) {
+            integrationList = new ArrayList<>();
+        }
+        integrationList.add(integration);
+    }
 
     @Override
     public void onAttachedToEngine(
@@ -62,7 +66,6 @@ public class RudderSdkFlutterPlugin
         context = flutterPluginBinding.getApplicationContext();
         ActivityLifeCycleHandler.registerActivityLifeCycleCallBacks(context);
     }
-
 
     public RudderClient initializeSDK(MethodCall call) {
         Map<String, Object> argumentsMap = (Map<String, Object>) call.arguments;
@@ -147,9 +150,9 @@ public class RudderSdkFlutterPlugin
             if (argumentsMap.containsKey("options")) {
                 options = getRudderOptionsObject((Map<String, Object>) argumentsMap.get("options"));
             }
-            if(argumentsMap.containsKey("category") && argumentsMap.get("category") != null){
-                rudderClient.screen(screenName,(String) argumentsMap.get("category"), screenProperties, options);
-            }else
+            if (argumentsMap.containsKey("category") && argumentsMap.get("category") != null) {
+                rudderClient.screen(screenName, (String) argumentsMap.get("category"), screenProperties, options);
+            } else
                 rudderClient.screen(screenName, screenProperties, options);
             return;
         } else if (call.method.equals("group")) {
@@ -205,7 +208,7 @@ public class RudderSdkFlutterPlugin
             if (argumentsMap.containsKey("advertisingId")) {
                 String advertisingId = (String) argumentsMap.get("advertisingId");
                 if (!TextUtils.isEmpty(advertisingId)) {
-                RudderClient.putAdvertisingId(advertisingId);
+                    RudderClient.putAdvertisingId(advertisingId);
                 }
             }
             return;
@@ -248,13 +251,6 @@ public class RudderSdkFlutterPlugin
             builder.withFactories(integrationList);
         }
         return builder.build();
-    }
-
-    public static void addIntegration(RudderIntegration.Factory integration) {
-        if (integrationList == null) {
-            integrationList = new ArrayList<>();
-        }
-        integrationList.add(integration);
     }
 
     public RudderTraits getRudderTraitsObject(Map<String, Object> traitsMap) {

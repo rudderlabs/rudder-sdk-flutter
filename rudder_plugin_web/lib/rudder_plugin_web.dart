@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 // In order to *not* need this ignore, consider extracting the "web" version
 // of your plugin as a separate package, instead of inlining it in the same
@@ -8,8 +7,9 @@ import 'dart:io';
 // import 'dart:html' as html show window;
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
-import 'package:rudder_sdk_flutter_platform_interface/rudder_sdk_platform.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
+import 'package:rudder_sdk_flutter_platform_interface/rudder_sdk_platform.dart';
+
 import 'internal/web_js.dart' as webJs;
 
 /// A web implementation of the RudderSdkFlutter plugin.
@@ -114,15 +114,14 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
     // if(options != null){
     final integrationMap = options?.integrations
         ?.map((key, value) => MapEntry(key, value is bool ? value : false));
-    final configMap =
-    rudderConfig.toMapWeb();
+    final configMap = rudderConfig.toMapWeb();
     configMap["integrations"] = integrationMap;
     // }
     return webJs.load(writeKey, rudderConfig.dataPlaneUrl, configMap);
   }
 
   void identify(String userId, {RudderTraits? traits, RudderOption? options}) {
-    return webJs.identify(userId, traits?.traitsMap, options?.toMap() );
+    return webJs.identify(userId, traits?.traitsMap, options?.toMap());
   }
 
   void track(String eventName,
@@ -132,7 +131,8 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
 
   void screen(String screenName,
       {String? category, RudderProperty? properties, RudderOption? options}) {
-    return webJs.page(category, screenName, properties?.getMap(), options?.toMap());
+    return webJs.page(
+        category, screenName, properties?.getMap(), options?.toMap());
   }
 
   void group(String groupId,
@@ -162,7 +162,6 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
 
   void putAdvertisingId(String advertisingId) {
     RudderLogger.logger.i("putAdvertisingId is not available for web");
-
   }
 
   void putAnonymousId(String anonymousId) {
@@ -171,8 +170,8 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
 
   Future<Map?> getRudderContext() async {
     return {
-      "traits" : webJs.getUserTraits(),
-      "anonymousId" : webJs.getAnonymousId()
+      "traits": webJs.getUserTraits(),
+      "anonymousId": webJs.getAnonymousId()
     };
   }
 }

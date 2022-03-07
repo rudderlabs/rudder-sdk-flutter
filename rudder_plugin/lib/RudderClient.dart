@@ -1,8 +1,10 @@
-import 'RudderController.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
+
+import 'RudderController.dart';
 
 class RudderClient {
   RudderClient._();
+
   static RudderController get instance => RudderController.instance;
 
   @Deprecated("Use instance.initialize instead")

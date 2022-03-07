@@ -1,5 +1,5 @@
-import 'RudderIntegration.dart';
 import '../Utils.dart';
+import 'RudderIntegration.dart';
 
 // we left fetching the external ids from the scratch here
 class RudderOption {

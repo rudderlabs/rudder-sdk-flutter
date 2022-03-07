@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 import 'package:rudder_sdk_flutter/RudderController.dart';
+import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
 class PlatformChannel extends StatefulWidget {
   const PlatformChannel({Key? key}) : super(key: key);
@@ -18,7 +18,8 @@ class _PlatformChannelState extends State<PlatformChannel> {
         .putAge("22")
         .putEmail("saivenkatdesu@gmail.com");
     rudderClient.identify("161FA04009", traits: traits);
-    setOutput("identify : \nname:Sai Venkat\nage: 22\nemail:saivenkatdesu@gmail.com"
+    setOutput(
+        "identify : \nname:Sai Venkat\nage: 22\nemail:saivenkatdesu@gmail.com"
         "\nuserId: 161FA04009\ntraits:empty");
   }
 
@@ -53,7 +54,8 @@ class _PlatformChannelState extends State<PlatformChannel> {
     rudderClient.track("Went on a drive",
         properties: property, options: options);
 
-    setOutput("track:\n\tproperty:\n\t\tcolour:red\n\t\tmanufacturer:hyundai\n\t\tmodel:i20"
+    setOutput(
+        "track:\n\tproperty:\n\t\tcolour:red\n\t\tmanufacturer:hyundai\n\t\tmodel:i20"
         "\n\toptions:\n\t\tall:false\n\t\tMixpanel:false\n\tevent: Went on a drive");
   }
 
@@ -63,7 +65,8 @@ class _PlatformChannelState extends State<PlatformChannel> {
     screenProperty.put("device", "mac book pro");
     rudderClient.screen("Walmart Cart", properties: screenProperty);
 
-    setOutput("screen:\n\tproperty:\n\t\tbrowser: chrome\n\t\tdevice: mac book pro\n\t\tname:Walmart Cart");
+    setOutput(
+        "screen:\n\tproperty:\n\t\tbrowser: chrome\n\t\tdevice: mac book pro\n\t\tname:Walmart Cart");
   }
 
   void __optOut() {
@@ -79,7 +82,8 @@ class _PlatformChannelState extends State<PlatformChannel> {
     groupTraits.put("place", "kolkata");
     groupTraits.put("size", "fifteen");
     rudderClient.group("Integrations-Rudder", groupTraits: groupTraits);
-    setOutput("group\n\ttraits:\n\t\tplace:kolkata\n\t\tsize:fifteen\n\tid: Integrations-Rudder");
+    setOutput(
+        "group\n\ttraits:\n\t\tplace:kolkata\n\t\tsize:fifteen\n\tid: Integrations-Rudder");
   }
 
   void __reset() {
