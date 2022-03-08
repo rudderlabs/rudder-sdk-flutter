@@ -1,4 +1,4 @@
-import '../Utils.dart';
+import '../utils.dart';
 
 class RudderTraits {
   Map<String, dynamic> traitsMap = {};

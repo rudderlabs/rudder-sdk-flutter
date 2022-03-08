@@ -1,7 +1,7 @@
-import '../Constants.dart';
-import '../RudderLogger.dart';
-import '../Utils.dart';
-import 'RudderIntegration.dart';
+import '../constants.dart';
+import '../rudder_logger.dart';
+import '../utils.dart';
+import 'rudder_integration.dart';
 
 /*
  * Config class for RudderClient
@@ -126,27 +126,30 @@ class RudderConfig {
     }
     //web configs
     if (webConfig != null) {
-      queueOpts["maxRetryDelay"] = webConfig._maxRetryDelay
+      _webConfigMap["secureCookie"] = webConfig.secureCookie;
+      _webConfigMap["loadIntegration"] = webConfig.loadIntegration;
+      queueOpts["maxRetryDelay"] = webConfig.maxRetryDelay
           .clamp(Constants.DEFAULT_MIN_RETRY_DELAY,
               Constants.DEFAULT_MAX_RETRY_DELAY)
           .toString();
-      queueOpts["minRetryDelay"] = webConfig._minRetryDelay
+      queueOpts["minRetryDelay"] = webConfig.minRetryDelay
           .clamp(Constants.DEFAULT_MIN_RETRY_DELAY,
               Constants.DEFAULT_MAX_RETRY_DELAY)
           .toString();
       queueOpts["backoffFactor"] =
-          webConfig._backoffFactor.clamp(0, 10).toString();
+          webConfig.backoffFactor.clamp(0, 10).toString();
       queueOpts["maxAttempts"] =
-          webConfig._maxAttempts.clamp(0, 100).toString();
-      queueOpts["maxItems"] = webConfig._maxItems.clamp(1, 1000).toString();
+          webConfig.maxAttempts.clamp(0, 100).toString();
+      queueOpts["maxItems"] = webConfig.maxItems.clamp(1, 1000).toString();
       _webConfigMap["queueOptions"] = queueOpts;
 
+      _webConfigMap["useBeacon"] = webConfig.useBeacon;
       //beacon queue opts if available
-      if (webConfig._useBeacon) {
+      if (webConfig.useBeacon) {
         beaconOpts["maxItems"] =
-            webConfig._maxBeaconItems.clamp(1, 1000).toString();
+            webConfig.maxBeaconItems.clamp(1, 1000).toString();
         beaconOpts["flushQueueInterval"] =
-            webConfig._beaconFlushQueueInterval.clamp(1, 60000).toString();
+            webConfig.beaconFlushQueueInterval.clamp(1, 60000).toString();
         _webConfigMap["beaconQueueOpts"] = beaconOpts;
       }
       // cookie consent
@@ -155,6 +158,12 @@ class RudderConfig {
           cookieConsent[key] = {"enabled": true};
         });
         _webConfigMap["cookieConsentManager"] = cookieConsent;
+      }
+      if(Utils.isValidUrl(webConfig.destSDKBaseURL)){
+        _webConfigMap["destSDKBaseURL"] = webConfig.destSDKBaseURL;
+      }else {
+        RudderLogger.logWarn("Dest SDK Base Url is not valid, using default");
+        _webConfigMap["destSDKBaseUrl"] = Constants.DEFAULT_DESTINATION_SDK_BASE_URL;
       }
     }
   }

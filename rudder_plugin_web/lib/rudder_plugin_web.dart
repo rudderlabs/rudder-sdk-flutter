@@ -99,15 +99,15 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   }
 
   void optOut(bool optOut) {
-    RudderLogger.logger.i("opt out is not available for web");
+    RudderLogger.logInfo("opt out is not available for web");
   }
 
   void putDeviceToken(String deviceToken) {
-    RudderLogger.logger.i("putDeviceToken is not available for web");
+    RudderLogger.logInfo("putDeviceToken is not available for web");
   }
 
   void putAdvertisingId(String advertisingId) {
-    RudderLogger.logger.i("putAdvertisingId is not available for web");
+    RudderLogger.logInfo("putAdvertisingId is not available for web");
   }
 
   void putAnonymousId(String anonymousId) {
