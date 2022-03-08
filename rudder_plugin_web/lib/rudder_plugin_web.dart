@@ -15,54 +15,6 @@ import 'internal/web_js.dart' as webJs;
 /// A web implementation of the RudderSdkFlutter plugin.
 class RudderSdkFlutterWeb extends RudderSdkPlatform {
   ///we don't intend to use method channel for web, as this adds an overhead
-  /*// final RudderAnalytics rudderAnalytics = RudderAnalytics();
-  static void registerWith(Registrar registrar) {
-    final jsChannel = MethodChannel(
-      'rudder_sdk_flutter',
-      const StandardMethodCodec(),
-      registrar,
-    );
-    init();
-    final pluginInstance = RudderSdkFlutterWeb();
-    jsChannel.setMethodCallHandler(pluginInstance.handleMethodCall);
-
-  }
-  static void init(){
-    // importJsLibrary(url: "https://cdn.rudderlabs.com/v1/rudder-analytics.min.js", flutterPluginName: "rudder_sdk_flutter");
-    // importJsLibrary(url: "./assets/rudder_analytics.js", flutterPluginName: "rudder_sdk_flutter");
-
-  }
-  /// Handles method calls over the MethodChannel of this plugin.
-  /// Note: Check the "federated" architecture for a new way of doing this:
-  /// https://flutter.dev/go/federated-plugins
-  Future<dynamic> handleMethodCall(MethodCall call) async {
-    switch (call.method) {
-      case 'getPlatformVersion':
-        return getPlatformVersion();
-      case 'load' :
-        // final writeKey = call.arguments("writeKey");
-        // final dataPlaneUrl = call.arguments("dataPlaneUrl");
-        // print("write key : $writeKey");
-        // return load(writeKey, dataPlaneUrl);
-        return load("writeKey", "dataPlaneUrl");
-        // return rudderAnalytics.load(writeKey, dataPlaneUrl);
-      */ /*case 'test' :
-        final writeKey = call.arguments("writeKey");
-        final dataPlaneUrl = call.arguments("dataPlaneUrl");
-        return rudderAnalytics.test(writeKey, dataPlaneUrl);*/ /*
-      default:
-        throw PlatformException(
-          code: 'Unimplemented',
-          details: 'rudder_sdk_flutter for web doesn\'t implement \'${call.method}\'',
-        );
-    }
-  }
-
-  /// Returns a [String] containing the version of the platform.
-  Future<String> getPlatformVersion() {
-    // final version = html.window.navigator.userAgent;
-    return Future.value("version");
-  }*/
 
   static void registerWith(Registrar registrar) {
     ///setting this instance
@@ -111,12 +63,10 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   void initialize(String writeKey,
       {RudderConfig? config, RudderOption? options}) {
     final rudderConfig = config ?? RudderConfigBuilder().build();
-    // if(options != null){
     final integrationMap = options?.integrations
         ?.map((key, value) => MapEntry(key, value is bool ? value : false));
     final configMap = rudderConfig.toMapWeb();
     configMap["integrations"] = integrationMap;
-    // }
     return webJs.load(writeKey, rudderConfig.dataPlaneUrl, configMap);
   }
 
@@ -143,10 +93,6 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   void alias(String newId, {RudderOption? options}) {
     return webJs.alias(newId, null, options?.toMap());
   }
-
-  /*void load(String writeKey, String dataPlaneUrl) {
-    throw UnimplementedError('load(String writeKey, String dataPlaneUrl) has not been implemented.');
-  }*/
 
   void reset() {
     return webJs.reset();

@@ -112,14 +112,6 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform {
     _platformChannel.invokeMethod("alias", params);
   }
 
-  /*@override
-  void load(String writeKey, String dataPlaneUrl) {
-    Map<String, dynamic> params = {};
-    params["writeKey"] = writeKey;
-    params["dataPlaneUrl"] = dataPlaneUrl;
-
-    _platformChannel.invokeMethod("load", params);
-  }*/
   @override
   void reset() {
     _platformChannel.invokeMethod("reset");
