@@ -24,37 +24,15 @@ class RudderConfig {
   Map<String, dynamic> _webConfigMap = {};
   String _dataPlaneUrl = "";
 
-  /*RudderConfig()  :
-    this.__rudderConfig(
-        Constants.DATA_PLANE_URL,
-        Constants.FLUSH_QUEUE_SIZE,
-        Constants.DB_COUNT_THRESHOLD,
-        Constants.SLEEP_TIMEOUT,
-        RudderLogger.ERROR,
-        MobileConfig(),
-        WebConfig(),
-        Constants.CONTROL_PLANE_URL,
-        null);*/
-
   RudderConfig._();
 
   RudderConfig.__rudderConfig(
     String dataPlaneUrl, // used in android/ios/web
     int flushQueueSize, // all
-    // int dbCountThreshold, // mobile
-    int sleepTimeOut, //all
     int logLevel, //all
-    int configRefreshInterval, //all
-    /*bool trackLifecycleEvents, //mobile
-    bool recordScreenViews,*/ // mobile
+
     MobileConfig? mobileConfig,
     WebConfig? webConfig,
-    /*bool loadIntegration, //web default true
-    bool secureCookie, //web default false
-    bool useBeacon, //web default false
-    String destSDKBaseURL,*/
-    //web default https://cdn.rudderlabs.com/v1.1/js-integrations
-    //
     String controlPlaneUrl, //all
     List<RudderIntegration>? factories,
   ) {
@@ -95,30 +73,33 @@ class RudderConfig {
             ? "INFO"
             : "DEBUG";
 
-    if (mobileConfig != null) if (mobileConfig.dbCountThreshold < 0) {
-      RudderLogger.logError("invalid dbCountThreshold. Set to default");
-      _mobileConfigMap['dbCountThreshold'] = Constants.DB_COUNT_THRESHOLD;
-    } else {
-      _mobileConfigMap['dbCountThreshold'] = mobileConfig.dbCountThreshold;
-    }
-
-    if (configRefreshInterval > Utils.MAX_CONFIG_REFRESH_INTERVAL) {
-      _mobileConfigMap['configRefreshInterval'] =
-          Utils.MAX_CONFIG_REFRESH_INTERVAL;
-    } else if (configRefreshInterval < Utils.MIN_CONFIG_REFRESH_INTERVAL) {
-      _mobileConfigMap['configRefreshInterval'] =
-          Utils.MIN_CONFIG_REFRESH_INTERVAL;
-    } else {
-      _mobileConfigMap['configRefreshInterval'] = configRefreshInterval;
-    }
-
-    if (sleepTimeOut < Utils.MIN_SLEEP_TIMEOUT) {
-      RudderLogger.logError("invalid sleepTimeOut. Set to default");
-      _mobileConfigMap['sleepTimeOut'] = Constants.SLEEP_TIMEOUT;
-    } else {
-      _mobileConfigMap['sleepTimeOut'] = sleepTimeOut;
-    }
     if (mobileConfig != null) {
+      if (mobileConfig.dbCountThreshold < 0) {
+        RudderLogger.logError("invalid dbCountThreshold. Set to default");
+        _mobileConfigMap['dbCountThreshold'] = Constants.DB_COUNT_THRESHOLD;
+      } else {
+        _mobileConfigMap['dbCountThreshold'] = mobileConfig.dbCountThreshold;
+      }
+
+      if (mobileConfig.configRefreshInterval >
+          Utils.MAX_CONFIG_REFRESH_INTERVAL) {
+        _mobileConfigMap['configRefreshInterval'] =
+            Utils.MAX_CONFIG_REFRESH_INTERVAL;
+      } else if (mobileConfig.configRefreshInterval <
+          Utils.MIN_CONFIG_REFRESH_INTERVAL) {
+        _mobileConfigMap['configRefreshInterval'] =
+            Utils.MIN_CONFIG_REFRESH_INTERVAL;
+      } else {
+        _mobileConfigMap['configRefreshInterval'] =
+            mobileConfig.configRefreshInterval;
+      }
+
+      if (mobileConfig.sleepTimeOut < Utils.MIN_SLEEP_TIMEOUT) {
+        RudderLogger.logError("invalid sleepTimeOut. Set to default");
+        _mobileConfigMap['sleepTimeOut'] = Constants.SLEEP_TIMEOUT;
+      } else {
+        _mobileConfigMap['sleepTimeOut'] = mobileConfig.sleepTimeOut;
+      }
       _mobileConfigMap['trackLifecycleEvents'] =
           mobileConfig.trackLifecycleEvents;
       _mobileConfigMap['recordScreenViews'] = mobileConfig.recordScreenViews;
@@ -198,20 +179,35 @@ class MobileConfig {
   /// "Application Installed" and "Application Updated" will always be tracked
   bool _trackLifecycleEvents;
   bool _recordScreenViews;
+  int _sleepTimeOut;
+
+  /// @param configRefreshInterval How often you want to fetch the config from the server.
+  /// Min : 1 hr
+  /// Max : 24 hrs
+  /// @return RudderConfigBuilder
+  int _configRefreshInterval;
 
   MobileConfig(
       {dbCountThreshold = Constants.DB_COUNT_THRESHOLD,
       trackLifecycleEvents = Constants.TRACK_LIFECYCLE_EVENTS,
-      recordScreenViews = Constants.RECORD_SCREEN_VIEWS})
+      recordScreenViews = Constants.RECORD_SCREEN_VIEWS,
+      int sleepTimeOut = Constants.SLEEP_TIMEOUT,
+      int configRefreshInterval = Constants.CONFIG_REFRESH_INTERVAL})
       : _dbCountThreshold = dbCountThreshold,
         _trackLifecycleEvents = trackLifecycleEvents,
-        _recordScreenViews = recordScreenViews;
+        _recordScreenViews = recordScreenViews,
+        _sleepTimeOut = sleepTimeOut,
+        _configRefreshInterval = configRefreshInterval;
 
   int get dbCountThreshold => _dbCountThreshold;
 
   bool get recordScreenViews => _recordScreenViews;
 
   bool get trackLifecycleEvents => _trackLifecycleEvents;
+
+  int get sleepTimeOut => _sleepTimeOut;
+
+  int get configRefreshInterval => _configRefreshInterval;
 }
 
 class WebConfig {
@@ -357,47 +353,6 @@ class RudderConfigBuilder {
     return this;
   }
 
-  // int __dbThresholdCount = Constants.DB_COUNT_THRESHOLD;
-
-  /*/// @param dbThresholdCount No of events to be persisted in DB
-  /// @return RudderConfigBuilder
-  RudderConfigBuilder withDbThresholdCount(int dbThresholdCount) {
-    __dbThresholdCount = dbThresholdCount;
-    return this;
-  }*/
-
-  int __sleepTimeout = Constants.SLEEP_TIMEOUT;
-
-  /// @param sleepCount No of seconds to wait before sending any batch
-  /// @return RudderConfigBuilder
-  RudderConfigBuilder withSleepCount(int sleepCount) {
-    __sleepTimeout = sleepCount;
-    return this;
-  }
-
-  int __configRefreshInterval = Constants.CONFIG_REFRESH_INTERVAL;
-
-  /// @param configRefreshInterval How often you want to fetch the config from the server.
-  /// Min : 1 hr
-  /// Max : 24 hrs
-  /// @return RudderConfigBuilder
-  RudderConfigBuilder withConfigRefreshInterval(int configRefreshInterval) {
-    __configRefreshInterval = configRefreshInterval;
-    return this;
-  }
-
-  // final bool __recordScreenViews = Constants.RECORD_SCREEN_VIEWS;
-
-  /// @param shouldRecordScreenViews Whether we should record screen views automatically
-  /// @return RudderConfigBuilder
-  /// commented as we are not supporting this as of now
-  // RudderConfigBuilder withRecordScreenViews(bool shouldRecordScreenViews) {
-  //   __recordScreenViews = shouldRecordScreenViews;
-  //   return this;
-  // }
-
-  // bool __trackLifecycleEvents = Constants.TRACK_LIFECYCLE_EVENTS;
-
   MobileConfig __mobileConfig = MobileConfig();
 
   RudderConfigBuilder withMobileConfig(MobileConfig mobileConfig) {
@@ -445,9 +400,7 @@ class RudderConfigBuilder {
     return RudderConfig.__rudderConfig(
         __dataPlaneUrl,
         __flushQueueSize,
-        __sleepTimeout,
         __isDebug ? RudderLogger.DEBUG : __logLevel,
-        __configRefreshInterval,
         __mobileConfig,
         __webConfig,
         __controlPlaneUrl,
