@@ -1,6 +1,6 @@
 library rudder_sdk_flutter_platform_interface;
 
-export 'src/Constants.dart';
+export 'src/constants.dart';
 export 'src/rudder_logger.dart';
 export 'src/models/rudder_config.dart';
 export 'src/models/rudder_integration.dart';
