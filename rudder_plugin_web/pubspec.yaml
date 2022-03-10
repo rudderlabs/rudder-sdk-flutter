@@ -19,9 +19,7 @@ dependencies:
   intl: ^0.17.0
   #  import_js_library: ^1.0.2
   js: ^0.6.3
-  rudder_sdk_flutter_platform_interface:
-    path: "../rudder_plugin_interface"
-
+  rudder_sdk_flutter_platform_interface: ^2.0.0
 
 dev_dependencies:
   flutter_lints:

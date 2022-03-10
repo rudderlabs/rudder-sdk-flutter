@@ -35,6 +35,55 @@
       ```
 
       Every model now is directly exported from platform.dart.
+      RudderConfig has been revamped with properties namely
+
+```dart
+dbCountThreshold,
+sleepTimeOut,
+configRefreshInterval,
+trackLifecycleEvents,
+recordScreenViews,
+```
+
+moved to subclass `MobileConfig`
+
+MobileConfig holds the configurations only available to mobile and can be ignored in case the sdk is only used for developing flutter web.
+
+Similarly for configurations particular to web, a subclass WebConfig to be used.
+
+WebConfig has the following properties.
+
+```
+destSDKBaseURL
+useBeacon
+secureCookie
+loadIntegration
+cookieConsentManagers
+beaconFlushQueueInterval
+maxBeaconItems
+maxItems
+maxAttempts
+backoffFactor
+minRetryDelay
+maxRetryDelay
+```
+
+So the RudderConfigBuilder now has the following methods.
+
+```dart
+
+withDataPlaneUrl(String dataPlaneUrl)
+withFlushQueueSize(int flushQueueSize)
+withDebug(bool isDebug)
+withLogLevel(int logLevel)
+withMobileConfig(MobileConfig mobileConfig)
+withWebConfig(WebConfig webConfig)
+withControlPlaneUrl(String controlPlaneUrl)
+withFactory(RudderIntegration factory)
+withFactories(List<RudderIntegration> factories)
+build()
+
+```
 
 * #### Changes in API
 
