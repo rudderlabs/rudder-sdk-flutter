@@ -22,6 +22,9 @@ class Constants {
   // config-plane url to get the config for the writeKey
   static const String CONTROL_PLANE_URL = "https://api.rudderstack.com";
 
+  // whether the SDK should automatically collect the advertisingId
+  static const bool AUTO_COLLECT_ADVERT_ID = false;
+
   // whether we should trackLifecycle events
   static const bool TRACK_LIFECYCLE_EVENTS = true;
 
