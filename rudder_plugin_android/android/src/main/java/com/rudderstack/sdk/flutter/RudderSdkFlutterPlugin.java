@@ -244,6 +244,7 @@ public class RudderSdkFlutterPlugin
                 )
                 .withLogLevel((Integer) configMap.get("logLevel"))
                 .withSleepCount((Integer) configMap.get("sleepTimeOut"))
+                .withAutoCollectAdvertId((Boolean) configMap.get("autoCollectAdvertId"))
                 .withTrackLifecycleEvents((Boolean) configMap.get("trackLifecycleEvents"))
                 .withRecordScreenViews((Boolean) configMap.get("recordScreenViews"))
                 .withControlPlaneUrl((String) configMap.get("controlPlaneUrl"));
