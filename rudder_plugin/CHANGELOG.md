@@ -114,3 +114,8 @@ build()
         * getRudderContext (refer
             - [here](https://www.rudderstack.com/docs/stream-sources/rudderstack-sdk-integration-guides/rudderstack-flutter-sdk/#how-do-i-get-the-user-traits-after-making-an-identify-call))
               For web, this API returns the userTraits and anonymousId only
+
+## 2.0.1
+
+    Fixed "rudder_plugin_ios" not found issue for flutter version 2.10.x
+              
