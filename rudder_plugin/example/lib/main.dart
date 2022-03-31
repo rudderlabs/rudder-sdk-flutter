@@ -24,10 +24,11 @@ class _PlatformChannelState extends State<PlatformChannel> {
   }
 
   void __initialize() {
+    MobileConfig mc = MobileConfig(autoCollectAdvertId: false);
     RudderConfigBuilder builder = RudderConfigBuilder();
-    builder
-        .withDataPlaneUrl("https://rudderstacgwyx.dataplane.rudderstack.com");
-    builder.withControlPlaneUrl("https://api.rudderlabs.com");
+    builder.withDataPlaneUrl("https://38b5-175-101-36-4.ngrok.io");
+    builder.withMobileConfig(mc);
+    // builder.withControlPlaneUrl("https://api.rudderlabs.com");
     builder.withLogLevel(RudderLogger.VERBOSE);
     RudderOption options = RudderOption();
     options.putIntegration("Amplitude", true);
@@ -36,7 +37,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
     //RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
     //   config: builder.build());
     //2. With RudderConfigBuilder object
-    final String _writeKey = "25YL7MIwWWL3HPeEFT53GI5MxVh";
+    final String _writeKey = "1pAKRv50y15Ti6UWpYroGJaO0Dj";
     rudderClient.initialize(_writeKey,
         config: builder.build(), options: options);
 
