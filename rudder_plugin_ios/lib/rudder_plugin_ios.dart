@@ -6,7 +6,7 @@ import 'package:rudder_sdk_flutter_platform_interface/rudder_sdk_platform.dart';
 
 const MethodChannel _platformChannel = MethodChannel('rudder_sdk_flutter');
 
-/// An implementation for RudderSdk for android platform
+/// An implementation for RudderSdk for ios platform
 
 class RudderSdkFlutterIos extends RudderSdkPlatform {
   /// Register this class

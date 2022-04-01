@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:rudder_sdk_flutter/RudderController.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
@@ -63,7 +65,10 @@ class _PlatformChannelState extends State<PlatformChannel> {
     RudderProperty screenProperty = RudderProperty();
     screenProperty.put("browser", "chrome");
     screenProperty.put("device", "mac book pro");
-    rudderClient.screen("Walmart Cart", properties: screenProperty);
+    rudderClient.screen("Walmart Cart",
+        category: "home",
+        properties: screenProperty,
+        options: null);
 
     setOutput(
         "screen:\n\tproperty:\n\t\tbrowser: chrome\n\t\tdevice: mac book pro\n\t\tname:Walmart Cart");
