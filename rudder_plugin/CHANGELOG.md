@@ -119,3 +119,5 @@ build()
 
     Fixed "rudder_plugin_ios" not found issue for flutter version 2.10.x
               
+### 2.1.0
+   Made automatic collection of advertisingId by the Android SDK configurable using the withAutoCollectAdvertId() API

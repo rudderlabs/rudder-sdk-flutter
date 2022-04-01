@@ -100,6 +100,8 @@ class RudderConfig {
       } else {
         _mobileConfigMap['sleepTimeOut'] = mobileConfig.sleepTimeOut;
       }
+      _mobileConfigMap['autoCollectAdvertId'] =
+          mobileConfig.autoCollectAdvertId;
       _mobileConfigMap['trackLifecycleEvents'] =
           mobileConfig.trackLifecycleEvents;
       _mobileConfigMap['recordScreenViews'] = mobileConfig.recordScreenViews;
@@ -138,8 +140,7 @@ class RudderConfig {
           .toString();
       queueOpts["backoffFactor"] =
           webConfig.backoffFactor.clamp(0, 10).toString();
-      queueOpts["maxAttempts"] =
-          webConfig.maxAttempts.clamp(0, 100).toString();
+      queueOpts["maxAttempts"] = webConfig.maxAttempts.clamp(0, 100).toString();
       queueOpts["maxItems"] = webConfig.maxItems.clamp(1, 1000).toString();
       _webConfigMap["queueOptions"] = queueOpts;
 
@@ -159,11 +160,12 @@ class RudderConfig {
         });
         _webConfigMap["cookieConsentManager"] = cookieConsent;
       }
-      if(Utils.isValidUrl(webConfig.destSDKBaseURL)){
+      if (Utils.isValidUrl(webConfig.destSDKBaseURL)) {
         _webConfigMap["destSDKBaseURL"] = webConfig.destSDKBaseURL;
-      }else {
+      } else {
         RudderLogger.logWarn("Dest SDK Base Url is not valid, using default");
-        _webConfigMap["destSDKBaseUrl"] = Constants.DEFAULT_DESTINATION_SDK_BASE_URL;
+        _webConfigMap["destSDKBaseUrl"] =
+            Constants.DEFAULT_DESTINATION_SDK_BASE_URL;
       }
     }
   }
@@ -184,6 +186,9 @@ class RudderConfig {
 class MobileConfig {
   int _dbCountThreshold;
 
+  /// @param autoCollectAdvertId whether the SDK should automatically collect the advertisingId
+  bool _autoCollectAdvertId;
+
   /// @param shouldTrackLifecycleEvents Whether we should track Application lifecycle events automatically
   /// "Application Installed" and "Application Updated" will always be tracked
   bool _trackLifecycleEvents;
@@ -198,17 +203,21 @@ class MobileConfig {
 
   MobileConfig(
       {dbCountThreshold = Constants.DB_COUNT_THRESHOLD,
+      autoCollectAdvertId = Constants.AUTO_COLLECT_ADVERT_ID,
       trackLifecycleEvents = Constants.TRACK_LIFECYCLE_EVENTS,
       recordScreenViews = Constants.RECORD_SCREEN_VIEWS,
       int sleepTimeOut = Constants.SLEEP_TIMEOUT,
       int configRefreshInterval = Constants.CONFIG_REFRESH_INTERVAL})
       : _dbCountThreshold = dbCountThreshold,
+        _autoCollectAdvertId = autoCollectAdvertId,
         _trackLifecycleEvents = trackLifecycleEvents,
         _recordScreenViews = recordScreenViews,
         _sleepTimeOut = sleepTimeOut,
         _configRefreshInterval = configRefreshInterval;
 
   int get dbCountThreshold => _dbCountThreshold;
+
+  bool get autoCollectAdvertId => _autoCollectAdvertId;
 
   bool get recordScreenViews => _recordScreenViews;
 
