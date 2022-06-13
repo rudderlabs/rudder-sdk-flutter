@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:js';
 import 'package:js/js_util.dart' as js;
 // In order to *not* need this ignore, consider extracting the "web" version
 // of your plugin as a separate package, instead of inlining it in the same
@@ -127,8 +126,6 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
       // final encode = JsObject.jsify(object);
       if(object is Map) {
         final encode = mapToJSObj(object);
-        // final encode = object;
-        print(encode);
         return encode;
       }
     }
@@ -148,13 +145,6 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   static dynamic _iterableToJSArray(Iterable<dynamic> array){
     var preparedArray = array.map((element) => element is Map? mapToJSObj(element) :
     element is Iterable? _iterableToJSArray(element) : element);
-     /*var arrayOutput = JsArray();
-    var index = 0;
-    array.forEach((element) {
-      dynamic value = element is Map? mapToJSObj(element) : element is Iterable? _iterableToJSArray(element) : element;
-      arrayOutput[index ++] =  value;
-    });
-    return arrayOutput;*/
     return [...preparedArray];
   }
 }
