@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:rudder_sdk_flutter/RudderController.dart';
@@ -39,7 +38,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
     //RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
     //   config: builder.build());
     //2. With RudderConfigBuilder object
-    final String _writeKey = "1pAKRv50y15Ti6UWpYroGJaO0Dj";
+    final String _writeKey = "write_key";
     rudderClient.initialize(_writeKey,
         config: builder.build(), options: options);
 
@@ -51,6 +50,8 @@ class _PlatformChannelState extends State<PlatformChannel> {
     property.put("colour", "red");
     property.put("manufacturer", "hyundai");
     property.put("model", "i20");
+    property.put("marks", [1,2,3,4]);
+    property.put("something nested", [{"nest_2":[76,78], "nest_2_1" : {"nest_2_2": "some val"}},{"string_arr": ["a", "b"]}]);
     RudderOption options = RudderOption();
     options.putIntegration("All", false);
     options.putIntegration("Mixpanel", false);

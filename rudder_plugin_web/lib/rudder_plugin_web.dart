@@ -1,5 +1,6 @@
 import 'dart:async';
-
+import 'dart:js';
+import 'package:js/js_util.dart' as js;
 // In order to *not* need this ignore, consider extracting the "web" version
 // of your plugin as a separate package, instead of inlining it in the same
 // package as the core of your plugin.
@@ -67,31 +68,31 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
         ?.map((key, value) => MapEntry(key, value is bool ? value : false));
     final configMap = rudderConfig.toMapWeb();
     configMap["integrations"] = integrationMap;
-    return webJs.load(writeKey, rudderConfig.dataPlaneUrl, configMap);
+    return webJs.load(writeKey, rudderConfig.dataPlaneUrl, _jsify(configMap));
   }
 
   void identify(String userId, {RudderTraits? traits, RudderOption? options}) {
-    return webJs.identify(userId, traits?.traitsMap, options?.toMap());
+    return webJs.identify(userId, _jsify(traits?.traitsMap), _jsify(options?.toMap()));
   }
 
   void track(String eventName,
       {RudderProperty? properties, RudderOption? options}) {
-    return webJs.track(eventName, properties?.getMap(), options?.toMap());
+    return webJs.track(eventName, _jsify(properties?.getMap()), _jsify(options?.toMap()));
   }
 
   void screen(String screenName,
       {String? category, RudderProperty? properties, RudderOption? options}) {
     return webJs.page(
-        category, screenName, properties?.getMap(), options?.toMap());
+        category, screenName, _jsify(properties?.getMap()), _jsify(options?.toMap()));
   }
 
   void group(String groupId,
       {RudderTraits? groupTraits, RudderOption? options}) {
-    webJs.group(groupId, groupTraits?.traitsMap, options?.toMap());
+    webJs.group(groupId, _jsify(groupTraits?.traitsMap), _jsify(options?.toMap()));
   }
 
   void alias(String newId, {RudderOption? options}) {
-    return webJs.alias(newId, null, options?.toMap());
+    return webJs.alias(newId, null, _jsify(options?.toMap()));
   }
 
   void reset() {
@@ -120,4 +121,41 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
       "anonymousId": webJs.getAnonymousId()
     };
   }
+  dynamic _jsify(Object? object){
+    if(object != null) {
+      // final encode =  json.encode(object);
+      // final encode = JsObject.jsify(object);
+      if(object is Map) {
+        final encode = mapToJSObj(object);
+        // final encode = object;
+        print(encode);
+        return encode;
+      }
+    }
+    return null;
+  }
+
+  static dynamic mapToJSObj(Map<dynamic,dynamic> map){
+    var object = js.newObject();
+    map.forEach((k, v) {
+      var key = k;
+      var value = v is Map? mapToJSObj(v):
+      v is Iterable ? _iterableToJSArray(v) :v;
+      js.setProperty(object, key, value);
+    });
+    return object;
+  }
+  static dynamic _iterableToJSArray(Iterable<dynamic> array){
+    var preparedArray = array.map((element) => element is Map? mapToJSObj(element) :
+    element is Iterable? _iterableToJSArray(element) : element);
+     /*var arrayOutput = JsArray();
+    var index = 0;
+    array.forEach((element) {
+      dynamic value = element is Map? mapToJSObj(element) : element is Iterable? _iterableToJSArray(element) : element;
+      arrayOutput[index ++] =  value;
+    });
+    return arrayOutput;*/
+    return [...preparedArray];
+  }
 }
+
