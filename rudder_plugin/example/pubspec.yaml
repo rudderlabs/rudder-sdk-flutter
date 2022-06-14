@@ -12,8 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  rudder_sdk_flutter:
-    path: ../
+  rudder_sdk_flutter: ^2.1.1
     # When depending on this package from a real application you should use:
     #   rudder_sdk_flutter: ^x.y.z
     # See https://dart.dev/tools/pub/dependencies#version-constraints
