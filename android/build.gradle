@@ -25,7 +25,7 @@ android {
   compileSdkVersion 29
 
   defaultConfig {
-    minSdkVersion 16
+    minSdkVersion 19
   }
   lintOptions {
     disable 'InvalidPackage'
@@ -38,6 +38,6 @@ android {
 }
 
 dependencies {
-  implementation 'com.rudderstack.android.sdk:core:1.+'
+  implementation 'com.rudderstack.android.sdk:core:1.6.1'
   implementation 'com.google.code.gson:gson:2.8.6'
 }
