@@ -124,3 +124,6 @@ build()
    
 ### 2.1.1
    Incorporated rudder web plugin 2.1.1
+
+### 2.1.2-dev.1 
+    Updated all the dependent packages to dev to verify the Device Mode Implementation

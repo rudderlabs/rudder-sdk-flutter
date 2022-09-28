@@ -1,5 +1,5 @@
 name: rudder_sdk_flutter_platform_interface
-version: 2.1.0
+version: 2.2.0-dev.1
 description: A platform interface for mobile and web sdk
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 repository: https://github.com/rudderlabs/rudder-sdk-flutter
