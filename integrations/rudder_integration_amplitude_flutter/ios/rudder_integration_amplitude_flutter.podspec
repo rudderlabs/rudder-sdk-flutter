@@ -16,6 +16,7 @@ A new Flutter plugin project.
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
+  s.dependency 'rudder_plugin_ios'
   s.dependency 'Rudder-Amplitude'
   s.platform = :ios, '9.0'
 
