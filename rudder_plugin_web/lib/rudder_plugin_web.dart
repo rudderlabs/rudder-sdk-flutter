@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:js';
 import 'package:js/js_util.dart' as js;
 // In order to *not* need this ignore, consider extracting the "web" version
 // of your plugin as a separate package, instead of inlining it in the same
@@ -71,23 +73,26 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   }
 
   void identify(String userId, {RudderTraits? traits, RudderOption? options}) {
-    return webJs.identify(userId, _jsify(traits?.traitsMap), _jsify(options?.toMap()));
+    return webJs.identify(
+        userId, _jsify(traits?.traitsMap), _jsify(options?.toMap()));
   }
 
   void track(String eventName,
       {RudderProperty? properties, RudderOption? options}) {
-    return webJs.track(eventName, _jsify(properties?.getMap()), _jsify(options?.toMap()));
+    return webJs.track(
+        eventName, _jsify(properties?.getMap()), _jsify(options?.toMap()));
   }
 
   void screen(String screenName,
       {String? category, RudderProperty? properties, RudderOption? options}) {
-    return webJs.page(
-        category, screenName, _jsify(properties?.getMap()), _jsify(options?.toMap()));
+    return webJs.page(category, screenName, _jsify(properties?.getMap()),
+        _jsify(options?.toMap()));
   }
 
   void group(String groupId,
       {RudderTraits? groupTraits, RudderOption? options}) {
-    webJs.group(groupId, _jsify(groupTraits?.traitsMap), _jsify(options?.toMap()));
+    webJs.group(
+        groupId, _jsify(groupTraits?.traitsMap), _jsify(options?.toMap()));
   }
 
   void alias(String newId, {RudderOption? options}) {
@@ -120,11 +125,12 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
       "anonymousId": webJs.getAnonymousId()
     };
   }
-  dynamic _jsify(Object? object){
-    if(object != null) {
+
+  dynamic _jsify(Object? object) {
+    if (object != null) {
       // final encode =  json.encode(object);
       // final encode = JsObject.jsify(object);
-      if(object is Map) {
+      if (object is Map) {
         final encode = mapToJSObj(object);
         return encode;
       }
@@ -132,20 +138,17 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
     return null;
   }
 
-  static dynamic mapToJSObj(Map<dynamic,dynamic> map){
+  static dynamic mapToJSObj(Map<dynamic, dynamic> map) {
     var object = js.newObject();
     map.forEach((k, v) {
       var key = k;
-      var value = v is Map? mapToJSObj(v):
-      v is Iterable ? _iterableToJSArray(v) :v;
+      var value = v is Map
+          ? mapToJSObj(v)
+          : v is Iterable
+              ? js.jsify(v)
+              : v;
       js.setProperty(object, key, value);
     });
     return object;
   }
-  static dynamic _iterableToJSArray(Iterable<dynamic> array){
-    var preparedArray = array.map((element) => element is Map? mapToJSObj(element) :
-    element is Iterable? _iterableToJSArray(element) : element);
-    return [...preparedArray];
-  }
 }
-
