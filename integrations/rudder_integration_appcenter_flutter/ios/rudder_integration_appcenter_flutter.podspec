@@ -17,6 +17,7 @@ A new flutter plugin project.
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
   s.dependency 'Rudder-AppCenter'
+  s.dependency 'rudder_plugin_ios'
   s.platform = :ios, '9.0'
 
   # Flutter.framework does not contain a i386 slice.
