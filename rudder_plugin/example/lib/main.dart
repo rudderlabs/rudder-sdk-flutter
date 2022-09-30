@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rudder_sdk_flutter/RudderController.dart';
 import 'package:rudder_integration_appcenter_flutter/rudder_integration_appcenter_flutter.dart';
+import 'package:rudder_integration_amplitude_flutter/rudder_integration_amplitude_flutter.dart';
+import 'package:rudder_integration_braze_flutter/rudder_integration_braze_flutter.dart';
+import 'package:rudder_integration_firebase_flutter/rudder_integration_firebase_flutter.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
 class PlatformChannel extends StatefulWidget {
@@ -28,9 +31,12 @@ class _PlatformChannelState extends State<PlatformChannel> {
     MobileConfig mc = MobileConfig(autoCollectAdvertId: false);
     RudderConfigBuilder builder = RudderConfigBuilder();
     builder.withFactory(RudderIntegrationAppcenterFlutter());
-    builder.withDataPlaneUrl("https://1f0c-175-101-36-93.ngrok.io");
+    builder.withFactory(RudderIntegrationFirebaseFlutter());
+    builder.withFactory(RudderIntegrationBraze());
+    builder.withFactory(RudderIntegrationAmplitudeFlutter());
+    builder
+        .withDataPlaneUrl("https://rudderstacgwyx.dataplane.rudderstack.com");
     builder.withMobileConfig(mc);
-    // builder.withControlPlaneUrl("https://api.rudderlabs.com");
     builder.withLogLevel(RudderLogger.VERBOSE);
     final String _writeKey = "1nsXGHPSOMQkHGCvalgQmYsJqKg";
     rudderClient.initialize(_writeKey, config: builder.build(), options: null);
