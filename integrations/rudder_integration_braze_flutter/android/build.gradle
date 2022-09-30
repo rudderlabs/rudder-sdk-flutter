@@ -1,0 +1,47 @@
+group 'com.rudderstack.sdk.flutter.integrations.rudder_integration_braze_flutter'
+version '1.0'
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://appboy.github.io/appboy-android-sdk/sdk" }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.1.2'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://appboy.github.io/appboy-android-sdk/sdk" }
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 31
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        minSdkVersion 16
+    }
+}
+
+dependencies {
+    
+// Rudder Android Core SDK Dependencies
+implementation 'com.rudderstack.android.sdk:core:1.6.0'
+implementation project(path: ':rudder_plugin_android')
+// Rudder-Braze Android Device Mode
+implementation 'com.rudderstack.android.integration:braze:[1.0.7,)'
+
+}
