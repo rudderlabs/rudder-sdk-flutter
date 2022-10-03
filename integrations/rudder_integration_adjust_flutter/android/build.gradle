@@ -1,0 +1,47 @@
+group 'com.rudderstack.sdk.flutter.integrations.rudder_integration_adjust_flutter'
+version '1.0'
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.1.2'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 31
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        minSdkVersion 16
+    }
+}
+
+dependencies {
+    // Rudder Android Core SDK Dependencies
+    implementation 'com.rudderstack.android.sdk:core:1.6.0'
+    implementation project(path: ':rudder_plugin_android')
+    // RudderStack Adjust-SDK
+    implementation 'com.rudderstack.android.integration:adjust:1.0.1'
+    // Add Google Play Services library to enable the Google Advertising ID for Adjust SDK
+    implementation 'com.google.android.gms:play-services-ads-identifier:17.0.1'
+    // To support the Google Play Referrer API, make sure you have the following in your build.gradle file:
+    implementation 'com.android.installreferrer:installreferrer:2.2'
+}
