@@ -127,3 +127,6 @@ build()
 
 ### 2.1.2-dev.1 
     Updated all the dependent packages to dev to verify the Device Mode Implementation
+
+### 2.1.2-dev.2
+    Updated the rudder_plugin_android & rudder_plugin_ios versions
