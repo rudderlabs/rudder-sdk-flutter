@@ -35,8 +35,6 @@ android {
 }
 
 dependencies {
-    // Rudder Android Core SDK Dependencies
-    implementation 'com.rudderstack.android.sdk:core:1.6.0'
     implementation project(path: ':rudder_plugin_android')
     // RudderStack Adjust-SDK
     implementation 'com.rudderstack.android.integration:adjust:1.0.1'

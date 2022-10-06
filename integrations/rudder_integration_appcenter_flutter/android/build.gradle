@@ -35,10 +35,9 @@ android {
 }
 
 dependencies {
-    implementation 'com.rudderstack.android.sdk:core:1.6.0'
     implementation project(path: ':rudder_plugin_android')
     // Appcenter device-mode related dependency
-    implementation 'com.rudderstack.android.integration:appcenter:1.+'
+    implementation 'com.rudderstack.android.integration:appcenter:1.0.1'
     implementation 'com.microsoft.appcenter:appcenter-analytics:4.1.0'
     
 }

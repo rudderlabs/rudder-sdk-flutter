@@ -37,11 +37,7 @@ android {
 }
 
 dependencies {
-    
-// Rudder Android Core SDK Dependencies
-implementation 'com.rudderstack.android.sdk:core:1.6.0'
 implementation project(path: ':rudder_plugin_android')
 // Rudder-Braze Android Device Mode
-implementation 'com.rudderstack.android.integration:braze:[1.0.7,)'
-
+implementation 'com.rudderstack.android.integration:braze:1.0.7'
 }

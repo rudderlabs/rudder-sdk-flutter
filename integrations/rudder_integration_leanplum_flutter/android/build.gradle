@@ -35,11 +35,9 @@ android {
 }
 
 dependencies {
-    // Rudder Android Core SDK Dependencies
-    implementation 'com.rudderstack.android.sdk:core:1.6.0'
     implementation project(path: ':rudder_plugin_android')
     // Rudder-Android Leanplum Device Mode
-    implementation 'com.rudderstack.android.integration:leanplum:1.+'
+    implementation 'com.rudderstack.android.integration:leanplum:1.0.2'
     // Leanplum SDK Dependencies
-    implementation 'com.leanplum:leanplum-core:5+'
+    implementation 'com.leanplum:leanplum-core:5.9.0'
 }

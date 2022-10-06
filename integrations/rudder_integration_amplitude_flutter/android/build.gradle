@@ -35,11 +35,9 @@ android {
 }
 
 dependencies {
-    // Rudder Android Core SDK Dependencies
-    implementation 'com.rudderstack.android.sdk:core:1.6.0'
     implementation project(path: ':rudder_plugin_android')
     // Rudder-Amplitude Android Device Mode
-    implementation 'com.rudderstack.android.integration:amplitude:1.+'
+    implementation 'com.rudderstack.android.integration:amplitude:1.0.1'
     // Amplitude SDK Dependencies
     implementation 'com.amplitude:android-sdk:2.25.2'
     implementation 'com.squareup.okhttp3:okhttp:4.2.2'
