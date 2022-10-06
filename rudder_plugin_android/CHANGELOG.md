@@ -8,3 +8,6 @@
 
 ### 2.1.1-dev.2
     Updated the versions of the native android sdk dependencies
+
+### 2.1.1
+    Stable release after upgrading the dependencies on the native android sdk as well as the rudder_sdk_flutter_platform_interface

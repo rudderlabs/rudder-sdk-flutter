@@ -5,3 +5,7 @@
 ### 0.0.1-dev.2
 
 * Updated Android SDK dependency
+
+### 1.0.0
+
+* Stable release of Flutter Adjust Device Mode

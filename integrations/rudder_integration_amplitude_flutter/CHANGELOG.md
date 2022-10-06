@@ -9,3 +9,7 @@
 ### 0.0.1-dev.3
 
 * Updated Android SDK dependency
+
+### 1.0.0
+
+* Stable release of Flutter Amplitude Device Mode
