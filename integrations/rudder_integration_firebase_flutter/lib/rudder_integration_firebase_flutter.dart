@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
 class RudderIntegrationFirebaseFlutter implements RudderIntegration {
@@ -7,7 +8,9 @@ class RudderIntegrationFirebaseFlutter implements RudderIntegration {
 
   @override
   void addFactory() {
-    _channel.invokeMethod("addFactory");
+    if (!kIsWeb) {
+      _channel.invokeMethod("addFactory");
+    }
   }
 
   @override
