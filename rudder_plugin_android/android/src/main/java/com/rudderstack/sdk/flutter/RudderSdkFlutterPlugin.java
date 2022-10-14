@@ -221,6 +221,18 @@ public class RudderSdkFlutterPlugin
                 }
             }
             return;
+        } else if (call.method.equals("startSession")) {
+            HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
+            if (argumentsMap.containsKey("sessionId")) {
+                Long sessionId = (Long) argumentsMap.get("sessionId");
+                rudderClient.startSession(sessionId);
+            } else {
+                rudderClient.startSession();  
+            }
+            return;
+        } else if (call.method.equals("endSession")) {
+            rudderClient.endSession();
+            return;
         } else if (call.method.equals("getRudderContext")) {
             Gson gson = new Gson();
             HashMap context = gson.fromJson(gson.toJson(rudderClient.getRudderContext()), HashMap.class);

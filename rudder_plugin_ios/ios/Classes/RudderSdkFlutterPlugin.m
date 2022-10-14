@@ -139,6 +139,19 @@ NSMutableArray* integrationList;
             }
         }
         return;
+    } else if ([call.method isEqualToString:@"startSession" ]) {
+        if([call.arguments objectForKey:@"sessionId"]) {
+            NSNumber* sessionId =  [call.arguments objectForKey:@"sessionId"];
+            if (sessionId != nil) {
+                [[RSClient sharedInstance] startSession:sessionId longValue];
+            }
+        } else {
+            [[RSClient sharedInstance] startSession];
+        }
+        return;
+    } else if ([call.method isEqualToString:@"endSession" ]) {
+        [[RSClient sharedInstance] endSession];
+        return;
     } else if ([call.method isEqualToString:@"getRudderContext"]) {
         if ([RSClient sharedInstance] == nil) {
             return;
