@@ -114,6 +114,21 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
     return webJs.setAnonymousId(anonymousId);
   }
 
+  @override
+  void startSession({int? sessionId}) {
+    Map<String, dynamic> params = {};
+
+   if(sessionId != null) {
+    params["sessionId"] = sessionId;
+   }
+    _platformChannel.invokeMethod("startSession", params);
+  }
+
+  @override
+  void endSession() {
+    _platformChannel.invokeMethod("endSession");
+  }
+
   Future<Map?> getRudderContext() async {
     return {
       "traits": webJs.getUserTraits(),
