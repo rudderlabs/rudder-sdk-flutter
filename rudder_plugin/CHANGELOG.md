@@ -130,3 +130,6 @@ build()
 
 ### 2.1.2-dev.2
     Updated the rudder_plugin_android & rudder_plugin_ios versions
+
+### 2.1.2
+    Stable release after adding the support for the device mode destinations

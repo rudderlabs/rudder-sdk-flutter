@@ -4,14 +4,14 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'rudder_integration_amplitude_flutter'
-  s.version          = '0.0.1'
-  s.summary          = 'A new Flutter plugin project.'
+  s.version          = '1.0.0'
+  s.summary          = 'RudderStack's Flutter Device Mode for the Amplitude Destination'
   s.description      = <<-DESC
-A new Flutter plugin project.
+  Rudder is a platform for collecting, storing and routing customer event data to dozens of tools. Rudder is open-source, can run in your cloud environment (AWS, GCP, Azure or even your data-centre) and provides a powerful transformation framework to process your event data on the fly.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://github.com/rudderlabs/rudder-sdk-flutter/tree/2.x'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'RudderStack' => 'venkat@rudderstack.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
