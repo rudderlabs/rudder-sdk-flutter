@@ -1,6 +1,6 @@
 name: rudder_integration_adjust_flutter
 description: RudderStack Device Mode for Adjust on Flutter SDK
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 
 environment:
