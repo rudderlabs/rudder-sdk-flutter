@@ -9,3 +9,7 @@
 ### 1.0.0
 
 * Stable release of Flutter Leanplum Device Mode
+
+### 1.0.1
+
+* Fixed the issues in the podspec file of the iOS Module
