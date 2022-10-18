@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
                        DESC
   s.homepage         = 'https://github.com/rudderlabs/rudder-sdk-flutter/tree/2.x'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'RudderStack' => 'venkat@rudderstack.com' }
+  s.author           = { 'RudderStack' => 'arnab@rudderstack.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
