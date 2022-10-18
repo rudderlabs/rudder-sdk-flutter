@@ -12,7 +12,7 @@
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
-  if ([@"addFactory" isEqualToString:call.method]) {
+  if ([call.method isEqualToString:@"addFactory"]) {
      [RudderSdkFlutterPlugin addIntegration:[RudderAppCenterFactory instance]];
     // To do with result
   } else {
