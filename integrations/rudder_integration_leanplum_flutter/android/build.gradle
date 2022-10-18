@@ -1,0 +1,45 @@
+group 'com.rudderstack.sdk.flutter.integrations.rudder_integration_leanplum_flutter'
+version '1.0'
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:7.1.2'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 31
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        minSdkVersion 16
+    }
+}
+
+dependencies {
+    // Rudder Android Core SDK Dependencies
+    implementation 'com.rudderstack.android.sdk:core:[1.7.0, 2.0.0)'
+    implementation project(path: ':rudder_plugin_android')
+    // Rudder-Android Leanplum Device Mode
+    implementation 'com.rudderstack.android.integration:leanplum:1.0.2'
+    // Leanplum SDK Dependencies
+    implementation 'com.leanplum:leanplum-core:5.9.0'
+}

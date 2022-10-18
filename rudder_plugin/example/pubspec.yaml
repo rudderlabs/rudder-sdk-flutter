@@ -11,8 +11,19 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-  rudder_sdk_flutter: ^2.1.1
+  rudder_sdk_flutter: 2.1.2-dev.2
+  rudder_integration_amplitude_flutter:
+    path: ../../integrations/rudder_integration_amplitude_flutter
+  rudder_integration_firebase_flutter:
+    path: ../../integrations/rudder_integration_firebase_flutter
+  rudder_integration_braze_flutter:
+    path: ../../integrations/rudder_integration_braze_flutter
+  rudder_integration_appcenter_flutter: 
+    path: ../../integrations/rudder_integration_appcenter_flutter
+  rudder_integration_adjust_flutter:
+    path: ../../integrations/rudder_integration_adjust_flutter
+  rudder_integration_leanplum_flutter:
+    path: ../../integrations/rudder_integration_leanplum_flutter
     # When depending on this package from a real application you should use:
     #   rudder_sdk_flutter: ^x.y.z
     # See https://dart.dev/tools/pub/dependencies#version-constraints

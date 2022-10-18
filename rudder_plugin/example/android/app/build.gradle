@@ -22,10 +22,12 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
+// Firebase Device Mode
+apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 31
 
     lintOptions {
         disable 'InvalidPackage'
@@ -46,6 +48,11 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
+    }
+
+    // Braze Device Mode
+    packagingOptions {
+    exclude "META-INF/com.android.tools/proguard/coroutines.pro"
     }
 }
 

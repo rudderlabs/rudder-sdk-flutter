@@ -1,6 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:rudder_sdk_flutter/RudderController.dart';
+import 'package:rudder_integration_appcenter_flutter/rudder_integration_appcenter_flutter.dart';
+import 'package:rudder_integration_amplitude_flutter/rudder_integration_amplitude_flutter.dart';
+import 'package:rudder_integration_braze_flutter/rudder_integration_braze_flutter.dart';
+import 'package:rudder_integration_firebase_flutter/rudder_integration_firebase_flutter.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
 class PlatformChannel extends StatefulWidget {
@@ -27,20 +30,16 @@ class _PlatformChannelState extends State<PlatformChannel> {
   void __initialize() {
     MobileConfig mc = MobileConfig(autoCollectAdvertId: false);
     RudderConfigBuilder builder = RudderConfigBuilder();
-    builder.withDataPlaneUrl("https://38b5-175-101-36-4.ngrok.io");
+    builder.withFactory(RudderIntegrationAppcenterFlutter());
+    builder.withFactory(RudderIntegrationFirebaseFlutter());
+    builder.withFactory(RudderIntegrationBraze());
+    builder.withFactory(RudderIntegrationAmplitudeFlutter());
+    builder
+        .withDataPlaneUrl("https://rudderstacgwyx.dataplane.rudderstack.com");
     builder.withMobileConfig(mc);
-    // builder.withControlPlaneUrl("https://api.rudderlabs.com");
     builder.withLogLevel(RudderLogger.VERBOSE);
-    RudderOption options = RudderOption();
-    options.putIntegration("Amplitude", true);
-    //builder.withFactory(Appcenter());
-    // 1. with RudderConfig Object
-    //RudderClient.getInstance("1n0JdVPZTRUIkLXYccrWzZwdGSx",
-    //   config: builder.build());
-    //2. With RudderConfigBuilder object
-    final String _writeKey = "write_key";
-    rudderClient.initialize(_writeKey,
-        config: builder.build(), options: options);
+    final String _writeKey = "1nsXGHPSOMQkHGCvalgQmYsJqKg";
+    rudderClient.initialize(_writeKey, config: builder.build(), options: null);
 
     setOutput("initialize:\nwriteKey: $_writeKey");
   }
@@ -50,12 +49,20 @@ class _PlatformChannelState extends State<PlatformChannel> {
     property.put("colour", "red");
     property.put("manufacturer", "hyundai");
     property.put("model", "i20");
-    property.put("marks", [1,2,3,4]);
-    property.put("something nested", [{"nest_2":[76,78], "nest_2_1" : {"nest_2_2": "some val"}},{"string_arr": ["a", "b"]}]);
+    property.put("marks", [1, 2, 3, 4]);
+    property.put("something nested", [
+      {
+        "nest_2": [76, 78],
+        "nest_2_1": {"nest_2_2": "some val"}
+      },
+      {
+        "string_arr": ["a", "b"]
+      }
+    ]);
     RudderOption options = RudderOption();
-    options.putIntegration("All", false);
+    options.putIntegration("All", true);
     options.putIntegration("Mixpanel", false);
-    rudderClient.track("Went on a drive",
+    rudderClient.track("Went on a drive web",
         properties: property, options: options);
 
     setOutput(
@@ -67,10 +74,8 @@ class _PlatformChannelState extends State<PlatformChannel> {
     RudderProperty screenProperty = RudderProperty();
     screenProperty.put("browser", "chrome");
     screenProperty.put("device", "mac book pro");
-    rudderClient.screen("Walmart Cart",
-        category: "home",
-        properties: screenProperty,
-        options: null);
+    rudderClient.screen("Walmart Cart web",
+        category: "home", properties: screenProperty, options: null);
 
     setOutput(
         "screen:\n\tproperty:\n\t\tbrowser: chrome\n\t\tdevice: mac book pro\n\t\tname:Walmart Cart");
