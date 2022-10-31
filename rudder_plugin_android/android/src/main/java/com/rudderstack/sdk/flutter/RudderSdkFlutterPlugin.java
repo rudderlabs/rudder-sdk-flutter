@@ -224,7 +224,7 @@ public class RudderSdkFlutterPlugin
         } else if (call.method.equals("startSession")) {
             HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
             if (argumentsMap.containsKey("sessionId")) {
-                Long sessionId = (Long) argumentsMap.get("sessionId");
+                Long sessionId = getLong(argumentsMap.get("sessionId"));
                 rudderClient.startSession(sessionId);
             } else {
                 rudderClient.startSession();  
@@ -254,6 +254,8 @@ public class RudderSdkFlutterPlugin
                 .withConfigRefreshInterval(
                         (Integer) configMap.get("configRefreshInterval")
                 )
+                .withSessionTimeOutMillis(getLong(configMap.get("sessionTimeoutInMillis")))
+                .withAutoSessionTracking((Boolean) configMap.get("autoSessionTracking"))
                 .withLogLevel((Integer) configMap.get("logLevel"))
                 .withSleepCount((Integer) configMap.get("sleepTimeOut"))
                 .withAutoCollectAdvertId((Boolean) configMap.get("autoCollectAdvertId"))
@@ -380,6 +382,14 @@ public class RudderSdkFlutterPlugin
             }
         }
         return option;
+    }
+
+    public Long getLong(Object obj) {
+        if(obj instanceof Long) {
+            return (Long) obj;
+        } else {
+            return ((Integer) obj).longValue();
+        } 
     }
 
 }

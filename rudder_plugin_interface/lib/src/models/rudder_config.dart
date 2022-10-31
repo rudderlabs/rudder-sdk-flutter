@@ -41,6 +41,7 @@ class RudderConfig {
     final Map<String, String> queueOpts = {};
     final Map<String, String> beaconOpts = {};
     final Map<String, dynamic> cookieConsent = {};
+    final Map<String, dynamic> sessionOpts = {};
 
     if (Utils.isEmpty(dataPlaneUrl)) {
       RudderLogger.logError(
@@ -105,6 +106,16 @@ class RudderConfig {
       _mobileConfigMap['trackLifecycleEvents'] =
           mobileConfig.trackLifecycleEvents;
       _mobileConfigMap['recordScreenViews'] = mobileConfig.recordScreenViews;
+      _mobileConfigMap['autoSessionTracking'] =
+          mobileConfig.autoSessionTracking;
+      if (mobileConfig.sessionTimeoutInMillis < 0) {
+        RudderLogger.logError("invalid sessionTimeoutInMillis. Set to default");
+        _mobileConfigMap['sessionTimeoutInMillis'] =
+            Constants.DEFAULT_SESSION_TIMEOUT_MOBILE;
+      } else {
+        _mobileConfigMap['sessionTimeoutInMillis'] =
+            mobileConfig.sessionTimeoutInMillis;
+      }
     }
     if (Utils.isEmpty(controlPlaneUrl)) {
       RudderLogger.logError(
@@ -167,6 +178,14 @@ class RudderConfig {
         _webConfigMap["destSDKBaseUrl"] =
             Constants.DEFAULT_DESTINATION_SDK_BASE_URL;
       }
+      sessionOpts['autoTrack'] = webConfig.autoSessionTracking;
+      if (webConfig.sessionTimeoutInMillis < 0) {
+        RudderLogger.logError("invalid sessionTimeoutInMillis. Set to default");
+        sessionOpts['timeout'] = Constants.DEFAULT_SESSION_TIMEOUT_WEB;
+      } else {
+        sessionOpts['timeout'] = webConfig.sessionTimeoutInMillis;
+      }
+      _webConfigMap["sessions"] = sessionOpts;
     }
   }
 
@@ -201,19 +220,29 @@ class MobileConfig {
   /// @return RudderConfigBuilder
   int _configRefreshInterval;
 
+  /// @param autoSessionTracking Whether to track session automatically
+  bool _autoSessionTracking;
+
+  /// @param sessionTimeoutInMillis (duration of inactivity of session in milliseconds)
+  int _sessionTimeoutInMillis;
+
   MobileConfig(
       {dbCountThreshold = Constants.DB_COUNT_THRESHOLD,
       autoCollectAdvertId = Constants.AUTO_COLLECT_ADVERT_ID,
       trackLifecycleEvents = Constants.TRACK_LIFECYCLE_EVENTS,
       recordScreenViews = Constants.RECORD_SCREEN_VIEWS,
       int sleepTimeOut = Constants.SLEEP_TIMEOUT,
-      int configRefreshInterval = Constants.CONFIG_REFRESH_INTERVAL})
+      int configRefreshInterval = Constants.CONFIG_REFRESH_INTERVAL,
+      autoSessionTracking = Constants.AUTO_SESSION_TRACKING,
+      sessionTimeoutInMillis = Constants.DEFAULT_SESSION_TIMEOUT_WEB})
       : _dbCountThreshold = dbCountThreshold,
         _autoCollectAdvertId = autoCollectAdvertId,
         _trackLifecycleEvents = trackLifecycleEvents,
         _recordScreenViews = recordScreenViews,
         _sleepTimeOut = sleepTimeOut,
-        _configRefreshInterval = configRefreshInterval;
+        _configRefreshInterval = configRefreshInterval,
+        _autoSessionTracking = autoSessionTracking,
+        _sessionTimeoutInMillis = sessionTimeoutInMillis;
 
   int get dbCountThreshold => _dbCountThreshold;
 
@@ -226,6 +255,10 @@ class MobileConfig {
   int get sleepTimeOut => _sleepTimeOut;
 
   int get configRefreshInterval => _configRefreshInterval;
+
+  bool get autoSessionTracking => _autoSessionTracking;
+
+  int get sessionTimeoutInMillis => _sessionTimeoutInMillis;
 }
 
 class WebConfig {
@@ -262,6 +295,12 @@ class WebConfig {
   ///web default https://cdn.rudderlabs.com/v1.1/js-integrations
   String _destSDKBaseURL;
 
+  /// @param autoSessionTracking whether to track session automatically
+  bool _autoSessionTracking;
+
+  /// @param sessionTimeoutInMillis (duration of inactivity of session in milliseconds)
+  int _sessionTimeoutInMillis;
+
   ///cookie consent managers, e.g ("oneTrust", true), default empty
   Map<String, bool>? _cookieConsentManagers;
 
@@ -278,6 +317,8 @@ class WebConfig {
       int beaconFlushQueueInterval =
           Constants.DEFAULT_BEACON_FLUSH_QUEUE_INTERVAL,
       destSDKBaseURL = Constants.DEFAULT_DESTINATION_SDK_BASE_URL,
+      autoSessionTracking = Constants.AUTO_SESSION_TRACKING,
+      sessionTimeoutInMillis = Constants.DEFAULT_SESSION_TIMEOUT_WEB,
       Map<String, bool>? cookieConsentManagers})
       : this._loadIntegration = loadIntegration,
         this._secureCookie = secureCookie,
@@ -290,6 +331,8 @@ class WebConfig {
         this._maxBeaconItems = maxBeaconItems,
         this._beaconFlushQueueInterval = beaconFlushQueueInterval,
         this._destSDKBaseURL = destSDKBaseURL,
+        this._autoSessionTracking = autoSessionTracking,
+        this._sessionTimeoutInMillis = sessionTimeoutInMillis,
         this._cookieConsentManagers = cookieConsentManagers;
 
   String get destSDKBaseURL => _destSDKBaseURL;
@@ -315,6 +358,10 @@ class WebConfig {
   int get minRetryDelay => _minRetryDelay;
 
   int get maxRetryDelay => _maxRetryDelay;
+
+  bool get autoSessionTracking => _autoSessionTracking;
+
+  int get sessionTimeoutInMillis => _sessionTimeoutInMillis;
 }
 
 /// RudderConfigBuilder class for RudderConfig

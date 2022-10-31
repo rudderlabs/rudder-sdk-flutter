@@ -170,6 +170,9 @@ NSMutableArray* integrationList;
     [configBuilder withTrackLifecycleEvens:[[configDict objectForKey:@"trackLifecycleEvents"]boolValue]];
     [configBuilder withRecordScreenViews:[[configDict objectForKey:@"recordScreenViews"]boolValue]];
     [configBuilder withControlPlaneUrl:[configDict objectForKey:@"controlPlaneUrl"]];
+    [configBuilder withSessionTimeoutMillis:[[configDict objectForKey:@"sessionTimeoutInMillis"]longValue]];
+    [configBuilder withAutoSessionTracking:[[configDict objectForKey:@"autoSessionTracking"]boolValue]];
+
     if (integrationList != nil) {
         for (id<RSIntegrationFactory> integration in integrationList) {
             [configBuilder withFactory:integration];

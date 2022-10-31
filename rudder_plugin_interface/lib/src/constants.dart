@@ -31,6 +31,15 @@ class Constants {
   // whether we should record screen views automatically
   static const bool RECORD_SCREEN_VIEWS = false;
 
+  // default value for automatic session tracking
+  static const bool AUTO_SESSION_TRACKING = true;
+
+  // default duration for inactivity is 5 minutes or 300000 milliseconds for Mobile Platforms
+  static const int DEFAULT_SESSION_TIMEOUT_MOBILE = 300000;
+
+  // default duration for inactivity is 10 minutes or 600000 milliseconds for Web Platforms
+  static const int DEFAULT_SESSION_TIMEOUT_WEB = 600000;
+
   //web load integration
   static const bool DEFAULT_LOAD_INTEGRATION = true;
   static const bool DEFAULT_SECURE_COOKIE = false;

@@ -146,14 +146,14 @@ class RudderSdkFlutterIos extends RudderSdkPlatform {
     params["anonymousId"] = anonymousId;
     _platformChannel.invokeMethod("putAnonymousId", params);
   }
- 
+
   @override
   void startSession({int? sessionId}) {
     Map<String, dynamic> params = {};
 
-   if(sessionId != null) {
-    params["sessionId"] = sessionId;
-   }
+    if (sessionId != null) {
+      params["sessionId"] = sessionId;
+    }
     _platformChannel.invokeMethod("startSession", params);
   }
 
