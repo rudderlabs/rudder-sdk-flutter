@@ -1,0 +1,27 @@
+name: rudder_sdk_flutter_platform_interface
+version: 2.2.0
+description: A platform interface for mobile and web sdk
+homepage: https://github.com/rudderlabs/rudder-sdk-flutter
+repository: https://github.com/rudderlabs/rudder-sdk-flutter
+issue_tracker: https://github.com/rudderlabs/rudder-sdk-flutter/issues
+documentation: https://docs.rudderstack.com/rudderstack-sdk-integration-guides/rudderstack-flutter-sdk
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+  flutter: ">=2.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  logger: ^1.0.0
+  intl: ^0.17.0
+  flutter_dotenv: ^5.0.2
+  plugin_platform_interface: ^2.0.0
+
+dev_dependencies:
+  flutter_lints: ^2.0.1
+  dart_code_metrics: ^4.17.1
+  test: ^1.21.0
+  flutter_test:
+    sdk: flutter
+

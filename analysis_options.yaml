@@ -1,0 +1,28 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  plugins:
+    - dart_code_metrics
+  errors:
+    import_of_legacy_library_into_null_safe: ignore
+    included_file_warning: ignore
+#  exclude:
+#    - packages/**/example/lib/generated_plugin_registrant.dart
+
+linter:
+  rules:
+    file_names: false
+    library_names: false
+    non_constant_identifier_names: false
+    constant_identifier_names: false
+
+dart_code_metrics:
+  extends:
+    - package:dart_code_metrics/presets/flutter_all.yaml
+  metrics:
+    cyclomatic-complexity: 20
+    maximum-nesting-level: 5
+    number-of-parameters: 4
+    source-lines-of-code: 50
+  metrics-exclude:
+    - test/**
