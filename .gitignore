@@ -18,3 +18,5 @@ coverage/
 reports/
 pubspec_overrides.yaml
 .env
+google-services.json
+GoogleService-Info.plist
