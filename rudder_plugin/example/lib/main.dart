@@ -32,7 +32,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
     RudderConfigBuilder builder = RudderConfigBuilder();
     builder.withFactory(RudderIntegrationAppcenterFlutter());
     builder.withFactory(RudderIntegrationFirebaseFlutter());
-    builder.withFactory(RudderIntegrationBraze());
+    builder.withFactory(RudderIntegrationBrazeFlutter());
     builder.withFactory(RudderIntegrationAmplitudeFlutter());
     builder
         .withDataPlaneUrl("https://rudderstacgwyx.dataplane.rudderstack.com");
@@ -119,8 +119,9 @@ class _PlatformChannelState extends State<PlatformChannel> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Center(
+    return MaterialApp(
+        home: Scaffold(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -179,7 +180,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
           ],
         ),
       ),
-    );
+    ));
   }
 }
 

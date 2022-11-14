@@ -9,3 +9,7 @@
 ### 1.1.0 
 
 * Fixed header file not found issues on the iOS platform
+
+### 1.1.1
+
+* Fixed the issues in the podspec file of the iOS Module
