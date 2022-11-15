@@ -120,13 +120,13 @@ scripts:
     select-package:
       scope: '*rudder_plugin_ios*'
 
-  build:sdk:web:
-    run: |
-      melos exec -c 1 --fail-fast -- \
-        "flutter build bundle --target=lib/rudder_plugin_web.dart"
-    description: Build the SDK Web plugin.
-    select-package:
-      scope: '*rudder_plugin_web*'
+#  build:sdk:web:
+#    run: |
+#      melos exec -c 1 --fail-fast -- \
+#        "flutter build bundle --target=lib/rudder_plugin_web.dart"
+#    description: Build the SDK Web plugin.
+#    select-package:
+#      scope: '*rudder_plugin_web*'
 
   build:integration:adjust:
     run: |
@@ -263,7 +263,6 @@ scripts:
       melos run build:sdk:interface --no-select && \
       melos run build:sdk:android --no-select && \
       melos run build:sdk:ios --no-select && \
-      melos run build:sdk:web --no-select && \
       melos bootstrap
     description: Build all SDK bundles.
 
