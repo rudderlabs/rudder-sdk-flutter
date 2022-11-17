@@ -38,10 +38,10 @@ class _PlatformChannelState extends State<PlatformChannel> {
         .withDataPlaneUrl("https://rudderstacgwyx.dataplane.rudderstack.com");
     builder.withMobileConfig(mc);
     builder.withLogLevel(RudderLogger.VERBOSE);
-    final String _writeKey = "1nsXGHPSOMQkHGCvalgQmYsJqKg";
-    rudderClient.initialize(_writeKey, config: builder.build(), options: null);
+    const String writeKey = "1nsXGHPSOMQkHGCvalgQmYsJqKg";
+    rudderClient.initialize(writeKey, config: builder.build(), options: null);
 
-    setOutput("initialize:\nwriteKey: $_writeKey");
+    setOutput("initialize:\nwriteKey: $writeKey");
   }
 
   void __track() {
@@ -132,28 +132,28 @@ class _PlatformChannelState extends State<PlatformChannel> {
               },
             ),
             ElevatedButton(
-              child: const Text('Identify call'),
               onPressed: __identify,
+              child: const Text('Identify call'),
             ),
             ElevatedButton(
-              child: const Text('Track'),
               onPressed: __track,
+              child: const Text('Track'),
             ),
             ElevatedButton(
-              child: const Text('Screen'),
               onPressed: __screen,
+              child: const Text('Screen'),
             ),
             ElevatedButton(
-              child: const Text('Group'),
               onPressed: __group,
+              child: const Text('Group'),
             ),
             ElevatedButton(
-              child: const Text('Reset'),
               onPressed: __reset,
+              child: const Text('Reset'),
             ),
             ElevatedButton(
-              child: const Text('Alias'),
               onPressed: __alias,
+              child: const Text('Alias'),
             ),
             ElevatedButton(
               child: const Text('Rudder Context'),

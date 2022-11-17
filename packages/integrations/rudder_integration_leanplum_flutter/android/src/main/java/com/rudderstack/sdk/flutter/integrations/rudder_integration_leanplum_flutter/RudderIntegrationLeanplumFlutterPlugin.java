@@ -1,17 +1,14 @@
 package com.rudderstack.sdk.flutter.integrations.rudder_integration_leanplum_flutter;
 
-import androidx.annotation.NonNull;
+import static com.rudderstack.sdk.flutter.RudderSdkFlutterPlugin.addIntegration;
 
+import androidx.annotation.NonNull;
+import com.rudderstack.android.integrations.leanplum.LeanPlumIntegrationFactory;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-
-
-import com.rudderstack.android.integrations.leanplum.LeanPlumIntegrationFactory;
-
-import static com.rudderstack.sdk.flutter.RudderSdkFlutterPlugin.addIntegration;
 
 /** RudderIntegrationLeanplumFlutterPlugin */
 public class RudderIntegrationLeanplumFlutterPlugin implements FlutterPlugin, MethodCallHandler {
@@ -23,17 +20,19 @@ public class RudderIntegrationLeanplumFlutterPlugin implements FlutterPlugin, Me
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "rudder_integration_leanplum_flutter");
+    channel =
+        new MethodChannel(
+            flutterPluginBinding.getBinaryMessenger(), "rudder_integration_leanplum_flutter");
     channel.setMethodCallHandler(this);
   }
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     if (call.method.equals("addFactory")) {
-            addIntegration(LeanPlumIntegrationFactory.FACTORY);
-            // To do with result
+      addIntegration(LeanPlumIntegrationFactory.FACTORY);
+      // To do with result
     } else {
-        result.notImplemented();
+      result.notImplemented();
     }
   }
 

@@ -367,7 +367,7 @@ packages:
     source: path
     version: "2.2.0"
   rudder_sdk_flutter_platform_interface:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       path: "../plugins/rudder_plugin_interface"
       relative: true

@@ -1,4 +1,4 @@
 #import <Flutter/Flutter.h>
 
-@interface RudderIntegrationLeanplumFlutterPlugin : NSObject<FlutterPlugin>
+@interface RudderIntegrationLeanplumFlutterPlugin : NSObject <FlutterPlugin>
 @end

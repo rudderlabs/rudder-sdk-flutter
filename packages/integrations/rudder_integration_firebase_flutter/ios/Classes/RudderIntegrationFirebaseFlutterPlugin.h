@@ -1,4 +1,4 @@
 #import <Flutter/Flutter.h>
 
-@interface RudderIntegrationFirebaseFlutterPlugin : NSObject<FlutterPlugin>
+@interface RudderIntegrationFirebaseFlutterPlugin : NSObject <FlutterPlugin>
 @end

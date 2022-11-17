@@ -1,4 +1,4 @@
 #import <Flutter/Flutter.h>
 
-@interface RudderIntegrationAdjustFlutterPlugin : NSObject<FlutterPlugin>
+@interface RudderIntegrationAdjustFlutterPlugin : NSObject <FlutterPlugin>
 @end

@@ -5,7 +5,7 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
+// ignore_for_file: test-imports
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rudder_sdk_flutter_example/main.dart';
 

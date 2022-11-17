@@ -12,6 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
   rudder_sdk_flutter: 2.1.2
+  rudder_sdk_flutter_platform_interface:
+    path: ../plugins/rudder_sdk_flutter_platform_interface
   rudder_integration_amplitude_flutter:
     path: ../integrations/rudder_integration_amplitude_flutter
   rudder_integration_firebase_flutter:
