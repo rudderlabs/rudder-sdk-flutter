@@ -38,6 +38,13 @@ scripts:
       dart run tools/setup_git_hooks.dart
     description: Prepare monorepo
 
+  setup:ci:
+    run: |
+      flutter pub get && \
+      melos clean && \
+      melos bootstrap
+    description: Prepare monorepo in CI runner
+
   postclean:
     run: |
       rm -rf reports && \
