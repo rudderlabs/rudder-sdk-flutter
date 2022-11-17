@@ -9,6 +9,7 @@ jobs:
   check_pr_title:
     name: Check PR title
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout source branch
         uses: actions/checkout@v3

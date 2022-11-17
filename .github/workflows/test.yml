@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     name: 'Unit Tests, Coverage & Sonar'
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -52,6 +52,7 @@ jobs:
       - name: Execute unit tests
         run: |
           melos run test:all
+          melos run analyze:ci
 
       - name: Combine unit test coverage reports
         run: |
