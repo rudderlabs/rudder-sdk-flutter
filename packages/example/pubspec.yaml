@@ -22,6 +22,8 @@ dependencies:
     path: ../integrations/rudder_integration_appcenter_flutter
   rudder_integration_adjust_flutter:
     path: ../integrations/rudder_integration_adjust_flutter
+  rudder_integration_leanplum_flutter:
+    path: ../integrations/rudder_integration_leanplum_flutter
     # When depending on this package from a real application you should use:
     #   rudder_sdk_flutter: ^x.y.z
     # See https://dart.dev/tools/pub/dependencies#version-constraints
