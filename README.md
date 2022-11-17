@@ -17,6 +17,8 @@ This is the android package for Rudder Flutter SDK. Check Rudderstack Flutter SD
 We use [Melos](https://melos.invertase.dev/getting-started) monorepo tool.
 You can see all available commands/scripts in melos.yaml file
 
+Add you .env file as per the .env.sample with secrets used in unit tests.
+
 To setup locally:
 
     dart pub global activate melos

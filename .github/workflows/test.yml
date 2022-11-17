@@ -34,6 +34,13 @@ jobs:
           channel: 'stable'
           architecture: x64
 
+      - name: Setup .env file
+        run: |
+          cat <<EOF > .env
+            TEST_WRITE_KEY=${{ secrets.TEST_WRITE_KEY }}
+            TEST_DATAPLANE_URL=${{ secrets.TEST_DATAPLANE_URL }}
+           EOF
+
       - name: Install Melos
         run: |
           dart pub global activate melos
