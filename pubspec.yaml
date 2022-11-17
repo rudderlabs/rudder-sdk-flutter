@@ -1,0 +1,28 @@
+name: rudder_sdk_flutter_monorepo
+description: Orchestrates the monorepo
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  flutter_plugin_tools: ^0.12.1
+
+dev_dependencies:
+  dart_pre_commit: ^4.0.0
+  flutter_lints: ^2.0.1
+  dart_code_metrics: ^4.17.1
+
+dart_pre_commit:
+  format: true
+  test-imports: true
+  lib-exports: false
+  flutter-compat: false
+  outdated: true
+  pull-up-dependencies: true
+  analyze:
+    error-level: info
+    scan-mode: staged

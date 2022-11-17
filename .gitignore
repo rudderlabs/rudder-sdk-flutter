@@ -13,5 +13,10 @@ local.properties
 **/.settings
 **/.classpath
 **/bin/
-pubspec.lock
 **/.project
+coverage/
+reports/
+pubspec_overrides.yaml
+.env
+google-services.json
+GoogleService-Info.plist

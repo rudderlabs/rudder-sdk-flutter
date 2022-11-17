@@ -1,0 +1,319 @@
+name: rudder_sdk_flutter_monorepo
+
+repository: https://github.com/rudderlabs/rudder-sdk-flutter
+sdkPath: auto
+
+packages:
+  - packages/plugins/**
+  - packages/integrations/**
+  - packages/example
+
+command:
+  bootstrap:
+    usePubspecOverrides: true
+    # It seems so that running "pub get" in parallel has some issues (like
+    # https://github.com/dart-lang/pub/issues/3404). Disabling this feature
+    # makes the CI much more stable.
+    runPubGetInParallel: false
+
+  version:
+    # Only allow versioning to happen on main branch.
+    branch: main
+    # Generate commit links in package changelogs.
+    linkToCommits: true
+    # Additionally build a changelog at the root of the workspace.
+    workspaceChangelog: true
+    includeScopes: true
+    message: |
+      chore(release): release new package versions 🎉
+
+      {new_package_versions}
+
+scripts:
+  setup:
+    run: |
+      flutter pub get && \
+      melos clean && \
+      melos bootstrap && \
+      dart run tools/setup_git_hooks.dart
+    description: Prepare monorepo
+
+  postclean:
+    run: |
+      rm -rf reports && \
+      melos exec -c 1 --fail-fast -- \
+        "flutter clean"
+    description: Run extra clean steps post melos clean lifecycle
+
+  analyze:
+    run: |
+      melos exec -c 1 -- \
+        "flutter pub run dart_code_metrics:metrics ."
+      melos exec -c 1 -- \
+        "dart analyze . --no-fatal-warnings"
+    description: |
+      Run `dart analyze` and Dart Code Metrics in all packages.
+       - Note: you can also rely on your IDEs Dart Analysis / Issues window.
+
+  analyze:ci:
+    # We are setting the concurrency to 1 because a higher concurrency can crash
+    # the analysis server on low performance machines (like GitHub Actions).
+    #    TODO: add this
+    #      dart run dart_code_metrics:metrics analyze . --json-path=reports/code.metrics.report.json && /
+    run: |
+      mkdir -p reports && /
+      dart analyze . --no-fatal-warnings --format json > reports/lint.report.json && /
+      tail -n +2 "reports/lint.report.json" > "reports/lint.report.tmp.json" && mv "reports/lint.report.tmp.json" "reports/lint.report.json"
+    description: Run `dart analyze` in all packages and output to json file
+
+  format:
+    run: |
+      flutter pub run flutter_plugin_tools format && \
+      flutter format && \
+      swiftformat .
+    description: |
+      Build a specific example app for Android.
+       - Requires `flutter_plugin_tools` (`dart pub global activate flutter_plugin_tools`).
+       - Requires `clang-format` (can be installed via Brew on macOS).
+       - Requires `swiftformat` (can be installed via Brew on macOS).
+
+  test:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter test --no-pub --coverage"
+    description: Run `flutter test` for a specific package.
+    select-package:
+      dir-exists:
+        - test
+#      ignore:
+#        - '*example*'
+
+  build:sdk:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build bundle --target=lib/RudderController.dart"
+    description: Build the SDK plugin.
+    select-package:
+      scope: '*rudder_sdk_flutter'
+
+  build:sdk:interface:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build bundle --target=lib/rudder_sdk_platform.dart"
+    description: Build the SDK Interface plugin.
+    select-package:
+      scope: '*rudder_sdk_flutter_platform_interface*'
+
+  build:sdk:android:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build bundle --target=lib/rudder_plugin_android.dart"
+    description: Build the SDK Android plugin.
+    select-package:
+      scope: '*rudder_plugin_android*'
+
+  build:sdk:ios:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build bundle --target=lib/rudder_plugin_ios.dart"
+    description: Build the SDK iOS plugin.
+    select-package:
+      scope: '*rudder_plugin_ios*'
+
+#  build:sdk:web:
+#    run: |
+#      melos exec -c 1 --fail-fast -- \
+#        "flutter build bundle --target=lib/rudder_plugin_web.dart"
+#    description: Build the SDK Web plugin.
+#    select-package:
+#      scope: '*rudder_plugin_web*'
+
+  build:integration:adjust:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build bundle --target=lib/rudder_integration_adjust_flutter.dart"
+    description: Build the Adjust integration plugin.
+    select-package:
+      scope: '*rudder_integration_adjust_flutter'
+
+  build:integration:amplitude:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build bundle --target=lib/rudder_integration_amplitude_flutter.dart"
+    description: Build the Amplitude integration plugin.
+    select-package:
+      scope: '*rudder_integration_amplitude_flutter'
+
+  build:integration:appcenter:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build bundle --target=lib/rudder_integration_appcenter_flutter.dart"
+    description: Build the AppCenter integration plugin.
+    select-package:
+      scope: '*rudder_integration_appcenter_flutter'
+
+  build:integration:braze:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build bundle --target=lib/rudder_integration_braze_flutter.dart"
+    description: Build the Braze integration plugin.
+    select-package:
+      scope: '*rudder_integration_braze_flutter'
+
+  build:integration:firebase:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build bundle --target=lib/rudder_integration_firebase_flutter.dart"
+    description: Build the Firebase integration plugin.
+    select-package:
+      scope: '*rudder_integration_firebase_flutter'
+
+  build:integration:leanplum:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build bundle --target=lib/rudder_integration_leanplum_flutter.dart"
+    description: Build the Leanplum integration plugin.
+    select-package:
+      scope: '*rudder_integration_leanplum_flutter'
+
+  build:integration:all:
+    run: |
+      melos run build:integration:adjust --no-select && \
+      melos run build:integration:amplitude --no-select && \
+      melos run build:integration:appcenter --no-select && \
+      melos run build:integration:braze --no-select && \
+      melos run build:integration:firebase --no-select && \
+      melos run build:integration:leanplum --no-select && \
+      melos bootstrap
+    description: Build the Leanplum integration plugin.
+    select-package:
+      scope: '*rudder_integration_leanplum_flutter'
+
+  build:example:android:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build apk --no-pub"
+    description: Build a specific example app for Android.
+    select-package:
+      dir-exists:
+        - android
+      scope: '*rudder_sdk_flutter_example*'
+
+  build:example:ios:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build ios --no-codesign --no-pub"
+    description: Build a specific example app for Android.
+    select-package:
+      dir-exists:
+        - ios
+      scope: '*rudder_sdk_flutter_example*'
+
+  build:example:web:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build web"
+    description: Build a specific example app for Android.
+    select-package:
+      dir-exists:
+        - web
+      scope: '*rudder_sdk_flutter_example*'
+
+  run:example:android:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter emulators"
+      melos exec -c 1 --fail-fast -- \
+        "flutter emulators --launch Pixel_6_Pro_API_33"
+      melos exec -c 1 --fail-fast -- \
+        "flutter run"
+    description: Build a specific example app for Android.
+    select-package:
+      dir-exists:
+        - android
+      scope: '*rudder_sdk_flutter_example*'
+
+  run:example:ios:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter emulators"
+      melos exec -c 1 --fail-fast -- \
+        "flutter emulators --launch apple_ios_simulator"
+      melos exec -c 1 --fail-fast -- \
+        "flutter run"
+    description: Build a specific example app for Android.
+    select-package:
+      dir-exists:
+        - ios
+      scope: '*rudder_sdk_flutter_example*'
+
+  run:example:web:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter run"
+    description: Build a specific example app for Android.
+    select-package:
+      dir-exists:
+        - web
+      scope: '*rudder_sdk_flutter_example*'
+
+  build:sdk:all:
+    run: |
+      melos run build:sdk --no-select && \
+      melos run build:sdk:interface --no-select && \
+      melos run build:sdk:android --no-select && \
+      melos run build:sdk:ios --no-select && \
+      melos bootstrap
+    description: Build all SDK bundles.
+
+  build:example:all:
+    run: |
+      melos run build:example:ios --no-select && \
+      melos run build:example:android --no-select && \
+      melos run build:example:web --no-select && \
+      melos bootstrap
+    description: Build all example apps.
+
+  build:all:
+    run: |
+      melos run build:sdk:all --no-select && \
+      melos run build:integration:all --no-select && \
+      melos run build:example:all --no-select && \
+      melos bootstrap
+    description: Build all.
+
+  test:all:
+    run: |
+      melos run test --no-select
+    description: |
+      Run all tests available.
+
+  lint:all:
+    run: |
+      melos run analyze && \
+      melos run format
+    description: Run all static analysis checks.
+
+  qualitycheck:
+    run: |
+      melos run setup && \
+      melos run lint:all && \
+      melos run test:all && \
+      melos run build:all
+    description: Run all targets generally expected in CI for a full local quality check.
+
+  doctor:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter doctor -v"
+    description: Run doctor
+
+  combine:coverage:
+    run: |
+      melos exec -c 1 --  \
+        "\$MELOS_ROOT_PATH/scripts/combine_coverage.sh"
+
+  flutter:upgrade:
+    run: |
+      flutter channel stable && \
+      flutter upgrade
