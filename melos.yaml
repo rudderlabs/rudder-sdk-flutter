@@ -87,7 +87,7 @@ scripts:
   test:
     run: |
       melos exec -c 1 --fail-fast -- \
-        "flutter test --no-pub --coverage"
+        "flutter test --no-pub --machine --coverage > tests.output"
     description: Run `flutter test` for a specific package.
     select-package:
       dir-exists:
