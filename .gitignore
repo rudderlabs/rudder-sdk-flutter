@@ -22,3 +22,5 @@ google-services.json
 GoogleService-Info.plist
 tests.output
 .scannerwork/
+.flutter-plugins
+.flutter-plugins-dependencies

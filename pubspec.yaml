@@ -14,6 +14,15 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
+  flutter:
+    sdk: flutter
+  rudder_sdk_flutter: 2.2.0
+  rudder_integration_amplitude_flutter: 1.0.1
+  rudder_integration_firebase_flutter: 1.0.1
+  rudder_integration_braze_flutter: 1.0.1
+  rudder_integration_appcenter_flutter: 1.1.1
+  rudder_integration_adjust_flutter: 1.0.1
+  rudder_integration_leanplum_flutter: 1.0.1
   flutter_plugin_tools: ^0.12.1
 
 dev_dependencies:
@@ -27,7 +36,7 @@ dart_pre_commit:
   lib-exports: false
   flutter-compat: false
   outdated: false
-  pull-up-dependencies: true
+  pull-up-dependencies: false
   analyze:
     error-level: info
     scan-mode: staged
