@@ -84,7 +84,7 @@ jobs:
       - name: Push new versions in release branch
         run: |
           git add .
-          git commit --amend
+          git commit --amend --no-edit
           git tag v$NEW_VERSION_VALUE
           git push --follow-tags
 
