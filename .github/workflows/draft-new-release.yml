@@ -84,7 +84,7 @@ jobs:
       - name: Push new versions in release branch
         run: |
           git add .
-          git commit -m "chore(monorepo): bump versions"
+          git commit --amend
           git push --follow-tags
 
       - name: Create pull request into main
