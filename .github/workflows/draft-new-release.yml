@@ -85,6 +85,7 @@ jobs:
         run: |
           git add .
           git commit --amend
+          git tag v$NEW_VERSION_VALUE
           git push --follow-tags
 
       - name: Create pull request into main
