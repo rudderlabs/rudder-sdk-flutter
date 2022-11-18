@@ -51,7 +51,7 @@ jobs:
           git merge origin/main
           current_version=$(grep -A0 'version:' pubspec.yaml | tail -n1 | awk '{ print $2 }')
 
-          melos version -a --no-git-tag-version --no-changelog
+          melos version -a --no-git-tag-version --no-changelog --yes
           new_version=$(grep -A0 'version:' pubspec.yaml | tail -n1 | awk '{ print $2 }')
           git reset --hard
 
@@ -78,11 +78,14 @@ jobs:
           echo "New version: $NEW_VERSION_VALUE"
           npx replace $CURRENT_VERSION_VALUE $NEW_VERSION_VALUE sonar-project.properties
           git add sonar-project.properties
-          melos version -a
+          melos version -a --yes
+          melos run setup
 
       - name: Push new versions in release branch
         run: |
-          git push
+          git add .
+          git commit -m "chore(monorepo): bump versions"
+          git push --follow-tags
 
       - name: Create pull request into main
         uses: repo-sync/pull-request@v2
