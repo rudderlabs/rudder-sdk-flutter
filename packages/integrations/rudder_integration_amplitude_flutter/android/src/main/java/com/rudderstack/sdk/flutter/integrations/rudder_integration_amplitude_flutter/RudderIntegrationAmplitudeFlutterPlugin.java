@@ -1,17 +1,14 @@
 package com.rudderstack.sdk.flutter.integrations.rudder_integration_amplitude_flutter;
 
-import androidx.annotation.NonNull;
+import static com.rudderstack.sdk.flutter.RudderSdkFlutterPlugin.addIntegration;
 
+import androidx.annotation.NonNull;
+import com.rudderstack.android.integrations.amplitude.AmplitudeIntegrationFactory;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-
-
-import com.rudderstack.android.integrations.amplitude.AmplitudeIntegrationFactory;
-
-import static com.rudderstack.sdk.flutter.RudderSdkFlutterPlugin.addIntegration;
 
 /** RudderIntegrationAmplitudeFlutterPlugin */
 public class RudderIntegrationAmplitudeFlutterPlugin implements FlutterPlugin, MethodCallHandler {
@@ -23,18 +20,20 @@ public class RudderIntegrationAmplitudeFlutterPlugin implements FlutterPlugin, M
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "rudder_integration_amplitude_flutter");
+    channel =
+        new MethodChannel(
+            flutterPluginBinding.getBinaryMessenger(), "rudder_integration_amplitude_flutter");
     channel.setMethodCallHandler(this);
   }
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-     if (call.method.equals("addFactory")) {
-            addIntegration(AmplitudeIntegrationFactory.FACTORY);
-            // To do with result
-        } else {
-            result.notImplemented();
-        }
+    if (call.method.equals("addFactory")) {
+      addIntegration(AmplitudeIntegrationFactory.FACTORY);
+      // To do with result
+    } else {
+      result.notImplemented();
+    }
   }
 
   @Override

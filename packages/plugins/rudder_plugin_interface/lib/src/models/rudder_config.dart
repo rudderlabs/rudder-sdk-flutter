@@ -20,8 +20,8 @@ import 'rudder_integration.dart';
  * */
 
 class RudderConfig {
-  Map<String, dynamic> _mobileConfigMap = {};
-  Map<String, dynamic> _webConfigMap = {};
+  final Map<String, dynamic> _mobileConfigMap = {};
+  final Map<String, dynamic> _webConfigMap = {};
   String _dataPlaneUrl = "";
 
   RudderConfig._();
@@ -184,22 +184,22 @@ class RudderConfig {
 ///Configurations to be used for mobile and mobile only. Any values set here
 ///will have no effect on web whatsoever.
 class MobileConfig {
-  int _dbCountThreshold;
+  final int _dbCountThreshold;
 
   /// @param autoCollectAdvertId whether the SDK should automatically collect the advertisingId
-  bool _autoCollectAdvertId;
+  final bool _autoCollectAdvertId;
 
   /// @param shouldTrackLifecycleEvents Whether we should track Application lifecycle events automatically
   /// "Application Installed" and "Application Updated" will always be tracked
-  bool _trackLifecycleEvents;
-  bool _recordScreenViews;
-  int _sleepTimeOut;
+  final bool _trackLifecycleEvents;
+  final bool _recordScreenViews;
+  final int _sleepTimeOut;
 
   /// @param configRefreshInterval How often you want to fetch the config from the server.
   /// Min : 1 hr
   /// Max : 24 hrs
   /// @return RudderConfigBuilder
-  int _configRefreshInterval;
+  final int _configRefreshInterval;
 
   MobileConfig(
       {dbCountThreshold = Constants.DB_COUNT_THRESHOLD,
@@ -230,40 +230,40 @@ class MobileConfig {
 
 class WebConfig {
   ///web default true
-  bool _loadIntegration;
+  final bool _loadIntegration;
 
   ///web default false
-  bool _secureCookie;
+  final bool _secureCookie;
 
   /// web default 3_60_000
-  int _maxRetryDelay;
+  final int _maxRetryDelay;
 
   ///web default 1_000
-  int _minRetryDelay;
+  final int _minRetryDelay;
 
   ///web back off factor default 2
-  int _backoffFactor;
+  final int _backoffFactor;
 
   /// web default 10
-  int _maxAttempts;
+  final int _maxAttempts;
 
   /// web default 100
-  int _maxItems;
+  final int _maxItems;
 
   ///web default false
-  bool _useBeacon;
+  final bool _useBeacon;
 
   ///utilised only if _useBeacon is true
-  int _maxBeaconItems;
+  final int _maxBeaconItems;
 
   ///utilised only if _useBeacon is true
-  int _beaconFlushQueueInterval;
+  final int _beaconFlushQueueInterval;
 
   ///web default https://cdn.rudderlabs.com/v1.1/js-integrations
-  String _destSDKBaseURL;
+  final String _destSDKBaseURL;
 
   ///cookie consent managers, e.g ("oneTrust", true), default empty
-  Map<String, bool>? _cookieConsentManagers;
+  final Map<String, bool>? _cookieConsentManagers;
 
   WebConfig(
       {loadIntegration = Constants.DEFAULT_LOAD_INTEGRATION,
@@ -279,18 +279,18 @@ class WebConfig {
           Constants.DEFAULT_BEACON_FLUSH_QUEUE_INTERVAL,
       destSDKBaseURL = Constants.DEFAULT_DESTINATION_SDK_BASE_URL,
       Map<String, bool>? cookieConsentManagers})
-      : this._loadIntegration = loadIntegration,
-        this._secureCookie = secureCookie,
-        this._useBeacon = useBeacon,
-        this._maxRetryDelay = maxRetryDelay,
-        this._minRetryDelay = minRetryDelay,
-        this._backoffFactor = backoffFactor,
-        this._maxAttempts = maxAttempts,
-        this._maxItems = maxItems,
-        this._maxBeaconItems = maxBeaconItems,
-        this._beaconFlushQueueInterval = beaconFlushQueueInterval,
-        this._destSDKBaseURL = destSDKBaseURL,
-        this._cookieConsentManagers = cookieConsentManagers;
+      : _loadIntegration = loadIntegration,
+        _secureCookie = secureCookie,
+        _useBeacon = useBeacon,
+        _maxRetryDelay = maxRetryDelay,
+        _minRetryDelay = minRetryDelay,
+        _backoffFactor = backoffFactor,
+        _maxAttempts = maxAttempts,
+        _maxItems = maxItems,
+        _maxBeaconItems = maxBeaconItems,
+        _beaconFlushQueueInterval = beaconFlushQueueInterval,
+        _destSDKBaseURL = destSDKBaseURL,
+        _cookieConsentManagers = cookieConsentManagers;
 
   String get destSDKBaseURL => _destSDKBaseURL;
 
