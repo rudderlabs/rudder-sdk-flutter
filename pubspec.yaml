@@ -32,7 +32,7 @@ dev_dependencies:
 
 dart_pre_commit:
   format: true
-  test-imports: true
+  test-imports: false
   lib-exports: false
   flutter-compat: false
   outdated: false

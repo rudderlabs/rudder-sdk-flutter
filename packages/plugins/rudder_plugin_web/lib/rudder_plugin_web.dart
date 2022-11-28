@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:js';
 import 'package:js/js_util.dart' as js;
 // In order to *not* need this ignore, consider extracting the "web" version
 // of your plugin as a separate package, instead of inlining it in the same
@@ -62,6 +60,7 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   //       oneTrust: {
   //         enabled: true
   //       }
+  @override
   void initialize(String writeKey,
       {RudderConfig? config, RudderOption? options}) {
     final rudderConfig = config ?? RudderConfigBuilder().build();
@@ -72,53 +71,64 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
     return webJs.load(writeKey, rudderConfig.dataPlaneUrl, _jsify(configMap));
   }
 
+  @override
   void identify(String userId, {RudderTraits? traits, RudderOption? options}) {
     return webJs.identify(
         userId, _jsify(traits?.traitsMap), _jsify(options?.toMap()));
   }
 
+  @override
   void track(String eventName,
       {RudderProperty? properties, RudderOption? options}) {
     return webJs.track(
         eventName, _jsify(properties?.getMap()), _jsify(options?.toMap()));
   }
 
+  @override
   void screen(String screenName,
       {String? category, RudderProperty? properties, RudderOption? options}) {
     return webJs.page(category, screenName, _jsify(properties?.getMap()),
         _jsify(options?.toMap()));
   }
 
+  @override
   void group(String groupId,
       {RudderTraits? groupTraits, RudderOption? options}) {
     webJs.group(
         groupId, _jsify(groupTraits?.traitsMap), _jsify(options?.toMap()));
   }
 
+  @override
   void alias(String newId, {RudderOption? options}) {
     return webJs.alias(newId, null, _jsify(options?.toMap()));
   }
 
+  @override
   void reset() {
     return webJs.reset();
   }
 
+  @override
   void optOut(bool optOut) {
     RudderLogger.logInfo("opt out is not available for web");
   }
 
+  @override
   void putDeviceToken(String deviceToken) {
     RudderLogger.logInfo("putDeviceToken is not available for web");
   }
 
+  @override
   void putAdvertisingId(String advertisingId) {
     RudderLogger.logInfo("putAdvertisingId is not available for web");
   }
 
+  @override
   void putAnonymousId(String anonymousId) {
     return webJs.setAnonymousId(anonymousId);
   }
 
+  @override
   Future<Map?> getRudderContext() async {
     return {
       "traits": webJs.getUserTraits(),

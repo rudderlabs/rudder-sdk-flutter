@@ -34,6 +34,7 @@ scripts:
   setup:
     run: |
       melos clean && \
+      flutter pub get && \
       melos bootstrap && \
       dart run tools/setup_git_hooks.dart
     description: Prepare monorepo
@@ -41,8 +42,9 @@ scripts:
   setup:ci:
     run: |
       melos clean && \
+      flutter pub get && \
       melos bootstrap
-    description: Prepare monorepo in CI runner
+    description: Prepare monorepo in CI runners
 
   postclean:
     run: |
@@ -74,8 +76,9 @@ scripts:
 
   format:
     run: |
+      dart fix --apply && \
       flutter pub run flutter_plugin_tools format && \
-      flutter format && \
+      flutter format packages && \
       swiftformat .
     description: |
       Build a specific example app for Android.

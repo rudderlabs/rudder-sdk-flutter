@@ -1,17 +1,14 @@
 package com.rudderstack.sdk.flutter.integrations.rudder_integration_adjust_flutter;
 
-import androidx.annotation.NonNull;
+import static com.rudderstack.sdk.flutter.RudderSdkFlutterPlugin.addIntegration;
 
+import androidx.annotation.NonNull;
+import com.rudderstack.android.integration.adjust.AdjustIntegrationFactory;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-
-
-import com.rudderstack.android.integration.adjust.AdjustIntegrationFactory;
-
-import static com.rudderstack.sdk.flutter.RudderSdkFlutterPlugin.addIntegration;
 
 /** RudderIntegrationAdjustFlutterPlugin */
 public class RudderIntegrationAdjustFlutterPlugin implements FlutterPlugin, MethodCallHandler {
@@ -23,18 +20,20 @@ public class RudderIntegrationAdjustFlutterPlugin implements FlutterPlugin, Meth
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "rudder_integration_adjust_flutter");
+    channel =
+        new MethodChannel(
+            flutterPluginBinding.getBinaryMessenger(), "rudder_integration_adjust_flutter");
     channel.setMethodCallHandler(this);
   }
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     if (call.method.equals("addFactory")) {
-            addIntegration(AdjustIntegrationFactory.FACTORY);
-            // To do with result
-        } else {
-            result.notImplemented();
-        }
+      addIntegration(AdjustIntegrationFactory.FACTORY);
+      // To do with result
+    } else {
+      result.notImplemented();
+    }
   }
 
   @Override

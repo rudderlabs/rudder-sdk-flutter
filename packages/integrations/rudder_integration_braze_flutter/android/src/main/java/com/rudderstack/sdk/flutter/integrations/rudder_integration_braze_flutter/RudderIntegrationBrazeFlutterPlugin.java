@@ -1,16 +1,14 @@
 package com.rudderstack.sdk.flutter.integrations.rudder_integration_braze_flutter;
 
-import androidx.annotation.NonNull;
+import static com.rudderstack.sdk.flutter.RudderSdkFlutterPlugin.addIntegration;
 
+import androidx.annotation.NonNull;
+import com.rudderstack.android.integration.braze.BrazeIntegrationFactory;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-
-import com.rudderstack.android.integration.braze.BrazeIntegrationFactory;
-
-import static com.rudderstack.sdk.flutter.RudderSdkFlutterPlugin.addIntegration;
 
 /** RudderIntegrationBrazeFlutterPlugin */
 public class RudderIntegrationBrazeFlutterPlugin implements FlutterPlugin, MethodCallHandler {
@@ -22,18 +20,20 @@ public class RudderIntegrationBrazeFlutterPlugin implements FlutterPlugin, Metho
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "rudder_integration_braze_flutter");
+    channel =
+        new MethodChannel(
+            flutterPluginBinding.getBinaryMessenger(), "rudder_integration_braze_flutter");
     channel.setMethodCallHandler(this);
   }
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
     if (call.method.equals("addFactory")) {
-            addIntegration(BrazeIntegrationFactory.FACTORY);
-            // To do with result
-        } else {
-            result.notImplemented();
-        }
+      addIntegration(BrazeIntegrationFactory.FACTORY);
+      // To do with result
+    } else {
+      result.notImplemented();
+    }
   }
 
   @Override
