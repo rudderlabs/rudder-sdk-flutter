@@ -34,16 +34,8 @@ jobs:
 
       - name: Setup credentials
         run: |
-          mkdir -p ~/.pub-cache
-          cat <<EOF > ~/.pub-cache/credentials.json
-            {
-              "accessToken":"${{ secrets.PUB_DEV_ACCESS_TOKEN }}",
-              "refreshToken":"${{ secrets.PUB_DEV_REFRESH_TOKEN }}",
-              "tokenEndpoint":"https://accounts.google.com/o/oauth2/token",
-              "scopes": [ "openid", "https://www.googleapis.com/auth/userinfo.email" ],
-              "expiration": 1570721159347
-            }
-           EOF
+          mkdir -p $XDG_CONFIG_HOME/dart
+          echo '${{ secrets.PUB_DEV_CREDENTIALS_JSON }}' > "$XDG_CONFIG_HOME/dart/pub-credentials.json"
 
       - name: Install Melos
         run: |
