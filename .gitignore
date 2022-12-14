@@ -20,3 +20,7 @@ pubspec_overrides.yaml
 .env
 google-services.json
 GoogleService-Info.plist
+tests.output
+.scannerwork/
+.flutter-plugins
+.flutter-plugins-dependencies

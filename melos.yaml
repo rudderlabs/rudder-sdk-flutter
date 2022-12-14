@@ -4,6 +4,7 @@ repository: https://github.com/rudderlabs/rudder-sdk-flutter
 sdkPath: auto
 
 packages:
+  - .
   - packages/plugins/**
   - packages/integrations/**
   - packages/example
@@ -18,14 +19,14 @@ command:
 
   version:
     # Only allow versioning to happen on main branch.
-    branch: main
+    # branch: main
     # Generate commit links in package changelogs.
     linkToCommits: true
     # Additionally build a changelog at the root of the workspace.
     workspaceChangelog: true
     includeScopes: true
     message: |
-      chore(release): release new package versions 🎉
+      chore(release): release new package versions
 
       {new_package_versions}
 
@@ -88,7 +89,7 @@ scripts:
   test:
     run: |
       melos exec -c 1 --fail-fast -- \
-        "flutter test --no-pub --coverage"
+        "flutter test --no-pub --machine --coverage > tests.output"
     description: Run `flutter test` for a specific package.
     select-package:
       dir-exists:

@@ -1,5 +1,10 @@
 name: rudder_sdk_flutter_monorepo
-description: Orchestrates the monorepo
+version: 2.2.0
+description: The RudderStack Flutter SDK Monorepo.
+homepage: https://github.com/rudderlabs/rudder-sdk-flutter
+repository: https://github.com/rudderlabs/rudder-sdk-flutter
+issue_tracker: https://github.com/rudderlabs/rudder-sdk-flutter/issues
+documentation: https://docs.rudderstack.com/rudderstack-sdk-integration-guides/rudderstack-flutter-sdk
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -9,6 +14,15 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
+  flutter:
+    sdk: flutter
+  rudder_sdk_flutter: 2.2.0
+  rudder_integration_amplitude_flutter: 1.0.1
+  rudder_integration_firebase_flutter: 1.0.1
+  rudder_integration_braze_flutter: 1.0.1
+  rudder_integration_appcenter_flutter: 1.1.1
+  rudder_integration_adjust_flutter: 1.0.1
+  rudder_integration_leanplum_flutter: 1.0.1
   flutter_plugin_tools: ^0.12.1
 
 dev_dependencies:
@@ -20,9 +34,9 @@ dart_pre_commit:
   format: true
   test-imports: false
   lib-exports: false
-  flutter-compat: true
+  flutter-compat: false
   outdated: false
-  pull-up-dependencies: true
+  pull-up-dependencies: false
   analyze:
     error-level: info
     scan-mode: staged
