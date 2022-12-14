@@ -85,7 +85,7 @@ jobs:
         run: |
           git add .
           git commit --amend --no-edit
-          git push
+          git push --follow-tags
 
       - name: Create pull request into main
         uses: repo-sync/pull-request@v2
