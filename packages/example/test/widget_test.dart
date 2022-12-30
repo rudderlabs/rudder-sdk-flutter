@@ -7,7 +7,7 @@
 
 // ignore_for_file: test-imports
 import 'package:flutter_test/flutter_test.dart';
-import 'package:rudder_sdk_flutter_example/main.dart';
+import 'package:rudder_sdk_flutter_example/home_screen.dart';
 
 void main() {
   testWidgets('Verify Platform version', (WidgetTester tester) async {

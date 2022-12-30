@@ -132,13 +132,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_dotenv:
-    dependency: transitive
-    description:
-      name: flutter_dotenv
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "5.0.2"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -313,30 +306,30 @@ packages:
   rudder_plugin_android:
     dependency: "direct main"
     description:
-      path: "../rudder_plugin_android"
-      relative: true
-    source: path
+      name: rudder_plugin_android
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "2.1.1"
   rudder_plugin_ios:
     dependency: "direct main"
     description:
-      path: "../rudder_plugin_ios"
-      relative: true
-    source: path
+      name: rudder_plugin_ios
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "2.1.1"
   rudder_plugin_web:
     dependency: "direct main"
     description:
-      path: "../rudder_plugin_web"
-      relative: true
-    source: path
+      name: rudder_plugin_web
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "2.1.2"
   rudder_sdk_flutter_platform_interface:
     dependency: "direct main"
     description:
-      path: "../rudder_plugin_interface"
-      relative: true
-    source: path
+      name: rudder_sdk_flutter_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "2.2.0"
   shelf:
     dependency: transitive
