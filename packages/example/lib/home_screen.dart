@@ -7,14 +7,14 @@ import 'package:rudder_integration_braze_flutter/rudder_integration_braze_flutte
 import 'package:rudder_integration_firebase_flutter/rudder_integration_firebase_flutter.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
-class PlatformChannel extends StatefulWidget {
-  const PlatformChannel({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  _PlatformChannelState createState() => _PlatformChannelState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _PlatformChannelState extends State<PlatformChannel> {
+class HomeScreenState extends State<HomeScreen> {
   final RudderController rudderClient = RudderController.instance;
 
   void __identify() {

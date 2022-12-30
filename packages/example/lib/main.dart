@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'home_screen.dart';
 import 'screen2.dart';
 import 'screen3.dart';
-import 'home_screen.dart';
 import 'my_route_observer.dart';
 
 class MyApp extends StatelessWidget {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       navigatorObservers: [
         MyRouteObserver(),
       ],
-      home: const PlatformChannel(),
+      home: const HomeScreen(),
       routes: {
         'screen2': (context) => const Screen2(),
         'screen3': (context) => const Screen3(),
