@@ -21,7 +21,6 @@ class RudderLogger {
       l = NONE;
     }
     __logLevel = l;
-    // _logger =
   }
 
   static void logError(String message) {

@@ -36,6 +36,7 @@ class RudderConfig {
     String controlPlaneUrl, //all
     List<RudderIntegration>? factories,
   ) {
+    RudderLogger.init(logLevel);
     _dataPlaneUrl = dataPlaneUrl;
     //web integrations, QueueOpts, BeaconQueueOpts and CookieConsentManager initialization
     final Map<String, String> queueOpts = {};
