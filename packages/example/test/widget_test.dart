@@ -12,7 +12,7 @@ import 'package:rudder_sdk_flutter_example/home_screen.dart';
 void main() {
   testWidgets('Verify Platform version', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const PlatformChannel());
+    await tester.pumpWidget(const HomeScreen());
     expect(find.text('Track'), findsOneWidget);
   });
 }
