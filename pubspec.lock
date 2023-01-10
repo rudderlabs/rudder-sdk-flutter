@@ -465,7 +465,7 @@ packages:
       path: "packages/integrations/rudder_integration_firebase_flutter"
       relative: true
     source: path
-    version: "1.0.1"
+    version: "2.0.0"
   rudder_integration_leanplum_flutter:
     dependency: "direct main"
     description:
