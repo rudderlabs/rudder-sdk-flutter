@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rudder_sdk_flutter_platform_interface/src/models/rudder_integration.dart';
 import 'package:test/test.dart';
 import 'package:rudder_sdk_flutter_platform_interface/src/models/rudder_config.dart';
@@ -8,8 +5,6 @@ import 'package:rudder_sdk_flutter_platform_interface/src/models/rudder_config.d
 ///use flutter test
 void main() {
   test('config map should have all values inserted', () {
-    dotenv.testLoad(fileInput: File('../../../.env').readAsStringSync());
-
     const String configUrl = "https://www.conf_url.com";
     const String dataPlaneUrl = "https://www.dp_url.com";
     const int flushQueueSize = 23;
