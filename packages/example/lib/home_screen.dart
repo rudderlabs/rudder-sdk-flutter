@@ -5,6 +5,7 @@ import 'package:rudder_integration_appcenter_flutter/rudder_integration_appcente
 import 'package:rudder_integration_amplitude_flutter/rudder_integration_amplitude_flutter.dart';
 import 'package:rudder_integration_braze_flutter/rudder_integration_braze_flutter.dart';
 import 'package:rudder_integration_firebase_flutter/rudder_integration_firebase_flutter.dart';
+// ignore: depend_on_referenced_packages
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -80,14 +81,6 @@ class HomeScreenState extends State<HomeScreen> {
 
     setOutput(
         "screen:\n\tproperty:\n\t\tbrowser: chrome\n\t\tdevice: mac book pro\n\t\tname:Walmart Cart");
-  }
-
-  void __optOut() {
-    rudderClient.optOut(true);
-  }
-
-  void __optIn() {
-    rudderClient.optOut(false);
   }
 
   void __group() {

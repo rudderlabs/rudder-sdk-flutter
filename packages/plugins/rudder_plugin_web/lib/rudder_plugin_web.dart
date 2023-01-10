@@ -10,7 +10,7 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 import 'package:rudder_sdk_flutter_platform_interface/rudder_sdk_platform.dart';
 
-import 'internal/web_js.dart' as webJs;
+import 'internal/web_js.dart' as web_js;
 
 /// A web implementation of the RudderSdkFlutter plugin.
 class RudderSdkFlutterWeb extends RudderSdkPlatform {
@@ -68,44 +68,44 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
         ?.map((key, value) => MapEntry(key, value is bool ? value : false));
     final configMap = rudderConfig.toMapWeb();
     configMap["integrations"] = integrationMap;
-    return webJs.load(writeKey, rudderConfig.dataPlaneUrl, _jsify(configMap));
+    web_js.load(writeKey, rudderConfig.dataPlaneUrl, _jsify(configMap));
   }
 
   @override
   void identify(String userId, {RudderTraits? traits, RudderOption? options}) {
-    return webJs.identify(
+    web_js.identify(
         userId, _jsify(traits?.traitsMap), _jsify(options?.toMap()));
   }
 
   @override
   void track(String eventName,
       {RudderProperty? properties, RudderOption? options}) {
-    return webJs.track(
+    web_js.track(
         eventName, _jsify(properties?.getMap()), _jsify(options?.toMap()));
   }
 
   @override
   void screen(String screenName,
       {String? category, RudderProperty? properties, RudderOption? options}) {
-    return webJs.page(category, screenName, _jsify(properties?.getMap()),
+    web_js.page(category, screenName, _jsify(properties?.getMap()),
         _jsify(options?.toMap()));
   }
 
   @override
   void group(String groupId,
       {RudderTraits? groupTraits, RudderOption? options}) {
-    webJs.group(
+    web_js.group(
         groupId, _jsify(groupTraits?.traitsMap), _jsify(options?.toMap()));
   }
 
   @override
   void alias(String newId, {RudderOption? options}) {
-    return webJs.alias(newId, null, _jsify(options?.toMap()));
+    web_js.alias(newId, null, _jsify(options?.toMap()));
   }
 
   @override
   void reset() {
-    return webJs.reset();
+    web_js.reset();
   }
 
   @override
@@ -125,14 +125,14 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
 
   @override
   void putAnonymousId(String anonymousId) {
-    return webJs.setAnonymousId(anonymousId);
+    web_js.setAnonymousId(anonymousId);
   }
 
   @override
   Future<Map?> getRudderContext() async {
     return {
-      "traits": webJs.getUserTraits(),
-      "anonymousId": webJs.getAnonymousId()
+      "traits": web_js.getUserTraits(),
+      "anonymousId": web_js.getAnonymousId()
     };
   }
 
