@@ -230,12 +230,11 @@ scripts:
 
   run:example:android:
     run: |
-      melos exec -c 1 --fail-fast -- \
-        "flutter emulators"
-      melos exec -c 1 --fail-fast -- \
-        "flutter emulators --launch Pixel_6_Pro_API_33"
-      melos exec -c 1 --fail-fast -- \
-        "flutter run"
+     echo no | avdmanager create avd -n Pixel_6_Pro_API_33 -k "system-images;android-33;google_apis;arm64-v8a" --force && 
+     melos exec -c 1 --fail-fast -- \
+        "flutter emulators --launch Pixel_6_Pro_API_33" 
+      && melos exec -c 1 --fail-fast -- \
+        "flutter run -d Pixel_6_Pro_API_33"
     description: Run a specific example app for Android.
     select-package:
       dir-exists:
