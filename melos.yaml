@@ -195,8 +195,6 @@ scripts:
       melos run build:integration:leanplum --no-select && \
       melos bootstrap
     description: Build all the integrations.
-    select-package:
-      scope: '*rudder_integration_leanplum_flutter'
 
   build:example:android:
     run: |
