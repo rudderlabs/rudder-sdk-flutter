@@ -79,7 +79,6 @@ jobs:
           npx replace $CURRENT_VERSION_VALUE $NEW_VERSION_VALUE sonar-project.properties
           git add sonar-project.properties
           melos version -a --yes
-          melos run setup
 
       - name: Push new versions in release branch
         run: |
