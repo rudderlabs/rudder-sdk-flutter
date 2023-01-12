@@ -84,6 +84,7 @@ jobs:
         run: |
           git add .
           git commit --amend --no-edit
+          git for-each-ref refs/tags
           git push --follow-tags
 
       - name: Create pull request into main
