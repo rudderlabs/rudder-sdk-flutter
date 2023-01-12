@@ -24,8 +24,6 @@ class RudderConfig {
   final Map<String, dynamic> _webConfigMap = {};
   String _dataPlaneUrl = "";
 
-  RudderConfig._();
-
   RudderConfig.__rudderConfig(
     String dataPlaneUrl, // used in android/ios/web
     int flushQueueSize, // all

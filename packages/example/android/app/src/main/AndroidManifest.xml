@@ -8,6 +8,9 @@
          In most cases you can leave this as-is, but you if you want to provide
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
+    <!-- Permissions required for Firebase Devie Mode -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="rudder_sdk_flutter_example">

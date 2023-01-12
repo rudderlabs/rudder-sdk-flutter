@@ -1,7 +1,7 @@
 PODS:
-  - Adjust (4.32.1):
-    - Adjust/Core (= 4.32.1)
-  - Adjust/Core (4.32.1)
+  - Adjust (4.33.3):
+    - Adjust/Core (= 4.33.3)
+  - Adjust/Core (4.33.3)
   - Amplitude (7.2.2)
   - Appboy-iOS-SDK (4.4.2):
     - Appboy-iOS-SDK/UI (= 4.4.2)
@@ -28,97 +28,83 @@ PODS:
   - AppCenter/Core (5.0.0)
   - AppCenter/Crashes (5.0.0):
     - AppCenter/Core
-  - Firebase/Analytics (8.15.0):
-    - Firebase/Core
-  - Firebase/Core (8.15.0):
-    - Firebase/CoreOnly
-    - FirebaseAnalytics (~> 8.15.0)
-  - Firebase/CoreOnly (8.15.0):
-    - FirebaseCore (= 8.15.0)
-  - FirebaseAnalytics (8.15.0):
-    - FirebaseAnalytics/AdIdSupport (= 8.15.0)
-    - FirebaseCore (~> 8.0)
-    - FirebaseInstallations (~> 8.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
-    - GoogleUtilities/MethodSwizzler (~> 7.7)
-    - GoogleUtilities/Network (~> 7.7)
-    - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - FirebaseAnalytics/AdIdSupport (8.15.0):
-    - FirebaseCore (~> 8.0)
-    - FirebaseInstallations (~> 8.0)
-    - GoogleAppMeasurement (= 8.15.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
-    - GoogleUtilities/MethodSwizzler (~> 7.7)
-    - GoogleUtilities/Network (~> 7.7)
-    - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - FirebaseCore (8.15.0):
-    - FirebaseCoreDiagnostics (~> 8.0)
-    - GoogleUtilities/Environment (~> 7.7)
-    - GoogleUtilities/Logger (~> 7.7)
-  - FirebaseCoreDiagnostics (8.15.0):
-    - GoogleDataTransport (~> 9.1)
-    - GoogleUtilities/Environment (~> 7.7)
-    - GoogleUtilities/Logger (~> 7.7)
-    - nanopb (~> 2.30908.0)
-  - FirebaseInstallations (8.15.0):
-    - FirebaseCore (~> 8.0)
-    - GoogleUtilities/Environment (~> 7.7)
-    - GoogleUtilities/UserDefaults (~> 7.7)
-    - PromisesObjC (< 3.0, >= 1.2)
-  - Flutter (1.0.0)
-  - GoogleAppMeasurement (8.15.0):
-    - GoogleAppMeasurement/AdIdSupport (= 8.15.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
-    - GoogleUtilities/MethodSwizzler (~> 7.7)
-    - GoogleUtilities/Network (~> 7.7)
-    - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - GoogleAppMeasurement/AdIdSupport (8.15.0):
-    - GoogleAppMeasurement/WithoutAdIdSupport (= 8.15.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
-    - GoogleUtilities/MethodSwizzler (~> 7.7)
-    - GoogleUtilities/Network (~> 7.7)
-    - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - GoogleAppMeasurement/WithoutAdIdSupport (8.15.0):
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.7)
-    - GoogleUtilities/MethodSwizzler (~> 7.7)
-    - GoogleUtilities/Network (~> 7.7)
-    - "GoogleUtilities/NSData+zlib (~> 7.7)"
-    - nanopb (~> 2.30908.0)
-  - GoogleDataTransport (9.2.0):
-    - GoogleUtilities/Environment (~> 7.7)
+  - FirebaseAnalytics (10.3.0):
+    - FirebaseAnalytics/AdIdSupport (= 10.3.0)
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
-    - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/AppDelegateSwizzler (7.10.0):
+  - FirebaseAnalytics/AdIdSupport (10.3.0):
+    - FirebaseCore (~> 10.0)
+    - FirebaseInstallations (~> 10.0)
+    - GoogleAppMeasurement (= 10.3.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - FirebaseCore (10.3.0):
+    - FirebaseCoreInternal (~> 10.0)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/Logger (~> 7.8)
+  - FirebaseCoreInternal (10.3.0):
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+  - FirebaseInstallations (10.3.0):
+    - FirebaseCore (~> 10.0)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GoogleUtilities/UserDefaults (~> 7.8)
+    - PromisesObjC (~> 2.1)
+  - Flutter (1.0.0)
+  - GoogleAppMeasurement (10.3.0):
+    - GoogleAppMeasurement/AdIdSupport (= 10.3.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleAppMeasurement/AdIdSupport (10.3.0):
+    - GoogleAppMeasurement/WithoutAdIdSupport (= 10.3.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleAppMeasurement/WithoutAdIdSupport (10.3.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/MethodSwizzler (~> 7.8)
+    - GoogleUtilities/Network (~> 7.8)
+    - "GoogleUtilities/NSData+zlib (~> 7.8)"
+    - nanopb (< 2.30910.0, >= 2.30908.0)
+  - GoogleUtilities/AppDelegateSwizzler (7.11.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.10.0):
+  - GoogleUtilities/Environment (7.11.0):
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Logger (7.10.0):
+  - GoogleUtilities/Logger (7.11.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (7.10.0):
+  - GoogleUtilities/MethodSwizzler (7.11.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (7.10.0):
+  - GoogleUtilities/Network (7.11.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.10.0)"
-  - GoogleUtilities/Reachability (7.10.0):
+  - "GoogleUtilities/NSData+zlib (7.11.0)"
+  - GoogleUtilities/Reachability (7.11.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (7.10.0):
+  - GoogleUtilities/UserDefaults (7.11.0):
     - GoogleUtilities/Logger
   - Leanplum-iOS-SDK (4.0.0)
-  - nanopb (2.30908.0):
-    - nanopb/decode (= 2.30908.0)
-    - nanopb/encode (= 2.30908.0)
-  - nanopb/decode (2.30908.0)
-  - nanopb/encode (2.30908.0)
+  - nanopb (2.30909.0):
+    - nanopb/decode (= 2.30909.0)
+    - nanopb/encode (= 2.30909.0)
+  - nanopb/decode (2.30909.0)
+  - nanopb/encode (2.30909.0)
   - PromisesObjC (2.1.1)
-  - Rudder (1.7.1)
+  - Rudder (1.8.0)
   - Rudder-Adjust (1.0.0):
     - Adjust
     - Rudder
@@ -131,9 +117,9 @@ PODS:
   - Rudder-Braze (1.0.3):
     - Appboy-iOS-SDK (= 4.4.2)
     - Rudder (~> 1.0)
-  - Rudder-Firebase (2.0.6):
-    - Firebase/Analytics (~> 8.15.0)
-    - Rudder (~> 1.0)
+  - Rudder-Firebase (3.0.0):
+    - FirebaseAnalytics (= 10.3.0)
+    - Rudder (~> 1.8)
   - Rudder-Leanplum (1.0.2):
     - Leanplum-iOS-SDK (= 4.0.0)
     - Rudder (~> 1.0)
@@ -153,9 +139,9 @@ PODS:
     - Flutter
     - Rudder-Braze (= 1.0.3)
     - rudder_plugin_ios
-  - rudder_integration_firebase_flutter (1.0.1):
+  - rudder_integration_firebase_flutter (2.0.0):
     - Flutter
-    - Rudder-Firebase (= 2.0.6)
+    - Rudder-Firebase (= 3.0.0)
     - rudder_plugin_ios
   - rudder_integration_leanplum_flutter (1.0.1):
     - Flutter
@@ -163,10 +149,10 @@ PODS:
     - rudder_plugin_ios
   - rudder_plugin_ios (0.0.1):
     - Flutter
-    - Rudder (~> 1.7.0)
-  - SDWebImage (5.14.2):
-    - SDWebImage/Core (= 5.14.2)
-  - SDWebImage/Core (5.14.2)
+    - Rudder (~> 1.8)
+  - SDWebImage (5.14.3):
+    - SDWebImage/Core (= 5.14.3)
+  - SDWebImage/Core (5.14.3)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -184,13 +170,11 @@ SPEC REPOS:
     - Amplitude
     - Appboy-iOS-SDK
     - AppCenter
-    - Firebase
     - FirebaseAnalytics
     - FirebaseCore
-    - FirebaseCoreDiagnostics
+    - FirebaseCoreInternal
     - FirebaseInstallations
     - GoogleAppMeasurement
-    - GoogleDataTransport
     - GoogleUtilities
     - Leanplum-iOS-SDK
     - nanopb
@@ -223,37 +207,35 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/rudder_plugin_ios/ios"
 
 SPEC CHECKSUMS:
-  Adjust: 3030e2e086023cb6cadef374b500b6cc263bb9d0
+  Adjust: 41d0d5c031409aebe7fb1f5703ff0d3306133439
   Amplitude: 517cdc7c485bda64b685174426ecbf17746eb16a
   Appboy-iOS-SDK: 4a7dfe908639da81e5e85849355f6066b58b4cc6
   AppCenter: 30ac5adefc8fc41d9530f1cc91829810a6af4c93
-  Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
-  FirebaseAnalytics: 7761cbadb00a717d8d0939363eb46041526474fa
-  FirebaseCore: 5743c5785c074a794d35f2fff7ecc254a91e08b1
-  FirebaseCoreDiagnostics: 92e07a649aeb66352b319d43bdd2ee3942af84cb
-  FirebaseInstallations: 40bd9054049b2eae9a2c38ef1c3dd213df3605cd
+  FirebaseAnalytics: 036232b6a1e2918e5f67572417be1173576245f3
+  FirebaseCore: 988754646ab3bd4bdcb740f1bfe26b9f6c0d5f2a
+  FirebaseCoreInternal: 29b76f784d607df8b2a1259d73c3f04f1210137b
+  FirebaseInstallations: e2f26126089dcf41e215f7b8925af8d953c7d602
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  GoogleAppMeasurement: 4c19f031220c72464d460c9daa1fb5d1acce958e
-  GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
-  GoogleUtilities: bad72cb363809015b1f7f19beb1f1cd23c589f95
+  GoogleAppMeasurement: c7d6fff39bf2d829587d74088d582e32d75133c3
+  GoogleUtilities: c2bdc4cf2ce786c4d2e6b3bcfd599a25ca78f06f
   Leanplum-iOS-SDK: 8115f65d185eb94d94c4ab08176dfcb4a8b97926
-  nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
-  Rudder: 61568212171ddc2efe7785d0a6a0de589d181370
+  Rudder: 0a5272646aa3b89295526cea2bf54d092044848a
   Rudder-Adjust: 5f14011c8f7237d80a96a10655ac03ebf832bcc4
   Rudder-Amplitude: f845cc125a1a58d4de6155391a2b0392815ae898
   Rudder-AppCenter: 9eca9241e3707a0e9610714dd91dc8da4bae7e1f
   Rudder-Braze: e58e0e8163a2dcf0d45ec2d12bdb0ec3329c3681
-  Rudder-Firebase: 1d67b8812d4131933bae7079cea40632b77b842c
+  Rudder-Firebase: 9f061bf3c23900e1a8f32f8b079ae17e04874f17
   Rudder-Leanplum: e2c9ffa48ea227c3574998afa1e287061ad042ee
   rudder_integration_adjust_flutter: c704f2b03feb03e96e7bf32840b1fdd6fafe5f81
   rudder_integration_amplitude_flutter: 892a1c13bc857320980ffe32e6ef57d4ea1fe6b3
   rudder_integration_appcenter_flutter: 45bd5c618aa22190a132dfc407472fe4fc6ef502
   rudder_integration_braze_flutter: 92442da8f6f9561070b46de6d970cfda575ac81b
-  rudder_integration_firebase_flutter: 731dd04c49e7996f0264561f9739db4885043154
+  rudder_integration_firebase_flutter: 07ec024dc124608d7a0e769af86b67a48949cc97
   rudder_integration_leanplum_flutter: 48c75a20dc959919ad3249a0288fabf009c8f9db
-  rudder_plugin_ios: ba6c0039d9f4c621c539c71cafb6f8cd62ce9805
-  SDWebImage: b9a731e1d6307f44ca703b3976d18c24ca561e84
+  rudder_plugin_ios: 7f1dbab9c58ef9db8547c29e1335b9144656019b
+  SDWebImage: 9c36e66c8ce4620b41a7407698dda44211a96764
 
 PODFILE CHECKSUM: 8ac12c04bf01db6d6e9ee903496e5f7eda779c7c
 
