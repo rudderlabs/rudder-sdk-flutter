@@ -46,8 +46,6 @@ jobs:
           melos run setup:ci
 
       - name: Publish package to pub.dev
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           melos publish --no-dry-run
 
@@ -63,9 +61,9 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           PROJECT_NAME: 'Flutter SDK pub.dev packages'
-          NPM_PACKAGE_URL: 'https://pub.dev/packages?q=rudder'
+          RELEASES_URL: 'https://pub.dev/packages?q=rudder'
         with:
-          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          channel-id: ${{ secrets.SLACK_RELEASE_CHANNEL_ID }}
           payload: |
             {
               "blocks": [
@@ -83,7 +81,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Release: <${{ env.NPM_PACKAGE_URL }}|${{ env.CURRENT_VERSION_VALUE }}>*\n${{ env.DATE }}"
+                    "text": "*Release: <${{ env.RELEASES_URL }}|Latest Packages>*\n${{ env.DATE }}"
                   }
                 }
               ]
