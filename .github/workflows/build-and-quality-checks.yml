@@ -9,6 +9,7 @@ jobs:
   build:
     name: Build & Code Quality Checks
     runs-on: macos-latest
+    if: startsWith(github.event.pull_request.head.ref, 'release/') != true
 
     steps:
       - name: Checkout

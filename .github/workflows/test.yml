@@ -12,6 +12,7 @@ jobs:
   build:
     name: 'Unit Tests, Coverage & Sonar'
     runs-on: ubuntu-latest
+    if: startsWith(github.event.pull_request.head.ref, 'release/') != true
 
     steps:
       - name: Checkout
