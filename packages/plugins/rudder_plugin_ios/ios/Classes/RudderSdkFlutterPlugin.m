@@ -1,12 +1,14 @@
 #import "RudderSdkFlutterPlugin.h"
 #import <Rudder/Rudder.h>
 #import "RSMessageType.h"
+#import "RSLogger.h"
 
 static NSNotification* _notification;
 
 @implementation RudderSdkFlutterPlugin
 
 NSMutableArray* integrationList;
+BOOL _isCleanUp = NO;
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel =
@@ -18,13 +20,23 @@ NSMutableArray* integrationList;
                                            selector:@selector(listenAppLaunchNotification:)
                                                name:UIApplicationDidFinishLaunchingNotification
                                              object:UIApplication.sharedApplication];
+  [RSLogger initiate:RSLogLevelWarning];                                       
+  _isCleanUp = NO;
 }
 
 + (void)listenAppLaunchNotification:(NSNotification*)notification {
   _notification = notification;
 }
 
+- (void)detachFromEngineForRegistrar: (NSObject<FlutterPluginRegistrar> *)registrar {
+  _isCleanUp = YES;
+}
+
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
+  if(_isCleanUp) {
+    [RSLogger logError:@"Registrar has been detached from Engine and method calls cannot be executed"];
+    return;
+  }
   if ([call.method isEqualToString:@"initializeSDK"]) {
     [RSClient getInstance:[call.arguments objectForKey:@"writeKey"]
                    config:[self getRudderConfigObject:[call.arguments objectForKey:@"config"]]
@@ -140,6 +152,10 @@ NSMutableArray* integrationList;
     return;
   } else if ([call.method isEqualToString:@"getRudderContext"]) {
     if ([RSClient sharedInstance] == nil) {
+      return;
+    }
+    if(_isCleanUp) {
+      [RSLogger logError:@"Registrar has been detached from Engine and method calls cannot be executed"];
       return;
     }
     result([[[RSClient sharedInstance] getContext] dict]);
