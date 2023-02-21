@@ -8,7 +8,7 @@ static NSNotification* _notification;
 @implementation RudderSdkFlutterPlugin
 
 NSMutableArray* integrationList;
-BOOL _isCleanUp = NO;
+BOOL isRegistrarDetached = NO;
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel =
@@ -21,7 +21,7 @@ BOOL _isCleanUp = NO;
                                                name:UIApplicationDidFinishLaunchingNotification
                                              object:UIApplication.sharedApplication];
   [RSLogger initiate:RSLogLevelWarning];                                       
-  _isCleanUp = NO;
+  isRegistrarDetached = NO;
 }
 
 + (void)listenAppLaunchNotification:(NSNotification*)notification {
@@ -29,11 +29,11 @@ BOOL _isCleanUp = NO;
 }
 
 - (void)detachFromEngineForRegistrar: (NSObject<FlutterPluginRegistrar> *)registrar {
-  _isCleanUp = YES;
+  isRegistrarDetached = YES;
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
-  if(_isCleanUp) {
+  if(isRegistrarDetached) {
     [RSLogger logError:@"Registrar has been detached from Engine and method calls cannot be executed"];
     return;
   }
@@ -154,7 +154,7 @@ BOOL _isCleanUp = NO;
     if ([RSClient sharedInstance] == nil) {
       return;
     }
-    if(_isCleanUp) {
+    if(isRegistrarDetached) {
       [RSLogger logError:@"Registrar has been detached from Engine and method calls cannot be executed"];
       return;
     }
