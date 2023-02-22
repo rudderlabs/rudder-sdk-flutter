@@ -34,8 +34,8 @@ jobs:
 
       - name: Setup credentials
         run: |
-          mkdir -p $XDG_CONFIG_HOME/dart
-          echo '${{ secrets.PUB_DEV_CREDENTIALS_JSON }}' > "$XDG_CONFIG_HOME/dart/pub-credentials.json"
+          mkdir ~/Library/Application\ Support/dart
+          echo '${{ secrets.PUB_DEV_CREDENTIALS_JSON }}' > ~/Library/Application\ Support/dart/pub-credentials.json
 
       - name: Install Melos
         run: |
