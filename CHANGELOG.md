@@ -3,6 +3,86 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-02-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`rudder_integration_adjust_flutter` - `v1.0.3`](#rudder_integration_adjust_flutter---v103)
+ - [`rudder_integration_amplitude_flutter` - `v1.0.3`](#rudder_integration_amplitude_flutter---v103)
+ - [`rudder_integration_appcenter_flutter` - `v1.1.3`](#rudder_integration_appcenter_flutter---v113)
+ - [`rudder_integration_braze_flutter` - `v1.0.3`](#rudder_integration_braze_flutter---v103)
+ - [`rudder_integration_firebase_flutter` - `v2.0.2`](#rudder_integration_firebase_flutter---v202)
+ - [`rudder_integration_leanplum_flutter` - `v1.0.3`](#rudder_integration_leanplum_flutter---v103)
+ - [`rudder_plugin_android` - `v2.2.1`](#rudder_plugin_android---v221)
+ - [`rudder_plugin_ios` - `v2.2.1`](#rudder_plugin_ios---v221)
+ - [`rudder_plugin_web` - `v2.2.1`](#rudder_plugin_web---v221)
+ - [`rudder_sdk_flutter` - `v2.3.1`](#rudder_sdk_flutter---v231)
+ - [`rudder_sdk_flutter_example` - `v0.0.0+1`](#rudder_sdk_flutter_example---v0001)
+ - [`rudder_sdk_flutter_monorepo` - `v3.0.1`](#rudder_sdk_flutter_monorepo---v301)
+
+---
+
+#### `rudder_integration_adjust_flutter` - `v1.0.3`
+
+ - **FIX**: fixed flutter engine hasn't started running issue ([#78](https://github.com/rudderlabs/rudder-sdk-flutter/issues/78)). ([53f9965e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/53f9965e63c0ec36e3b298956c1df1a231f5a2e0))
+
+#### `rudder_integration_amplitude_flutter` - `v1.0.3`
+
+ - **FIX**: fixed flutter engine hasn't started running issue ([#78](https://github.com/rudderlabs/rudder-sdk-flutter/issues/78)). ([53f9965e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/53f9965e63c0ec36e3b298956c1df1a231f5a2e0))
+
+#### `rudder_integration_appcenter_flutter` - `v1.1.3`
+
+ - **FIX**: fixed flutter engine hasn't started running issue ([#78](https://github.com/rudderlabs/rudder-sdk-flutter/issues/78)). ([53f9965e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/53f9965e63c0ec36e3b298956c1df1a231f5a2e0))
+
+#### `rudder_integration_braze_flutter` - `v1.0.3`
+
+ - **FIX**: fixed flutter engine hasn't started running issue ([#78](https://github.com/rudderlabs/rudder-sdk-flutter/issues/78)). ([53f9965e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/53f9965e63c0ec36e3b298956c1df1a231f5a2e0))
+
+#### `rudder_integration_firebase_flutter` - `v2.0.2`
+
+ - **FIX**: fixed flutter engine hasn't started running issue ([#78](https://github.com/rudderlabs/rudder-sdk-flutter/issues/78)). ([53f9965e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/53f9965e63c0ec36e3b298956c1df1a231f5a2e0))
+
+#### `rudder_integration_leanplum_flutter` - `v1.0.3`
+
+ - **FIX**: fixed flutter engine hasn't started running issue ([#78](https://github.com/rudderlabs/rudder-sdk-flutter/issues/78)). ([53f9965e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/53f9965e63c0ec36e3b298956c1df1a231f5a2e0))
+
+#### `rudder_plugin_android` - `v2.2.1`
+
+ - **FIX**: fixed flutter engine hasn't started running issue ([#78](https://github.com/rudderlabs/rudder-sdk-flutter/issues/78)). ([53f9965e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/53f9965e63c0ec36e3b298956c1df1a231f5a2e0))
+
+#### `rudder_plugin_ios` - `v2.2.1`
+
+ - **FIX**: fixed flutter engine hasn't started running issue ([#78](https://github.com/rudderlabs/rudder-sdk-flutter/issues/78)). ([53f9965e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/53f9965e63c0ec36e3b298956c1df1a231f5a2e0))
+
+#### `rudder_plugin_web` - `v2.2.1`
+
+ - **FIX**: fixed flutter engine hasn't started running issue ([#78](https://github.com/rudderlabs/rudder-sdk-flutter/issues/78)). ([53f9965e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/53f9965e63c0ec36e3b298956c1df1a231f5a2e0))
+
+#### `rudder_sdk_flutter` - `v2.3.1`
+
+ - **FIX**: fixed flutter engine hasn't started running issue ([#78](https://github.com/rudderlabs/rudder-sdk-flutter/issues/78)). ([53f9965e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/53f9965e63c0ec36e3b298956c1df1a231f5a2e0))
+
+#### `rudder_sdk_flutter_example` - `v0.0.0+1`
+
+ - **FIX**: fixed flutter engine hasn't started running issue ([#78](https://github.com/rudderlabs/rudder-sdk-flutter/issues/78)). ([53f9965e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/53f9965e63c0ec36e3b298956c1df1a231f5a2e0))
+
+#### `rudder_sdk_flutter_monorepo` - `v3.0.1`
+
+ - **FIX**: fixed flutter engine hasn't started running issue ([#78](https://github.com/rudderlabs/rudder-sdk-flutter/issues/78)). ([53f9965e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/53f9965e63c0ec36e3b298956c1df1a231f5a2e0))
+
+## 3.0.1
+
+ - **FIX**: fixed flutter engine hasn't started running issue ([#78](https://github.com/rudderlabs/rudder-sdk-flutter/issues/78)). ([53f9965e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/53f9965e63c0ec36e3b298956c1df1a231f5a2e0))
+
+
 ## 2023-01-12
 
 ### Changes
