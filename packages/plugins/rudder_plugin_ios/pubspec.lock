@@ -311,7 +311,7 @@ packages:
       path: "../rudder_plugin_interface"
       relative: true
     source: path
-    version: "2.2.0"
+    version: "2.3.0"
   shelf:
     dependency: transitive
     description:
