@@ -1,6 +1,6 @@
 name: rudder_integration_leanplum_flutter
 description: RudderStack Device Mode for Leanplum on Flutter SDK
-version: 1.0.2
+version: 1.0.3
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 
 environment:
@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
-  rudder_sdk_flutter: ^2.3.0
+  rudder_sdk_flutter: ^2.3.1
   rudder_sdk_flutter_platform_interface: ^2.3.0
 dev_dependencies:
   flutter_lints: ^2.0.1
