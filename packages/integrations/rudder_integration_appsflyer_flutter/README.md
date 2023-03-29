@@ -38,8 +38,40 @@ rudderClient.initialize(WRITE_KEY,
     config: builder.build(), options:null);
 ```
 
+5. Add the below dependency to the `android/app/build.gradle` file of your app:
 
+```groovy
+dependencies {
+    implementation 'com.appsflyer:af-android-sdk:6.+'
+}
+```
 
+6. And then initialize the Appsflyer Android SDK  by overriding the `onCreate` method in `MainActivity.java` file located at your app's `android/app/src/main/java/com/your_org/your_app_name/` folder, so that the Appsflyer's Android SDK is initialized even before the Rudderstack's RN SDK and is made available for the RN SDK. 
+
+```java
+
+  import com.appsflyer.AppsFlyerLib;
+  import com.appsflyer.AFLogger;
+
+  @Override
+  protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    AppsFlyerLib.getInstance().init("AF_DEV_KEY", null, this);
+    AppsFlyerLib.getInstance().setLogLevel(AFLogger.LogLevel.DEBUG);
+    AppsFlyerLib.getInstance().start(this);
+  }
+```
+
+7. And then initalize the Appsflyer iOS SDK by adding the below code at the top of the `didFinishLaunchingWithOptions` method in the `AppDelegate.swift` file located at your app's `ios/Runner/` folder. 
+
+```swift
+      import AppsFlyerLib
+
+      AppsFlyerLib.shared().appsFlyerDevKey = "AF_DEV_KEY"
+      AppsFlyerLib.shared().appleAppID = "APPLE_APP_ID"
+      AppsFlyerLib.shared().isDebug = true
+      AppsFlyerLib.shared().start()
+```
 ## Sending Events
 
 Follow the steps from our [RudderStack Flutter SDK](https://github.com/rudderlabs/rudder-sdk-flutter#send-events) repo.
