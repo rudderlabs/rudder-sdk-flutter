@@ -5,9 +5,9 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
 RudderStack flutter SDK ios plugin project
                        DESC
-  s.homepage         = 'https://rudderstack.com'
+  s.homepage         = 'https://github.com/rudderlabs/rudder-sdk-flutter/tree/main/packages/plugins/rudder_plugin_ios'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Sai Venkat Desu' => 'venkat@rudderstack.com' }
+  s.author           = { 'RudderStack' => 'sdk@rudderstack.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
