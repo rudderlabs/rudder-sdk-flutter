@@ -78,13 +78,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-  cli_launcher:
-    dependency: transitive
-    description:
-      name: cli_launcher
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.3.1"
   cli_util:
     dependency: transitive
     description:
@@ -126,7 +119,7 @@ packages:
       name: conventional_commit
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.0+1"
+    version: "0.5.0+1"
   convert:
     dependency: transitive
     description:
@@ -367,7 +360,7 @@ packages:
       name: melos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "2.9.0"
   meta:
     dependency: transitive
     description:
