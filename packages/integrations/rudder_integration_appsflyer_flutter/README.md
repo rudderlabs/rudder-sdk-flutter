@@ -8,7 +8,7 @@ Questions? Please join our [Slack channel](https://www.rudderstack.com/join-rudd
 
 ## Integrating Appsflyer with the RudderStack Flutter SDK
 
-1. Add [Adjust](https://www.appsflyer.com/) as a destination in the [RudderStack dashboard](https://app.rudderstack.com/).
+1. Add [Appsflyer](https://www.appsflyer.com/) as a destination in the [RudderStack dashboard](https://app.rudderstack.com/).
 
 2. Open `pubspec.yaml`  and add `rudder_integration_appsflyer_flutter` under `dependencies` section:
 
