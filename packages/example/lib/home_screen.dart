@@ -8,6 +8,8 @@ import 'package:rudder_integration_firebase_flutter/rudder_integration_firebase_
 // ignore: depend_on_referenced_packages
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
+bool isInitialized = false;
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -42,6 +44,7 @@ class HomeScreenState extends State<HomeScreen> {
     builder.withLogLevel(RudderLogger.VERBOSE);
     String writeKey = dotenv.env['WRITE_KEY'] ?? "INVALID_WRITE_KEY";
     rudderClient.initialize(writeKey, config: builder.build(), options: null);
+    isInitialized = true;
 
     setOutput("initialize:\nwriteKey: $writeKey");
   }
