@@ -21,7 +21,7 @@ Add you .env file as per the .env.sample with secrets used in unit tests.
 
 To setup locally:
 
-    dart pub global activate melos
+    dart pub global activate melos 2.9.0
     melos run flutter:upgrade
     melos run setup
     melos run build:sdk:all

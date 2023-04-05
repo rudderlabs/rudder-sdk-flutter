@@ -31,7 +31,7 @@ jobs:
 
       - name: Install Melos
         run: |
-          dart pub global activate melos
+          dart pub global activate melos 2.9.0
 
       # In order to make a commit, we need to initialize a user.
       # You may choose to write something less generic here if you want, it doesn't matter functionality wise.
@@ -47,7 +47,8 @@ jobs:
           source_branch_name=${GITHUB_REF##*/}
           release_type=release
           grep -q "hotfix/" <<< "${GITHUB_REF}" && release_type=hotfix-release
-          git fetch origin main --depth=1
+          git fetch origin main
+          git fetch --tags origin
           git merge origin/main
           current_version=$(grep -A0 'version:' pubspec.yaml | tail -n1 | awk '{ print $2 }')
 
@@ -85,6 +86,7 @@ jobs:
           git add .
           git commit --amend --no-edit
           git for-each-ref refs/tags
+          git push origin --tags
           git push --follow-tags
 
       - name: Create pull request into main
@@ -94,5 +96,5 @@ jobs:
           destination_branch: 'main'
           github_token: ${{ secrets.PAT }}
           pr_title: 'chore(release): pulling ${{ steps.create-release.outputs.branch_name }} into main'
-          pr_body: ":crown: *An automated PR*"
+          pr_body: ':crown: *An automated PR*'
           pr_reviewer: 'bardisg,desusai7'

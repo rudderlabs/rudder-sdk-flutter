@@ -160,6 +160,14 @@ scripts:
     description: Build the AppCenter integration plugin.
     select-package:
       scope: '*rudder_integration_appcenter_flutter'
+    
+  build:integration:appsflyer:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build bundle --target=lib/rudder_integration_appsflyer_flutter.dart"
+    description: Build the AppsFlyer integration plugin.
+    select-package:
+      scope: '*rudder_integration_appsflyer_flutter'
 
   build:integration:braze:
     run: |
