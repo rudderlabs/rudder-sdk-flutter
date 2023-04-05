@@ -3,6 +3,53 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-04-05
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`rudder_integration_appsflyer_flutter` - `v1.1.0`](#rudder_integration_appsflyer_flutter---v110)
+ - [`rudder_sdk_flutter_example` - `v0.0.1`](#rudder_sdk_flutter_example---v001)
+ - [`rudder_sdk_flutter_monorepo` - `v3.1.0`](#rudder_sdk_flutter_monorepo---v310)
+
+---
+
+#### `rudder_integration_appsflyer_flutter` - `v1.1.0`
+
+ - **FEAT**(rudder_integration_appsflyer_flutter): added initial changes for the development of appsflyer device mod. ([559fbdad](https://github.com/rudderlabs/rudder-sdk-flutter/commit/559fbdadd07386113b0125dcb488b86512013ac0))
+ - **DOCS**(rudder_integration_appsflyer_flutter): fixed minor issues in readme. ([db02d351](https://github.com/rudderlabs/rudder-sdk-flutter/commit/db02d3519a9e434cabfc7cf62e2efde18038c923))
+ - **DOCS**(rudder_integration_appsflyer_flutter): updated readme file to include platform specific steps to be taken. ([df06325c](https://github.com/rudderlabs/rudder-sdk-flutter/commit/df06325ceff03226e915c8761ca8c694165ae535))
+
+#### `rudder_sdk_flutter_example` - `v0.0.1`
+
+ - **REFACTOR**: add melos monorepo tooling, code analysis, precommit hooks ([#58](https://github.com/rudderlabs/rudder-sdk-flutter/issues/58)). ([f5523f2f](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f5523f2fb41b723f1d0b1c090fbc880a79049aab))
+ - **FIX**(rudder_sdk_flutter_example): fixed the issue of automatic screen events being sent before SDK initialization. ([9f43689b](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9f43689b3dff57251f43344a0704abb0073a8767))
+ - **FIX**: fixed flutter engine hasn't started running issue ([#78](https://github.com/rudderlabs/rudder-sdk-flutter/issues/78)). ([53f9965e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/53f9965e63c0ec36e3b298956c1df1a231f5a2e0))
+ - **FIX**: fixed rudder_logger un-initialized issue ([#69](https://github.com/rudderlabs/rudder-sdk-flutter/issues/69)). ([118fb52b](https://github.com/rudderlabs/rudder-sdk-flutter/commit/118fb52b7011282f3200be3d47a30cc548563350))
+ - **FEAT**(monorepo): updated android & ios sdk version range in plugins to start from 1.8.1 & 1.8.0. ([32346cc9](https://github.com/rudderlabs/rudder-sdk-flutter/commit/32346cc9e0da51e7cdca1daf5ab2a1ac2b8b1a88))
+
+#### `rudder_sdk_flutter_monorepo` - `v3.1.0`
+
+ - **FIX**(rudder_sdk_flutter_example): fixed the issue of automatic screen events being sent before SDK initialization. ([9f43689b](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9f43689b3dff57251f43344a0704abb0073a8767))
+ - **FEAT**(rudder_integration_appsflyer_flutter): added initial changes for the development of appsflyer device mod. ([559fbdad](https://github.com/rudderlabs/rudder-sdk-flutter/commit/559fbdadd07386113b0125dcb488b86512013ac0))
+ - **DOCS**(rudder_integration_appsflyer_flutter): fixed minor issues in readme. ([db02d351](https://github.com/rudderlabs/rudder-sdk-flutter/commit/db02d3519a9e434cabfc7cf62e2efde18038c923))
+ - **DOCS**(rudder_integration_appsflyer_flutter): updated readme file to include platform specific steps to be taken. ([df06325c](https://github.com/rudderlabs/rudder-sdk-flutter/commit/df06325ceff03226e915c8761ca8c694165ae535))
+
+## 3.1.0
+
+ - **FIX**(rudder_sdk_flutter_example): fixed the issue of automatic screen events being sent before SDK initialization. ([9f43689b](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9f43689b3dff57251f43344a0704abb0073a8767))
+ - **FEAT**(rudder_integration_appsflyer_flutter): added initial changes for the development of appsflyer device mod. ([559fbdad](https://github.com/rudderlabs/rudder-sdk-flutter/commit/559fbdadd07386113b0125dcb488b86512013ac0))
+ - **DOCS**(rudder_integration_appsflyer_flutter): fixed minor issues in readme. ([db02d351](https://github.com/rudderlabs/rudder-sdk-flutter/commit/db02d3519a9e434cabfc7cf62e2efde18038c923))
+ - **DOCS**(rudder_integration_appsflyer_flutter): updated readme file to include platform specific steps to be taken. ([df06325c](https://github.com/rudderlabs/rudder-sdk-flutter/commit/df06325ceff03226e915c8761ca8c694165ae535))
+
+
 ## 2023-02-22
 
 ### Changes
