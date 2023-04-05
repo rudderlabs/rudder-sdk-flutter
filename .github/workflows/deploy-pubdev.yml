@@ -51,7 +51,7 @@ jobs:
 
       - name: Publish package to pub.dev
         run: |
-          melos publish --no-dry-run
+          melos publish --no-dry-run --yes
 
       - name: Get new version number
         run: |
