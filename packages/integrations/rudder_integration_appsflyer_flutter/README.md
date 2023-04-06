@@ -46,7 +46,7 @@ dependencies {
 }
 ```
 
-6. And then initialize the Appsflyer Android SDK  by overriding the `onCreate` method in `MainActivity.java` file located at your app's `android/app/src/main/java/com/your_org/your_app_name/` folder, so that the Appsflyer's Android SDK is initialized even before the Rudderstack's RN SDK and is made available for the RN SDK. 
+6. And then initialize the Appsflyer Android SDK  by overriding the `onCreate` method in `MainActivity.java` file located at your app's `android/app/src/main/java/com/your_org/your_app_name/` folder, so that the Appsflyer's Android SDK is initialized even before the Rudderstack's Flutter SDK and is made available for the Flutter SDK. 
 
 ```java
 
