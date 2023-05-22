@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 class Utils {
   // range constants
   static const int MIN_CONFIG_REFRESH_INTERVAL = 1;
@@ -19,7 +17,14 @@ class Utils {
   }
 
   static String toDateString(DateTime dateTime) {
-    return DateFormat("yy-MM-dd").format(dateTime);
+    return "${dateTime.year % 100}-${_twoDigits(dateTime.month)}-${_twoDigits(dateTime.day)}";
+  }
+
+  static String _twoDigits(int n) {
+    if (n >= 10) {
+      return "$n";
+    }
+    return "0$n";
   }
 
   static bool equalsIgnoreCase(String string1, String string2) {
