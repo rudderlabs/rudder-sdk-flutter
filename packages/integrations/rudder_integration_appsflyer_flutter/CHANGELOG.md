@@ -1,3 +1,7 @@
+## 1.1.1
+
+ - Update a dependency to the latest release.
+
 ## 1.1.0
 
  - **FEAT**(rudder_integration_appsflyer_flutter): added initial changes for the development of appsflyer device mod. ([559fbdad](https://github.com/rudderlabs/rudder-sdk-flutter/commit/559fbdadd07386113b0125dcb488b86512013ac0))
