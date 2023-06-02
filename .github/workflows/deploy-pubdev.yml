@@ -3,7 +3,7 @@ name: Deploy to pub.dev
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ["Publish new release"]
+    workflows: ["Publish new github release"]
     types:
       - completed
 
@@ -61,7 +61,7 @@ jobs:
 
       - name: Send message to Slack channel
         id: slack
-        uses: slackapi/slack-github-action@v1.23.0
+        uses: slackapi/slack-github-action@v1.24.0
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           PROJECT_NAME: 'Flutter SDK pub.dev packages'
