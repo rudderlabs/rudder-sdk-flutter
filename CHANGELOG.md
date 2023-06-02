@@ -3,6 +3,69 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2023-06-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`rudder_plugin_web` - `v2.2.3`](#rudder_plugin_web---v223)
+ - [`rudder_sdk_flutter` - `v2.3.3`](#rudder_sdk_flutter---v233)
+ - [`rudder_sdk_flutter_example` - `v0.0.1`](#rudder_sdk_flutter_example---v001)
+ - [`rudder_sdk_flutter_monorepo` - `v3.1.2`](#rudder_sdk_flutter_monorepo---v312)
+ - [`rudder_integration_firebase_flutter` - `v2.0.4`](#rudder_integration_firebase_flutter---v204)
+ - [`rudder_integration_appcenter_flutter` - `v1.1.5`](#rudder_integration_appcenter_flutter---v115)
+ - [`rudder_integration_leanplum_flutter` - `v1.0.5`](#rudder_integration_leanplum_flutter---v105)
+ - [`rudder_integration_braze_flutter` - `v1.0.5`](#rudder_integration_braze_flutter---v105)
+ - [`rudder_integration_adjust_flutter` - `v1.0.5`](#rudder_integration_adjust_flutter---v105)
+ - [`rudder_integration_amplitude_flutter` - `v1.0.5`](#rudder_integration_amplitude_flutter---v105)
+ - [`rudder_integration_appsflyer_flutter` - `v1.1.2`](#rudder_integration_appsflyer_flutter---v112)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `rudder_integration_firebase_flutter` - `v2.0.4`
+ - `rudder_integration_appcenter_flutter` - `v1.1.5`
+ - `rudder_integration_leanplum_flutter` - `v1.0.5`
+ - `rudder_integration_braze_flutter` - `v1.0.5`
+ - `rudder_integration_adjust_flutter` - `v1.0.5`
+ - `rudder_integration_amplitude_flutter` - `v1.0.5`
+ - `rudder_integration_appsflyer_flutter` - `v1.1.2`
+
+---
+
+#### `rudder_plugin_web` - `v2.2.3`
+
+ - **FIX**: removed dependency on intl package. ([e6459c0c](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e6459c0c17b97e37e7249c00a3f3e689201da6b6))
+
+#### `rudder_sdk_flutter` - `v2.3.3`
+
+ - **FIX**: removed dependency on intl package. ([e6459c0c](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e6459c0c17b97e37e7249c00a3f3e689201da6b6))
+
+#### `rudder_sdk_flutter_example` - `v0.0.1`
+
+ - **REFACTOR**: add melos monorepo tooling, code analysis, precommit hooks ([#58](https://github.com/rudderlabs/rudder-sdk-flutter/issues/58)). ([f5523f2f](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f5523f2fb41b723f1d0b1c090fbc880a79049aab))
+ - **FIX**(rudder_sdk_flutter_example): fixed the issue of automatic screen events being sent before SDK initialization. ([9f43689b](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9f43689b3dff57251f43344a0704abb0073a8767))
+ - **FIX**: fixed flutter engine hasn't started running issue ([#78](https://github.com/rudderlabs/rudder-sdk-flutter/issues/78)). ([53f9965e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/53f9965e63c0ec36e3b298956c1df1a231f5a2e0))
+ - **FIX**: fixed rudder_logger un-initialized issue ([#69](https://github.com/rudderlabs/rudder-sdk-flutter/issues/69)). ([118fb52b](https://github.com/rudderlabs/rudder-sdk-flutter/commit/118fb52b7011282f3200be3d47a30cc548563350))
+ - **FEAT**(monorepo): updated android & ios sdk version range in plugins to start from 1.8.1 & 1.8.0. ([32346cc9](https://github.com/rudderlabs/rudder-sdk-flutter/commit/32346cc9e0da51e7cdca1daf5ab2a1ac2b8b1a88))
+
+#### `rudder_sdk_flutter_monorepo` - `v3.1.2`
+
+ - **FIX**: removed dependency on intl package. ([e6459c0c](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e6459c0c17b97e37e7249c00a3f3e689201da6b6))
+
+## 3.1.2
+
+ - **FIX**: removed dependency on intl package. ([e6459c0c](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e6459c0c17b97e37e7249c00a3f3e689201da6b6))
+
+
 ## 2023-05-22
 
 ### Changes

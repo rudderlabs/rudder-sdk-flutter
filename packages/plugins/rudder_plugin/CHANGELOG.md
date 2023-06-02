@@ -1,3 +1,7 @@
+## 2.3.3
+
+ - **FIX**: removed dependency on intl package. ([e6459c0c](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e6459c0c17b97e37e7249c00a3f3e689201da6b6))
+
 ## 2.3.2
 
  - Update a dependency to the latest release.
