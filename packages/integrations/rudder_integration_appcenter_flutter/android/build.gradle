@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:7.1.2'
     }
 }
 
@@ -41,5 +41,5 @@ dependencies {
     // Appcenter device-mode related dependency
     implementation 'com.rudderstack.android.integration:appcenter:1.0.1'
     implementation 'com.microsoft.appcenter:appcenter-analytics:4.1.0'
-    
+
 }
