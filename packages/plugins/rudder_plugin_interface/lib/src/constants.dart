@@ -31,6 +31,8 @@ class Constants {
   // whether we should record screen views automatically
   static const bool RECORD_SCREEN_VIEWS = false;
 
+  static const String DATA_RESIDENCY_VALUE = "US";
+
   //web load integration
   static const bool DEFAULT_LOAD_INTEGRATION = true;
   static const bool DEFAULT_SECURE_COOKIE = false;

@@ -18,6 +18,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import java.lang.*;
 import java.util.*;
+import com.rudderstack.android.sdk.core.RudderDataResidencyServer;
 
 /** RudderSdkFlutterPlugin */
 public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler {
@@ -229,6 +230,12 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
         .withTrackLifecycleEvents((Boolean) configMap.get("trackLifecycleEvents"))
         .withRecordScreenViews((Boolean) configMap.get("recordScreenViews"))
         .withControlPlaneUrl((String) configMap.get("controlPlaneUrl"));
+    String dataResidencyServer = (String) configMap.get("dataResidency");
+    if(dataResidencyServer.equals("US")){
+      builder.withDataResidencyServer(RudderDataResidencyServer.US);
+    } else{
+      builder.withDataResidencyServer(RudderDataResidencyServer.EU);
+    }
     if (integrationList != null) {
       builder.withFactories(integrationList);
     }

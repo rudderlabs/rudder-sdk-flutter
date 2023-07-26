@@ -32,6 +32,7 @@ class RudderConfig {
     MobileConfig? mobileConfig,
     WebConfig? webConfig,
     String controlPlaneUrl, //all
+    String dataResidency,
     List<RudderIntegration>? factories,
   ) {
     RudderLogger.init(logLevel);
@@ -118,6 +119,20 @@ class RudderConfig {
       if (!controlPlaneUrl.endsWith("/")) controlPlaneUrl += "/";
       _mobileConfigMap['controlPlaneUrl'] = controlPlaneUrl;
       _webConfigMap['configUrl'] = controlPlaneUrl;
+    }
+    if (Utils.isEmpty(dataResidency)) {
+      RudderLogger.logError(
+          "dataResidency can not be null or empty. Set to default.");
+      _mobileConfigMap['dataResidency'] = Constants.DATA_RESIDENCY_VALUE;
+      _webConfigMap['dataResidency'] = Constants.DATA_RESIDENCY_VALUE;
+    } else if (dataResidency != "US" && dataResidency != "EU") {
+      RudderLogger.logError(
+          "dataResidency can not be anything other than US and EU. Set to default.");
+      _mobileConfigMap['dataResidency'] = Constants.DATA_RESIDENCY_VALUE;
+      _webConfigMap['dataResidency'] = Constants.DATA_RESIDENCY_VALUE;
+    } else {
+      _mobileConfigMap['dataResidency'] = dataResidency;
+      _webConfigMap['dataResidency'] = dataResidency;
     }
 
     if (factories != null) {
@@ -411,6 +426,14 @@ class RudderConfigBuilder {
     return this;
   }
 
+  String __dataResidency = Constants.DATA_RESIDENCY_VALUE;
+  RudderConfigBuilder withDataResidency(String dataResidency) {
+    if (dataResidency == "US" || dataResidency == "EU") {
+      __dataResidency = dataResidency;
+    }
+    return this;
+  }
+
   /// Finalize your config building
   /// @return RudderConfig
   RudderConfig build() {
@@ -421,6 +444,7 @@ class RudderConfigBuilder {
         __mobileConfig,
         __webConfig,
         __controlPlaneUrl,
+        __dataResidency,
         __factories);
   }
 }
