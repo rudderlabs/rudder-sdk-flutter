@@ -3,17 +3,17 @@ import 'rudder_integration.dart';
 
 // we left fetching the external ids from the scratch here
 class RudderOption {
-  List<Map<String, dynamic>>? externalIds;
-  Map<String, Object>? integrations;
+  List<Map<String, String>>? externalIds;
+  Map<String, bool>? integrations;
+  Map<String, Map<String, Object>>? customContexts;
 
   RudderOption putExternalId(String type, String id) {
     externalIds ??= [];
 
-    Map<String, Object>? externalIdMap;
+    Map<String, String>? externalIdMap;
     int mapIndex = -1;
     for (int index = 0; index < externalIds!.length; index++) {
-      Map<String, Object> map =
-          externalIds!.elementAt(index) as Map<String, Object>;
+      Map<String, String> map = externalIds!.elementAt(index);
       String mapType = map["type"].toString();
       if (Utils.equalsIgnoreCase(mapType, type)) {
         externalIdMap = map;
@@ -56,12 +56,17 @@ class RudderOption {
     return this;
   }
 
+  RudderOption putCustomContext(String key, Map<String, Object> value) {
+    customContexts ??= {};
+    customContexts?[key] = value;
+    return this;
+  }
+
   Map<String, Object> toMap() {
     Map<String, Object> optionsMap = {};
-    if (externalIds != null) {
-      optionsMap["externalIds"] = externalIds!;
-    }
+    optionsMap["externalIds"] = externalIds ?? [];
     optionsMap["integrations"] = integrations ?? {};
+    optionsMap["customContexts"] = customContexts ?? {};
     return optionsMap;
   }
 }
