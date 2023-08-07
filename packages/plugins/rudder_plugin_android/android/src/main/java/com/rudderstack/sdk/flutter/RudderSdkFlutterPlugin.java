@@ -230,10 +230,8 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
         .withTrackLifecycleEvents((Boolean) configMap.get("trackLifecycleEvents"))
         .withRecordScreenViews((Boolean) configMap.get("recordScreenViews"))
         .withControlPlaneUrl((String) configMap.get("controlPlaneUrl"));
-    String dataResidencyServer = (String) configMap.get("dataResidency");
-    if(dataResidencyServer.equals("US")){
-      builder.withDataResidencyServer(RudderDataResidencyServer.US);
-    } else{
+    String dataResidencyServer = (String) configMap.get("dataResidencyServer");
+    if (dataResidencyServer.equals("EU")) {
       builder.withDataResidencyServer(RudderDataResidencyServer.EU);
     }
     if (integrationList != null) {

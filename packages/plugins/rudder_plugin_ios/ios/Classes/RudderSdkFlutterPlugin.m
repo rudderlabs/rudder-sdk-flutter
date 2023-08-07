@@ -20,7 +20,7 @@ BOOL isRegistrarDetached = NO;
                                            selector:@selector(listenAppLaunchNotification:)
                                                name:UIApplicationDidFinishLaunchingNotification
                                              object:UIApplication.sharedApplication];
-  [RSLogger initiate:RSLogLevelWarning];                                       
+  [RSLogger initiate:RSLogLevelWarning];
   isRegistrarDetached = NO;
 }
 
@@ -174,10 +174,8 @@ BOOL isRegistrarDetached = NO;
       withTrackLifecycleEvens:[[configDict objectForKey:@"trackLifecycleEvents"] boolValue]];
   [configBuilder withRecordScreenViews:[[configDict objectForKey:@"recordScreenViews"] boolValue]];
   [configBuilder withControlPlaneUrl:[configDict objectForKey:@"controlPlaneUrl"]];
-  NSString *dataResidencyServer = configDict[@"dataResidency"];
-  if ([dataResidencyServer isEqualToString:@"US"]) {
-      [configBuilder withDataResidencyServer:US];
-  } else {
+  NSString *dataResidencyServer = configDict[@"dataResidencyServer"];
+  if ([dataResidencyServer isEqualToString:@"EU"]) {
       [configBuilder withDataResidencyServer:EU];
   }
   if (integrationList != nil) {

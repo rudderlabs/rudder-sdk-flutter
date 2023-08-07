@@ -1,6 +1,8 @@
 /*
  * Default value holder class
  * */
+import 'enums.dart';
+
 class Constants {
   // how often config should be fetched from the server (in hours) (2 hrs by default)
   static const int CONFIG_REFRESH_INTERVAL = 2;
@@ -31,7 +33,8 @@ class Constants {
   // whether we should record screen views automatically
   static const bool RECORD_SCREEN_VIEWS = false;
 
-  static const String DATA_RESIDENCY_VALUE = "US";
+  static const DataResidencyServer DEFAULT_DATA_RESIDENCY_SERVER =
+      DataResidencyServer.US;
 
   //web load integration
   static const bool DEFAULT_LOAD_INTEGRATION = true;

@@ -1,6 +1,7 @@
 import '../constants.dart';
 import '../rudder_logger.dart';
 import '../utils.dart';
+import '../enums.dart';
 import 'rudder_integration.dart';
 
 /*
@@ -32,7 +33,7 @@ class RudderConfig {
     MobileConfig? mobileConfig,
     WebConfig? webConfig,
     String controlPlaneUrl, //all
-    String dataResidency,
+    DataResidencyServer dataResidencyServer,
     List<RudderIntegration>? factories,
   ) {
     RudderLogger.init(logLevel);
@@ -120,20 +121,9 @@ class RudderConfig {
       _mobileConfigMap['controlPlaneUrl'] = controlPlaneUrl;
       _webConfigMap['configUrl'] = controlPlaneUrl;
     }
-    if (Utils.isEmpty(dataResidency)) {
-      RudderLogger.logError(
-          "dataResidency can not be null or empty. Set to default.");
-      _mobileConfigMap['dataResidency'] = Constants.DATA_RESIDENCY_VALUE;
-      _webConfigMap['dataResidency'] = Constants.DATA_RESIDENCY_VALUE;
-    } else if (dataResidency != "US" && dataResidency != "EU") {
-      RudderLogger.logError(
-          "dataResidency can not be anything other than US and EU. Set to default.");
-      _mobileConfigMap['dataResidency'] = Constants.DATA_RESIDENCY_VALUE;
-      _webConfigMap['dataResidency'] = Constants.DATA_RESIDENCY_VALUE;
-    } else {
-      _mobileConfigMap['dataResidency'] = dataResidency;
-      _webConfigMap['dataResidency'] = dataResidency;
-    }
+
+    _mobileConfigMap['dataResidencyServer'] = dataResidencyServer.getValue;
+    _webConfigMap['residencyServer'] = dataResidencyServer.getValue;
 
     if (factories != null) {
       for (RudderIntegration factory in factories) {
@@ -426,11 +416,11 @@ class RudderConfigBuilder {
     return this;
   }
 
-  String __dataResidency = Constants.DATA_RESIDENCY_VALUE;
-  RudderConfigBuilder withDataResidency(String dataResidency) {
-    if (dataResidency == "US" || dataResidency == "EU") {
-      __dataResidency = dataResidency;
-    }
+  DataResidencyServer __dataResidencyServer =
+      Constants.DEFAULT_DATA_RESIDENCY_SERVER;
+  RudderConfigBuilder withDataResidencyServer(
+      DataResidencyServer dataResidencyServer) {
+    __dataResidencyServer = dataResidencyServer;
     return this;
   }
 
@@ -444,7 +434,7 @@ class RudderConfigBuilder {
         __mobileConfig,
         __webConfig,
         __controlPlaneUrl,
-        __dataResidency,
+        __dataResidencyServer,
         __factories);
   }
 }
