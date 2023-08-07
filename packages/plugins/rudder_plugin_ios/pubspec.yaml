@@ -7,7 +7,7 @@ issue_tracker: https://github.com/rudderlabs/rudder-sdk-flutter/issues
 documentation: https://docs.rudderstack.com/rudderstack-sdk-integration-guides/rudderstack-flutter-sdk
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.17.6 <3.0.0'
   flutter: ">=2.0.0"
 
 dependencies:
