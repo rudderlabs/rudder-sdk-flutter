@@ -1,7 +1,7 @@
 PODS:
-  - Adjust (4.33.4):
-    - Adjust/Core (= 4.33.4)
-  - Adjust/Core (4.33.4)
+  - Adjust (4.33.6):
+    - Adjust/Core (= 4.33.6)
+  - Adjust/Core (4.33.6)
   - Amplitude (7.2.2)
   - Appboy-iOS-SDK (4.4.2):
     - Appboy-iOS-SDK/UI (= 4.4.2)
@@ -107,7 +107,7 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - PromisesObjC (2.3.1)
-  - Rudder (1.16.0)
+  - Rudder (1.17.0)
   - Rudder-Adjust (1.0.0):
     - Adjust
     - Rudder
@@ -159,10 +159,10 @@ PODS:
     - rudder_plugin_ios
   - rudder_plugin_ios (0.0.1):
     - Flutter
-    - Rudder (~> 1.8)
-  - SDWebImage (5.16.0):
-    - SDWebImage/Core (= 5.16.0)
-  - SDWebImage/Core (5.16.0)
+    - Rudder (~> 1.17)
+  - SDWebImage (5.17.0):
+    - SDWebImage/Core (= 5.17.0)
+  - SDWebImage/Core (5.17.0)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -222,7 +222,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/rudder_plugin_ios/ios"
 
 SPEC CHECKSUMS:
-  Adjust: 4690e07ea401ee56d4d3f4f5bdad86c94f51903f
+  Adjust: c3b6c3734928a617fefce81dc223fd5f104162be
   Amplitude: 517cdc7c485bda64b685174426ecbf17746eb16a
   Appboy-iOS-SDK: 4a7dfe908639da81e5e85849355f6066b58b4cc6
   AppCenter: a4070ec3d4418b5539067a51f57155012e486ebd
@@ -237,7 +237,7 @@ SPEC CHECKSUMS:
   Leanplum-iOS-SDK: 8115f65d185eb94d94c4ab08176dfcb4a8b97926
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
-  Rudder: 718bc5bf0de0e4d83850dedd792f08e5e2065a0a
+  Rudder: 3f4ab09638452282a22b96a388b54132dcd3fca8
   Rudder-Adjust: 5f14011c8f7237d80a96a10655ac03ebf832bcc4
   Rudder-Amplitude: f845cc125a1a58d4de6155391a2b0392815ae898
   Rudder-AppCenter: 9eca9241e3707a0e9610714dd91dc8da4bae7e1f
@@ -252,8 +252,8 @@ SPEC CHECKSUMS:
   rudder_integration_braze_flutter: ddc8cb4214059122d2f7f6f2aff5772d3fb2e5fd
   rudder_integration_firebase_flutter: 2406b968e85e4a3175b64ccc8f8de98eca3b3d2e
   rudder_integration_leanplum_flutter: c6e83564dc7c1a96cec8b97c6e75f9b3c1958c91
-  rudder_plugin_ios: 39154ef0418ff5a552bca0b783e11a4312849319
-  SDWebImage: 2aea163b50bfcb569a2726b6a754c54a4506fcf6
+  rudder_plugin_ios: 5041dd85f17244e737254b78bb48dff412b18db9
+  SDWebImage: 750adf017a315a280c60fde706ab1e552a3ae4e9
 
 PODFILE CHECKSUM: 8ac12c04bf01db6d6e9ee903496e5f7eda779c7c
 
