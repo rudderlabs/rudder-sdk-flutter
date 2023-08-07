@@ -22,7 +22,7 @@ class RudderSdkFlutterIos extends RudderSdkPlatform {
     params['writeKey'] = writeKey;
     params['config'] = config.toMapMobile();
     if (options != null) {
-      params['options'] = options.toMap();
+      params['options'] = options.toMobileMap();
     }
     _platformChannel.invokeMethod("initializeSDK", params);
   }
@@ -38,7 +38,7 @@ class RudderSdkFlutterIos extends RudderSdkPlatform {
     }
 
     if (options != null) {
-      params["options"] = options.toMap();
+      params["options"] = options.toMobileMap();
     }
 
     _platformChannel.invokeMethod("identify", params);
@@ -56,7 +56,7 @@ class RudderSdkFlutterIos extends RudderSdkPlatform {
     }
 
     if (options != null) {
-      params["options"] = options.toMap();
+      params["options"] = options.toMobileMap();
     }
 
     _platformChannel.invokeMethod("track", params);
@@ -74,7 +74,7 @@ class RudderSdkFlutterIos extends RudderSdkPlatform {
     }
 
     if (options != null) {
-      params["options"] = options.toMap();
+      params["options"] = options.toMobileMap();
     }
     params["category"] = category;
     _platformChannel.invokeMethod("screen", params);
@@ -92,7 +92,7 @@ class RudderSdkFlutterIos extends RudderSdkPlatform {
     }
 
     if (options != null) {
-      params["options"] = options.toMap();
+      params["options"] = options.toMobileMap();
     }
 
     _platformChannel.invokeMethod("group", params);
@@ -105,7 +105,7 @@ class RudderSdkFlutterIos extends RudderSdkPlatform {
     params["newId"] = newId;
 
     if (options != null) {
-      params["options"] = options.toMap();
+      params["options"] = options.toMobileMap();
     }
 
     _platformChannel.invokeMethod("alias", params);
