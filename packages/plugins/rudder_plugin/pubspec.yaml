@@ -17,7 +17,6 @@ dependencies:
   rudder_plugin_android: ^2.2.2
   rudder_plugin_ios: ^2.2.2
   rudder_plugin_web: ^2.2.3
-  logger: ^1.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.1
