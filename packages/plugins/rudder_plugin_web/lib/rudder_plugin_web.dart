@@ -100,7 +100,7 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
 
   @override
   void alias(String newId, {RudderOption? options}) {
-    web_js.alias(newId, null, _jsify(options?.toWebMap()));
+    web_js.alias(newId, _jsify(options?.toWebMap()));
   }
 
   @override
