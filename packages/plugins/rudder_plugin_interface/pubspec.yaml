@@ -22,4 +22,5 @@ dev_dependencies:
   test: ^1.21.0
   flutter_test:
     sdk: flutter
+  collection: ^1.17.1
 
