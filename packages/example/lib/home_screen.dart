@@ -47,6 +47,7 @@ class HomeScreenState extends State<HomeScreen> {
         dotenv.env['DATA_PLANE_URL'] ?? "https://hosted.rudderlabs.com");
     builder.withMobileConfig(mc);
     builder.withLogLevel(RudderLogger.VERBOSE);
+    builder.withDataResidencyServer(DataResidencyServer.US);
     String writeKey = dotenv.env['WRITE_KEY'] ?? "INVALID_WRITE_KEY";
     rudderClient.initialize(writeKey, config: builder.build(), options: null);
     isInitialized = true;

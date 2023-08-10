@@ -174,6 +174,10 @@ BOOL isRegistrarDetached = NO;
       withTrackLifecycleEvens:[[configDict objectForKey:@"trackLifecycleEvents"] boolValue]];
   [configBuilder withRecordScreenViews:[[configDict objectForKey:@"recordScreenViews"] boolValue]];
   [configBuilder withControlPlaneUrl:[configDict objectForKey:@"controlPlaneUrl"]];
+  NSString *dataResidencyServer = configDict[@"dataResidencyServer"];
+  if ([dataResidencyServer isEqualToString:@"EU"]) {
+      [configBuilder withDataResidencyServer:EU];
+  }
   if (integrationList != nil) {
     for (id<RSIntegrationFactory> integration in integrationList) {
       [configBuilder withFactory:integration];

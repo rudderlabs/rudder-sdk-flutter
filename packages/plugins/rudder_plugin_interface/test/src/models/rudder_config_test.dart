@@ -1,7 +1,6 @@
 import 'test_integration.dart';
 import 'package:test/test.dart';
-import 'package:rudder_sdk_flutter_platform_interface/src/models/rudder_config.dart';
-import 'package:rudder_sdk_flutter_platform_interface/src/models/rudder_integration.dart';
+import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
 ///use flutter test
 void main() {
@@ -53,5 +52,27 @@ void main() {
     final Map<String, dynamic> queueOpts = webMap["queueOptions"];
     expect(queueOpts["maxRetryDelay"], webConfig.maxRetryDelay.toString());
     expect(queueOpts["maxAttempts"], webConfig.maxAttempts.toString());
+  });
+
+  test('data residency value is properly set', () {
+    RudderConfig config = RudderConfigBuilder()
+        .withFlushQueueSize(12)
+        .withControlPlaneUrl("https://api.dev.rudderlabs.com")
+        .withDataResidencyServer(DataResidencyServer.EU)
+        .build();
+    Map<String, dynamic> webMap = config.toMapWeb();
+    Map<String, dynamic> mobileMap = config.toMapMobile();
+    expect(webMap["residencyServer"], equals("EU"));
+    expect(mobileMap["dataResidencyServer"], equals("EU"));
+
+    config = RudderConfigBuilder()
+        .withFlushQueueSize(12)
+        .withControlPlaneUrl("https://api.dev.rudderlabs.com")
+        .withDataResidencyServer(DataResidencyServer.US)
+        .build();
+    webMap = config.toMapWeb();
+    mobileMap = config.toMapMobile();
+    expect(webMap["residencyServer"], equals("US"));
+    expect(mobileMap["dataResidencyServer"], equals("US"));
   });
 }

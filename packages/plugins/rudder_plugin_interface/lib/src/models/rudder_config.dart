@@ -1,6 +1,7 @@
 import '../constants.dart';
 import '../rudder_logger.dart';
 import '../utils.dart';
+import '../enums.dart';
 import 'rudder_integration.dart';
 
 /*
@@ -32,6 +33,7 @@ class RudderConfig {
     MobileConfig? mobileConfig,
     WebConfig? webConfig,
     String controlPlaneUrl, //all
+    DataResidencyServer dataResidencyServer,
     List<RudderIntegration>? factories,
   ) {
     RudderLogger.init(logLevel);
@@ -119,6 +121,9 @@ class RudderConfig {
       _mobileConfigMap['controlPlaneUrl'] = controlPlaneUrl;
       _webConfigMap['configUrl'] = controlPlaneUrl;
     }
+
+    _mobileConfigMap['dataResidencyServer'] = dataResidencyServer.getValue;
+    _webConfigMap['residencyServer'] = dataResidencyServer.getValue;
 
     if (factories != null) {
       for (RudderIntegration factory in factories) {
@@ -411,6 +416,14 @@ class RudderConfigBuilder {
     return this;
   }
 
+  DataResidencyServer __dataResidencyServer =
+      Constants.DEFAULT_DATA_RESIDENCY_SERVER;
+  RudderConfigBuilder withDataResidencyServer(
+      DataResidencyServer dataResidencyServer) {
+    __dataResidencyServer = dataResidencyServer;
+    return this;
+  }
+
   /// Finalize your config building
   /// @return RudderConfig
   RudderConfig build() {
@@ -421,6 +434,7 @@ class RudderConfigBuilder {
         __mobileConfig,
         __webConfig,
         __controlPlaneUrl,
+        __dataResidencyServer,
         __factories);
   }
 }

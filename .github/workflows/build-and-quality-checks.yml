@@ -34,6 +34,13 @@ jobs:
         run: |
           dart pub global activate melos 2.9.0
 
+      - name: Setup .env file
+        run: |
+          cat <<EOF > packages/example/.env
+            WRITE_KEY=${{ secrets.TEST_WRITE_KEY }}
+            DATA_PLANE_URL=${{ secrets.TEST_DATAPLANE_URL }}
+            EOF
+
       - name: Install dependencies
         run: |
           melos run setup:ci
