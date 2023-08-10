@@ -344,6 +344,13 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
         option.putIntegration(entry.getKey(), (boolean) entry.getValue());
       }
     }
+
+    if (optionsMap.containsKey("customContexts")) {
+      Map<String, Object> customContextsMap = (Map<String, Object>) optionsMap.get("customContexts");
+      for (Map.Entry<String, Object> customContext : customContextsMap.entrySet()) {
+        option.putCustomContext(customContext.getKey(), (Map<String, Object>) customContext.getValue());
+      }
+    }
     return option;
   }
 }

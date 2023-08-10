@@ -1,3 +1,4 @@
+import 'test_integration.dart';
 import 'package:test/test.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
@@ -16,12 +17,12 @@ void main() {
         cookieConsentManagers: {"oneTrust": false});
 
     final List<RudderIntegration> factories = [
-      _create(() {}, "1"),
-      _create(() {}, "2"),
-      _create(() {}, "3"),
-      _create(() {}, "4"),
+      create(() {}, "1"),
+      create(() {}, "2"),
+      create(() {}, "3"),
+      create(() {}, "4"),
     ];
-    final RudderIntegration factory = _create(() => () {}, "5");
+    final RudderIntegration factory = create(() => () {}, "5");
 
     RudderConfig config = RudderConfigBuilder()
         .withControlPlaneUrl(configUrl)
@@ -74,21 +75,4 @@ void main() {
     expect(webMap["residencyServer"], equals("US"));
     expect(mobileMap["dataResidencyServer"], equals("US"));
   });
-}
-
-RudderIntegration _create(Function() addFactory, String key) {
-  return TestIntegration(addFactory, key);
-}
-
-class TestIntegration extends RudderIntegration {
-  final Function() _addFactory;
-  final String _key;
-
-  TestIntegration(this._addFactory, this._key);
-  @override
-  String getKey() => _key;
-  @override
-  void addFactory() {
-    _addFactory.call();
-  }
 }

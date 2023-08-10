@@ -81,14 +81,14 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   void track(String eventName,
       {RudderProperty? properties, RudderOption? options}) {
     web_js.track(
-        eventName, _jsify(properties?.getMap()), _jsify(options?.toMap()));
+        eventName, _jsify(properties?.getMap()), _jsify(options?.toWebMap()));
   }
 
   @override
   void screen(String screenName,
       {String? category, RudderProperty? properties, RudderOption? options}) {
     web_js.page(category, screenName, _jsify(properties?.getMap()),
-        _jsify(options?.toMap()));
+        _jsify(options?.toWebMap()));
   }
 
   @override
@@ -100,7 +100,7 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
 
   @override
   void alias(String newId, {RudderOption? options}) {
-    web_js.alias(newId, null, _jsify(options?.toMap()));
+    web_js.alias(newId, _jsify(options?.toWebMap()));
   }
 
   @override

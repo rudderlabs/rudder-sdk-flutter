@@ -255,6 +255,12 @@ BOOL isRegistrarDetached = NO;
                     isEnabled:[[integrationsDict objectForKey:key] isEqual:@1] ? YES : NO];
     }
   }
+  if ([optionsDict objectForKey:@"customContexts"]) {
+    NSDictionary* customContextsDict = [optionsDict objectForKey:@"customContexts"];
+    for (NSString* key in customContextsDict) {
+      [options putCustomContext:[customContextsDict objectForKey:key] withKey:key];
+    }
+  }
   return options;
 }
 

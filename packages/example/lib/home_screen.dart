@@ -73,6 +73,14 @@ class HomeScreenState extends State<HomeScreen> {
     RudderOption options = RudderOption();
     options.putIntegration("All", true);
     options.putIntegration("Mixpanel", false);
+    options.putCustomContext("address", {
+      "city": "kolkata",
+      "pin": "700091",
+      "state": {"name": "West Bengal", "code": "WB"},
+      "country": {"name": "India", "code": "IN"},
+      "zone": 12,
+      "lat": 22.5726,
+    });
     rudderClient.track("Went on a drive web",
         properties: property, options: options);
 
