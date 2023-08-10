@@ -1,19 +1,19 @@
 import '../utils.dart';
-import 'rudder_integration.dart';
+import '../../platform.dart';
 
 // we left fetching the external ids from the scratch here
 class RudderOption {
-  List<Map<String, dynamic>>? externalIds;
+  List<Map<String, String>>? externalIds;
   Map<String, Object>? integrations;
+  Map<String, Map<String, Object>>? customContexts;
 
   RudderOption putExternalId(String type, String id) {
     externalIds ??= [];
 
-    Map<String, Object>? externalIdMap;
+    Map<String, String>? externalIdMap;
     int mapIndex = -1;
     for (int index = 0; index < externalIds!.length; index++) {
-      Map<String, Object> map =
-          externalIds!.elementAt(index) as Map<String, Object>;
+      Map<String, String> map = externalIds!.elementAt(index);
       String mapType = map["type"].toString();
       if (Utils.equalsIgnoreCase(mapType, type)) {
         externalIdMap = map;
@@ -43,25 +43,56 @@ class RudderOption {
     return this;
   }
 
-  RudderOption putIntegration(String type, bool enabled) {
+  RudderOption putIntegration(String type, Object enabled) {
+    if (!(enabled is Map<String, Object> || enabled is bool)) {
+      RudderLogger.logError(
+          "RudderOption: putIntegration: Invalid type for integration");
+      return this;
+    }
     integrations ??= {};
     integrations![type] = enabled;
     return this;
   }
 
   RudderOption putIntegrationWithFactory(
-      RudderIntegration factory, bool enabled) {
+      RudderIntegration factory, Object enabled) {
+    if (!(enabled is Map<String, Object> || enabled is bool)) {
+      RudderLogger.logError(
+          "RudderOption: putIntegrationWithFactory: Invalid type for integration");
+      return this;
+    }
     integrations ??= {};
     integrations![factory.getKey()] = enabled;
     return this;
   }
 
-  Map<String, Object> toMap() {
+  RudderOption putCustomContext(String key, Map<String, Object> value) {
+    customContexts ??= {};
+    customContexts?[key] = value;
+    return this;
+  }
+
+  Map<String, Object> toMobileMap() {
     Map<String, Object> optionsMap = {};
-    if (externalIds != null) {
-      optionsMap["externalIds"] = externalIds!;
-    }
-    optionsMap["integrations"] = integrations ?? {};
+    optionsMap["externalIds"] = externalIds ?? [];
+    optionsMap["integrations"] = getMobileIntegrationsMap() ?? {};
+    optionsMap["customContexts"] = customContexts ?? {};
     return optionsMap;
+  }
+
+  Map<String, Object> toWebMap() {
+    Map<String, Object> optionsMap = {};
+    optionsMap["integrations"] = integrations ?? {};
+    optionsMap["externalId"] = externalIds ?? [];
+    optionsMap.addAll(customContexts ?? {});
+    return optionsMap;
+  }
+
+  Map<String, bool>? getMobileIntegrationsMap() {
+    // if the enabled value for an integration is an object, then we will consider it as true by default.
+    Map<String, bool>? integrationsMobile = integrations?.map(
+        (integration, enabled) =>
+            MapEntry(integration, enabled is bool ? enabled : true));
+    return integrationsMobile;
   }
 }
