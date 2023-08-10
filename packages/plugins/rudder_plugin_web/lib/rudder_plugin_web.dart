@@ -74,7 +74,7 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   @override
   void identify(String userId, {RudderTraits? traits, RudderOption? options}) {
     web_js.identify(
-        userId, _jsify(traits?.traitsMap), _jsify(options?.toWebMap()));
+        userId, _jsify(traits?.toWebTraits()), _jsify(options?.toMap()));
   }
 
   @override
@@ -95,7 +95,7 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   void group(String groupId,
       {RudderTraits? groupTraits, RudderOption? options}) {
     web_js.group(
-        groupId, _jsify(groupTraits?.traitsMap), _jsify(options?.toWebMap()));
+        groupId, _jsify(groupTraits?.toWebTraits()), _jsify(options?.toMap()));
   }
 
   @override

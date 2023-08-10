@@ -34,7 +34,7 @@ class RudderSdkFlutterIos extends RudderSdkPlatform {
     params["userId"] = userId;
 
     if (traits != null) {
-      params["traits"] = traits.traitsMap;
+      params["traits"] = traits.toMobileTraits();
     }
 
     if (options != null) {
@@ -88,7 +88,7 @@ class RudderSdkFlutterIos extends RudderSdkPlatform {
     params["groupId"] = groupId;
 
     if (groupTraits != null) {
-      params["groupTraits"] = groupTraits.traitsMap;
+      params["groupTraits"] = groupTraits.toMobileTraits();
     }
 
     if (options != null) {

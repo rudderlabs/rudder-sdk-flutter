@@ -24,7 +24,12 @@ class HomeScreenState extends State<HomeScreen> {
     RudderTraits traits = RudderTraits()
         .putName("Sai Venkat")
         .putAge("22")
-        .putEmail("saivenkatdesu@gmail.com");
+        .put("city", "Hyderabad")
+        .put("state", "Telangana")
+        .putValue({"key1": "value1", "key2": "value2"}).put("details", {
+      "hobby": "football",
+      "fav_color": "red"
+    }).putEmail("saivenkatdesu@gmail.com");
     rudderClient.identify("161FA04009", traits: traits);
     setOutput(
         "identify : \nname:Sai Venkat\nage: 22\nemail:saivenkatdesu@gmail.com"
@@ -98,6 +103,8 @@ class HomeScreenState extends State<HomeScreen> {
     RudderTraits groupTraits = RudderTraits();
     groupTraits.put("place", "kolkata");
     groupTraits.put("size", "fifteen");
+    groupTraits.put("details", {"domain": "SDK", "type": "flutter"});
+    groupTraits.putValue({"key1": "value1", "key2": "value2"});
     rudderClient.group("Integrations-Rudder", groupTraits: groupTraits);
     setOutput(
         "group\n\ttraits:\n\t\tplace:kolkata\n\t\tsize:fifteen\n\tid: Integrations-Rudder");
