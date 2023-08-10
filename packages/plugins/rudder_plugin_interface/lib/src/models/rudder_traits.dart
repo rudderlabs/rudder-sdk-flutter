@@ -1,7 +1,9 @@
+import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
+
 import '../utils.dart';
 
 class RudderTraits {
-  Map<String, dynamic> traitsMap = {};
+  final Map<String, dynamic> __traitsMap = {};
 
   /// Initialise RudderTraits
   ///
@@ -37,50 +39,50 @@ class RudderTraits {
       String? title,
       String? userName}) {
     if (address != null) {
-      traitsMap["address"] = address.addressMap;
+      __traitsMap["address"] = address.addressMap;
     }
     if (age != null) {
-      traitsMap["age"] = age;
+      __traitsMap["age"] = age;
     }
     if (birthday != null) {
-      traitsMap["birthday"] = birthday;
+      __traitsMap["birthday"] = birthday;
     }
     if (company != null) {
-      traitsMap["company"] = company.companyMap;
+      __traitsMap["company"] = company.companyMap;
     }
     if (createdAt != null) {
-      traitsMap["createdAt"] = createdAt;
+      __traitsMap["createdAt"] = createdAt;
     }
     if (description != null) {
-      traitsMap["description"] = description;
+      __traitsMap["description"] = description;
     }
     if (email != null) {
-      traitsMap["email"] = email;
+      __traitsMap["email"] = email;
     }
     if (firstName != null) {
-      traitsMap["firstName"] = firstName;
+      __traitsMap["firstName"] = firstName;
     }
     if (gender != null) {
-      traitsMap["gender"] = gender;
+      __traitsMap["gender"] = gender;
     }
     if (id != null) {
-      traitsMap["id"] = id;
-      traitsMap["oldId"] = id;
+      __traitsMap["id"] = id;
+      __traitsMap["oldId"] = id;
     }
     if (lastName != null) {
-      traitsMap["lastName"] = lastName;
+      __traitsMap["lastName"] = lastName;
     }
     if (name != null) {
-      traitsMap["name"] = name;
+      __traitsMap["name"] = name;
     }
     if (phone != null) {
-      traitsMap["phone"] = phone;
+      __traitsMap["phone"] = phone;
     }
     if (title != null) {
-      traitsMap["title"] = title;
+      __traitsMap["title"] = title;
     }
     if (userName != null) {
-      traitsMap["userName"] = userName;
+      __traitsMap["userName"] = userName;
     }
   }
 
@@ -89,7 +91,7 @@ class RudderTraits {
   /// @param address Address
   /// @return traits RudderTraits
   RudderTraits putAddress(Address address) {
-    traitsMap["address"] = address.addressMap;
+    __traitsMap["address"] = address.addressMap;
     return this;
   }
 
@@ -98,7 +100,7 @@ class RudderTraits {
   /// @param age String
   /// @return traits RudderTraits
   RudderTraits putAge(String age) {
-    traitsMap["age"] = age;
+    __traitsMap["age"] = age;
     return this;
   }
 
@@ -107,12 +109,12 @@ class RudderTraits {
   /// @param birthday Date
   /// @return traits RudderTraits
   RudderTraits putBirthdayDate(DateTime birthdayDate) {
-    traitsMap["birthday"] = Utils.toDateString(birthdayDate);
+    __traitsMap["birthday"] = Utils.toDateString(birthdayDate);
     return this;
   }
 
   RudderTraits putBirthdayString(String birthdayString) {
-    traitsMap["birthday"] = birthdayString;
+    __traitsMap["birthday"] = birthdayString;
     return this;
   }
 
@@ -121,7 +123,7 @@ class RudderTraits {
   /// @param company Company
   /// @return traits RudderTraits
   RudderTraits putCompany(Company company) {
-    traitsMap["company"] = company.companyMap;
+    __traitsMap["company"] = company.companyMap;
     return this;
   }
 
@@ -130,7 +132,7 @@ class RudderTraits {
   /// @param createdAt String
   /// @return traits RudderTraits
   RudderTraits putCreatedAt(String createdAt) {
-    traitsMap["createdAt"] = createdAt;
+    __traitsMap["createdAt"] = createdAt;
     return this;
   }
 
@@ -139,7 +141,7 @@ class RudderTraits {
   /// @param description String
   /// @return traits RudderTraits
   RudderTraits putDescription(String description) {
-    traitsMap["description"] = description;
+    __traitsMap["description"] = description;
     return this;
   }
 
@@ -148,7 +150,7 @@ class RudderTraits {
   /// @param email String
   /// @return traits RudderTraits
   RudderTraits putEmail(String email) {
-    traitsMap["email"] = email;
+    __traitsMap["email"] = email;
     return this;
   }
 
@@ -157,7 +159,7 @@ class RudderTraits {
   /// @param firstName String
   /// @return traits RudderTraits
   RudderTraits putFirstName(String firstName) {
-    traitsMap["firstName"] = firstName;
+    __traitsMap["firstName"] = firstName;
     return this;
   }
 
@@ -166,7 +168,7 @@ class RudderTraits {
   /// @param gender String
   /// @return traits RudderTraits
   RudderTraits putGender(String gender) {
-    traitsMap["gender"] = gender;
+    __traitsMap["gender"] = gender;
     return this;
   }
 
@@ -175,8 +177,8 @@ class RudderTraits {
   /// @param id String
   /// @return traits RudderTraits
   RudderTraits putId(String id) {
-    traitsMap["id"] = id;
-    traitsMap["oldId"] = id;
+    __traitsMap["id"] = id;
+    __traitsMap["oldId"] = id;
     return this;
   }
 
@@ -185,7 +187,7 @@ class RudderTraits {
   /// @param lastName String
   /// @return traits RudderTraits
   RudderTraits putLastName(String lastName) {
-    traitsMap["lastName"] = lastName;
+    __traitsMap["lastName"] = lastName;
     return this;
   }
 
@@ -194,7 +196,7 @@ class RudderTraits {
   /// @param name String
   /// @return traits RudderTraits
   RudderTraits putName(String name) {
-    traitsMap["name"] = name;
+    __traitsMap["name"] = name;
     return this;
   }
 
@@ -203,7 +205,7 @@ class RudderTraits {
   /// @param phone String
   /// @return traits RudderTraits
   RudderTraits putPhone(String phone) {
-    traitsMap["phone"] = phone;
+    __traitsMap["phone"] = phone;
     return this;
   }
 
@@ -212,7 +214,7 @@ class RudderTraits {
   /// @param title String
   /// @return traits RudderTraits
   RudderTraits putTitle(String title) {
-    traitsMap["title"] = title;
+    __traitsMap["title"] = title;
     return this;
   }
 
@@ -221,7 +223,7 @@ class RudderTraits {
   /// @param userName String
   /// @return traits RudderTraits
   RudderTraits putUserName(String userName) {
-    traitsMap["userName"] = userName;
+    __traitsMap["userName"] = userName;
     return this;
   }
 
@@ -231,23 +233,42 @@ class RudderTraits {
   /// @param value Object
   /// @return traits RudderTraits
   RudderTraits put(String key, dynamic value) {
-    if (traitsMap["extras"] == null) {
-      traitsMap["extras"] = <String, dynamic>{};
+    if (key == "extras") {
+      RudderLogger.logError(
+          "extras is a reserved key. Please use any other key instead.");
+      return this;
     }
-    Map<String, dynamic> extras = traitsMap["extras"];
+
+    Map<String, dynamic> extras =
+        __traitsMap.putIfAbsent("extras", () => <String, dynamic>{});
     extras[key] = value;
-    traitsMap["extras"] = extras;
     return this;
   }
 
   RudderTraits putValue(Map<String, dynamic> map) {
-    if (traitsMap["extras"] == null) {
-      traitsMap["extras"] = {};
+    if (map.remove("extras") != null) {
+      RudderLogger.logError(
+          "extras is a reserved key, hence it will be ignored. Please use any other key instead.");
     }
-    Map<String, dynamic> extras = traitsMap["extras"];
+
+    Map<String, dynamic> extras =
+        __traitsMap.putIfAbsent("extras", () => <String, dynamic>{});
     extras.addAll(map);
-    traitsMap["extras"] = extras;
     return this;
+  }
+
+  Map<String, dynamic> toWebTraits() {
+    Map<String, dynamic> webTraits = Map.from(__traitsMap);
+
+    dynamic extras = webTraits.remove("extras");
+    if (extras != null) {
+      webTraits.addAll(extras);
+    }
+    return webTraits;
+  }
+
+  Map<String, dynamic> toMobileTraits() {
+    return __traitsMap;
   }
 }
 

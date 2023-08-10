@@ -23,8 +23,6 @@ external track(String event, dynamic properties, dynamic options);
 @JS("rudderanalytics.alias")
 external alias(
     String to, //Denotes the new identifier of the user.
-    String? from,
-    //Denotes the old identifier which will be an alias for the to parameter.
     dynamic options);
 
 @JS("rudderanalytics.group")

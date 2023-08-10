@@ -20,7 +20,7 @@ BOOL isRegistrarDetached = NO;
                                            selector:@selector(listenAppLaunchNotification:)
                                                name:UIApplicationDidFinishLaunchingNotification
                                              object:UIApplication.sharedApplication];
-  [RSLogger initiate:RSLogLevelWarning];                                       
+  [RSLogger initiate:RSLogLevelWarning];
   isRegistrarDetached = NO;
 }
 
@@ -174,6 +174,10 @@ BOOL isRegistrarDetached = NO;
       withTrackLifecycleEvens:[[configDict objectForKey:@"trackLifecycleEvents"] boolValue]];
   [configBuilder withRecordScreenViews:[[configDict objectForKey:@"recordScreenViews"] boolValue]];
   [configBuilder withControlPlaneUrl:[configDict objectForKey:@"controlPlaneUrl"]];
+  NSString *dataResidencyServer = configDict[@"dataResidencyServer"];
+  if ([dataResidencyServer isEqualToString:@"EU"]) {
+      [configBuilder withDataResidencyServer:EU];
+  }
   if (integrationList != nil) {
     for (id<RSIntegrationFactory> integration in integrationList) {
       [configBuilder withFactory:integration];
@@ -249,6 +253,12 @@ BOOL isRegistrarDetached = NO;
     for (NSString* key in integrationsDict) {
       [options putIntegration:key
                     isEnabled:[[integrationsDict objectForKey:key] isEqual:@1] ? YES : NO];
+    }
+  }
+  if ([optionsDict objectForKey:@"customContexts"]) {
+    NSDictionary* customContextsDict = [optionsDict objectForKey:@"customContexts"];
+    for (NSString* key in customContextsDict) {
+      [options putCustomContext:[customContextsDict objectForKey:key] withKey:key];
     }
   }
   return options;

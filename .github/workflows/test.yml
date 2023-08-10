@@ -37,9 +37,9 @@ jobs:
 
       - name: Setup .env file
         run: |
-          cat <<EOF > .env
-            TEST_WRITE_KEY=${{ secrets.TEST_WRITE_KEY }}
-            TEST_DATAPLANE_URL=${{ secrets.TEST_DATAPLANE_URL }}
+          cat <<EOF > packages/example/.env
+            WRITE_KEY=${{ secrets.TEST_WRITE_KEY }}
+            DATA_PLANE_URL=${{ secrets.TEST_DATAPLANE_URL }}
            EOF
 
       - name: Install Melos

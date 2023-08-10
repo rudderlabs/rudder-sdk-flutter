@@ -1,5 +1,5 @@
 name: rudder_sdk_flutter_monorepo
-version: 3.1.2
+version: 3.2.0
 description: The RudderStack Flutter SDK Monorepo.
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 repository: https://github.com/rudderlabs/rudder-sdk-flutter
@@ -11,19 +11,19 @@ documentation: https://docs.rudderstack.com/rudderstack-sdk-integration-guides/r
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=2.17.6 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  rudder_sdk_flutter: 2.3.3
-  rudder_integration_amplitude_flutter: 1.0.5
-  rudder_integration_firebase_flutter: 2.0.4
-  rudder_integration_braze_flutter: 1.0.5
-  rudder_integration_appcenter_flutter: 1.1.5
-  rudder_integration_appsflyer_flutter: 1.1.2
-  rudder_integration_adjust_flutter: 1.0.5
-  rudder_integration_leanplum_flutter: 1.0.5
+  rudder_sdk_flutter: 2.4.0
+  rudder_integration_amplitude_flutter: 1.0.6
+  rudder_integration_firebase_flutter: 2.0.5
+  rudder_integration_braze_flutter: 1.0.6
+  rudder_integration_appcenter_flutter: 1.1.6
+  rudder_integration_appsflyer_flutter: 1.1.3
+  rudder_integration_adjust_flutter: 1.0.6
+  rudder_integration_leanplum_flutter: 1.0.6
   flutter_plugin_tools: ^0.12.1
 
 dev_dependencies:

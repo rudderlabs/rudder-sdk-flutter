@@ -22,7 +22,7 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform {
     params['writeKey'] = writeKey;
     params['config'] = config.toMapMobile();
     if (options != null) {
-      params['options'] = options.toMap();
+      params['options'] = options.toMobileMap();
     }
     _platformChannel.invokeMethod("initializeSDK", params);
   }
@@ -34,11 +34,11 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform {
     params["userId"] = userId;
 
     if (traits != null) {
-      params["traits"] = traits.traitsMap;
+      params["traits"] = traits.toMobileTraits();
     }
 
     if (options != null) {
-      params["options"] = options.toMap();
+      params["options"] = options.toMobileMap();
     }
 
     _platformChannel.invokeMethod("identify", params);
@@ -56,7 +56,7 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform {
     }
 
     if (options != null) {
-      params["options"] = options.toMap();
+      params["options"] = options.toMobileMap();
     }
 
     _platformChannel.invokeMethod("track", params);
@@ -74,7 +74,7 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform {
     }
 
     if (options != null) {
-      params["options"] = options.toMap();
+      params["options"] = options.toMobileMap();
     }
 
     params["category"] = category;
@@ -89,11 +89,11 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform {
     params["groupId"] = groupId;
 
     if (groupTraits != null) {
-      params["groupTraits"] = groupTraits.traitsMap;
+      params["groupTraits"] = groupTraits.toMobileTraits();
     }
 
     if (options != null) {
-      params["options"] = options.toMap();
+      params["options"] = options.toMobileMap();
     }
 
     _platformChannel.invokeMethod("group", params);
@@ -106,7 +106,7 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform {
     params["newId"] = newId;
 
     if (options != null) {
-      params["options"] = options.toMap();
+      params["options"] = options.toMobileMap();
     }
 
     _platformChannel.invokeMethod("alias", params);

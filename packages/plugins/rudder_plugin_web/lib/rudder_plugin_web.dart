@@ -74,33 +74,33 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   @override
   void identify(String userId, {RudderTraits? traits, RudderOption? options}) {
     web_js.identify(
-        userId, _jsify(traits?.traitsMap), _jsify(options?.toMap()));
+        userId, _jsify(traits?.toWebTraits()), _jsify(options?.toMap()));
   }
 
   @override
   void track(String eventName,
       {RudderProperty? properties, RudderOption? options}) {
     web_js.track(
-        eventName, _jsify(properties?.getMap()), _jsify(options?.toMap()));
+        eventName, _jsify(properties?.getMap()), _jsify(options?.toWebMap()));
   }
 
   @override
   void screen(String screenName,
       {String? category, RudderProperty? properties, RudderOption? options}) {
     web_js.page(category, screenName, _jsify(properties?.getMap()),
-        _jsify(options?.toMap()));
+        _jsify(options?.toWebMap()));
   }
 
   @override
   void group(String groupId,
       {RudderTraits? groupTraits, RudderOption? options}) {
     web_js.group(
-        groupId, _jsify(groupTraits?.traitsMap), _jsify(options?.toMap()));
+        groupId, _jsify(groupTraits?.toWebTraits()), _jsify(options?.toMap()));
   }
 
   @override
   void alias(String newId, {RudderOption? options}) {
-    web_js.alias(newId, null, _jsify(options?.toMap()));
+    web_js.alias(newId, _jsify(options?.toWebMap()));
   }
 
   @override
