@@ -1,3 +1,7 @@
+## 2.3.1
+
+ - **FIX**: fixed in-valid method call in web plugin due to merge issues. ([af3e4d48](https://github.com/rudderlabs/rudder-sdk-flutter/commit/af3e4d48094a51f524d6362f040d50ee807a3f83))
+
 ## 2.3.0
 
  - **FIX**: options in-correctly passed to alias api of js sdk. ([39913281](https://github.com/rudderlabs/rudder-sdk-flutter/commit/39913281593f9328c312bd1dd97c8a466944c529))
