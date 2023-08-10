@@ -1,3 +1,7 @@
+## 1.1.6
+
+ - **FIX**: updated dart sdk version constraints across all packages to >=2.17.6. ([ca4a589a](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ca4a589addcd631d9501599052eaec11d8ec7391))
+
 ## 1.1.5
 
  - Update a dependency to the latest release.
