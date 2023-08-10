@@ -101,6 +101,9 @@ on `android` device and as `IDFA` if you are on a `iOS` device. For more detaile
 check [the documentation page](https://docs.rudderstack.com/rudderstack-sdk-integration-guides/rudderstack-flutter-sdk)
 .
 
+## List of Features
+- Data Residency, Custom Context from version `2.4.0`
+
 ## Contact Us
 
 If you come across any issues while configuring or using RudderStack, please feel free
