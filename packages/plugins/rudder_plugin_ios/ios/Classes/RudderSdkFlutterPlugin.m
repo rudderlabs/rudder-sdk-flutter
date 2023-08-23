@@ -170,6 +170,7 @@ BOOL isRegistrarDetached = NO;
   [configBuilder withLoglevel:[[configDict objectForKey:@"logLevel"] intValue]];
   [configBuilder
       withConfigRefreshInteval:[[configDict objectForKey:@"configRefreshInterval"] intValue]];
+  [configBuilder withCollectDeviceId:[[configDict objectForKey:@"collectDeviceId"] boolValue]];
   [configBuilder
       withTrackLifecycleEvens:[[configDict objectForKey:@"trackLifecycleEvents"] boolValue]];
   [configBuilder withRecordScreenViews:[[configDict objectForKey:@"recordScreenViews"] boolValue]];

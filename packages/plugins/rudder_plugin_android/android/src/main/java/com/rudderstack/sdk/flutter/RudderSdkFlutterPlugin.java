@@ -227,6 +227,7 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
         .withLogLevel((Integer) configMap.get("logLevel"))
         .withSleepCount((Integer) configMap.get("sleepTimeOut"))
         .withAutoCollectAdvertId((Boolean) configMap.get("autoCollectAdvertId"))
+        .withCollectDeviceId((Boolean) configMap.get("collectDeviceId"))
         .withTrackLifecycleEvents((Boolean) configMap.get("trackLifecycleEvents"))
         .withRecordScreenViews((Boolean) configMap.get("recordScreenViews"))
         .withControlPlaneUrl((String) configMap.get("controlPlaneUrl"));
