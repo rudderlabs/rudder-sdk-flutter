@@ -168,7 +168,12 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
       rudderClient.alias((String) argumentsMap.get("newId"), options);
       return;
     } else if (call.method.equals("reset")) {
-      rudderClient.reset();
+      HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
+      if (argumentsMap.containsKey("clearAnonymousId")) {
+        rudderClient.reset((boolean) argumentsMap.get("clearAnonymousId"));
+      } else {
+        rudderClient.reset();
+      }
       return;
     } else if (call.method.equals("optOut")) {
       HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;

@@ -116,7 +116,12 @@ BOOL isRegistrarDetached = NO;
     [[RSClient sharedInstance] alias:[call.arguments objectForKey:@"newId"] options:options];
     return;
   } else if ([call.method isEqualToString:@"reset"]) {
-    [[RSClient sharedInstance] reset];
+    if ([call.arguments objectForKey:@"clearAnonymousId"]) {
+      NSNumber* clearAnonymousId = [call.arguments objectForKey:@"clearAnonymousId"];
+      [[RSClient sharedInstance] reset:[clearAnonymousId boolValue]];
+    } else {
+      [[RSClient sharedInstance] reset];
+    }
     return;
   } else if ([call.method isEqualToString:@"optOut"]) {
     if ([call.arguments objectForKey:@"optOut"]) {

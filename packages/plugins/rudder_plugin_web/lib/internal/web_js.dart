@@ -29,7 +29,7 @@ external alias(
 external group(String groupId, dynamic traits, dynamic options);
 
 @JS("rudderanalytics.reset")
-external reset();
+external reset(bool clearAnonymousId);
 
 @JS("rudderanalytics.getAnonymousId")
 external String? getAnonymousId();
