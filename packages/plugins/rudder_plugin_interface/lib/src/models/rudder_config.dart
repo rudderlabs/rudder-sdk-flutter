@@ -2,6 +2,8 @@ import '../constants.dart';
 import '../rudder_logger.dart';
 import '../utils.dart';
 import '../enums.dart';
+import 'rudder_mobile_config.dart';
+import 'rudder_web_config.dart';
 import 'rudder_integration.dart';
 
 /*
@@ -125,6 +127,10 @@ class RudderConfig {
     _mobileConfigMap['dataResidencyServer'] = dataResidencyServer.getValue;
     _webConfigMap['residencyServer'] = dataResidencyServer.getValue;
 
+    if (mobileConfig?.dbEncryption != null) {
+      _mobileConfigMap['dbEncryption'] = mobileConfig?.dbEncryption?.getMap();
+    }
+
     if (factories != null) {
       for (RudderIntegration factory in factories) {
         factory.addFactory();
@@ -183,142 +189,6 @@ class RudderConfig {
   }
 
   String get dataPlaneUrl => _dataPlaneUrl;
-}
-
-///Configurations to be used for mobile and mobile only. Any values set here
-///will have no effect on web whatsoever.
-class MobileConfig {
-  final int _dbCountThreshold;
-
-  /// @param autoCollectAdvertId whether the SDK should automatically collect the advertisingId
-  final bool _autoCollectAdvertId;
-
-  /// @param shouldTrackLifecycleEvents Whether we should track Application lifecycle events automatically
-  /// "Application Installed" and "Application Updated" will always be tracked
-  final bool _trackLifecycleEvents;
-  final bool _recordScreenViews;
-  final int _sleepTimeOut;
-
-  /// @param configRefreshInterval How often you want to fetch the config from the server.
-  /// Min : 1 hr
-  /// Max : 24 hrs
-  /// @return RudderConfigBuilder
-  final int _configRefreshInterval;
-
-  MobileConfig(
-      {dbCountThreshold = Constants.DB_COUNT_THRESHOLD,
-      autoCollectAdvertId = Constants.AUTO_COLLECT_ADVERT_ID,
-      trackLifecycleEvents = Constants.TRACK_LIFECYCLE_EVENTS,
-      recordScreenViews = Constants.RECORD_SCREEN_VIEWS,
-      int sleepTimeOut = Constants.SLEEP_TIMEOUT,
-      int configRefreshInterval = Constants.CONFIG_REFRESH_INTERVAL})
-      : _dbCountThreshold = dbCountThreshold,
-        _autoCollectAdvertId = autoCollectAdvertId,
-        _trackLifecycleEvents = trackLifecycleEvents,
-        _recordScreenViews = recordScreenViews,
-        _sleepTimeOut = sleepTimeOut,
-        _configRefreshInterval = configRefreshInterval;
-
-  int get dbCountThreshold => _dbCountThreshold;
-
-  bool get autoCollectAdvertId => _autoCollectAdvertId;
-
-  bool get recordScreenViews => _recordScreenViews;
-
-  bool get trackLifecycleEvents => _trackLifecycleEvents;
-
-  int get sleepTimeOut => _sleepTimeOut;
-
-  int get configRefreshInterval => _configRefreshInterval;
-}
-
-class WebConfig {
-  ///web default true
-  final bool _loadIntegration;
-
-  ///web default false
-  final bool _secureCookie;
-
-  /// web default 3_60_000
-  final int _maxRetryDelay;
-
-  ///web default 1_000
-  final int _minRetryDelay;
-
-  ///web back off factor default 2
-  final int _backoffFactor;
-
-  /// web default 10
-  final int _maxAttempts;
-
-  /// web default 100
-  final int _maxItems;
-
-  ///web default false
-  final bool _useBeacon;
-
-  ///utilised only if _useBeacon is true
-  final int _maxBeaconItems;
-
-  ///utilised only if _useBeacon is true
-  final int _beaconFlushQueueInterval;
-
-  ///web default https://cdn.rudderlabs.com/v1.1/js-integrations
-  final String _destSDKBaseURL;
-
-  ///cookie consent managers, e.g ("oneTrust", true), default empty
-  final Map<String, bool>? _cookieConsentManagers;
-
-  WebConfig(
-      {loadIntegration = Constants.DEFAULT_LOAD_INTEGRATION,
-      secureCookie = Constants.DEFAULT_SECURE_COOKIE,
-      useBeacon = Constants.DEFAULT_USE_BEACON,
-      maxRetryDelay = Constants.DEFAULT_MAX_RETRY_DELAY,
-      minRetryDelay = Constants.DEFAULT_MIN_RETRY_DELAY,
-      backoffFactor = Constants.DEFAULT_BACK_OFF_FACTOR,
-      maxAttempts = Constants.DEFAULT_MAX_ATTEMPTS,
-      maxItems = Constants.DEFAULT_MAX_ITEMS,
-      maxBeaconItems = Constants.DEFAULT_BEACON_MAX_ITEMS,
-      int beaconFlushQueueInterval =
-          Constants.DEFAULT_BEACON_FLUSH_QUEUE_INTERVAL,
-      destSDKBaseURL = Constants.DEFAULT_DESTINATION_SDK_BASE_URL,
-      Map<String, bool>? cookieConsentManagers})
-      : _loadIntegration = loadIntegration,
-        _secureCookie = secureCookie,
-        _useBeacon = useBeacon,
-        _maxRetryDelay = maxRetryDelay,
-        _minRetryDelay = minRetryDelay,
-        _backoffFactor = backoffFactor,
-        _maxAttempts = maxAttempts,
-        _maxItems = maxItems,
-        _maxBeaconItems = maxBeaconItems,
-        _beaconFlushQueueInterval = beaconFlushQueueInterval,
-        _destSDKBaseURL = destSDKBaseURL,
-        _cookieConsentManagers = cookieConsentManagers;
-
-  String get destSDKBaseURL => _destSDKBaseURL;
-
-  bool get useBeacon => _useBeacon;
-
-  bool get secureCookie => _secureCookie;
-
-  bool get loadIntegration => _loadIntegration;
-
-  Map<String, bool>? get cookieConsentManagers => _cookieConsentManagers;
-
-  int get beaconFlushQueueInterval => _beaconFlushQueueInterval;
-
-  int get maxBeaconItems => _maxBeaconItems;
-
-  int get maxItems => _maxItems;
-
-  int get maxAttempts => _maxAttempts;
-
-  int get backoffFactor => _backoffFactor;
-
-  int get minRetryDelay => _minRetryDelay;
-
-  int get maxRetryDelay => _maxRetryDelay;
 }
 
 /// RudderConfigBuilder class for RudderConfig
