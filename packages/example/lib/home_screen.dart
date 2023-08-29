@@ -37,7 +37,9 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void __initialize() {
-    MobileConfig mc = MobileConfig(autoCollectAdvertId: false);
+    DBEncryption dbEncryption = DBEncryption(true, "password");
+    MobileConfig mc =
+        MobileConfig(autoCollectAdvertId: false, dbEncryption: dbEncryption);
     RudderConfigBuilder builder = RudderConfigBuilder();
     builder
       ..withFactory(RudderIntegrationAppcenterFlutter())
