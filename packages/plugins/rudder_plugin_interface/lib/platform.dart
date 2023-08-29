@@ -3,6 +3,7 @@ library rudder_sdk_flutter_platform_interface;
 export 'src/constants.dart';
 export 'src/enums.dart';
 export 'src/rudder_logger.dart';
+export 'src/models/db_encryption.dart';
 export 'src/models/rudder_config.dart';
 export 'src/models/rudder_web_config.dart';
 export 'src/models/rudder_mobile_config.dart';
