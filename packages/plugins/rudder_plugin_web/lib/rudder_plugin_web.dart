@@ -104,8 +104,8 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   }
 
   @override
-  void reset() {
-    web_js.reset();
+  void reset({bool clearAnonymousId = false}) {
+    web_js.reset(clearAnonymousId);
   }
 
   @override

@@ -27,6 +27,9 @@ class Constants {
   // whether the SDK should automatically collect the advertisingId
   static const bool AUTO_COLLECT_ADVERT_ID = false;
 
+  // whether the SDK should send deviceId as part of the event payload
+  static const bool COLLECT_DEVICE_ID = true;
+
   // whether we should trackLifecycle events
   static const bool TRACK_LIFECYCLE_EVENTS = true;
 

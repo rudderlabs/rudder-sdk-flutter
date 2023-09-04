@@ -129,9 +129,6 @@ PODS:
   - Rudder-Firebase (3.0.0):
     - FirebaseAnalytics (= 10.3.0)
     - Rudder (~> 1.8)
-  - Rudder-Leanplum (1.0.2):
-    - Leanplum-iOS-SDK (= 4.0.0)
-    - Rudder (~> 1.0)
   - rudder_integration_adjust_flutter (1.0.1):
     - Flutter
     - Rudder-Adjust (= 1.0.0)
@@ -156,10 +153,6 @@ PODS:
     - Flutter
     - Rudder-Firebase (= 3.0.0)
     - rudder_plugin_ios
-  - rudder_integration_leanplum_flutter (1.0.1):
-    - Flutter
-    - Rudder-Leanplum (= 1.0.2)
-    - rudder_plugin_ios
   - rudder_plugin_ios (0.0.1):
     - Flutter
     - Rudder (< 2.0.0, >= 1.19.2)
@@ -176,7 +169,6 @@ DEPENDENCIES:
   - rudder_integration_appsflyer_flutter (from `.symlinks/plugins/rudder_integration_appsflyer_flutter/ios`)
   - rudder_integration_braze_flutter (from `.symlinks/plugins/rudder_integration_braze_flutter/ios`)
   - rudder_integration_firebase_flutter (from `.symlinks/plugins/rudder_integration_firebase_flutter/ios`)
-  - rudder_integration_leanplum_flutter (from `.symlinks/plugins/rudder_integration_leanplum_flutter/ios`)
   - rudder_plugin_ios (from `.symlinks/plugins/rudder_plugin_ios/ios`)
 
 SPEC REPOS:
@@ -222,8 +214,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/rudder_integration_braze_flutter/ios"
   rudder_integration_firebase_flutter:
     :path: ".symlinks/plugins/rudder_integration_firebase_flutter/ios"
-  rudder_integration_leanplum_flutter:
-    :path: ".symlinks/plugins/rudder_integration_leanplum_flutter/ios"
   rudder_plugin_ios:
     :path: ".symlinks/plugins/rudder_plugin_ios/ios"
 
@@ -251,7 +241,6 @@ SPEC CHECKSUMS:
   Rudder-Appsflyer: b19834ae8d933444411813556e0fe70a33df224a
   Rudder-Braze: e58e0e8163a2dcf0d45ec2d12bdb0ec3329c3681
   Rudder-Firebase: 9f061bf3c23900e1a8f32f8b079ae17e04874f17
-  Rudder-Leanplum: e2c9ffa48ea227c3574998afa1e287061ad042ee
   rudder_integration_adjust_flutter: 7b9b8794548490bd032937966ebde20172b2809b
   rudder_integration_amplitude_flutter: 0c85fc19b9f3b4f33df87b60fa80dac0c01dbd36
   rudder_integration_appcenter_flutter: b9c8d7faec570e3a22b7fc7236e4da21a243d4f9

@@ -113,8 +113,10 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform {
   }
 
   @override
-  void reset() {
-    _platformChannel.invokeMethod("reset");
+  void reset({bool clearAnonymousId = false}) {
+    Map<String, dynamic> params = {};
+    params["clearAnonymousId"] = clearAnonymousId;
+    _platformChannel.invokeMethod("reset", params);
   }
 
   @override

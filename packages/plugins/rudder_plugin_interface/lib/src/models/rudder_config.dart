@@ -105,6 +105,7 @@ class RudderConfig {
       }
       _mobileConfigMap['autoCollectAdvertId'] =
           mobileConfig.autoCollectAdvertId;
+      _mobileConfigMap['collectDeviceId'] = mobileConfig.collectDeviceId;
       _mobileConfigMap['trackLifecycleEvents'] =
           mobileConfig.trackLifecycleEvents;
       _mobileConfigMap['recordScreenViews'] = mobileConfig.recordScreenViews;

@@ -168,7 +168,12 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
       rudderClient.alias((String) argumentsMap.get("newId"), options);
       return;
     } else if (call.method.equals("reset")) {
-      rudderClient.reset();
+      HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
+      if (argumentsMap.containsKey("clearAnonymousId")) {
+        rudderClient.reset((boolean) argumentsMap.get("clearAnonymousId"));
+      } else {
+        rudderClient.reset();
+      }
       return;
     } else if (call.method.equals("optOut")) {
       HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
@@ -227,6 +232,7 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
         .withLogLevel((Integer) configMap.get("logLevel"))
         .withSleepCount((Integer) configMap.get("sleepTimeOut"))
         .withAutoCollectAdvertId((Boolean) configMap.get("autoCollectAdvertId"))
+        .withCollectDeviceId((Boolean) configMap.get("collectDeviceId"))
         .withTrackLifecycleEvents((Boolean) configMap.get("trackLifecycleEvents"))
         .withRecordScreenViews((Boolean) configMap.get("recordScreenViews"))
         .withControlPlaneUrl((String) configMap.get("controlPlaneUrl"));

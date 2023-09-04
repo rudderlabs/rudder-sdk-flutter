@@ -38,8 +38,10 @@ class HomeScreenState extends State<HomeScreen> {
 
   void __initialize() {
     DBEncryption dbEncryption = DBEncryption(true, "password");
-    MobileConfig mc =
-        MobileConfig(autoCollectAdvertId: false, dbEncryption: dbEncryption);
+    MobileConfig mc = MobileConfig(
+        autoCollectAdvertId: false,
+        dbEncryption: dbEncryption,
+        collectDeviceId: false);
     RudderConfigBuilder builder = RudderConfigBuilder();
     builder
       ..withFactory(RudderIntegrationAppcenterFlutter())
@@ -121,7 +123,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void __reset() {
-    rudderClient.reset();
+    rudderClient.reset(clearAnonymousId: true);
     setOutput("reset");
   }
 

@@ -61,7 +61,7 @@ abstract class RudderSdkPlatform extends PlatformInterface {
     throw UnimplementedError('load(String writeKey, String dataPlaneUrl) has not been implemented.');
   }*/
 
-  void reset() {
+  void reset({bool clearAnonymousId = false}) {
     throw UnimplementedError('reset() has not been implemented.');
   }
 
