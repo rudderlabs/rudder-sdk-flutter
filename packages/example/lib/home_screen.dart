@@ -37,18 +37,22 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void __initialize() {
-    MobileConfig mc =
-        MobileConfig(autoCollectAdvertId: false, collectDeviceId: false);
+    DBEncryption dbEncryption = DBEncryption(true, "password");
+    MobileConfig mc = MobileConfig(
+        autoCollectAdvertId: false,
+        dbEncryption: dbEncryption,
+        collectDeviceId: false);
     RudderConfigBuilder builder = RudderConfigBuilder();
-    builder.withFactory(RudderIntegrationAppcenterFlutter());
-    builder.withFactory(RudderIntegrationFirebaseFlutter());
-    builder.withFactory(RudderIntegrationBrazeFlutter());
-    builder.withFactory(RudderIntegrationAmplitudeFlutter());
-    builder.withDataPlaneUrl(
-        dotenv.env['DATA_PLANE_URL'] ?? "https://hosted.rudderlabs.com");
-    builder.withMobileConfig(mc);
-    builder.withLogLevel(RudderLogger.VERBOSE);
-    builder.withDataResidencyServer(DataResidencyServer.US);
+    builder
+      ..withFactory(RudderIntegrationAppcenterFlutter())
+      ..withFactory(RudderIntegrationFirebaseFlutter())
+      ..withFactory(RudderIntegrationBrazeFlutter())
+      ..withFactory(RudderIntegrationAmplitudeFlutter())
+      ..withDataPlaneUrl(
+          dotenv.env['DATA_PLANE_URL'] ?? "https://hosted.rudderlabs.com")
+      ..withMobileConfig(mc)
+      ..withLogLevel(RudderLogger.VERBOSE)
+      ..withDataResidencyServer(DataResidencyServer.US);
     String writeKey = dotenv.env['WRITE_KEY'] ?? "INVALID_WRITE_KEY";
     rudderClient.initialize(writeKey, config: builder.build(), options: null);
     isInitialized = true;
@@ -58,30 +62,34 @@ class HomeScreenState extends State<HomeScreen> {
 
   void __track() {
     RudderProperty property = RudderProperty();
-    property.put("colour", "red");
-    property.put("manufacturer", "hyundai");
-    property.put("model", "i20");
-    property.put("marks", [1, 2, 3, 4]);
-    property.put("something nested", [
-      {
-        "nest_2": [76, 78],
-        "nest_2_1": {"nest_2_2": "some val"}
-      },
-      {
-        "string_arr": ["a", "b"]
-      }
-    ]);
+    property
+      ..put("colour", "red")
+      ..put("manufacturer", "hyundai")
+      ..put("model", "i20")
+      ..put("marks", [1, 2, 3, 4])
+      ..put("something nested", [
+        {
+          "nest_2": [76, 78],
+          "nest_2_1": {"nest_2_2": "some val"}
+        },
+        {
+          "string_arr": ["a", "b"]
+        }
+      ]);
+
     RudderOption options = RudderOption();
-    options.putIntegration("All", true);
-    options.putIntegration("Mixpanel", false);
-    options.putCustomContext("address", {
-      "city": "kolkata",
-      "pin": "700091",
-      "state": {"name": "West Bengal", "code": "WB"},
-      "country": {"name": "India", "code": "IN"},
-      "zone": 12,
-      "lat": 22.5726,
-    });
+    options
+      ..putIntegration("All", true)
+      ..putIntegration("Mixpanel", false)
+      ..putCustomContext("address", {
+        "city": "kolkata",
+        "pin": "700091",
+        "state": {"name": "West Bengal", "code": "WB"},
+        "country": {"name": "India", "code": "IN"},
+        "zone": 12,
+        "lat": 22.5726,
+      });
+
     rudderClient.track("Went on a drive web",
         properties: property, options: options);
 
@@ -92,8 +100,9 @@ class HomeScreenState extends State<HomeScreen> {
 
   void __screen() {
     RudderProperty screenProperty = RudderProperty();
-    screenProperty.put("browser", "chrome");
-    screenProperty.put("device", "mac book pro");
+    screenProperty
+      ..put("browser", "chrome")
+      ..put("device", "mac book pro");
     rudderClient.screen("Walmart Cart web",
         category: "home", properties: screenProperty, options: null);
 
@@ -103,10 +112,11 @@ class HomeScreenState extends State<HomeScreen> {
 
   void __group() {
     RudderTraits groupTraits = RudderTraits();
-    groupTraits.put("place", "kolkata");
-    groupTraits.put("size", "fifteen");
-    groupTraits.put("details", {"domain": "SDK", "type": "flutter"});
-    groupTraits.putValue({"key1": "value1", "key2": "value2"});
+    groupTraits
+      ..put("place", "kolkata")
+      ..put("size", "fifteen")
+      ..put("details", {"domain": "SDK", "type": "flutter"})
+      ..putValue({"key1": "value1", "key2": "value2"});
     rudderClient.group("Integrations-Rudder", groupTraits: groupTraits);
     setOutput(
         "group\n\ttraits:\n\t\tplace:kolkata\n\t\tsize:fifteen\n\tid: Integrations-Rudder");

@@ -370,6 +370,13 @@ packages:
       relative: true
     source: path
     version: "2.0.6"
+  rudder_integration_leanplum_flutter:
+    dependency: "direct main"
+    description:
+      path: "../integrations/rudder_integration_leanplum_flutter"
+      relative: true
+    source: path
+    version: "1.0.7"
   rudder_plugin_android:
     dependency: "direct overridden"
     description:

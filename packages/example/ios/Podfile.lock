@@ -100,6 +100,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.11.5):
     - GoogleUtilities/Logger
+  - Leanplum-iOS-SDK (4.0.0)
   - MetricsReporter (1.0.0):
     - RudderKit (~> 1.4.0)
   - nanopb (2.30909.0):
@@ -108,7 +109,7 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - PromisesObjC (2.3.1)
-  - Rudder (1.19.1):
+  - Rudder (1.19.2):
     - MetricsReporter (= 1.0.0)
   - Rudder-Adjust (1.0.0):
     - Adjust
@@ -154,7 +155,7 @@ PODS:
     - rudder_plugin_ios
   - rudder_plugin_ios (0.0.1):
     - Flutter
-    - Rudder (< 2.0.0, >= 1.9.1)
+    - Rudder (< 2.0.0, >= 1.19.2)
   - RudderKit (1.4.0)
   - SDWebImage (5.17.0):
     - SDWebImage/Core (= 5.17.0)
@@ -183,6 +184,7 @@ SPEC REPOS:
     - FirebaseInstallations
     - GoogleAppMeasurement
     - GoogleUtilities
+    - Leanplum-iOS-SDK
     - MetricsReporter
     - nanopb
     - PromisesObjC
@@ -193,6 +195,7 @@ SPEC REPOS:
     - Rudder-Appsflyer
     - Rudder-Braze
     - Rudder-Firebase
+    - Rudder-Leanplum
     - RudderKit
     - SDWebImage
 
@@ -227,10 +230,11 @@ SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   GoogleAppMeasurement: c7d6fff39bf2d829587d74088d582e32d75133c3
   GoogleUtilities: 13e2c67ede716b8741c7989e26893d151b2b2084
+  Leanplum-iOS-SDK: 8115f65d185eb94d94c4ab08176dfcb4a8b97926
   MetricsReporter: 35d1a8e62cd99e1434bc8fdd06bf2baf7cb23e42
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
-  Rudder: 187a8fc060057605b6e78fb8077b4d989943d804
+  Rudder: 26a9b6756628cb953f3151d835104ac9f5635861
   Rudder-Adjust: 5f14011c8f7237d80a96a10655ac03ebf832bcc4
   Rudder-Amplitude: f845cc125a1a58d4de6155391a2b0392815ae898
   Rudder-AppCenter: 9eca9241e3707a0e9610714dd91dc8da4bae7e1f
@@ -243,7 +247,8 @@ SPEC CHECKSUMS:
   rudder_integration_appsflyer_flutter: 4736dc267dd6e8b3e7321e4999ed1bb751b9ad59
   rudder_integration_braze_flutter: ddc8cb4214059122d2f7f6f2aff5772d3fb2e5fd
   rudder_integration_firebase_flutter: 2406b968e85e4a3175b64ccc8f8de98eca3b3d2e
-  rudder_plugin_ios: aa27daa46baaa91581ac5e74eb75ab1783a76690
+  rudder_integration_leanplum_flutter: c6e83564dc7c1a96cec8b97c6e75f9b3c1958c91
+  rudder_plugin_ios: 6d73f06a3c4f2f5906746790af65e697976b04bd
   RudderKit: f272f9872183946452ac94cd7bb2244a71e6ca8f
   SDWebImage: 750adf017a315a280c60fde706ab1e552a3ae4e9
 

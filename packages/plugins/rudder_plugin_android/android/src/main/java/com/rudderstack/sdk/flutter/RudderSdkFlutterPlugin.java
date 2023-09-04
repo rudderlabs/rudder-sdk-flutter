@@ -236,10 +236,21 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
         .withTrackLifecycleEvents((Boolean) configMap.get("trackLifecycleEvents"))
         .withRecordScreenViews((Boolean) configMap.get("recordScreenViews"))
         .withControlPlaneUrl((String) configMap.get("controlPlaneUrl"));
+
     String dataResidencyServer = (String) configMap.get("dataResidencyServer");
     if (dataResidencyServer.equals("EU")) {
       builder.withDataResidencyServer(RudderDataResidencyServer.EU);
     }
+
+    Map<String, Object> dbEncryptionMap = (Map<String, Object>) configMap.get("dbEncryption");
+    if(dbEncryptionMap != null) {
+       Boolean enabled = (Boolean) dbEncryptionMap.get("enabled");
+       String encryptionKey = (String) dbEncryptionMap.get("key");
+       if(encryptionKey!=null && encryptionKey.length() > 0) {
+          builder.withDbEncryption(new RudderConfig.DBEncryption(enabled, encryptionKey));
+       }
+    }
+
     if (integrationList != null) {
       builder.withFactories(integrationList);
     }
