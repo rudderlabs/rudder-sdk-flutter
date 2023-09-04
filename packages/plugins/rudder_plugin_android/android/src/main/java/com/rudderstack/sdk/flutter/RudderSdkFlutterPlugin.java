@@ -168,7 +168,12 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
       rudderClient.alias((String) argumentsMap.get("newId"), options);
       return;
     } else if (call.method.equals("reset")) {
-      rudderClient.reset();
+      HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
+      if (argumentsMap.containsKey("clearAnonymousId")) {
+        rudderClient.reset((boolean) argumentsMap.get("clearAnonymousId"));
+      } else {
+        rudderClient.reset();
+      }
       return;
     } else if (call.method.equals("optOut")) {
       HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
@@ -227,13 +232,25 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
         .withLogLevel((Integer) configMap.get("logLevel"))
         .withSleepCount((Integer) configMap.get("sleepTimeOut"))
         .withAutoCollectAdvertId((Boolean) configMap.get("autoCollectAdvertId"))
+        .withCollectDeviceId((Boolean) configMap.get("collectDeviceId"))
         .withTrackLifecycleEvents((Boolean) configMap.get("trackLifecycleEvents"))
         .withRecordScreenViews((Boolean) configMap.get("recordScreenViews"))
         .withControlPlaneUrl((String) configMap.get("controlPlaneUrl"));
+
     String dataResidencyServer = (String) configMap.get("dataResidencyServer");
     if (dataResidencyServer.equals("EU")) {
       builder.withDataResidencyServer(RudderDataResidencyServer.EU);
     }
+
+    Map<String, Object> dbEncryptionMap = (Map<String, Object>) configMap.get("dbEncryption");
+    if(dbEncryptionMap != null) {
+       Boolean enabled = (Boolean) dbEncryptionMap.get("enabled");
+       String encryptionKey = (String) dbEncryptionMap.get("key");
+       if(encryptionKey!=null && encryptionKey.length() > 0) {
+          builder.withDbEncryption(new RudderConfig.DBEncryption(enabled, encryptionKey));
+       }
+    }
+
     if (integrationList != null) {
       builder.withFactories(integrationList);
     }

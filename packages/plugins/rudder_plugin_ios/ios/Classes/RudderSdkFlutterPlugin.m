@@ -116,7 +116,12 @@ BOOL isRegistrarDetached = NO;
     [[RSClient sharedInstance] alias:[call.arguments objectForKey:@"newId"] options:options];
     return;
   } else if ([call.method isEqualToString:@"reset"]) {
-    [[RSClient sharedInstance] reset];
+    if ([call.arguments objectForKey:@"clearAnonymousId"]) {
+      NSNumber* clearAnonymousId = [call.arguments objectForKey:@"clearAnonymousId"];
+      [[RSClient sharedInstance] reset:[clearAnonymousId boolValue]];
+    } else {
+      [[RSClient sharedInstance] reset];
+    }
     return;
   } else if ([call.method isEqualToString:@"optOut"]) {
     if ([call.arguments objectForKey:@"optOut"]) {
@@ -170,6 +175,7 @@ BOOL isRegistrarDetached = NO;
   [configBuilder withLoglevel:[[configDict objectForKey:@"logLevel"] intValue]];
   [configBuilder
       withConfigRefreshInteval:[[configDict objectForKey:@"configRefreshInterval"] intValue]];
+  [configBuilder withCollectDeviceId:[[configDict objectForKey:@"collectDeviceId"] boolValue]];
   [configBuilder
       withTrackLifecycleEvens:[[configDict objectForKey:@"trackLifecycleEvents"] boolValue]];
   [configBuilder withRecordScreenViews:[[configDict objectForKey:@"recordScreenViews"] boolValue]];
@@ -178,6 +184,17 @@ BOOL isRegistrarDetached = NO;
   if ([dataResidencyServer isEqualToString:@"EU"]) {
       [configBuilder withDataResidencyServer:EU];
   }
+
+  if([configDict objectForKey:@"dbEncryption"]) {
+    NSDictionary* dbEncryptionDict = [configDict objectForKey:@"dbEncryption"];
+    BOOL enabled = [[dbEncryptionDict objectForKey:@"enabled"] boolValue];
+    NSString* encryptionKey = [dbEncryptionDict objectForKey:@"key"];
+
+    if (encryptionKey != nil && [encryptionKey length] != 0) {
+        [configBuilder withDBEncryption:[[RSDBEncryption alloc] initWithKey:encryptionKey enable:enabled]];
+    }
+  }
+
   if (integrationList != nil) {
     for (id<RSIntegrationFactory> integration in integrationList) {
       [configBuilder withFactory:integration];
