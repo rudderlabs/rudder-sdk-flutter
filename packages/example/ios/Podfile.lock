@@ -162,7 +162,7 @@ PODS:
     - rudder_plugin_ios
   - rudder_plugin_ios (0.0.1):
     - Flutter
-    - Rudder (< 2.0.0, >= 1.9.2)
+    - Rudder (< 2.0.0, >= 1.19.2)
   - RudderKit (1.4.0)
   - SDWebImage (5.17.0):
     - SDWebImage/Core (= 5.17.0)
@@ -259,7 +259,7 @@ SPEC CHECKSUMS:
   rudder_integration_braze_flutter: ddc8cb4214059122d2f7f6f2aff5772d3fb2e5fd
   rudder_integration_firebase_flutter: 2406b968e85e4a3175b64ccc8f8de98eca3b3d2e
   rudder_integration_leanplum_flutter: c6e83564dc7c1a96cec8b97c6e75f9b3c1958c91
-  rudder_plugin_ios: 813853353955d07ee45f176177ae72ace00e0964
+  rudder_plugin_ios: 6d73f06a3c4f2f5906746790af65e697976b04bd
   RudderKit: f272f9872183946452ac94cd7bb2244a71e6ca8f
   SDWebImage: 750adf017a315a280c60fde706ab1e552a3ae4e9
 
