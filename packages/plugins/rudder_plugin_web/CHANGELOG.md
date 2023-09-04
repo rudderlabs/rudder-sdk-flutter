@@ -1,3 +1,7 @@
+## 2.4.0
+
+ - **FEAT**: made deviceId collection configurable and de-coupled anonymousid and deviceId ([#117](https://github.com/rudderlabs/rudder-sdk-flutter/issues/117)). ([28611542](https://github.com/rudderlabs/rudder-sdk-flutter/commit/28611542be971ddd389b011c77a3b5d82b6d7fff))
+
 ## 2.3.1
 
  - **FIX**: fixed in-valid method call in web plugin due to merge issues. ([af3e4d48](https://github.com/rudderlabs/rudder-sdk-flutter/commit/af3e4d48094a51f524d6362f040d50ee807a3f83))
