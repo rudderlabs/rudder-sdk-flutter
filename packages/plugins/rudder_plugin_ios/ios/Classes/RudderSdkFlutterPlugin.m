@@ -184,7 +184,7 @@ BOOL isRegistrarDetached = NO;
     BOOL enabled = [[dbEncryptionDict objectForKey:@"enabled"] boolValue];
     NSString* encryptionKey = [dbEncryptionDict objectForKey:@"key"];
 
-    if (enabled && encryptionKey != nil && [encryptionKey length] != 0) {
+    if (encryptionKey != nil && [encryptionKey length] != 0) {
         [configBuilder withDBEncryption:[[RSDBEncryption alloc] initWithKey:encryptionKey enable:enabled]];
     }
   }

@@ -240,7 +240,7 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     if(dbEncryptionMap != null) {
        Boolean enabled = (Boolean) dbEncryptionMap.get("enabled");
        String encryptionKey = (String) dbEncryptionMap.get("key");
-       if(enabled && encryptionKey!=null && encryptionKey.length() > 0) {
+       if(encryptionKey!=null && encryptionKey.length() > 0) {
           builder.withDbEncryption(new RudderConfig.DBEncryption(enabled, encryptionKey));
        }
     }
