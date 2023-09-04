@@ -342,35 +342,35 @@ packages:
       path: "../../plugins/rudder_plugin_android"
       relative: true
     source: path
-    version: "2.2.2"
+    version: "2.3.0"
   rudder_plugin_ios:
     dependency: "direct overridden"
     description:
       path: "../../plugins/rudder_plugin_ios"
       relative: true
     source: path
-    version: "2.2.2"
+    version: "2.3.0"
   rudder_plugin_web:
     dependency: "direct overridden"
     description:
       path: "../../plugins/rudder_plugin_web"
       relative: true
     source: path
-    version: "2.2.3"
+    version: "2.3.1"
   rudder_sdk_flutter:
     dependency: "direct main"
     description:
       path: "../../plugins/rudder_plugin"
       relative: true
     source: path
-    version: "2.3.3"
+    version: "2.4.1"
   rudder_sdk_flutter_platform_interface:
     dependency: "direct main"
     description:
       path: "../../plugins/rudder_plugin_interface"
       relative: true
     source: path
-    version: "2.3.1"
+    version: "2.4.0"
   shelf:
     dependency: transitive
     description:

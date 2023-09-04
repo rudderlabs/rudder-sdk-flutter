@@ -43,8 +43,8 @@ class RudderController {
     RudderSdkPlatform.instance.alias(newId, options: options);
   }
 
-  void reset() {
-    RudderSdkPlatform.instance.reset();
+  void reset({bool clearAnonymousId = false}) {
+    RudderSdkPlatform.instance.reset(clearAnonymousId: clearAnonymousId);
   }
 
   void optOut(bool optOut) {

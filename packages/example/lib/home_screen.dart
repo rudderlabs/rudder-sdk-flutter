@@ -37,7 +37,8 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void __initialize() {
-    MobileConfig mc = MobileConfig(autoCollectAdvertId: false);
+    MobileConfig mc =
+        MobileConfig(autoCollectAdvertId: false, collectDeviceId: false);
     RudderConfigBuilder builder = RudderConfigBuilder();
     builder.withFactory(RudderIntegrationAppcenterFlutter());
     builder.withFactory(RudderIntegrationFirebaseFlutter());
@@ -112,7 +113,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void __reset() {
-    rudderClient.reset();
+    rudderClient.reset(clearAnonymousId: true);
     setOutput("reset");
   }
 

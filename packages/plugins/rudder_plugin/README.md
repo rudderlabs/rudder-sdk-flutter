@@ -103,6 +103,7 @@ check [the documentation page](https://docs.rudderstack.com/rudderstack-sdk-inte
 
 ## List of Features
 - Data Residency, Custom Context from version `2.4.0`
+- Configurable Collection of Device Id from version `2.5.0`
 
 ## Contact Us
 
