@@ -473,84 +473,84 @@ packages:
       path: "packages/integrations/rudder_integration_adjust_flutter"
       relative: true
     source: path
-    version: "1.0.7"
+    version: "1.1.0"
   rudder_integration_amplitude_flutter:
     dependency: "direct main"
     description:
       path: "packages/integrations/rudder_integration_amplitude_flutter"
       relative: true
     source: path
-    version: "1.0.7"
+    version: "1.1.0"
   rudder_integration_appcenter_flutter:
     dependency: "direct main"
     description:
       path: "packages/integrations/rudder_integration_appcenter_flutter"
       relative: true
     source: path
-    version: "1.1.7"
+    version: "1.2.0"
   rudder_integration_appsflyer_flutter:
     dependency: "direct main"
     description:
       path: "packages/integrations/rudder_integration_appsflyer_flutter"
       relative: true
     source: path
-    version: "1.1.4"
+    version: "1.1.5"
   rudder_integration_braze_flutter:
     dependency: "direct main"
     description:
       path: "packages/integrations/rudder_integration_braze_flutter"
       relative: true
     source: path
-    version: "1.0.7"
+    version: "1.1.0"
   rudder_integration_firebase_flutter:
     dependency: "direct main"
     description:
       path: "packages/integrations/rudder_integration_firebase_flutter"
       relative: true
     source: path
-    version: "2.0.6"
+    version: "2.1.0"
   rudder_integration_leanplum_flutter:
     dependency: "direct main"
     description:
       path: "packages/integrations/rudder_integration_leanplum_flutter"
       relative: true
     source: path
-    version: "1.0.7"
+    version: "1.1.0"
   rudder_plugin_android:
     dependency: "direct overridden"
     description:
       path: "packages/plugins/rudder_plugin_android"
       relative: true
     source: path
-    version: "2.3.0"
+    version: "2.4.0"
   rudder_plugin_ios:
     dependency: "direct overridden"
     description:
       path: "packages/plugins/rudder_plugin_ios"
       relative: true
     source: path
-    version: "2.3.0"
+    version: "2.4.0"
   rudder_plugin_web:
     dependency: "direct overridden"
     description:
       path: "packages/plugins/rudder_plugin_web"
       relative: true
     source: path
-    version: "2.3.1"
+    version: "2.4.0"
   rudder_sdk_flutter:
     dependency: "direct main"
     description:
       path: "packages/plugins/rudder_plugin"
       relative: true
     source: path
-    version: "2.4.1"
+    version: "2.5.0"
   rudder_sdk_flutter_platform_interface:
     dependency: "direct overridden"
     description:
       path: "packages/plugins/rudder_plugin_interface"
       relative: true
     source: path
-    version: "2.4.0"
+    version: "2.5.0"
   shelf:
     dependency: transitive
     description:
