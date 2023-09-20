@@ -185,7 +185,7 @@ BOOL isRegistrarDetached = NO;
       [configBuilder withDataResidencyServer:EU];
   }
 
-  // to be implemented in future
+  // todo: to be implemented in future
   // if([configDict objectForKey:@"dbEncryption"]) {
   //   NSDictionary* dbEncryptionDict = [configDict objectForKey:@"dbEncryption"];
   //   BOOL enabled = [[dbEncryptionDict objectForKey:@"enabled"] boolValue];
