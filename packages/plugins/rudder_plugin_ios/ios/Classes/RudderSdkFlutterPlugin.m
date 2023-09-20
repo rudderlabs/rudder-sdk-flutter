@@ -185,15 +185,16 @@ BOOL isRegistrarDetached = NO;
       [configBuilder withDataResidencyServer:EU];
   }
 
-  if([configDict objectForKey:@"dbEncryption"]) {
-    NSDictionary* dbEncryptionDict = [configDict objectForKey:@"dbEncryption"];
-    BOOL enabled = [[dbEncryptionDict objectForKey:@"enabled"] boolValue];
-    NSString* encryptionKey = [dbEncryptionDict objectForKey:@"key"];
+  // to be implemented in future
+  // if([configDict objectForKey:@"dbEncryption"]) {
+  //   NSDictionary* dbEncryptionDict = [configDict objectForKey:@"dbEncryption"];
+  //   BOOL enabled = [[dbEncryptionDict objectForKey:@"enabled"] boolValue];
+  //   NSString* encryptionKey = [dbEncryptionDict objectForKey:@"key"];
 
-    if (encryptionKey != nil && [encryptionKey length] != 0) {
-        [configBuilder withDBEncryption:[[RSDBEncryption alloc] initWithKey:encryptionKey enable:enabled]];
-    }
-  }
+  //   if (encryptionKey != nil && [encryptionKey length] != 0) {
+  //       [configBuilder withDBEncryption:[[RSDBEncryption alloc] initWithKey:encryptionKey enable:enabled]];
+  //   }
+  // }
 
   if (integrationList != nil) {
     for (id<RSIntegrationFactory> integration in integrationList) {
