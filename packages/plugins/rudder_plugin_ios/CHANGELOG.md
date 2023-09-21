@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - **FIX**: removed dbencryption implementation on iOS temporarily. ([cd9a49b8](https://github.com/rudderlabs/rudder-sdk-flutter/commit/cd9a49b8f49322da6a1d0fcd3b892d6e11172997))
+
 ## 2.4.0
 
  - **FEAT**: added support for encrypting events persisted in sqlite3 db ([#118](https://github.com/rudderlabs/rudder-sdk-flutter/issues/118)). ([24175a59](https://github.com/rudderlabs/rudder-sdk-flutter/commit/24175a59dafee3aeafa858b4b633ebf8e09836ac))
