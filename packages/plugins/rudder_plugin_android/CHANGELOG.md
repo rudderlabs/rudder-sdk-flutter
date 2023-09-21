@@ -1,3 +1,7 @@
+## 2.4.1
+
+ - **FIX**: upgraded the version of android sdk to fix the invalid json issue. ([9cc51ec8](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9cc51ec8e6e6b82e83142e00c8fefb9855c84060))
+
 ## 2.4.0
 
  - **FEAT**: added support for encrypting events persisted in sqlite3 db ([#118](https://github.com/rudderlabs/rudder-sdk-flutter/issues/118)). ([24175a59](https://github.com/rudderlabs/rudder-sdk-flutter/commit/24175a59dafee3aeafa858b4b633ebf8e09836ac))
