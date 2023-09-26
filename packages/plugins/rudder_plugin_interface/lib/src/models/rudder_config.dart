@@ -129,7 +129,7 @@ class RudderConfig {
     _webConfigMap['residencyServer'] = dataResidencyServer.getValue;
 
     if (mobileConfig?.dbEncryption != null) {
-      _mobileConfigMap['dbEncryption'] = mobileConfig?.dbEncryption?.getMap();
+      mobileConfig?.dbEncryption?.addDBEncryptionToConfig();
     }
 
     if (factories != null) {

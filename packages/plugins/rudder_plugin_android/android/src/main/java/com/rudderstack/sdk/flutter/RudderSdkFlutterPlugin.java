@@ -2,7 +2,9 @@ package com.rudderstack.sdk.flutter;
 
 import android.content.Context;
 import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.rudderstack.android.sdk.core.RudderClient;
 import com.rudderstack.android.sdk.core.RudderConfig;
@@ -11,16 +13,21 @@ import com.rudderstack.android.sdk.core.RudderOption;
 import com.rudderstack.android.sdk.core.RudderProperty;
 import com.rudderstack.android.sdk.core.RudderTraits;
 import com.rudderstack.android.sdk.core.RudderTraitsBuilder;
+
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
+
 import java.lang.*;
 import java.util.*;
+
 import com.rudderstack.android.sdk.core.RudderDataResidencyServer;
 
-/** RudderSdkFlutterPlugin */
+/**
+ * RudderSdkFlutterPlugin
+ */
 public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler {
 
   static RudderClient rudderClient;
@@ -39,6 +46,14 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
       integrationList = new ArrayList<>();
     }
     integrationList.add(integration);
+  }
+
+  private static Map<String, Object> _dbEncryptionMap = null;
+
+  public static void setDBEncryption(Map<String, Object> dbEncryptionMap) {
+    if (dbEncryptionMap != null) {
+      _dbEncryptionMap = dbEncryptionMap;
+    }
   }
 
   @Override
@@ -112,7 +127,7 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
 
       if (argumentsMap.containsKey("properties")) {
         eventProperties =
-            new RudderProperty().putValue((Map<String, Object>) (argumentsMap.get("properties")));
+          new RudderProperty().putValue((Map<String, Object>) (argumentsMap.get("properties")));
       }
       if (argumentsMap.containsKey("options")) {
         options = getRudderOptionsObject((Map<String, Object>) argumentsMap.get("options"));
@@ -129,14 +144,14 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
 
       if (argumentsMap.containsKey("properties")) {
         screenProperties =
-            new RudderProperty().putValue((Map<String, Object>) (argumentsMap.get("properties")));
+          new RudderProperty().putValue((Map<String, Object>) (argumentsMap.get("properties")));
       }
       if (argumentsMap.containsKey("options")) {
         options = getRudderOptionsObject((Map<String, Object>) argumentsMap.get("options"));
       }
       if (argumentsMap.containsKey("category") && argumentsMap.get("category") != null) {
         rudderClient.screen(
-            screenName, (String) argumentsMap.get("category"), screenProperties, options);
+          screenName, (String) argumentsMap.get("category"), screenProperties, options);
       } else rudderClient.screen(screenName, screenProperties, options);
       return;
     } else if (call.method.equals("group")) {
@@ -225,30 +240,29 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
   public RudderConfig getRudderConfig(Map<String, Object> configMap) {
     RudderConfig.Builder builder = new RudderConfig.Builder();
     builder
-        .withDataPlaneUrl((String) configMap.get("dataPlaneUrl"))
-        .withFlushQueueSize((Integer) configMap.get("flushQueueSize"))
-        .withDbThresholdCount((Integer) configMap.get("dbCountThreshold"))
-        .withConfigRefreshInterval((Integer) configMap.get("configRefreshInterval"))
-        .withLogLevel((Integer) configMap.get("logLevel"))
-        .withSleepCount((Integer) configMap.get("sleepTimeOut"))
-        .withAutoCollectAdvertId((Boolean) configMap.get("autoCollectAdvertId"))
-        .withCollectDeviceId((Boolean) configMap.get("collectDeviceId"))
-        .withTrackLifecycleEvents((Boolean) configMap.get("trackLifecycleEvents"))
-        .withRecordScreenViews((Boolean) configMap.get("recordScreenViews"))
-        .withControlPlaneUrl((String) configMap.get("controlPlaneUrl"));
+      .withDataPlaneUrl((String) configMap.get("dataPlaneUrl"))
+      .withFlushQueueSize((Integer) configMap.get("flushQueueSize"))
+      .withDbThresholdCount((Integer) configMap.get("dbCountThreshold"))
+      .withConfigRefreshInterval((Integer) configMap.get("configRefreshInterval"))
+      .withLogLevel((Integer) configMap.get("logLevel"))
+      .withSleepCount((Integer) configMap.get("sleepTimeOut"))
+      .withAutoCollectAdvertId((Boolean) configMap.get("autoCollectAdvertId"))
+      .withCollectDeviceId((Boolean) configMap.get("collectDeviceId"))
+      .withTrackLifecycleEvents((Boolean) configMap.get("trackLifecycleEvents"))
+      .withRecordScreenViews((Boolean) configMap.get("recordScreenViews"))
+      .withControlPlaneUrl((String) configMap.get("controlPlaneUrl"));
 
     String dataResidencyServer = (String) configMap.get("dataResidencyServer");
     if (dataResidencyServer.equals("EU")) {
       builder.withDataResidencyServer(RudderDataResidencyServer.EU);
     }
 
-    Map<String, Object> dbEncryptionMap = (Map<String, Object>) configMap.get("dbEncryption");
-    if(dbEncryptionMap != null) {
-       Boolean enabled = (Boolean) dbEncryptionMap.get("enabled");
-       String encryptionKey = (String) dbEncryptionMap.get("key");
-       if(encryptionKey!=null && encryptionKey.length() > 0) {
-          builder.withDbEncryption(new RudderConfig.DBEncryption(enabled, encryptionKey));
-       }
+    if (_dbEncryptionMap != null) {
+      Boolean enabled = (Boolean) _dbEncryptionMap.get("enabled");
+      String encryptionKey = (String) _dbEncryptionMap.get("key");
+      if (encryptionKey != null && encryptionKey.length() > 0) {
+        builder.withDbEncryption(new RudderConfig.DBEncryption(enabled, encryptionKey));
+      }
     }
 
     if (integrationList != null) {
@@ -346,7 +360,7 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     RudderOption option = new RudderOption();
     if (optionsMap.containsKey("externalIds")) {
       List<Map<String, Object>> externalIdsList =
-          (List<Map<String, Object>>) optionsMap.get("externalIds");
+        (List<Map<String, Object>>) optionsMap.get("externalIds");
       for (int i = 0; i < externalIdsList.size(); i++) {
         Map<String, Object> externalIdMap = (Map<String, Object>) externalIdsList.get(i);
         String type = (String) externalIdMap.get("type");
