@@ -6,7 +6,6 @@ sdkPath: auto
 packages:
   - .
   - packages/plugins/**
-  - packages/features/**
   - packages/integrations/**
   - packages/example
 
@@ -136,19 +135,13 @@ scripts:
 #    select-package:
 #      scope: '*rudder_plugin_web*'
 
-  build:features:db_encryption:
+  build:sdk:db_encryption:
     run: |
       melos exec -c 1 --fail-fast -- \
         "flutter build bundle --target=lib/rudder_plugin_db_encryption.dart"
     description: Build the DB Encryption plugin.
     select-package:
       scope: '*rudder_plugin_db_encryption*'
-
-  build:features:all:
-    run: |
-      melos run build:features:db_encryption --no-select && \
-      melos bootstrap
-    description: Build all the features.
 
   build:integration:adjust:
     run: |
@@ -290,6 +283,7 @@ scripts:
       melos run build:sdk:interface --no-select && \
       melos run build:sdk:android --no-select && \
       melos run build:sdk:ios --no-select && \
+      melos run build:sdk:db_encryption --no-select && \
       melos bootstrap
     description: Build all SDK bundles.
 
