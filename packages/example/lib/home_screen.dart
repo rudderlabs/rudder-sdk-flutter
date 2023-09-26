@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:rudder_plugin_db_encryption/rudder_plugin_db_encryption.dart';
 import 'package:rudder_sdk_flutter/RudderController.dart';
 import 'package:rudder_integration_appcenter_flutter/rudder_integration_appcenter_flutter.dart';
-import 'package:rudder_integration_amplitude_flutter/rudder_integration_amplitude_flutter.dart';
 import 'package:rudder_integration_braze_flutter/rudder_integration_braze_flutter.dart';
 import 'package:rudder_integration_firebase_flutter/rudder_integration_firebase_flutter.dart';
+import 'package:rudder_integration_amplitude_flutter/rudder_integration_amplitude_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
@@ -37,7 +38,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void __initialize() {
-    DBEncryption dbEncryption = DBEncryption(true, "password");
+    RudderDBEncyrption dbEncryption = RudderDBEncyrption(false, "password");
     MobileConfig mc = MobileConfig(
         autoCollectAdvertId: false,
         dbEncryption: dbEncryption,

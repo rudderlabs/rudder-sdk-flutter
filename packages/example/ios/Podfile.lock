@@ -162,13 +162,26 @@ PODS:
     - Flutter
     - Rudder-Leanplum (= 1.0.2)
     - rudder_plugin_ios
+  - rudder_plugin_db_encryption (0.0.1):
+    - Flutter
+    - Rudder
+    - rudder_plugin_ios
+    - RudderDatabaseEncryption (~> 1.0.0)
   - rudder_plugin_ios (0.0.1):
     - Flutter
     - Rudder (< 2.0.0, >= 1.20.0)
+  - RudderDatabaseEncryption (1.0.0):
+    - Rudder (~> 1.20)
+    - SQLCipher (~> 4.0)
   - RudderKit (1.4.0)
   - SDWebImage (5.18.1):
     - SDWebImage/Core (= 5.18.1)
   - SDWebImage/Core (5.18.1)
+  - SQLCipher (4.5.5):
+    - SQLCipher/standard (= 4.5.5)
+  - SQLCipher/common (4.5.5)
+  - SQLCipher/standard (4.5.5):
+    - SQLCipher/common
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -179,6 +192,7 @@ DEPENDENCIES:
   - rudder_integration_braze_flutter (from `.symlinks/plugins/rudder_integration_braze_flutter/ios`)
   - rudder_integration_firebase_flutter (from `.symlinks/plugins/rudder_integration_firebase_flutter/ios`)
   - rudder_integration_leanplum_flutter (from `.symlinks/plugins/rudder_integration_leanplum_flutter/ios`)
+  - rudder_plugin_db_encryption (from `.symlinks/plugins/rudder_plugin_db_encryption/ios`)
   - rudder_plugin_ios (from `.symlinks/plugins/rudder_plugin_ios/ios`)
 
 SPEC REPOS:
@@ -207,8 +221,10 @@ SPEC REPOS:
     - Rudder-Braze
     - Rudder-Firebase
     - Rudder-Leanplum
+    - RudderDatabaseEncryption
     - RudderKit
     - SDWebImage
+    - SQLCipher
 
 EXTERNAL SOURCES:
   Flutter:
@@ -227,6 +243,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/rudder_integration_firebase_flutter/ios"
   rudder_integration_leanplum_flutter:
     :path: ".symlinks/plugins/rudder_integration_leanplum_flutter/ios"
+  rudder_plugin_db_encryption:
+    :path: ".symlinks/plugins/rudder_plugin_db_encryption/ios"
   rudder_plugin_ios:
     :path: ".symlinks/plugins/rudder_plugin_ios/ios"
 
@@ -263,9 +281,12 @@ SPEC CHECKSUMS:
   rudder_integration_braze_flutter: ddc8cb4214059122d2f7f6f2aff5772d3fb2e5fd
   rudder_integration_firebase_flutter: 2406b968e85e4a3175b64ccc8f8de98eca3b3d2e
   rudder_integration_leanplum_flutter: c6e83564dc7c1a96cec8b97c6e75f9b3c1958c91
+  rudder_plugin_db_encryption: cdb157502f61b85e97d2e4bf53a585231be0471b
   rudder_plugin_ios: 04662d54ab52c6265b5effb50ad5eb748ea0322d
+  RudderDatabaseEncryption: 409b8623c114a43af6332a694601373fde45e1ca
   RudderKit: f272f9872183946452ac94cd7bb2244a71e6ca8f
   SDWebImage: ebdbcebc7933a45226d9313bd0118bc052ad458b
+  SQLCipher: f2e96b3822e3006b379181a0e4fd145f6de29b56
 
 PODFILE CHECKSUM: 5265e733c786a5987c9aa8f08d969fb3ef180aca
 
