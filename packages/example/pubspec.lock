@@ -390,7 +390,7 @@ packages:
       path: "../features/rudder_plugin_db_encryption"
       relative: true
     source: path
-    version: "0.0.1"
+    version: "1.0.0"
   rudder_plugin_ios:
     dependency: "direct overridden"
     description:

@@ -4,14 +4,14 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'rudder_plugin_db_encryption'
-  s.version          = '0.0.1'
-  s.summary          = 'A new Flutter plugin project.'
+  s.version          = '1.0.0'
+  s.summary          = 'iOS Module of the RudderStack SDK for Flutter, to enable database encryption.'
   s.description      = <<-DESC
-A new Flutter plugin project.
+                        This module enables database encryption for the RudderStack SDK for Flutter.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://github.com/rudderlabs/rudder-sdk-flutter'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'RudderStack' => 'sdk@rudderstack.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'

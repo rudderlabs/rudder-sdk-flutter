@@ -1,3 +1,3 @@
-## 0.0.1
+## 1.0.0
 
-* TODO: Describe initial release.
+* Separated out the DbEncryption feature into a separate plugin and made the initial release.

@@ -1,4 +1,4 @@
-package com.example.rudder_plugin_db_encryption;
+package com.rudderstack.rudder_plugin_db_encryption;
 
 import androidx.annotation.NonNull;
 

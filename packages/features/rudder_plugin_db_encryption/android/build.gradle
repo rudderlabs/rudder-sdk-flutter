@@ -1,4 +1,4 @@
-group 'com.example.rudder_plugin_db_encryption'
+group 'com.rudderstack.rudder_plugin_db_encryption'
 version '1.0'
 
 buildscript {
