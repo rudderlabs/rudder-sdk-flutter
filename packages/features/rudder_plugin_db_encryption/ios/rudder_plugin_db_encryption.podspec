@@ -17,6 +17,7 @@ A new Flutter plugin project.
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
   s.dependency 'rudder_plugin_ios'
+  s.dependency 'Rudder'
   s.dependency 'RudderDatabaseEncryption', '~> 1.0.0'
   s.platform = :ios, '11.0'
 
