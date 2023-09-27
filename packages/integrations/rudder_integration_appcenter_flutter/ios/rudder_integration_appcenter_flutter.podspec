@@ -14,6 +14,7 @@ Pod::Spec.new do |s|
   s.author           = { 'RudderStack' => 'sdk-accounts@rudderstack.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
+  s.static_framework = true
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
   s.dependency 'Rudder-AppCenter', '1.0.1'
