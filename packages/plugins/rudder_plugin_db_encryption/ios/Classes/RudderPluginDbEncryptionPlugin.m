@@ -1,7 +1,7 @@
 #import "RudderPluginDbEncryptionPlugin.h"
 #import <rudder_plugin_ios/RudderSdkFlutterPlugin.h>
 @import RudderDatabaseEncryption;
-@import Rudder;
+#import <Rudder/RSDBEncryption.h>;
 
 @implementation RudderPluginDbEncryptionPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
