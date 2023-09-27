@@ -1,11 +1,11 @@
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 import 'rudder_plugin_db_encryption_platform_interface.dart';
 
-class RudderDBEncyrption implements DBEncryptionInterface {
+class RudderDBEncryption implements DBEncryptionInterface {
   final bool _enabled;
   final String _key;
 
-  RudderDBEncyrption(enabled, key)
+  RudderDBEncryption(enabled, key)
       : _enabled = enabled,
         _key = key;
 
