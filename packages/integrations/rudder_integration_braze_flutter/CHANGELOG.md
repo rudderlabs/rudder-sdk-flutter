@@ -1,3 +1,7 @@
+## 1.1.2
+
+ - **FIX**: made Braze Device Mode iOS module as a static_framework. ([011d0cb7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/011d0cb78cf6492d277b2676dd38f9a3404ba11c))
+
 ## 1.1.1
 
  - Update a dependency to the latest release.
