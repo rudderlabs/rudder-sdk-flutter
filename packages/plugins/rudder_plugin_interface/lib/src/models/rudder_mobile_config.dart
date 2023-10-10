@@ -1,5 +1,4 @@
-import 'db_encryption.dart';
-import '../constants.dart';
+import '../../platform.dart';
 
 ///Configurations to be used for mobile and mobile only. Any values set here
 ///will have no effect on web whatsoever.
@@ -25,7 +24,7 @@ class MobileConfig {
   final int _configRefreshInterval;
 
   /// @param dbEncryption whether the SDK should encrypt the DB
-  final DBEncryption? _dbEncryption;
+  final DBEncryptionInterface? _dbEncryption;
 
   MobileConfig(
       {dbCountThreshold = Constants.DB_COUNT_THRESHOLD,
@@ -35,7 +34,7 @@ class MobileConfig {
       recordScreenViews = Constants.RECORD_SCREEN_VIEWS,
       int sleepTimeOut = Constants.SLEEP_TIMEOUT,
       int configRefreshInterval = Constants.CONFIG_REFRESH_INTERVAL,
-      DBEncryption? dbEncryption})
+      DBEncryptionInterface? dbEncryption})
       : _dbCountThreshold = dbCountThreshold,
         _autoCollectAdvertId = autoCollectAdvertId,
         _collectDeviceId = collectDeviceId,
@@ -59,5 +58,5 @@ class MobileConfig {
 
   int get configRefreshInterval => _configRefreshInterval;
 
-  DBEncryption? get dbEncryption => _dbEncryption;
+  DBEncryptionInterface? get dbEncryption => _dbEncryption;
 }
