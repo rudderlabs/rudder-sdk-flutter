@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: added support for db encryption plugin across android, iOS, core plugin. ([90cbb7ea](https://github.com/rudderlabs/rudder-sdk-flutter/commit/90cbb7eaf5b767f57bf92d49863653fe6432fb97))
+
 ## 2.4.1
 
  - **FIX**: upgraded the version of android sdk to fix the invalid json issue. ([9cc51ec8](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9cc51ec8e6e6b82e83142e00c8fefb9855c84060))

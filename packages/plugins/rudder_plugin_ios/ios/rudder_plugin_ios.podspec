@@ -7,12 +7,12 @@ RudderStack flutter SDK ios plugin project
                        DESC
   s.homepage         = 'https://github.com/rudderlabs/rudder-sdk-flutter/tree/main/packages/plugins/rudder_plugin_ios'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'RudderStack' => 'sdk@rudderstack.com' }
+  s.author           = { 'RudderStack' => 'sdk-accounts@rudderstack.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.dependency "Rudder", '>= 1.20.0', '< 2.0.0'
+  s.dependency "Rudder", '>= 1.23.0', '< 2.0.0'
   s.platform = :ios, '8.0'
 
   # Flutter.framework does not contain a i386 slice.

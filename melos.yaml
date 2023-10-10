@@ -135,6 +135,14 @@ scripts:
 #    select-package:
 #      scope: '*rudder_plugin_web*'
 
+  build:sdk:db_encryption:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build bundle --target=lib/rudder_plugin_db_encryption.dart"
+    description: Build the DB Encryption plugin.
+    select-package:
+      scope: '*rudder_plugin_db_encryption*'
+
   build:integration:adjust:
     run: |
       melos exec -c 1 --fail-fast -- \
@@ -158,7 +166,7 @@ scripts:
     description: Build the AppCenter integration plugin.
     select-package:
       scope: '*rudder_integration_appcenter_flutter'
-    
+
   build:integration:appsflyer:
     run: |
       melos exec -c 1 --fail-fast -- \
@@ -275,6 +283,7 @@ scripts:
       melos run build:sdk:interface --no-select && \
       melos run build:sdk:android --no-select && \
       melos run build:sdk:ios --no-select && \
+      melos run build:sdk:db_encryption --no-select && \
       melos bootstrap
     description: Build all SDK bundles.
 
@@ -289,6 +298,7 @@ scripts:
   build:all:
     run: |
       melos run build:sdk:all --no-select && \
+      melos run build:features:all: --no-select && \
       melos run build:integration:all --no-select && \
       melos run build:example:all --no-select && \
       melos bootstrap
