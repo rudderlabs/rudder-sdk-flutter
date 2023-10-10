@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**: added support for db encryption plugin across android, iOS, core plugin. ([0ff4f304](https://github.com/rudderlabs/rudder-sdk-flutter/commit/0ff4f30414dbdaa0c7f336c70ebfb32c0cfcf273))
+
 ## 2.5.1
 
  - Update a dependency to the latest release.
