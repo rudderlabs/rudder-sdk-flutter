@@ -1,3 +1,7 @@
+## 1.2.2
+
+ - **FIX**: made Appcenter, Appsflyer, Firebase iOS Modules as static_frameworks. ([ee0fb3e3](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ee0fb3e367528c732ffc01f339984ec15ae92a5e))
+
 ## 1.2.1
 
  - Update a dependency to the latest release.

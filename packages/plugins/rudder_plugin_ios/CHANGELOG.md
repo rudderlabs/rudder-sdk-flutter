@@ -1,3 +1,7 @@
+## 2.5.0
+
+ - **FEAT**: added support for db encryption plugin across android, iOS, core plugin. ([90cbb7ea](https://github.com/rudderlabs/rudder-sdk-flutter/commit/90cbb7eaf5b767f57bf92d49863653fe6432fb97))
+
 ## 2.4.1
 
  - **FIX**: removed dbencryption implementation on iOS temporarily. ([cd9a49b8](https://github.com/rudderlabs/rudder-sdk-flutter/commit/cd9a49b8f49322da6a1d0fcd3b892d6e11172997))
