@@ -31,7 +31,7 @@ class RudderConfig {
     String dataPlaneUrl, // used in android/ios/web
     int flushQueueSize, // all
     int logLevel, //all
-
+    bool autoSessionTracking, // all
     MobileConfig? mobileConfig,
     WebConfig? webConfig,
     String controlPlaneUrl, //all
@@ -75,6 +75,9 @@ class RudderConfig {
         : logLevel <= RudderLogger.INFO
             ? "INFO"
             : "DEBUG";
+
+    _mobileConfigMap['autoSessionTracking'] = autoSessionTracking;
+    _webConfigMap['autoSessionTracking'] = autoSessionTracking;
 
     if (mobileConfig != null) {
       if (mobileConfig.dbCountThreshold < 0) {
@@ -246,6 +249,15 @@ class RudderConfigBuilder {
     return this;
   }
 
+  bool __autoSessionTracking = Constants.AUTO_SESSION_TRACKING;
+
+  /// @param autoSessionTracking Set it true to enable auto session tracking
+  /// @return RudderConfigBuilder
+  RudderConfigBuilder withAutoSessionTracking(bool autoSessionTracking) {
+    __autoSessionTracking = autoSessionTracking;
+    return this;
+  }
+
   MobileConfig __mobileConfig = MobileConfig();
 
   RudderConfigBuilder withMobileConfig(MobileConfig mobileConfig) {
@@ -302,6 +314,7 @@ class RudderConfigBuilder {
         __dataPlaneUrl,
         __flushQueueSize,
         __isDebug ? RudderLogger.DEBUG : __logLevel,
+        __autoSessionTracking,
         __mobileConfig,
         __webConfig,
         __controlPlaneUrl,

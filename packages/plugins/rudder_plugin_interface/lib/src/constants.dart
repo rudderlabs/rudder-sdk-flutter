@@ -16,6 +16,8 @@ class Constants {
   // default threshold of number of events to be persisted in sqlite db
   static const int DB_COUNT_THRESHOLD = 10000;
 
+  static const bool AUTO_SESSION_TRACKING = true;
+
   // default timeout for event flush
   // if events are registered and flushQueueSize is not reached
   // events will be flushed to server after sleepTimeOut seconds

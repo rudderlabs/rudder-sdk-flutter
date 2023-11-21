@@ -84,6 +84,15 @@ abstract class RudderSdkPlatform extends PlatformInterface {
         'putAnonymousId(String anonymousId) has not been implemented.');
   }
 
+  void startSession({int? sessionId}) {
+    throw UnimplementedError(
+        'startSession({int? sessionId}) has not been implemented');
+  }
+
+  void endSession() {
+    throw UnimplementedError('endSession() has not been implemented');
+  }
+
   Future<Map?> getRudderContext() async {
     throw UnimplementedError('getRudderContext() has not been implemented.');
   }
