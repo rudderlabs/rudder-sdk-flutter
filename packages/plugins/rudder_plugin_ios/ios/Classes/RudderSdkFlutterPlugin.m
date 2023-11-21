@@ -160,7 +160,21 @@ BOOL isRegistrarDetached = NO;
             }
         }
         return;
-    } else if ([call.method isEqualToString:@"getRudderContext"]) {
+    } else if ([call.method isEqualToString:@"startSession"]) {
+        if([call.arguments objectForKey:@"sessionId"]) {
+            NSNumber* sessionId =  [call.arguments objectForKey:@"sessionId"];
+            if (sessionId != nil) {
+                [[RSClient sharedInstance] startSession:[sessionId longValue]];
+            }
+        } else {
+            [[RSClient sharedInstance] startSession];
+        }
+        return;
+    } else if ([call.method isEqualToString:@"endSession"]) {
+        [[RSClient sharedInstance] endSession];
+        return;
+    }
+    else if ([call.method isEqualToString:@"getRudderContext"]) {
         if ([RSClient sharedInstance] == nil) {
             return;
         }
@@ -184,6 +198,7 @@ BOOL isRegistrarDetached = NO;
     [configBuilder
      withTrackLifecycleEvens:[[configDict objectForKey:@"trackLifecycleEvents"] boolValue]];
     [configBuilder withRecordScreenViews:[[configDict objectForKey:@"recordScreenViews"] boolValue]];
+    [configBuilder withAutoSessionTracking:[[configDict objectForKey:@"autoSessionTracking"] boolValue]];
     [configBuilder withControlPlaneUrl:[configDict objectForKey:@"controlPlaneUrl"]];
     NSString *dataResidencyServer = configDict[@"dataResidencyServer"];
     if ([dataResidencyServer isEqualToString:@"EU"]) {
