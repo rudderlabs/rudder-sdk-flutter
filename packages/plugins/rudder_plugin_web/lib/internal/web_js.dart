@@ -31,6 +31,12 @@ external group(String groupId, dynamic traits, dynamic options);
 @JS("rudderanalytics.reset")
 external reset(bool clearAnonymousId);
 
+@JS("rudderanalytics.startSession")
+external startSession(int? sessionId);
+
+@JS("rudderanalytics.endSession")
+external endSession();
+
 @JS("rudderanalytics.getAnonymousId")
 external String? getAnonymousId();
 
