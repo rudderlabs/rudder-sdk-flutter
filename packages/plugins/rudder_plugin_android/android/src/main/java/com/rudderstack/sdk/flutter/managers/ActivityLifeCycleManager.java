@@ -40,12 +40,10 @@ public class ActivityLifeCycleManager implements Application.ActivityLifecycleCa
   public void onActivityStarted(@NonNull Activity activity) {
     if (noOfActivities.incrementAndGet() == 1) {
       Runnable runnableTask = () -> RudderSdkFlutterPlugin.getInstance().trackApplicationOpened(fromBackground);
-      if (RudderSdkFlutterPlugin.getInstance() == null) {
-        runnableTasks.add(runnableTask);
-      } else {
-        runnableTask.run();
-      }
+      executeRunnable(runnableTask);
     }
+    Runnable runnableTask = () -> RudderSdkFlutterPlugin.getInstance().trackScreen(activity);
+    executeRunnable(runnableTask);
   }
 
   @Override
@@ -65,11 +63,7 @@ public class ActivityLifeCycleManager implements Application.ActivityLifecycleCa
     fromBackground = true;
     if (noOfActivities.decrementAndGet() == 0) {
       Runnable runnableTask = () -> RudderSdkFlutterPlugin.getInstance().trackApplicationBackgrounded();
-      if (RudderSdkFlutterPlugin.getInstance() == null) {
-        runnableTasks.add(runnableTask);
-      } else {
-        runnableTask.run();
-      }
+      executeRunnable(runnableTask);
     }
   }
 
@@ -83,5 +77,13 @@ public class ActivityLifeCycleManager implements Application.ActivityLifecycleCa
   public void onActivityDestroyed(@NonNull Activity activity) {
     // No action needed in this method
     // This method is intentionally left empty as there is no specific task to perform when the activity is destroyed.
+  }
+
+  private static void executeRunnable(Runnable runnableTask) {
+    if (RudderSdkFlutterPlugin.getInstance() == null) {
+      runnableTasks.add(runnableTask);
+    } else {
+      runnableTask.run();
+    }
   }
 }

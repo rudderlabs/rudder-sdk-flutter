@@ -51,8 +51,7 @@ public class UserSessionManager {
       RudderLogger.logVerbose("UserSessionManager: startAutoSessionIfNeeded: Starting a new auto session");
       startSession();
     }
-    // save that an auto session exists to the preference manager
-    this.preferenceManager.saveAutoSessionExists(true);
+    persistAutoSessionStatus();
   }
 
 
@@ -63,8 +62,7 @@ public class UserSessionManager {
     if (this.preferenceManager.doesAutoSessionExists()) {
       RudderLogger.logVerbose("UserSessionManager: endAutoSessionIfExists: Clearing the existing automatic session");
       endSession();
-      // clear that an auto session exists from the preference manager
-      this.preferenceManager.saveAutoSessionExists(false);
+      clearAutoSessionStatus();
     }
   }
 
@@ -122,6 +120,22 @@ public class UserSessionManager {
     }
   }
 
+
+  /**
+   * save that an auto session exists to the preference manager
+   */
+  private void persistAutoSessionStatus() {
+    this.preferenceManager.saveAutoSessionExists(true);
+  }
+
+
+  /**
+   * clear that an auto session exists from the preference manager
+   */
+
+  public void clearAutoSessionStatus() {
+    this.preferenceManager.saveAutoSessionExists(false);
+  }
 
   @Nullable
   Long getSessionId() {
