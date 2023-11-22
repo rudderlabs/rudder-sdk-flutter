@@ -4,7 +4,8 @@ import static com.rudderstack.sdk.flutter.parsers.RudderConfigParser.getRudderCo
 import static com.rudderstack.sdk.flutter.parsers.RudderOptionsParser.getRudderOptionsObject;
 import static com.rudderstack.sdk.flutter.parsers.RudderTraitsParser.getRudderTraitsObject;
 
-import android.app.Activity;
+import static com.rudderstack.sdk.flutter.LifeCycleRunnables.RunnableLifeCycleEventsInterface;
+
 import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
@@ -18,7 +19,6 @@ import com.rudderstack.android.sdk.core.RudderIntegration;
 import com.rudderstack.android.sdk.core.RudderOption;
 import com.rudderstack.android.sdk.core.RudderProperty;
 import com.rudderstack.android.sdk.core.RudderTraits;
-import com.rudderstack.android.sdk.core.ScreenPropertyBuilder;
 import com.rudderstack.sdk.flutter.managers.ActivityLifeCycleManager;
 import com.rudderstack.sdk.flutter.managers.ApplicationLifeCycleManager;
 import com.rudderstack.sdk.flutter.managers.PreferenceManager;
@@ -31,6 +31,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * RudderSdkFlutterPlugin
@@ -42,6 +43,8 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
   public static final String CATEGORY = "category";
   private Context context;
   private static RudderSdkFlutterPlugin instance;
+
+  public static AtomicBoolean isInitialized = new AtomicBoolean(false);
   private boolean autoTrackLifeCycleEvents = true;
   private boolean autoRecordScreenViews = false;
 
@@ -50,6 +53,7 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
 
 
   private UserSessionManager userSessionManager;
+  private PreferenceManager preferenceManager;
   private static List<RudderIntegration.Factory> integrationList;
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
@@ -82,6 +86,8 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     channel.setMethodCallHandler(this);
     context = flutterPluginBinding.getApplicationContext();
     ActivityLifeCycleManager.registerActivityLifeCycleCallBacks(context);
+    preferenceManager = PreferenceManager.getInstance(context);
+    preferenceManager.migrateAppInfoPreferencesFromNative();
   }
 
   @Override
@@ -136,9 +142,10 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
   }
 
   private void initializeSDK(MethodCall call) {
+    instance = this;
     initializeNativeSDK(call);
     initializeBridgeSDK(call);
-    instance = this;
+    isInitialized.set(true);
   }
 
   private void initializeNativeSDK(MethodCall call) {
@@ -161,7 +168,6 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     sessionTimeoutInMilliSeconds = getLong(configMap.get("sessionTimeoutInMillis"));
     autoSessionTracking = (Boolean) configMap.get("autoSessionTracking");
 
-    PreferenceManager preferenceManager = PreferenceManager.getInstance(context);
     userSessionManager = new UserSessionManager(autoSessionTracking, autoTrackLifeCycleEvents, preferenceManager, sessionTimeoutInMilliSeconds);
     userSessionManager.handleAutoSessionTracking();
     initiateLifeCycleManagers();
@@ -170,8 +176,8 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
   private void initiateLifeCycleManagers() {
     ApplicationLifeCycleManager applicationLifeCycleManager = new ApplicationLifeCycleManager((Application) context, userSessionManager, autoTrackLifeCycleEvents);
     applicationLifeCycleManager.trackApplicationLifeCycleEvents();
-    for (Runnable runnableTask : ActivityLifeCycleManager.runnableTasks) {
-      runnableTask.run();
+    for (RunnableLifeCycleEventsInterface runnableLifeCycleEvent : LifeCycleRunnables.runnableLifeCycleEvents) {
+      runnableLifeCycleEvent.run();
     }
   }
 
@@ -330,6 +336,9 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
 
   public void trackApplicationOpened(boolean fromBackground) {
     if (autoTrackLifeCycleEvents) {
+      if (fromBackground) {
+        this.userSessionManager.startAutoSessionIfCurrentIsExpired();
+      }
       RudderProperty property = new RudderProperty();
       property.put("from_background", fromBackground);
       RudderClient.getInstance().track("Application Opened", property);
@@ -344,11 +353,11 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     }
   }
 
-  public void trackScreen(Activity activity) {
+  public void trackScreen(String screenName) {
     if (autoRecordScreenViews) {
       RudderProperty property = new RudderProperty();
       property.put("automatic", true);
-      RudderClient.getInstance().screen(activity.getLocalClassName(), property);
+      RudderClient.getInstance().screen(screenName, property);
       this.userSessionManager.updateLastEventTimestamp();
     }
   }

@@ -1,5 +1,7 @@
 package com.rudderstack.sdk.flutter.managers;
 
+import static com.rudderstack.sdk.flutter.LifeCycleRunnables.executeRunnableLifeCycleEvent;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -8,15 +10,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.rudderstack.sdk.flutter.RudderSdkFlutterPlugin;
+import static com.rudderstack.sdk.flutter.LifeCycleRunnables.ApplicationOpenedRunnable;
+import static com.rudderstack.sdk.flutter.LifeCycleRunnables.ApplicationBackgroundedRunnable;
+import static com.rudderstack.sdk.flutter.LifeCycleRunnables.ScreenViewRunnable;
 
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ActivityLifeCycleManager implements Application.ActivityLifecycleCallbacks {
-  public static final List<Runnable> runnableTasks = new ArrayList<>();
   private AtomicInteger noOfActivities;
   private boolean fromBackground = false;
 
@@ -39,11 +39,9 @@ public class ActivityLifeCycleManager implements Application.ActivityLifecycleCa
   @Override
   public void onActivityStarted(@NonNull Activity activity) {
     if (noOfActivities.incrementAndGet() == 1) {
-      Runnable runnableTask = () -> RudderSdkFlutterPlugin.getInstance().trackApplicationOpened(fromBackground);
-      executeRunnable(runnableTask);
+      executeRunnableLifeCycleEvent(new ApplicationOpenedRunnable(fromBackground));
     }
-    Runnable runnableTask = () -> RudderSdkFlutterPlugin.getInstance().trackScreen(activity);
-    executeRunnable(runnableTask);
+    executeRunnableLifeCycleEvent(new ScreenViewRunnable(activity.getLocalClassName()));
   }
 
   @Override
@@ -62,8 +60,7 @@ public class ActivityLifeCycleManager implements Application.ActivityLifecycleCa
   public void onActivityStopped(@NonNull Activity activity) {
     fromBackground = true;
     if (noOfActivities.decrementAndGet() == 0) {
-      Runnable runnableTask = () -> RudderSdkFlutterPlugin.getInstance().trackApplicationBackgrounded();
-      executeRunnable(runnableTask);
+      executeRunnableLifeCycleEvent(new ApplicationBackgroundedRunnable());
     }
   }
 
@@ -77,13 +74,5 @@ public class ActivityLifeCycleManager implements Application.ActivityLifecycleCa
   public void onActivityDestroyed(@NonNull Activity activity) {
     // No action needed in this method
     // This method is intentionally left empty as there is no specific task to perform when the activity is destroyed.
-  }
-
-  private static void executeRunnable(Runnable runnableTask) {
-    if (RudderSdkFlutterPlugin.getInstance() == null) {
-      runnableTasks.add(runnableTask);
-    } else {
-      runnableTask.run();
-    }
   }
 }

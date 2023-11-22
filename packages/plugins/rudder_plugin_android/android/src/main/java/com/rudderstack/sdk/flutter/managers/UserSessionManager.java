@@ -44,13 +44,28 @@ public class UserSessionManager {
    * This method starts the auto session:
    * If there was an existing auto session from the previous run of the app, check if it is expired or not. If it is expired, start a new auto session, else continue with the existing auto session.
    */
-  private void startAutoSessionIfNeeded() {
-    if (this.preferenceManager.doesAutoSessionExists() && !isExistingAutoSessionExpired()) {
-      RudderLogger.logVerbose("UserSessionManager: startAutoSessionIfNeeded: Continuing with the existing auto session");
+  public void startAutoSessionIfNeeded() {
+    if (!this.preferenceManager.doesAutoSessionExists()) {
+      startAutoSession();
     } else {
-      RudderLogger.logVerbose("UserSessionManager: startAutoSessionIfNeeded: Starting a new auto session");
-      startSession();
+      startAutoSessionIfCurrentIsExpired();
     }
+  }
+
+  public void startAutoSessionIfCurrentIsExpired() {
+    if (this.preferenceManager.doesAutoSessionExists()) {
+      if (isExistingAutoSessionExpired()) {
+        RudderLogger.logVerbose("UserSessionManager: startAutoSessionIfCurrentIsExpired: Starting a new auto session as the existing auto session is expired");
+        startAutoSession();
+      } else {
+        RudderLogger.logVerbose("UserSessionManager: startAutoSessionIfCurrentIsExpired: Continuing with the existing auto session");
+      }
+    }
+  }
+
+  private void startAutoSession() {
+    RudderLogger.logVerbose("UserSessionManager: startAutoSession: Starting a new auto session");
+    startSession();
     persistAutoSessionStatus();
   }
 
@@ -94,7 +109,7 @@ public class UserSessionManager {
   void startSession() {
     if (RudderClient.getInstance() != null) {
       RudderClient.getInstance().startSession();
-      RudderLogger.logVerbose("UserSessionManager: starting new session");
+      RudderLogger.logVerbose("UserSessionManager: startSession: starting new session");
     }
   }
 

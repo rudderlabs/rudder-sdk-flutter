@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rudder_plugin_db_encryption/rudder_plugin_db_encryption.dart';
@@ -41,7 +43,11 @@ class HomeScreenState extends State<HomeScreen> {
     RudderDBEncryption dbEncryption = RudderDBEncryption(true, "password");
     MobileConfig mc = MobileConfig(
         autoCollectAdvertId: false,
+        autoSessionTracking: true,
+        sessionTimeoutInMillis: 6000,
+        trackLifecycleEvents: false,
         dbEncryption: dbEncryption,
+        recordScreenViews: true,
         collectDeviceId: false);
     RudderConfigBuilder builder = RudderConfigBuilder();
     builder
@@ -169,12 +175,12 @@ class HomeScreenState extends State<HomeScreen> {
                 child: const Text('Track'),
               ),
               ElevatedButton(
-                onPressed: __screen,
-                child: const Text('Screen'),
+                onPressed: __endSession,
+                child: const Text('End Session'),
               ),
               ElevatedButton(
-                onPressed: __group,
-                child: const Text('Group'),
+                onPressed: __startSession,
+                child: const Text('Start Session'),
               ),
               ElevatedButton(
                 onPressed: __reset,
@@ -202,5 +208,13 @@ class HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  void __endSession() {
+    rudderClient.endSession();
+  }
+
+  void __startSession() {
+    rudderClient.startSession();
   }
 }
