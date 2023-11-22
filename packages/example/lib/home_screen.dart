@@ -49,6 +49,8 @@ class HomeScreenState extends State<HomeScreen> {
         dbEncryption: dbEncryption,
         recordScreenViews: true,
         collectDeviceId: false);
+    WebConfig wc =
+        WebConfig(autoSessionTracking: true, sessionTimeoutInMillis: 10000);
     RudderConfigBuilder builder = RudderConfigBuilder();
     builder
       ..withFactory(RudderIntegrationAppcenterFlutter())
@@ -58,6 +60,7 @@ class HomeScreenState extends State<HomeScreen> {
       ..withDataPlaneUrl(
           dotenv.env['DATA_PLANE_URL'] ?? "https://hosted.rudderlabs.com")
       ..withMobileConfig(mc)
+      ..withWebConfig(wc)
       ..withLogLevel(RudderLogger.VERBOSE)
       ..withDataResidencyServer(DataResidencyServer.US);
     String writeKey = dotenv.env['WRITE_KEY'] ?? "INVALID_WRITE_KEY";
