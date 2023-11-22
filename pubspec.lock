@@ -133,10 +133,18 @@ packages:
     dependency: "direct dev"
     description:
       name: dart_code_metrics
-      sha256: "219607f5abbf4c0d254ca39ee009f9ff28df91c40aef26718fde15af6b7a6c24"
+      sha256: "3dede3f7abc077a4181ec7445448a289a9ce08e2981e6a4d49a3fb5099d47e1f"
       url: "https://pub.dev"
     source: hosted
-    version: "4.21.3"
+    version: "5.7.6"
+  dart_code_metrics_presets:
+    dependency: transitive
+    description:
+      name: dart_code_metrics_presets
+      sha256: b71eadf02a3787ebd5c887623f83f6fdc204d45c75a081bd636c4104b3fd8b73
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.8.0"
   dart_pre_commit:
     dependency: "direct dev"
     description:
@@ -439,10 +447,10 @@ packages:
     dependency: transitive
     description:
       name: pub_updater
-      sha256: "00e42b515aa046b171d05bbe2dd566c0feaab7808c33c5bacb5beff93cf16561"
+      sha256: "05ae70703e06f7fdeb05f7f02dd680b8aad810e87c756a618f33e1794635115c"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.3"
+    version: "0.3.0"
   pubspec_parse:
     dependency: transitive
     description:
