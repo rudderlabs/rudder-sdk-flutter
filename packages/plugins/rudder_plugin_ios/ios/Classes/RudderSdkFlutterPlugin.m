@@ -198,6 +198,7 @@ BOOL isRegistrarDetached = NO;
     [configBuilder
      withTrackLifecycleEvens:[[configDict objectForKey:@"trackLifecycleEvents"] boolValue]];
     [configBuilder withRecordScreenViews:[[configDict objectForKey:@"recordScreenViews"] boolValue]];
+    [configBuilder withSessionTimeoutMillis:[[configDict objectForKey:@"sessionTimeoutInMillis"]longValue]];
     [configBuilder withAutoSessionTracking:[[configDict objectForKey:@"autoSessionTracking"] boolValue]];
     [configBuilder withControlPlaneUrl:[configDict objectForKey:@"controlPlaneUrl"]];
     NSString *dataResidencyServer = configDict[@"dataResidencyServer"];
