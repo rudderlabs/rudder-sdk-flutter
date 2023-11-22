@@ -26,15 +26,23 @@ class MobileConfig {
   /// @param dbEncryption whether the SDK should encrypt the DB
   final DBEncryptionInterface? _dbEncryption;
 
+  /// @param autoSessionTracking Whether to track session automatically
+  final bool _autoSessionTracking;
+
+  /// @param sessionTimeoutInMillis (duration of inactivity of session in milliseconds)
+  final int _sessionTimeoutInMillis;
+
   MobileConfig(
       {dbCountThreshold = Constants.DB_COUNT_THRESHOLD,
       autoCollectAdvertId = Constants.AUTO_COLLECT_ADVERT_ID,
       collectDeviceId = Constants.COLLECT_DEVICE_ID,
       trackLifecycleEvents = Constants.TRACK_LIFECYCLE_EVENTS,
       recordScreenViews = Constants.RECORD_SCREEN_VIEWS,
-      int sleepTimeOut = Constants.SLEEP_TIMEOUT,
-      int configRefreshInterval = Constants.CONFIG_REFRESH_INTERVAL,
-      DBEncryptionInterface? dbEncryption})
+      sleepTimeOut = Constants.SLEEP_TIMEOUT,
+      configRefreshInterval = Constants.CONFIG_REFRESH_INTERVAL,
+      DBEncryptionInterface? dbEncryption,
+      autoSessionTracking = Constants.AUTO_SESSION_TRACKING,
+      sessionTimeoutInMillis = Constants.DEFAULT_SESSION_TIMEOUT_WEB})
       : _dbCountThreshold = dbCountThreshold,
         _autoCollectAdvertId = autoCollectAdvertId,
         _collectDeviceId = collectDeviceId,
@@ -42,7 +50,9 @@ class MobileConfig {
         _recordScreenViews = recordScreenViews,
         _sleepTimeOut = sleepTimeOut,
         _configRefreshInterval = configRefreshInterval,
-        _dbEncryption = dbEncryption;
+        _dbEncryption = dbEncryption,
+        _autoSessionTracking = autoSessionTracking,
+        _sessionTimeoutInMillis = sessionTimeoutInMillis;
 
   int get dbCountThreshold => _dbCountThreshold;
 
@@ -59,4 +69,8 @@ class MobileConfig {
   int get configRefreshInterval => _configRefreshInterval;
 
   DBEncryptionInterface? get dbEncryption => _dbEncryption;
+
+  bool get autoSessionTracking => _autoSessionTracking;
+
+  int get sessionTimeoutInMillis => _sessionTimeoutInMillis;
 }
