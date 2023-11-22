@@ -151,6 +151,21 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform {
   }
 
   @override
+  void startSession({int? sessionId}) {
+    Map<String, dynamic> params = {};
+
+    if (sessionId != null) {
+      params["sessionId"] = sessionId;
+    }
+    _platformChannel.invokeMethod("startSession", params);
+  }
+
+  @override
+  void endSession() {
+    _platformChannel.invokeMethod("endSession");
+  }
+
+  @override
   Future<Map?> getRudderContext() async {
     return await _platformChannel.invokeMethod("getRudderContext") as Map?;
   }
