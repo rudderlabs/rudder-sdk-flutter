@@ -49,7 +49,7 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
   private boolean autoRecordScreenViews = false;
 
   private boolean autoSessionTracking = true;
-  private Long sessionTimeoutInMilliSeconds = 30000L;
+  private Long sessionTimeoutInMilliSeconds = 300000L;
 
 
   private UserSessionManager userSessionManager;

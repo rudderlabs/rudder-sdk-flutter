@@ -44,7 +44,7 @@ public class UserSessionManager {
    * This method starts the auto session:
    * If there was an existing auto session from the previous run of the app, check if it is expired or not. If it is expired, start a new auto session, else continue with the existing auto session.
    */
-  public void startAutoSessionIfNeeded() {
+  private void startAutoSessionIfNeeded() {
     if (!this.preferenceManager.doesAutoSessionExists()) {
       startAutoSession();
     } else {
