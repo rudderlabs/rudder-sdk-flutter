@@ -71,6 +71,10 @@ class RudderController {
     RudderSdkPlatform.instance.endSession();
   }
 
+  Future<int?> getSessionId() async {
+    return RudderSdkPlatform.instance.getSessionId();
+  }
+
   Future<Map?> getRudderContext() async {
     return RudderSdkPlatform.instance.getRudderContext();
   }

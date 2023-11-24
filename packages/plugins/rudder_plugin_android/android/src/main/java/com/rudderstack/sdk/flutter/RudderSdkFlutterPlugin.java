@@ -130,6 +130,9 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
       case "endSession":
         endSession();
         break;
+      case "getSessionId":
+        getSessionId(result);
+        break;
       case "putDeviceToken":
         putDeviceToken(call);
         break;
@@ -303,6 +306,10 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
 
   private void endSession() {
     RudderClient.getInstance().endSession();
+  }
+
+  private void getSessionId(Result result) {
+    result.success(RudderClient.getInstance().getSessionId());
   }
 
   private static void putDeviceToken(@NonNull MethodCall call) {

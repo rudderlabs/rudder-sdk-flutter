@@ -165,6 +165,11 @@ class RudderSdkFlutterIos extends RudderSdkPlatform {
   }
 
   @override
+  Future<int?> getSessionId() async {
+    return await _platformChannel.invokeMethod("getSessionId") as int?;
+  }
+
+  @override
   Future<Map?> getRudderContext() async {
     return await _platformChannel.invokeMethod("getRudderContext") as Map?;
   }

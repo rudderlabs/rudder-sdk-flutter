@@ -139,6 +139,11 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   }
 
   @override
+  Future<int?> getSessionId() async {
+    return web_js.getSessionId();
+  }
+
+  @override
   Future<Map?> getRudderContext() async {
     return {
       "traits": web_js.getUserTraits(),

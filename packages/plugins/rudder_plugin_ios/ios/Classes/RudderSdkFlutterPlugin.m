@@ -180,6 +180,15 @@ BOOL isRegistrarDetached = NO;
     } else if ([call.method isEqualToString:@"endSession"]) {
         [[RSClient sharedInstance] endSession];
         return;
+    } else if ([call.method isEqualToString:@"getSessionId"]) {
+       if ([RSClient sharedInstance] == nil) {
+            return;
+        }
+        if(isRegistrarDetached) {
+            [RSLogger logError:@"Registrar has been detached from Engine and method calls cannot be executed"];
+            return;
+        }
+        result([RSClient sharedInstance].sessionId);
     }
     else if ([call.method isEqualToString:@"getRudderContext"]) {
         if ([RSClient sharedInstance] == nil) {
