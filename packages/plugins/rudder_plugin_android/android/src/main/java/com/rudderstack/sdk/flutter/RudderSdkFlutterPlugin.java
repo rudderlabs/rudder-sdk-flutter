@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.rudderstack.android.sdk.core.RudderClient;
 import com.rudderstack.android.sdk.core.RudderConfig;
 import com.rudderstack.android.sdk.core.RudderIntegration;
+import com.rudderstack.android.sdk.core.RudderLogger;
 import com.rudderstack.android.sdk.core.RudderOption;
 import com.rudderstack.android.sdk.core.RudderProperty;
 import com.rudderstack.android.sdk.core.RudderTraits;
@@ -55,6 +56,8 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
   private UserSessionManager userSessionManager;
   private PreferenceManager preferenceManager;
   private static List<RudderIntegration.Factory> integrationList;
+
+  private List<String> staticMethods = new ArrayList<String>(Arrays.asList("initializeSDK", "putDeviceToken", "putAdvertisingId", "putAnonymousId"));
   /// The MethodChannel that will the communication between Flutter and native Android
   ///
   /// This local reference serves to register the plugin with the Flutter Engine and unregister it
@@ -92,6 +95,10 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
+    if (!staticMethods.contains(call.method) && RudderClient.getInstance() == null) {
+      RudderLogger.logError("RudderClient is not initialized Please initialize RudderClient before calling any method");
+      return;
+    }
     switch (call.method) {
       case "initializeSDK":
         initializeSDK(call);
