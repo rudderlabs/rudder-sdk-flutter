@@ -42,7 +42,7 @@ class MobileConfig {
       configRefreshInterval = Constants.CONFIG_REFRESH_INTERVAL,
       DBEncryptionInterface? dbEncryption,
       autoSessionTracking = Constants.AUTO_SESSION_TRACKING,
-      sessionTimeoutInMillis = Constants.DEFAULT_SESSION_TIMEOUT_WEB})
+      sessionTimeoutInMillis = Constants.DEFAULT_SESSION_TIMEOUT_MOBILE})
       : _dbCountThreshold = dbCountThreshold,
         _autoCollectAdvertId = autoCollectAdvertId,
         _collectDeviceId = collectDeviceId,
