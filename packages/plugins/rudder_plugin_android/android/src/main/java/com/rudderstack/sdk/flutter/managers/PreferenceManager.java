@@ -61,10 +61,10 @@ public class PreferenceManager {
 
   public void migrateAppInfoPreferencesFromNative() {
     SharedPreferences nativePrefs = this.context.getSharedPreferences(NATIVE_PREFS_NAME, Context.MODE_PRIVATE);
-    if (nativePrefs.contains(PREFS_KEY_BUILD_NUMBER)) {
+    if (!this.preferences.contains(PREFS_KEY_BUILD_NUMBER) && nativePrefs.contains(PREFS_KEY_BUILD_NUMBER)) {
       saveBuildNumber(nativePrefs.getInt(PREFS_KEY_BUILD_NUMBER, -1));
     }
-    if (nativePrefs.contains(PREFS_KEY_VERSION_NAME)) {
+    if (!this.preferences.contains(PREFS_KEY_VERSION_NAME) && nativePrefs.contains(PREFS_KEY_VERSION_NAME)) {
       saveVersionName(nativePrefs.getString(PREFS_KEY_VERSION_NAME, null));
     }
   }
