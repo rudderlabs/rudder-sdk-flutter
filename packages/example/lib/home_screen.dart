@@ -43,9 +43,7 @@ class HomeScreenState extends State<HomeScreen> {
     RudderDBEncryption dbEncryption = RudderDBEncryption(true, "password");
     MobileConfig mc = MobileConfig(
         autoCollectAdvertId: false,
-        autoSessionTracking: true,
         sessionTimeoutInMillis: 6000,
-        trackLifecycleEvents: false,
         dbEncryption: dbEncryption,
         recordScreenViews: true,
         collectDeviceId: false);
