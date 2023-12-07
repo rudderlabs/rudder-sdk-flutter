@@ -63,6 +63,18 @@ class RudderController {
     RudderSdkPlatform.instance.putAnonymousId(anonymousId);
   }
 
+  void startSession({int? sessionId}) {
+    RudderSdkPlatform.instance.startSession(sessionId: sessionId);
+  }
+
+  void endSession() {
+    RudderSdkPlatform.instance.endSession();
+  }
+
+  Future<int?> getSessionId() async {
+    return RudderSdkPlatform.instance.getSessionId();
+  }
+
   Future<Map?> getRudderContext() async {
     return RudderSdkPlatform.instance.getRudderContext();
   }

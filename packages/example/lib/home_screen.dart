@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rudder_plugin_db_encryption/rudder_plugin_db_encryption.dart';
@@ -41,8 +43,12 @@ class HomeScreenState extends State<HomeScreen> {
     RudderDBEncryption dbEncryption = RudderDBEncryption(true, "password");
     MobileConfig mc = MobileConfig(
         autoCollectAdvertId: false,
+        sessionTimeoutInMillis: 6000,
         dbEncryption: dbEncryption,
+        recordScreenViews: true,
         collectDeviceId: false);
+    WebConfig wc =
+        WebConfig(autoSessionTracking: true, sessionTimeoutInMillis: 10000);
     RudderConfigBuilder builder = RudderConfigBuilder();
     builder
       ..withFactory(RudderIntegrationAppcenterFlutter())
@@ -52,6 +58,7 @@ class HomeScreenState extends State<HomeScreen> {
       ..withDataPlaneUrl(
           dotenv.env['DATA_PLANE_URL'] ?? "https://hosted.rudderlabs.com")
       ..withMobileConfig(mc)
+      ..withWebConfig(wc)
       ..withLogLevel(RudderLogger.VERBOSE)
       ..withDataResidencyServer(DataResidencyServer.US);
     String writeKey = dotenv.env['WRITE_KEY'] ?? "INVALID_WRITE_KEY";
@@ -133,6 +140,19 @@ class HomeScreenState extends State<HomeScreen> {
     setOutput("alias : 4009");
   }
 
+  void __startSession() {
+    rudderClient.startSession();
+  }
+
+  void __endSession() {
+    rudderClient.endSession();
+  }
+
+  Future<void> __getSessionId() async {
+    int? sessionId = await rudderClient.getSessionId();
+    setOutput("Session Id : $sessionId");
+  }
+
   Future<void> __getRudderContext() async {
     Map? context = await rudderClient.getRudderContext();
     setOutput(context.toString());
@@ -151,53 +171,72 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              const Text("This is Home screen"),
-              ElevatedButton(
-                onPressed: __initialize,
-                child: const Text('Initialize SDK'),
+        body: Padding(
+          padding: const EdgeInsets.only(top: 30.0),
+          child: SingleChildScrollView(
+            child: SafeArea(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("This is Home screen"),
+                    ElevatedButton(
+                      onPressed: __initialize,
+                      child: const Text('Initialize SDK'),
+                    ),
+                    ElevatedButton(
+                      onPressed: __identify,
+                      child: const Text('Identify call'),
+                    ),
+                    ElevatedButton(
+                      onPressed: __track,
+                      child: const Text('Track'),
+                    ),
+                    ElevatedButton(
+                      onPressed: __screen,
+                      child: const Text('Screen'),
+                    ),
+                    ElevatedButton(
+                      onPressed: __group,
+                      child: const Text('Group'),
+                    ),
+                    ElevatedButton(
+                      onPressed: __startSession,
+                      child: const Text('Start Session'),
+                    ),
+                    ElevatedButton(
+                      onPressed: __endSession,
+                      child: const Text('End Session'),
+                    ),
+                    ElevatedButton(
+                        onPressed: __getSessionId,
+                        child: const Text('Get Session Id')),
+                    ElevatedButton(
+                      onPressed: __reset,
+                      child: const Text('Reset'),
+                    ),
+                    ElevatedButton(
+                      onPressed: __alias,
+                      child: const Text('Alias'),
+                    ),
+                    ElevatedButton(
+                      child: const Text('Rudder Context'),
+                      onPressed: () async => await __getRudderContext(),
+                    ),
+                    ElevatedButton(
+                      onPressed: __getRudderContext,
+                      child: const Text('Set Advertsing ID'),
+                    ),
+                    ElevatedButton(
+                      child: const Text('Go to screen 2'),
+                      onPressed: () =>
+                          Navigator.of(context).pushNamed('screen2'),
+                    ),
+                    Text(_output)
+                  ],
+                ),
               ),
-              ElevatedButton(
-                onPressed: __identify,
-                child: const Text('Identify call'),
-              ),
-              ElevatedButton(
-                onPressed: __track,
-                child: const Text('Track'),
-              ),
-              ElevatedButton(
-                onPressed: __screen,
-                child: const Text('Screen'),
-              ),
-              ElevatedButton(
-                onPressed: __group,
-                child: const Text('Group'),
-              ),
-              ElevatedButton(
-                onPressed: __reset,
-                child: const Text('Reset'),
-              ),
-              ElevatedButton(
-                onPressed: __alias,
-                child: const Text('Alias'),
-              ),
-              ElevatedButton(
-                child: const Text('Rudder Context'),
-                onPressed: () async => await __getRudderContext(),
-              ),
-              ElevatedButton(
-                onPressed: __getRudderContext,
-                child: const Text('Set Advertsing ID'),
-              ),
-              ElevatedButton(
-                child: const Text('Go to screen 2'),
-                onPressed: () => Navigator.of(context).pushNamed('screen2'),
-              ),
-              Text(_output)
-            ],
+            ),
           ),
         ),
       ),
