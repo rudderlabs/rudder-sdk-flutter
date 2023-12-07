@@ -1,3 +1,8 @@
+## 2.7.0
+
+ - **FEAT**: added api to get session id. ([73944370](https://github.com/rudderlabs/rudder-sdk-flutter/commit/73944370f3dab43b776c32900186dc92d9a58078))
+ - **FEAT**: added support for user session in flutter plugin. ([2ef6f8e9](https://github.com/rudderlabs/rudder-sdk-flutter/commit/2ef6f8e9a78523fe0bb1fe8289fbb47a971210f0))
+
 ## 2.6.0
 
  - **FEAT**: added support for db encryption plugin across android, iOS, core plugin. ([0ff4f304](https://github.com/rudderlabs/rudder-sdk-flutter/commit/0ff4f30414dbdaa0c7f336c70ebfb32c0cfcf273))

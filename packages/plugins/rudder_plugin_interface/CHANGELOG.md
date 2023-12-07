@@ -1,3 +1,11 @@
+## 2.7.0
+
+ - **FIX**: fixed default value for session timeout in millis for web platform to 30 mins. ([3c0cca02](https://github.com/rudderlabs/rudder-sdk-flutter/commit/3c0cca02cc6cae682f2dfdd94c8bb66a92811423))
+ - **FIX**: updated default session time out for mobile platforms. ([761b5ce0](https://github.com/rudderlabs/rudder-sdk-flutter/commit/761b5ce0cf6d740523a64bf4c21be13fad284406))
+ - **FEAT**: added api to get session id. ([73944370](https://github.com/rudderlabs/rudder-sdk-flutter/commit/73944370f3dab43b776c32900186dc92d9a58078))
+ - **FEAT**: added support for different session configuration between mobile and web platforms. ([ede1ff3d](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ede1ff3d4a651655818b572ff16403640ed25845))
+ - **FEAT**: added support for user session in flutter plugin. ([2ef6f8e9](https://github.com/rudderlabs/rudder-sdk-flutter/commit/2ef6f8e9a78523fe0bb1fe8289fbb47a971210f0))
+
 ## 2.6.0
 
  - **FEAT**: added support for db encryption plugin across android, iOS, core plugin. ([90cbb7ea](https://github.com/rudderlabs/rudder-sdk-flutter/commit/90cbb7eaf5b767f57bf92d49863653fe6432fb97))

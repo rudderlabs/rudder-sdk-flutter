@@ -1,3 +1,11 @@
+## 2.6.0
+
+ - **FIX**: fixed un-necessary migration preferences from native to flutter bridge. ([7d5c455d](https://github.com/rudderlabs/rudder-sdk-flutter/commit/7d5c455d3e73b6a0c93242bf149c97eed7cf80ec))
+ - **FIX**: fixed issues with user session on android platform. ([937c9318](https://github.com/rudderlabs/rudder-sdk-flutter/commit/937c93188b920e9b64d435c03cfe60ec0a90f512))
+ - **FEAT**: added api to get session id. ([73944370](https://github.com/rudderlabs/rudder-sdk-flutter/commit/73944370f3dab43b776c32900186dc92d9a58078))
+ - **FEAT**: auto recording screen views as well on the Flutter-Android Bridge and minor improvements. ([595913e1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/595913e121db8e0e1e5e8cf62dc786be11a1fefd))
+ - **FEAT**: added initial changes for user session feature on android platform. ([07a03d39](https://github.com/rudderlabs/rudder-sdk-flutter/commit/07a03d39574001c21ba2e9eb75d7194636868b59))
+
 ## 2.5.0
 
  - **FEAT**: added support for db encryption plugin across android, iOS, core plugin. ([90cbb7ea](https://github.com/rudderlabs/rudder-sdk-flutter/commit/90cbb7eaf5b767f57bf92d49863653fe6432fb97))
