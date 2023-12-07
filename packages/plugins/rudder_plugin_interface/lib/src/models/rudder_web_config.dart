@@ -37,6 +37,12 @@ class WebConfig {
   ///cookie consent managers, e.g ("oneTrust", true), default empty
   final Map<String, bool>? _cookieConsentManagers;
 
+  /// @param autoSessionTracking whether to track session automatically
+  final bool _autoSessionTracking;
+
+  /// @param sessionTimeoutInMillis (duration of inactivity of session in milliseconds)
+  final int _sessionTimeoutInMillis;
+
   WebConfig(
       {loadIntegration = Constants.DEFAULT_LOAD_INTEGRATION,
       secureCookie = Constants.DEFAULT_SECURE_COOKIE,
@@ -50,6 +56,8 @@ class WebConfig {
       int beaconFlushQueueInterval =
           Constants.DEFAULT_BEACON_FLUSH_QUEUE_INTERVAL,
       destSDKBaseURL = Constants.DEFAULT_DESTINATION_SDK_BASE_URL,
+      autoSessionTracking = Constants.AUTO_SESSION_TRACKING,
+      sessionTimeoutInMillis = Constants.DEFAULT_SESSION_TIMEOUT_WEB,
       Map<String, bool>? cookieConsentManagers})
       : _loadIntegration = loadIntegration,
         _secureCookie = secureCookie,
@@ -62,6 +70,8 @@ class WebConfig {
         _maxBeaconItems = maxBeaconItems,
         _beaconFlushQueueInterval = beaconFlushQueueInterval,
         _destSDKBaseURL = destSDKBaseURL,
+        _autoSessionTracking = autoSessionTracking,
+        _sessionTimeoutInMillis = sessionTimeoutInMillis,
         _cookieConsentManagers = cookieConsentManagers;
 
   String get destSDKBaseURL => _destSDKBaseURL;
@@ -87,4 +97,8 @@ class WebConfig {
   int get minRetryDelay => _minRetryDelay;
 
   int get maxRetryDelay => _maxRetryDelay;
+
+  bool get autoSessionTracking => _autoSessionTracking;
+
+  int get sessionTimeoutInMillis => _sessionTimeoutInMillis;
 }

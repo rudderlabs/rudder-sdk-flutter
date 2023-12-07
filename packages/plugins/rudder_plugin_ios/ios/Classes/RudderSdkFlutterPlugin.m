@@ -5,8 +5,11 @@
 
 static NSNotification* _notification;
 static RSDBEncryption* _dbEncryption;
+static NSArray* _staticMethods;
+
 
 @implementation RudderSdkFlutterPlugin
+
 
 NSMutableArray* integrationList;
 BOOL isRegistrarDetached = NO;
@@ -15,6 +18,7 @@ BOOL isRegistrarDetached = NO;
     FlutterMethodChannel* channel =
     [FlutterMethodChannel methodChannelWithName:@"rudder_sdk_flutter"
                                 binaryMessenger:[registrar messenger]];
+    _staticMethods = @[@"initializeSDK", @"putDeviceToken", @"putAdvertisingId", @"putAnonymousId"];
     RudderSdkFlutterPlugin* instance = [[RudderSdkFlutterPlugin alloc] init];
     [registrar addMethodCallDelegate:instance channel:channel];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -41,6 +45,9 @@ BOOL isRegistrarDetached = NO;
     if(isRegistrarDetached) {
         [RSLogger logError:@"Registrar has been detached from Engine and method calls cannot be executed"];
         return;
+    }
+    if(![_staticMethods containsObject:call.method] && [RSClient sharedInstance] == nil) {
+        [RSLogger logError:@"RudderClient is not initialized. Please initialize the SDK before calling any methods."];
     }
     if ([call.method isEqualToString:@"initializeSDK"]) {
         [RSClient getInstance:[call.arguments objectForKey:@"writeKey"]
@@ -160,7 +167,30 @@ BOOL isRegistrarDetached = NO;
             }
         }
         return;
-    } else if ([call.method isEqualToString:@"getRudderContext"]) {
+    } else if ([call.method isEqualToString:@"startSession"]) {
+        if([call.arguments objectForKey:@"sessionId"]) {
+            NSNumber* sessionId =  [call.arguments objectForKey:@"sessionId"];
+            if (sessionId != nil) {
+                [[RSClient sharedInstance] startSession:[sessionId longValue]];
+            }
+        } else {
+            [[RSClient sharedInstance] startSession];
+        }
+        return;
+    } else if ([call.method isEqualToString:@"endSession"]) {
+        [[RSClient sharedInstance] endSession];
+        return;
+    } else if ([call.method isEqualToString:@"getSessionId"]) {
+       if ([RSClient sharedInstance] == nil) {
+            return;
+        }
+        if(isRegistrarDetached) {
+            [RSLogger logError:@"Registrar has been detached from Engine and method calls cannot be executed"];
+            return;
+        }
+        result([RSClient sharedInstance].sessionId);
+    }
+    else if ([call.method isEqualToString:@"getRudderContext"]) {
         if ([RSClient sharedInstance] == nil) {
             return;
         }
@@ -184,6 +214,8 @@ BOOL isRegistrarDetached = NO;
     [configBuilder
      withTrackLifecycleEvens:[[configDict objectForKey:@"trackLifecycleEvents"] boolValue]];
     [configBuilder withRecordScreenViews:[[configDict objectForKey:@"recordScreenViews"] boolValue]];
+    [configBuilder withSessionTimeoutMillis:[[configDict objectForKey:@"sessionTimeoutInMillis"]longValue]];
+    [configBuilder withAutoSessionTracking:[[configDict objectForKey:@"autoSessionTracking"] boolValue]];
     [configBuilder withControlPlaneUrl:[configDict objectForKey:@"controlPlaneUrl"]];
     NSString *dataResidencyServer = configDict[@"dataResidencyServer"];
     if ([dataResidencyServer isEqualToString:@"EU"]) {
