@@ -16,6 +16,15 @@ class Constants {
   // default threshold of number of events to be persisted in sqlite db
   static const int DB_COUNT_THRESHOLD = 10000;
 
+  // default value for automatic tracking of user sessions
+  static const bool AUTO_SESSION_TRACKING = true;
+
+  // default duration for inactivity is 5 minutes or 300000 milliseconds for Mobile Platforms
+  static const int DEFAULT_SESSION_TIMEOUT_MOBILE = 300000;
+
+  // default duration for inactivity is 30 minutes or 1800000 milliseconds for Web Platforms
+  static const int DEFAULT_SESSION_TIMEOUT_WEB = 1800000;
+
   // default timeout for event flush
   // if events are registered and flushQueueSize is not reached
   // events will be flushed to server after sleepTimeOut seconds

@@ -1,3 +1,8 @@
+## 2.5.0
+
+ - **FEAT**: added api to get session id. ([73944370](https://github.com/rudderlabs/rudder-sdk-flutter/commit/73944370f3dab43b776c32900186dc92d9a58078))
+ - **FEAT**: added initial changes for user session feature on web platform. ([9844c370](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9844c3705ae0a80c3e378e0396fa32301f7b1932))
+
 ## 2.4.1
 
  - Update a dependency to the latest release.

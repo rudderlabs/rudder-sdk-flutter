@@ -18,7 +18,7 @@ jobs:
         uses: dart-lang/setup-dart@v1.3
 
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '11'
