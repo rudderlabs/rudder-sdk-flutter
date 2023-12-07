@@ -22,8 +22,8 @@ class Constants {
   // default duration for inactivity is 5 minutes or 300000 milliseconds for Mobile Platforms
   static const int DEFAULT_SESSION_TIMEOUT_MOBILE = 300000;
 
-  // default duration for inactivity is 10 minutes or 600000 milliseconds for Web Platforms
-  static const int DEFAULT_SESSION_TIMEOUT_WEB = 600000;
+  // default duration for inactivity is 30 minutes or 1800000 milliseconds for Web Platforms
+  static const int DEFAULT_SESSION_TIMEOUT_WEB = 1800000;
 
   // default timeout for event flush
   // if events are registered and flushQueueSize is not reached
