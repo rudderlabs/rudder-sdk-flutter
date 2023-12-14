@@ -45,6 +45,7 @@ class HomeScreenState extends State<HomeScreen> {
         autoCollectAdvertId: false,
         sessionTimeoutInMillis: 6000,
         dbEncryption: dbEncryption,
+        gzip: false,
         recordScreenViews: true,
         collectDeviceId: false);
     WebConfig wc =
