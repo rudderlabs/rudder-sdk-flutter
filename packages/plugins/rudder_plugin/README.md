@@ -105,6 +105,7 @@ check [the documentation page](https://docs.rudderstack.com/rudderstack-sdk-inte
 - Data Residency, Custom Context from version `2.4.0`
 - Configurable Collection of Device Id from version `2.5.0`
 - Database Encryption as a separate plugin from version `2.6.0`
+- Gzip compression of payload from version `2.8.0`
 
 ## Contact Us
 

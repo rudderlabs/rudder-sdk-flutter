@@ -25,6 +25,7 @@ public class RudderConfigParser {
       .withAutoCollectAdvertId((Boolean) configMap.get("autoCollectAdvertId"))
       .withCollectDeviceId((Boolean) configMap.get("collectDeviceId"))
       .withControlPlaneUrl((String) configMap.get("controlPlaneUrl"))
+      .withGzip((Boolean) configMap.get("gzip"))
       // disabling the below three flags on the native side as they are handled on the flutter side
       .withTrackLifecycleEvents(false)
       .withRecordScreenViews(false)

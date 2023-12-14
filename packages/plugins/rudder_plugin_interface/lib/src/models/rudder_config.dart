@@ -119,6 +119,7 @@ class RudderConfig {
         _mobileConfigMap['sessionTimeoutInMillis'] =
             mobileConfig.sessionTimeoutInMillis;
       }
+      _mobileConfigMap['gzip'] = mobileConfig.gzip;
     }
     if (Utils.isEmpty(controlPlaneUrl)) {
       RudderLogger.logError(
