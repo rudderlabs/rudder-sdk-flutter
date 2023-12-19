@@ -27,6 +27,51 @@ class Utils {
     return "0$n";
   }
 
+  static bool isInvalidNumber(double value) {
+    if (value.isNaN ||
+        value.isInfinite ||
+        value == double.negativeInfinity ||
+        value == double.minPositive ||
+        value == double.maxFinite) {
+      return true;
+    }
+    return false;
+  }
+
+  static void removeInvalidNumbers(Map<String, dynamic> map) {
+    map.removeWhere((key, value) {
+      if (value is double && isInvalidNumber(value)) {
+        RudderLogger.logError(
+            "The value for key $key is a invalid number. Hence it will be ignored.");
+        return true;
+      } else if (value is Map<String, dynamic>) {
+        removeInvalidNumbers(value); // Recursively check nested maps
+        return value.isEmpty; // remove empty maps
+      } else if (value is List) {
+        removeInvalidNumbersFromList(value); // Recursively check nested lists
+        return value.isEmpty; // remove empty lists
+      }
+      return false;
+    });
+  }
+
+  static void removeInvalidNumbersFromList(List<dynamic> list) {
+    list.removeWhere((value) {
+      if (value is double && isInvalidNumber(value)) {
+        RudderLogger.logError(
+            "The value $value is a invalid number. Hence it will be ignored.");
+        return true;
+      } else if (value is Map<String, dynamic>) {
+        removeInvalidNumbers(value); // Recursively check nested maps
+        return value.isEmpty; // remove empty maps
+      } else if (value is List) {
+        removeInvalidNumbersFromList(value); // Recursively check nested lists
+        return value.isEmpty; // remove empty lists
+      }
+      return false;
+    });
+  }
+
   static bool equalsIgnoreCase(String string1, String string2) {
     return string1.toLowerCase() == string2.toLowerCase();
   }

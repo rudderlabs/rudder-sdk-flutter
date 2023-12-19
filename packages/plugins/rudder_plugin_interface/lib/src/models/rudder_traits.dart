@@ -239,6 +239,18 @@ class RudderTraits {
       return this;
     }
 
+    if (value is double && Utils.isInvalidNumber(value)) {
+      RudderLogger.logError(
+          "The value for key $key is a invalid number. Hence it will be ignored.");
+      return this;
+    } else if (value is Map<String, dynamic>) {
+      Utils.removeInvalidNumbers(value);
+      if(value.isEmpty) return this; // ignore empty map
+    } else if (value is List<dynamic>) {
+      Utils.removeInvalidNumbersFromList(value);
+      if(value.isEmpty) return this; // ignore empty list
+    }
+
     Map<String, dynamic> extras =
         __traitsMap.putIfAbsent("extras", () => <String, dynamic>{});
     extras[key] = value;
@@ -246,6 +258,9 @@ class RudderTraits {
   }
 
   RudderTraits putValue(Map<String, dynamic> map) {
+    // remove invalid numbers from map
+    Utils.removeInvalidNumbers(map);
+    if(map.isEmpty) return this; // ignore empty map
     if (map.remove("extras") != null) {
       RudderLogger.logError(
           "extras is a reserved key, hence it will be ignored. Please use any other key instead.");
