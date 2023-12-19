@@ -49,12 +49,10 @@ class RudderOption {
           "RudderOption: putIntegration: Invalid type for integration");
       return this;
     }
-    if (enabled is Map<String, Object>) {
-      Utils.removeInvalidNumbers(enabled);
-      if (enabled.isEmpty) return this;
-    }
+    dynamic sanitizedEnabled = Utils.sanitizeDynamic(enabled);
+    if (sanitizedEnabled == null) return this;
     integrations ??= {};
-    integrations![type] = enabled;
+    integrations![type] = sanitizedEnabled;
     return this;
   }
 
@@ -65,20 +63,18 @@ class RudderOption {
           "RudderOption: putIntegrationWithFactory: Invalid type for integration");
       return this;
     }
-    if (enabled is Map<String, Object>) {
-      Utils.removeInvalidNumbers(enabled);
-      if (enabled.isEmpty) return this;
-    }
+    dynamic sanitizedEnabled = Utils.sanitizeDynamic(enabled);
+    if (sanitizedEnabled == null) return this;
     integrations ??= {};
-    integrations![factory.getKey()] = enabled;
+    integrations![factory.getKey()] = sanitizedEnabled;
     return this;
   }
 
   RudderOption putCustomContext(String key, Map<String, Object> value) {
-    Utils.removeInvalidNumbers(value);
-    if (value.isEmpty) return this;
+    Map<String, Object>? sanitizedValue = Utils.sanitizeDynamic(value);
+    if (sanitizedValue == null) return this;
     customContexts ??= {};
-    customContexts?[key] = value;
+    customContexts?[key] = sanitizedValue;
     return this;
   }
 

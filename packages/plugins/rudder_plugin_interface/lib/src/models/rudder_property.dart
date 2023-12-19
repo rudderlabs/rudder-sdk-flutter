@@ -13,47 +13,27 @@ class RudderProperty {
   }
 
   void put(String key, dynamic value) {
-    if (value is double && Utils.isInvalidNumber(value)) {
-      RudderLogger.logError(
-          "The value for key $key is a invalid number. Hence it will be ignored.");
-      return;
-    } else if (value is Map<String, dynamic>) {
-      Utils.removeInvalidNumbers(value);
-      if (value.isEmpty) return; // ignore empty map
-    } else if (value is List<dynamic>) {
-      Utils.removeInvalidNumbersFromList(value);
-      if (value.isEmpty) return; // ignore empty list
-    }
-    __map[key] = value;
+    dynamic sanitizedValue = Utils.sanitizeDynamic(value);
+    if (sanitizedValue == null) return;
+    __map[key] = sanitizedValue;
   }
 
   RudderProperty putValue(
       {String? key, dynamic value, Map<String, dynamic>? map}) {
-    // remove invalid numbers from value
-    if (value is double && Utils.isInvalidNumber(value)) {
-      RudderLogger.logError(
-          "The value for key $key is a invalid number. Hence it will be ignored.");
+    if (map != null) {
+      dynamic sanitizedMap = Utils.sanitizeDynamic(map);
+      if (sanitizedMap == null) return this;
+      __map.addAll(sanitizedMap);
       return this;
-    } else if (value is Map<String, dynamic>) {
-      Utils.removeInvalidNumbers(value);
-      if (value.isEmpty) return this; // ignore empty map
-    } else if (value is List<dynamic>) {
-      Utils.removeInvalidNumbersFromList(value);
-      if (value.isEmpty) return this; // ignore empty list
     }
 
-    // remove invalid numbers from map if it is not null
-    if (map != null) {
-      Utils.removeInvalidNumbers(map);
-      if (map.isEmpty) return this; // ignore empty map
-      __map.addAll(map);
-      return this;
-    }
-    if (key != null) {
-      if (value is RudderProperty) {
-        __map[key] = value.getMap();
+    if (key != null && value != null) {
+      dynamic sanitizedValue = Utils.sanitizeDynamic(value);
+      if (sanitizedValue == null) return this;
+      if (sanitizedValue is RudderProperty) {
+        __map[key] = sanitizedValue.getMap();
       } else {
-        __map[key] = value;
+        __map[key] = sanitizedValue;
       }
     }
     return this;
@@ -68,7 +48,6 @@ class RudderProperty {
   }
 
   factory RudderProperty.fromMap(Map<String, dynamic> map) {
-    Utils.removeInvalidNumbers(map);
     return RudderProperty().putValue(map: map);
   }
 }

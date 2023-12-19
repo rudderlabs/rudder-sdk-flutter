@@ -1,3 +1,5 @@
+import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
+
 class Utils {
   // range constants
   static const int MIN_CONFIG_REFRESH_INTERVAL = 1;
@@ -25,6 +27,22 @@ class Utils {
       return "$n";
     }
     return "0$n";
+  }
+
+  // returns the value after removing the invalid numbers from it
+  static dynamic sanitizeDynamic(dynamic value) {
+    if (value is double && isInvalidNumber(value)) {
+      RudderLogger.logError(
+          "The value $value is a invalid number. Hence it will be ignored.");
+      return null;
+    } else if (value is Map<String, dynamic> || value is Map<String, Object>) {
+      removeInvalidNumbers(value);
+      if (value.isEmpty) return null; // ignore empty map
+    } else if (value is List<dynamic>) {
+      removeInvalidNumbersFromList(value);
+      if (value.isEmpty) return null; // ignore empty list
+    }
+    return value;
   }
 
   static bool isInvalidNumber(double value) {
