@@ -1,3 +1,7 @@
+## 2.7.0
+
+ - **FEAT**: added support for configuring gzip compression of the payload to data plane. ([31823a24](https://github.com/rudderlabs/rudder-sdk-flutter/commit/31823a246920a77f50e0011d07ec5c822ca79c02))
+
 ## 2.6.0
 
  - **FIX**: fixed un-necessary migration preferences from native to flutter bridge. ([7d5c455d](https://github.com/rudderlabs/rudder-sdk-flutter/commit/7d5c455d3e73b6a0c93242bf149c97eed7cf80ec))
