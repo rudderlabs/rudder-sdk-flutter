@@ -32,6 +32,9 @@ class MobileConfig {
   /// @param sessionTimeoutInMillis (duration of inactivity of session in milliseconds)
   final int _sessionTimeoutInMillis;
 
+  /// @param gzip whether to gzip compress the request payload or not
+  final bool _gzip;
+
   MobileConfig(
       {dbCountThreshold = Constants.DB_COUNT_THRESHOLD,
       autoCollectAdvertId = Constants.AUTO_COLLECT_ADVERT_ID,
@@ -42,7 +45,8 @@ class MobileConfig {
       configRefreshInterval = Constants.CONFIG_REFRESH_INTERVAL,
       DBEncryptionInterface? dbEncryption,
       autoSessionTracking = Constants.AUTO_SESSION_TRACKING,
-      sessionTimeoutInMillis = Constants.DEFAULT_SESSION_TIMEOUT_MOBILE})
+      sessionTimeoutInMillis = Constants.DEFAULT_SESSION_TIMEOUT_MOBILE,
+      gzip = Constants.DEFAULT_GZIP_COMPRESSION})
       : _dbCountThreshold = dbCountThreshold,
         _autoCollectAdvertId = autoCollectAdvertId,
         _collectDeviceId = collectDeviceId,
@@ -52,7 +56,8 @@ class MobileConfig {
         _configRefreshInterval = configRefreshInterval,
         _dbEncryption = dbEncryption,
         _autoSessionTracking = autoSessionTracking,
-        _sessionTimeoutInMillis = sessionTimeoutInMillis;
+        _sessionTimeoutInMillis = sessionTimeoutInMillis,
+        _gzip = gzip;
 
   int get dbCountThreshold => _dbCountThreshold;
 
@@ -73,4 +78,6 @@ class MobileConfig {
   bool get autoSessionTracking => _autoSessionTracking;
 
   int get sessionTimeoutInMillis => _sessionTimeoutInMillis;
+
+  bool get gzip => _gzip;
 }

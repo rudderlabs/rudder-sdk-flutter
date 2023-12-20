@@ -61,22 +61,22 @@ BOOL isRegistrarDetached = NO;
         NSString* userId = [call.arguments objectForKey:@"userId"];
         NSDictionary* traits = nil;
         RSOption* options = nil;
-        
+
         if ([call.arguments objectForKey:@"traits"]) {
             traits = [[self getRudderTraitsObject:[call.arguments objectForKey:@"traits"]] dict];
         }
-        
+
         if ([call.arguments objectForKey:@"options"]) {
             options = [self getRudderOptionsObject:[call.arguments objectForKey:@"options"]];
         }
-        
+
         [[RSClient sharedInstance] identify:userId traits:traits options:options];
         return;
     } else if ([call.method isEqualToString:@"track"]) {
         NSString* eventName = [call.arguments objectForKey:@"eventName"];
         NSDictionary* eventProperties = nil;
         RSOption* options = nil;
-        
+
         if ([call.arguments objectForKey:@"properties"]) {
             eventProperties = [call.arguments objectForKey:@"properties"];
         }
@@ -85,12 +85,12 @@ BOOL isRegistrarDetached = NO;
         }
         [[RSClient sharedInstance] track:eventName properties:eventProperties options:options];
         return;
-        
+
     } else if ([call.method isEqualToString:@"screen"]) {
         NSString* screenName = [call.arguments objectForKey:@"screenName"];
         NSMutableDictionary* screenProperties = nil;
         RSOption* options = nil;
-        
+
         if ([call.arguments objectForKey:@"properties"]) {
             screenProperties = [call.arguments objectForKey:@"properties"];
         }
@@ -109,7 +109,7 @@ BOOL isRegistrarDetached = NO;
         NSString* groupId = [call.arguments objectForKey:@"groupId"];
         NSDictionary<NSString*, NSObject*>* groupTraits = nil;
         RSOption* options = nil;
-        
+
         if ([call.arguments objectForKey:@"groupTraits"]) {
             groupTraits =
             [[self getRudderTraitsObject:[call.arguments objectForKey:@"groupTraits"]] dict];
@@ -121,7 +121,7 @@ BOOL isRegistrarDetached = NO;
         return;
     } else if ([call.method isEqualToString:@"alias"]) {
         RSOption* options = nil;
-        
+
         if ([call.arguments objectForKey:@"options"]) {
             options = [self getRudderOptionsObject:[call.arguments objectForKey:@"options"]];
         }
@@ -211,6 +211,7 @@ BOOL isRegistrarDetached = NO;
     [configBuilder
      withConfigRefreshInteval:[[configDict objectForKey:@"configRefreshInterval"] intValue]];
     [configBuilder withCollectDeviceId:[[configDict objectForKey:@"collectDeviceId"] boolValue]];
+    [configBuilder withGzip: [[configDict objectForKey:@"gzip"] boolValue]];
     [configBuilder
      withTrackLifecycleEvens:[[configDict objectForKey:@"trackLifecycleEvents"] boolValue]];
     [configBuilder withRecordScreenViews:[[configDict objectForKey:@"recordScreenViews"] boolValue]];
@@ -221,11 +222,11 @@ BOOL isRegistrarDetached = NO;
     if ([dataResidencyServer isEqualToString:@"EU"]) {
         [configBuilder withDataResidencyServer:EU];
     }
-    
+
     if(_dbEncryption != nil) {
         [configBuilder withDBEncryption: _dbEncryption];
     }
-    
+
     if (integrationList != nil) {
         for (id<RSIntegrationFactory> integration in integrationList) {
             [configBuilder withFactory:integration];

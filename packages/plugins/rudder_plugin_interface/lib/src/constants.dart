@@ -25,6 +25,9 @@ class Constants {
   // default duration for inactivity is 30 minutes or 1800000 milliseconds for Web Platforms
   static const int DEFAULT_SESSION_TIMEOUT_WEB = 1800000;
 
+  // default value for whether to gzip compress the request payload or not
+  static const bool DEFAULT_GZIP_COMPRESSION = true;
+
   // default timeout for event flush
   // if events are registered and flushQueueSize is not reached
   // events will be flushed to server after sleepTimeOut seconds
