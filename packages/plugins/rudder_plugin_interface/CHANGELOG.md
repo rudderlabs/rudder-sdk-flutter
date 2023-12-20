@@ -1,3 +1,7 @@
+## 2.8.0
+
+ - **FEAT**: added support for configuring gzip compression of the payload to data plane. ([31823a24](https://github.com/rudderlabs/rudder-sdk-flutter/commit/31823a246920a77f50e0011d07ec5c822ca79c02))
+
 ## 2.7.0
 
  - **FIX**: fixed default value for session timeout in millis for web platform to 30 mins. ([3c0cca02](https://github.com/rudderlabs/rudder-sdk-flutter/commit/3c0cca02cc6cae682f2dfdd94c8bb66a92811423))
