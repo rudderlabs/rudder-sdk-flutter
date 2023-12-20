@@ -1,6 +1,10 @@
 #import "RudderPluginDbEncryptionPlugin.h"
 #import <rudder_plugin_ios/RudderSdkFlutterPlugin.h>
+#if __has_include(<RudderDatabaseEncryption/RSEncryptedDatabaseProvider.h>)
+#import <RudderDatabaseEncryption/RSEncryptedDatabaseProvider.h>
+#else
 @import RudderDatabaseEncryption;
+#endif
 #import <Rudder/RSDBEncryption.h>
 
 @implementation RudderPluginDbEncryptionPlugin
