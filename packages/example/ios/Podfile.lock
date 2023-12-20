@@ -101,8 +101,8 @@ PODS:
   - GoogleUtilities/UserDefaults (7.12.0):
     - GoogleUtilities/Logger
   - Leanplum-iOS-SDK (4.0.0)
-  - MetricsReporter (1.1.1):
-    - RSCrashReporter (= 1.0.0)
+  - MetricsReporter (1.2.0):
+    - RSCrashReporter (= 1.0.1)
     - RudderKit (= 1.4.0)
   - nanopb (2.30909.1):
     - nanopb/decode (= 2.30909.1)
@@ -110,9 +110,9 @@ PODS:
   - nanopb/decode (2.30909.1)
   - nanopb/encode (2.30909.1)
   - PromisesObjC (2.3.1)
-  - RSCrashReporter (1.0.0)
-  - Rudder (1.23.1):
-    - MetricsReporter (= 1.1.1)
+  - RSCrashReporter (1.0.1)
+  - Rudder (1.24.1):
+    - MetricsReporter (= 1.2.0)
   - Rudder-Adjust (1.0.0):
     - Adjust
     - Rudder
@@ -169,14 +169,14 @@ PODS:
     - RudderDatabaseEncryption (~> 1.0.0)
   - rudder_plugin_ios (0.0.1):
     - Flutter
-    - Rudder (< 2.0.0, >= 1.23.0)
+    - Rudder (< 2.0.0, >= 1.24.1)
   - RudderDatabaseEncryption (1.0.0):
     - Rudder (~> 1.20)
     - SQLCipher (~> 4.0)
   - RudderKit (1.4.0)
-  - SDWebImage (5.18.6):
-    - SDWebImage/Core (= 5.18.6)
-  - SDWebImage/Core (5.18.6)
+  - SDWebImage (5.18.7):
+    - SDWebImage/Core (= 5.18.7)
+  - SDWebImage/Core (5.18.7)
   - SQLCipher (4.5.5):
     - SQLCipher/standard (= 4.5.5)
   - SQLCipher/common (4.5.5)
@@ -262,11 +262,11 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: c7d6fff39bf2d829587d74088d582e32d75133c3
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
   Leanplum-iOS-SDK: 8115f65d185eb94d94c4ab08176dfcb4a8b97926
-  MetricsReporter: 759631361ffd2b8f0d375b1225c8a631311f6da2
+  MetricsReporter: 1b381205a8bcc7ea5413c663cbb438e62078ee11
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
-  RSCrashReporter: e9ccaebd996263f8325a6cbef44ff74aa5f58e30
-  Rudder: 18897c785af9cfe84c2be2a1d15a645edbeda6d0
+  RSCrashReporter: 6b8376ac729b0289ebe0908553e5f56d8171f313
+  Rudder: f80f8f7ef42a86e7472fd29eae3988a7c2739bfc
   Rudder-Adjust: 5f14011c8f7237d80a96a10655ac03ebf832bcc4
   Rudder-Amplitude: f845cc125a1a58d4de6155391a2b0392815ae898
   Rudder-AppCenter: 9eca9241e3707a0e9610714dd91dc8da4bae7e1f
@@ -282,10 +282,10 @@ SPEC CHECKSUMS:
   rudder_integration_firebase_flutter: e68a0a215725a04883a83c7f0d16b68f3d6c217d
   rudder_integration_leanplum_flutter: e78fd45ea2b251891a8c1ced32071b3254077862
   rudder_plugin_db_encryption: dd7c5dccfe409c14a226dbc4be19256929060f9a
-  rudder_plugin_ios: 940ac533f6b3882d7d4389d084aeb2a844c8f4c4
+  rudder_plugin_ios: 2cd7dfdd8c8c3a663d1a6ed3ee8c768cd452b461
   RudderDatabaseEncryption: 409b8623c114a43af6332a694601373fde45e1ca
   RudderKit: f272f9872183946452ac94cd7bb2244a71e6ca8f
-  SDWebImage: 3d8caa2430f3d674dbb3e515df4a100a2105af5f
+  SDWebImage: f9258c58221ed854cfa0e2b80ee4033710b1c6d3
   SQLCipher: f2e96b3822e3006b379181a0e4fd145f6de29b56
 
 PODFILE CHECKSUM: 5265e733c786a5987c9aa8f08d969fb3ef180aca
