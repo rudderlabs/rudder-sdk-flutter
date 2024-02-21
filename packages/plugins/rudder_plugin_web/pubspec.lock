@@ -390,7 +390,7 @@ packages:
       path: "../rudder_plugin_interface"
       relative: true
     source: path
-    version: "2.7.0"
+    version: "2.8.0"
   shelf:
     dependency: transitive
     description:
