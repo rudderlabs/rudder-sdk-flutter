@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rudder_plugin_db_encryption/rudder_plugin_db_encryption.dart';
 import 'package:rudder_sdk_flutter/RudderController.dart';
+import 'package:rudder_integration_kochava_flutter/rudder_integration_kochava_flutter.dart';
 import 'package:rudder_integration_appcenter_flutter/rudder_integration_appcenter_flutter.dart';
 import 'package:rudder_integration_braze_flutter/rudder_integration_braze_flutter.dart';
 import 'package:rudder_integration_firebase_flutter/rudder_integration_firebase_flutter.dart';
@@ -52,6 +53,7 @@ class HomeScreenState extends State<HomeScreen> {
         WebConfig(autoSessionTracking: true, sessionTimeoutInMillis: 10000);
     RudderConfigBuilder builder = RudderConfigBuilder();
     builder
+      ..withFactory(RudderIntegrationKochavaFlutter())
       ..withFactory(RudderIntegrationAppcenterFlutter())
       ..withFactory(RudderIntegrationFirebaseFlutter())
       ..withFactory(RudderIntegrationBrazeFlutter())
