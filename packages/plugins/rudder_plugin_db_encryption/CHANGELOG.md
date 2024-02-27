@@ -1,3 +1,7 @@
+## 1.0.4
+
+ - Update a dependency to the latest release.
+
 ## 1.0.3
 
  - **FIX**: fixed db encryption plugin import error when linking as static library. ([43241255](https://github.com/rudderlabs/rudder-sdk-flutter/commit/43241255a67f4db12f398c658a4d77d2ddbcfe92))
