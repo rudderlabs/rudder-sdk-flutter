@@ -199,6 +199,14 @@ scripts:
     select-package:
       scope: '*rudder_integration_leanplum_flutter'
 
+  build:integration:kochava:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build bundle --target=lib/rudder_integration_kochava_flutter.dart"
+    description: Build the Kochava integration plugin.
+    select-package:
+      scope: '*rudder_integration_kochava_flutter'
+
   build:integration:all:
     run: |
       melos run build:integration:adjust --no-select && \
@@ -207,6 +215,7 @@ scripts:
       melos run build:integration:braze --no-select && \
       melos run build:integration:firebase --no-select && \
       melos run build:integration:leanplum --no-select && \
+      melos run build:integration:kochava --no-select && \
       melos bootstrap
     description: Build all the integrations.
 
@@ -242,9 +251,9 @@ scripts:
 
   run:example:android:
     run: |
-     echo no | avdmanager create avd -n Pixel_6_Pro_API_33 -k "system-images;android-33;google_apis;arm64-v8a" --force && 
+     echo no | avdmanager create avd -n Pixel_6_Pro_API_33 -k "system-images;android-33;google_apis;arm64-v8a" --force &&
      melos exec -c 1 --fail-fast -- \
-        "flutter emulators --launch Pixel_6_Pro_API_33" 
+        "flutter emulators --launch Pixel_6_Pro_API_33"
       && melos exec -c 1 --fail-fast -- \
         "flutter run -d Pixel_6_Pro_API_33"
     description: Run a specific example app for Android.
