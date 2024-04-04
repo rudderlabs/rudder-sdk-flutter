@@ -1,5 +1,5 @@
 import 'test_integration.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
 ///use flutter test

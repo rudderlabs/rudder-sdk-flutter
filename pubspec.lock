@@ -5,18 +5,18 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: d976d24314f193899a3079b14fe336215a63a3b1e1c3743eabba8f83e049e9a9
+      sha256: ae92f5d747aee634b87f89d9946000c2de774be1d6ac3e58268224348cd0101a
       url: "https://pub.dev"
     source: hosted
-    version: "49.0.0"
+    version: "61.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
-      sha256: "40ba2c6d2ab41a66476f8f1f099da6be0795c1b47221f5e2c5f8ad6048cdffae"
+      sha256: ea3d8652bda62982addfd92fdc2d0214e5f82e43325104990d4f4c4a2a313562
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.0"
+    version: "5.13.0"
   analyzer_plugin:
     dependency: transitive
     description:
@@ -287,10 +287,10 @@ packages:
     dependency: transitive
     description:
       name: js
-      sha256: f2c445dce49627136094980615a031419f7f3eb393237e4ecd97ac15dea343f3
+      sha256: c1b2e9b5ea78c45e1a0788d29606ba27dc5f71f019f32ca5140f61ef071838cf
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.7"
+    version: "0.7.1"
   json_annotation:
     dependency: transitive
     description:
@@ -335,10 +335,10 @@ packages:
     dependency: transitive
     description:
       name: matcher
-      sha256: c94db23593b89766cda57aab9ac311e3616cf87c6fa4e9749df032f66f30dcb8
+      sha256: d2323aa2060500f906aa31a895b4030b6da3ebdcc5619d14ce1aada65cd161cb
       url: "https://pub.dev"
     source: hosted
-    version: "0.12.14"
+    version: "0.12.16+1"
   material_color_utilities:
     dependency: transitive
     description:
@@ -481,84 +481,84 @@ packages:
       path: "packages/integrations/rudder_integration_adjust_flutter"
       relative: true
     source: path
-    version: "1.1.4"
+    version: "1.2.0"
   rudder_integration_amplitude_flutter:
     dependency: "direct main"
     description:
       path: "packages/integrations/rudder_integration_amplitude_flutter"
       relative: true
     source: path
-    version: "1.1.4"
+    version: "1.2.0"
   rudder_integration_appcenter_flutter:
     dependency: "direct main"
     description:
       path: "packages/integrations/rudder_integration_appcenter_flutter"
       relative: true
     source: path
-    version: "1.2.4"
+    version: "1.3.0"
   rudder_integration_appsflyer_flutter:
     dependency: "direct main"
     description:
       path: "packages/integrations/rudder_integration_appsflyer_flutter"
       relative: true
     source: path
-    version: "1.1.9"
+    version: "1.1.10"
   rudder_integration_braze_flutter:
     dependency: "direct main"
     description:
       path: "packages/integrations/rudder_integration_braze_flutter"
       relative: true
     source: path
-    version: "1.1.4"
+    version: "1.2.0"
   rudder_integration_firebase_flutter:
     dependency: "direct main"
     description:
       path: "packages/integrations/rudder_integration_firebase_flutter"
       relative: true
     source: path
-    version: "2.1.4"
+    version: "2.2.0"
   rudder_integration_kochava_flutter:
     dependency: "direct main"
     description:
       path: "packages/integrations/rudder_integration_kochava_flutter"
       relative: true
     source: path
-    version: "1.0.0"
+    version: "1.1.0"
   rudder_integration_leanplum_flutter:
     dependency: "direct main"
     description:
       path: "packages/integrations/rudder_integration_leanplum_flutter"
       relative: true
     source: path
-    version: "1.1.4"
+    version: "1.2.0"
   rudder_plugin_android:
     dependency: "direct overridden"
     description:
       path: "packages/plugins/rudder_plugin_android"
       relative: true
     source: path
-    version: "2.7.0"
+    version: "2.8.0"
   rudder_plugin_ios:
     dependency: "direct overridden"
     description:
       path: "packages/plugins/rudder_plugin_ios"
       relative: true
     source: path
-    version: "2.7.0"
+    version: "2.8.0"
   rudder_plugin_web:
     dependency: "direct overridden"
     description:
       path: "packages/plugins/rudder_plugin_web"
       relative: true
     source: path
-    version: "2.5.1"
+    version: "2.6.0"
   rudder_sdk_flutter:
     dependency: "direct main"
     description:
       path: "packages/plugins/rudder_plugin"
       relative: true
     source: path
-    version: "2.8.0"
+    version: "2.9.0"
   rudder_sdk_flutter_platform_interface:
     dependency: "direct overridden"
     description:
@@ -671,26 +671,26 @@ packages:
     dependency: transitive
     description:
       name: test
-      sha256: "98403d1090ac0aa9e33dfc8bf45cc2e0c1d5c58d7cb832cee1e50bf14f37961d"
+      sha256: "7ee446762c2c50b3bd4ea96fe13ffac69919352bd3b4b17bac3f3465edc58073"
       url: "https://pub.dev"
     source: hosted
-    version: "1.22.1"
+    version: "1.25.2"
   test_api:
     dependency: transitive
     description:
       name: test_api
-      sha256: c9282698e2982b6c3817037554e52f99d4daba493e8028f8112a83d68ccd0b12
+      sha256: "9955ae474176f7ac8ee4e989dadfb411a58c30415bcfb648fa04b2b8a03afa7f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.17"
+    version: "0.7.0"
   test_core:
     dependency: transitive
     description:
       name: test_core
-      sha256: c9e4661a5e6285b795d47ba27957ed8b6f980fc020e98b218e276e88aff02168
+      sha256: "2bc4b4ecddd75309300d8096f781c0e3280ca1ef85beda558d33fcbedc2eead4"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.21"
+    version: "0.6.0"
   typed_data:
     dependency: transitive
     description:
@@ -788,4 +788,4 @@ packages:
     source: hosted
     version: "1.0.3"
 sdks:
-  dart: ">=3.1.0-185.0.dev <4.0.0"
+  dart: ">=3.1.0 <4.0.0"
