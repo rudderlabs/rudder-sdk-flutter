@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:test/test.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:rudder_sdk_flutter_platform_interface/src/models/rudder_traits.dart';
 
 void main() {

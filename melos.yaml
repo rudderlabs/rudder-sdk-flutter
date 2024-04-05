@@ -307,7 +307,6 @@ scripts:
   build:all:
     run: |
       melos run build:sdk:all --no-select && \
-      melos run build:features:all: --no-select && \
       melos run build:integration:all --no-select && \
       melos run build:example:all --no-select && \
       melos bootstrap
