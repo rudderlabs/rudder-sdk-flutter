@@ -1,3 +1,7 @@
+## 2.7.0
+
+ - **FEAT**: upgraded the dependency version of js in web plugin. ([cb67f7c5](https://github.com/rudderlabs/rudder-sdk-flutter/commit/cb67f7c5818fb716da69f77f836ed873f63a3e0a))
+
 ## 2.6.0
 
  - **FEAT**: added kochava device mode support ([#152](https://github.com/rudderlabs/rudder-sdk-flutter/issues/152)). ([7de30862](https://github.com/rudderlabs/rudder-sdk-flutter/commit/7de3086291a0355a474aa81b5be91906dd00bb70))
