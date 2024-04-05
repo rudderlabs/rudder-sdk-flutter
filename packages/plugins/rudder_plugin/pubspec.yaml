@@ -1,5 +1,5 @@
 name: rudder_sdk_flutter
-version: 2.9.0
+version: 2.9.1
 description: The RudderStack Flutter SDK allows you to track event data from your app. It can be easily integrated into your Flutter application. After integrating this SDK, you will also send the event data to your preferred analytics destination/s, such as Google Analytics, Amplitude, and more.
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 repository: https://github.com/rudderlabs/rudder-sdk-flutter
@@ -16,7 +16,7 @@ dependencies:
   rudder_sdk_flutter_platform_interface: ^2.8.0
   rudder_plugin_android: ^2.8.0
   rudder_plugin_ios: ^2.8.0
-  rudder_plugin_web: ^2.6.0
+  rudder_plugin_web: ^2.7.0
 dev_dependencies:
   flutter_lints: ^2.0.1
   dart_code_metrics: ^5.7.6
