@@ -1,7 +1,7 @@
 PODS:
-  - Adjust (4.36.0):
-    - Adjust/Core (= 4.36.0)
-  - Adjust/Core (4.36.0)
+  - Adjust (4.38.1):
+    - Adjust/Core (= 4.38.1)
+  - Adjust/Core (4.38.1)
   - Amplitude (7.2.2)
   - Appboy-iOS-SDK (4.4.2):
     - Appboy-iOS-SDK/UI (= 4.4.2)
@@ -49,13 +49,13 @@ PODS:
     - GoogleUtilities/Network (~> 7.8)
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - FirebaseCore (10.19.0):
+  - FirebaseCore (10.24.0):
     - FirebaseCoreInternal (~> 10.0)
     - GoogleUtilities/Environment (~> 7.12)
     - GoogleUtilities/Logger (~> 7.12)
-  - FirebaseCoreInternal (10.19.0):
+  - FirebaseCoreInternal (10.24.0):
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
-  - FirebaseInstallations (10.19.0):
+  - FirebaseInstallations (10.24.0):
     - FirebaseCore (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
     - GoogleUtilities/UserDefaults (~> 7.8)
@@ -81,32 +81,41 @@ PODS:
     - GoogleUtilities/Network (~> 7.8)
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
     - nanopb (< 2.30910.0, >= 2.30908.0)
-  - GoogleUtilities/AppDelegateSwizzler (7.12.0):
+  - GoogleUtilities/AppDelegateSwizzler (7.13.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.12.0):
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Environment (7.13.0):
+    - GoogleUtilities/Privacy
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Logger (7.12.0):
+  - GoogleUtilities/Logger (7.13.0):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (7.12.0):
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/MethodSwizzler (7.13.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (7.12.0):
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Network (7.13.0):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Privacy
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.12.0)"
-  - GoogleUtilities/Reachability (7.12.0):
+  - "GoogleUtilities/NSData+zlib (7.13.0)":
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Privacy (7.13.0)
+  - GoogleUtilities/Reachability (7.13.0):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (7.12.0):
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/UserDefaults (7.13.0):
     - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
   - KochavaAdNetworkiOS (5.1.0):
     - KochavaTrackeriOS (~> 5.1.0)
   - KochavaCoreiOS (5.1.1)
   - KochavaTrackeriOS (5.1.0):
     - KochavaCoreiOS (~> 5.1.0)
   - Leanplum-iOS-SDK (4.0.0)
-  - MetricsReporter (1.2.0):
+  - MetricsReporter (1.2.1):
     - RSCrashReporter (= 1.0.1)
     - RudderKit (= 1.4.0)
   - nanopb (2.30909.1):
@@ -114,10 +123,10 @@ PODS:
     - nanopb/encode (= 2.30909.1)
   - nanopb/decode (2.30909.1)
   - nanopb/encode (2.30909.1)
-  - PromisesObjC (2.3.1)
+  - PromisesObjC (2.4.0)
   - RSCrashReporter (1.0.1)
-  - Rudder (1.24.1):
-    - MetricsReporter (= 1.2.0)
+  - Rudder (1.26.3):
+    - MetricsReporter (= 1.2.1)
   - Rudder-Adjust (1.0.0):
     - Adjust
     - Rudder
@@ -187,13 +196,13 @@ PODS:
     - Rudder (~> 1.20)
     - SQLCipher (~> 4.0)
   - RudderKit (1.4.0)
-  - SDWebImage (5.18.7):
-    - SDWebImage/Core (= 5.18.7)
-  - SDWebImage/Core (5.18.7)
-  - SQLCipher (4.5.5):
-    - SQLCipher/standard (= 4.5.5)
-  - SQLCipher/common (4.5.5)
-  - SQLCipher/standard (4.5.5):
+  - SDWebImage (5.19.1):
+    - SDWebImage/Core (= 5.19.1)
+  - SDWebImage/Core (5.19.1)
+  - SQLCipher (4.5.6):
+    - SQLCipher/standard (= 4.5.6)
+  - SQLCipher/common (4.5.6)
+  - SQLCipher/standard (4.5.6):
     - SQLCipher/common
 
 DEPENDENCIES:
@@ -269,27 +278,27 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/rudder_plugin_ios/ios"
 
 SPEC CHECKSUMS:
-  Adjust: f2a3a162ae458dd9e5b5f432542ca75a68bb985b
+  Adjust: e449a8b88cd2261d8f548df023823f7e861a059c
   Amplitude: 517cdc7c485bda64b685174426ecbf17746eb16a
   Appboy-iOS-SDK: 4a7dfe908639da81e5e85849355f6066b58b4cc6
   AppCenter: 85c92db0759d2792a65eb61d6842d2e86611a49a
   AppsFlyerFramework: 75e2e46970e520c88b0456dc6fae98c51b36163a
   FirebaseAnalytics: 036232b6a1e2918e5f67572417be1173576245f3
-  FirebaseCore: dc5c7badf99d47613c52b2e3a57a64cd187f8554
-  FirebaseCoreInternal: b444828ea7cfd594fca83046b95db98a2be4f290
-  FirebaseInstallations: 033d199474164db20c8350736842a94fe717b960
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  FirebaseCore: 11dc8a16dfb7c5e3c3f45ba0e191a33ac4f50894
+  FirebaseCoreInternal: bcb5acffd4ea05e12a783ecf835f2210ce3dc6af
+  FirebaseInstallations: 8f581fca6478a50705d2bd2abd66d306e0f5736e
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   GoogleAppMeasurement: c7d6fff39bf2d829587d74088d582e32d75133c3
-  GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
+  GoogleUtilities: d053d902a8edaa9904e1bd00c37535385b8ed152
   KochavaAdNetworkiOS: b4a671bdb13deb8b1fef59efb34b57ac775aa49e
   KochavaCoreiOS: c099a9e3d80eda82428374acb29ce61d7c275568
   KochavaTrackeriOS: c6b14739bc31a10ce8c8737b75cfecf9394903b3
   Leanplum-iOS-SDK: 8115f65d185eb94d94c4ab08176dfcb4a8b97926
-  MetricsReporter: 1b381205a8bcc7ea5413c663cbb438e62078ee11
+  MetricsReporter: 99596ee5003c69949ed2f50acc34aee83c42f843
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
-  PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
+  PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RSCrashReporter: 6b8376ac729b0289ebe0908553e5f56d8171f313
-  Rudder: f80f8f7ef42a86e7472fd29eae3988a7c2739bfc
+  Rudder: 23456f79749849870e18c45bd250d6e2229a7147
   Rudder-Adjust: 5f14011c8f7237d80a96a10655ac03ebf832bcc4
   Rudder-Amplitude: f845cc125a1a58d4de6155391a2b0392815ae898
   Rudder-AppCenter: 9eca9241e3707a0e9610714dd91dc8da4bae7e1f
@@ -310,9 +319,9 @@ SPEC CHECKSUMS:
   rudder_plugin_ios: 2cd7dfdd8c8c3a663d1a6ed3ee8c768cd452b461
   RudderDatabaseEncryption: 409b8623c114a43af6332a694601373fde45e1ca
   RudderKit: f272f9872183946452ac94cd7bb2244a71e6ca8f
-  SDWebImage: f9258c58221ed854cfa0e2b80ee4033710b1c6d3
-  SQLCipher: f2e96b3822e3006b379181a0e4fd145f6de29b56
+  SDWebImage: 40b0b4053e36c660a764958bff99eed16610acbb
+  SQLCipher: 838309284f29953a28ad2e81d87d55ea6b7c74fd
 
 PODFILE CHECKSUM: 5265e733c786a5987c9aa8f08d969fb3ef180aca
 
-COCOAPODS: 1.14.2
+COCOAPODS: 1.14.3
