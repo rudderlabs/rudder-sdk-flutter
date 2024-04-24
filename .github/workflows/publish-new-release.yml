@@ -60,7 +60,7 @@ jobs:
           github_token: ${{ secrets.PAT }}
           pr_title: 'chore(release): pulling main into develop post release v${{ steps.extract-version.outputs.release_version }}'
           pr_body: ':crown: *An automated PR*'
-          pr_reviewer: 'sdk-flutter'
+          pr_reviewer: '@rudderlabs/sdk-flutter'
 
       - name: Delete hotfix release branch
         uses: koj-co/delete-merged-action@master
