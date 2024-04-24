@@ -3,7 +3,7 @@ name: Bug report
 about: Create a report to help us improve
 title: 'BUG : <Title>'
 labels: bug, open source
-assignees: desusai7
+assignees: '@rudderlabs/sdk-flutter'
 ---
 
 **Describe the bug**
