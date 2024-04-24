@@ -1,3 +1,7 @@
+## 2.8.1
+
+ - **FIX**: update the version of iOS SDK to address the Privacy Manifest issue ([#162](https://github.com/rudderlabs/rudder-sdk-flutter/issues/162)). ([08c9d23c](https://github.com/rudderlabs/rudder-sdk-flutter/commit/08c9d23cbf3361cc63ce13ab20416d387991596a))
+
 ## 2.8.0
 
  - **FEAT**: added kochava device mode support ([#152](https://github.com/rudderlabs/rudder-sdk-flutter/issues/152)). ([7de30862](https://github.com/rudderlabs/rudder-sdk-flutter/commit/7de3086291a0355a474aa81b5be91906dd00bb70))

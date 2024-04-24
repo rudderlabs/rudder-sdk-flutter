@@ -1,6 +1,6 @@
 name: rudder_integration_adjust_flutter
 description: RudderStack Device Mode for Adjust on Flutter SDK
-version: 1.2.1
+version: 1.2.2
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 
 environment:
@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
-  rudder_sdk_flutter: ^2.9.1
+  rudder_sdk_flutter: ^2.9.2
   rudder_sdk_flutter_platform_interface: ^2.8.0
 dev_dependencies:
   flutter_lints: ^2.0.1
