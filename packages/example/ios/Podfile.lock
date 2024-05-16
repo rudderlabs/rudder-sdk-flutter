@@ -191,7 +191,7 @@ PODS:
     - RudderDatabaseEncryption (~> 1.0.0)
   - rudder_plugin_ios (0.0.1):
     - Flutter
-    - Rudder (< 2.0.0, >= 1.24.1)
+    - Rudder (< 2.0.0, >= 1.26.3)
   - RudderDatabaseEncryption (1.0.0):
     - Rudder (~> 1.20)
     - SQLCipher (~> 4.0)
@@ -313,15 +313,15 @@ SPEC CHECKSUMS:
   rudder_integration_appsflyer_flutter: 47ac2556ff3b538c9ca5a144ca1c616a6ee6415b
   rudder_integration_braze_flutter: 7c05ce87d5bfc0f6dc00e641f09595e8867a1ebe
   rudder_integration_firebase_flutter: e68a0a215725a04883a83c7f0d16b68f3d6c217d
-  rudder_integration_kochava_flutter: e9b972b2a09ebf7038245a18e00f206b0d2ec719
+  rudder_integration_kochava_flutter: 8403b6f8f797c742e43d38dd24a803f1e7186a81
   rudder_integration_leanplum_flutter: e78fd45ea2b251891a8c1ced32071b3254077862
   rudder_plugin_db_encryption: dd7c5dccfe409c14a226dbc4be19256929060f9a
-  rudder_plugin_ios: 2cd7dfdd8c8c3a663d1a6ed3ee8c768cd452b461
+  rudder_plugin_ios: a337ccdc5313621e0b1260551e8ebbc6bb492c36
   RudderDatabaseEncryption: 409b8623c114a43af6332a694601373fde45e1ca
   RudderKit: f272f9872183946452ac94cd7bb2244a71e6ca8f
   SDWebImage: 40b0b4053e36c660a764958bff99eed16610acbb
   SQLCipher: 838309284f29953a28ad2e81d87d55ea6b7c74fd
 
-PODFILE CHECKSUM: 5265e733c786a5987c9aa8f08d969fb3ef180aca
+PODFILE CHECKSUM: a5f5d7f5a11db7c7e642078abfcd793cf55602b7
 
 COCOAPODS: 1.14.3
