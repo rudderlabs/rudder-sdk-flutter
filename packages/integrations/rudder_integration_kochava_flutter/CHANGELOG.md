@@ -1,3 +1,7 @@
+## 1.1.3
+
+ - **FIX**: enable static framework setting in Kochava iOS Integration Podspec ([#166](https://github.com/rudderlabs/rudder-sdk-flutter/issues/166)). ([da517443](https://github.com/rudderlabs/rudder-sdk-flutter/commit/da517443dc52d912a9022f27c016bb918c760c10))
+
 ## 1.1.2
 
  - Update a dependency to the latest release.
