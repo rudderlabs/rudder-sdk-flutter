@@ -40,4 +40,7 @@ dependencies {
     implementation project(path: ':rudder_plugin_android')
     // RudderStack Kochava-SDK
     implementation 'com.rudderstack.android.integration:kochava:[2.0.0,)'
+
+    // Kochava SDK
+    implementation 'com.kochava.tracker:tracker:5.4.0'
 }
