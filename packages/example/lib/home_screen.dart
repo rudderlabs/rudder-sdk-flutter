@@ -41,7 +41,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void __initialize() {
-    RudderDBEncryption dbEncryption = RudderDBEncryption(true, "password");
+    RudderDBEncryption dbEncryption = RudderDBEncryption(false, "password");
     MobileConfig mc = MobileConfig(
         autoCollectAdvertId: false,
         sessionTimeoutInMillis: 6000,
@@ -151,6 +151,11 @@ class HomeScreenState extends State<HomeScreen> {
     rudderClient.endSession();
   }
 
+  void __initialiseKochavaSDK() {
+    RudderIntegrationKochavaFlutter.initialiseKochavaSDK("guid", RudderKochavaLogLevel.TRACE);
+    setOutput("initialiseKochavaSDK with guid and Loglevel.TRACE");
+  }
+
   Future<void> __getSessionId() async {
     int? sessionId = await rudderClient.getSessionId();
     setOutput("Session Id : $sessionId");
@@ -229,6 +234,10 @@ class HomeScreenState extends State<HomeScreen> {
                     ElevatedButton(
                       onPressed: __getRudderContext,
                       child: const Text('Set Advertsing ID'),
+                    ),
+                    ElevatedButton(
+                      onPressed: __initialiseKochavaSDK,
+                      child: const Text('Initialise Kochava SDK'),
                     ),
                     ElevatedButton(
                       child: const Text('Go to screen 2'),
