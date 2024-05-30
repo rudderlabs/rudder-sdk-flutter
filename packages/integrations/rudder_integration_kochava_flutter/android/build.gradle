@@ -36,8 +36,8 @@ android {
 
 dependencies {
     // Rudder Android Core SDK Dependencies
-    implementation 'com.rudderstack.android.sdk:core:[1.21.3 2.0.0)'
+    implementation 'com.rudderstack.android.sdk:core:[1.23.1, 2.0.0)'
     implementation project(path: ':rudder_plugin_android')
     // RudderStack Kochava-SDK
-    implementation 'com.rudderstack.android.integration:kochava:1.0.1'
+    implementation 'com.rudderstack.android.integration:kochava:[2.0.0,)'
 }
