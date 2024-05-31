@@ -15,6 +15,10 @@ class RudderIntegrationKochavaFlutter implements RudderIntegration {
     }
   }
 
+  static void enableIosAtt() {
+    _channel.invokeMethod("enableIosAtt");
+  }
+
   static void initialiseKochavaSDK(String guid, RudderKochavaLogLevel loglevel) {
     Map<String, dynamic> params = {};
 
