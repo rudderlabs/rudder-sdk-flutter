@@ -11,6 +11,7 @@ import 'package:rudder_integration_firebase_flutter/rudder_integration_firebase_
 import 'package:rudder_integration_amplitude_flutter/rudder_integration_amplitude_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
+import 'package:platform_detector/platform_detector.dart';
 
 bool isInitialized = false;
 
@@ -152,7 +153,10 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void __initialiseKochavaSDK() {
-    RudderIntegrationKochavaFlutter.initialiseKochavaSDK("guid", RudderKochavaLogLevel.TRACE);
+    if (isApple()) {
+      RudderIntegrationKochavaFlutter.enableIosAtt();
+    }
+    RudderIntegrationKochavaFlutter.initialiseKochavaSDK("guid", RudderKochavaLogLevel.DEBUG);
     setOutput("initialiseKochavaSDK with guid and Loglevel.TRACE");
   }
 
