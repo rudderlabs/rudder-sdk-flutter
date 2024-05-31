@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   s.dependency 'Flutter'
   s.dependency 'rudder_plugin_ios'
   s.dependency 'Rudder-Kochava', '>= 2.0.0'
-  s.platform = :ios, '9.0'
+  s.platform = :ios, '12.4'
   s.static_framework = true
 
   # Flutter.framework does not contain a i386 slice.
