@@ -11,6 +11,7 @@ import 'package:rudder_integration_firebase_flutter/rudder_integration_firebase_
 import 'package:rudder_integration_amplitude_flutter/rudder_integration_amplitude_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
+import 'package:platform_detector/platform_detector.dart';
 
 bool isInitialized = false;
 
@@ -41,7 +42,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void __initialize() {
-    RudderDBEncryption dbEncryption = RudderDBEncryption(true, "password");
+    RudderDBEncryption dbEncryption = RudderDBEncryption(false, "password");
     MobileConfig mc = MobileConfig(
         autoCollectAdvertId: false,
         sessionTimeoutInMillis: 6000,
@@ -151,6 +152,14 @@ class HomeScreenState extends State<HomeScreen> {
     rudderClient.endSession();
   }
 
+  void __initialiseKochavaSDK() {
+    if (isApple()) {
+      RudderIntegrationKochavaFlutter.enableIosAtt();
+    }
+    RudderIntegrationKochavaFlutter.initialiseKochavaSDK("guid", RudderKochavaLogLevel.DEBUG);
+    setOutput("initialiseKochavaSDK with guid and Loglevel.TRACE");
+  }
+
   Future<void> __getSessionId() async {
     int? sessionId = await rudderClient.getSessionId();
     setOutput("Session Id : $sessionId");
@@ -229,6 +238,10 @@ class HomeScreenState extends State<HomeScreen> {
                     ElevatedButton(
                       onPressed: __getRudderContext,
                       child: const Text('Set Advertsing ID'),
+                    ),
+                    ElevatedButton(
+                      onPressed: __initialiseKochavaSDK,
+                      child: const Text('Initialise Kochava SDK'),
                     ),
                     ElevatedButton(
                       child: const Text('Go to screen 2'),
