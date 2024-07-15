@@ -5,5 +5,5 @@
 
 ## Update the JS snippet for Flutter Web:
 
-*	To deploy the “web” package, ensure you replace <WRITE_KEY> in `/web/index.html` with the actual write key value.
+*	To deploy the “web” package, ensure you replace `<WRITE_KEY>` in `/web/index.html` with the actual write key value.
 ![alt text](replace-writeKey-in-placeholder.png)
