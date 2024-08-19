@@ -13,12 +13,6 @@
 -keep class com.rudderstack.rudderjsonadapter.RudderTypeAdapter { *; }
 -keep class * extends com.rudderstack.rudderjsonadapter.RudderTypeAdapter
 
-# Required to ensure the DefaultPersistenceProviderFactory is not removed by Proguard
-# and works as expected even when the customer is not using encryption feature.
--dontwarn net.sqlcipher.Cursor
--dontwarn net.sqlcipher.database.SQLiteDatabase$CursorFactory
--dontwarn net.sqlcipher.database.SQLiteDatabase
--dontwarn net.sqlcipher.database.SQLiteOpenHelper
 -keep class com.rudderstack.android.sdk.core.persistence.DefaultPersistenceProviderFactory { *; }
 
 # Required for the usage of annotations across reporter and web modules
@@ -42,6 +36,3 @@
 -keepclassmembers class com.rudderstack.android.sdk.core.RudderContext { java.util.Map customContextMap; }
 -keepclassmembers class com.rudderstack.android.sdk.core.RudderTraits { java.util.Map extras; }
 
-# Required for DBEncryption feature using SQLCipher
--keep class net.sqlcipher.** { *; }
--keep class net.sqlcipher.database.* { *; }
