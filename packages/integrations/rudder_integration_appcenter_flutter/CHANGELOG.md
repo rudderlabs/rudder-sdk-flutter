@@ -1,3 +1,7 @@
+## 1.4.0
+
+ - **FEAT**: use the sqlcipher-android library in db encryption android plugin ([#174](https://github.com/rudderlabs/rudder-sdk-flutter/issues/174)). ([b0abeb1d](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b0abeb1d9063e56dca5f756225ad9b62c03616b8))
+
 ## 1.3.2
 
  - Update a dependency to the latest release.
