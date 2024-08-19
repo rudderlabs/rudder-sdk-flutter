@@ -1,3 +1,7 @@
+## 2.9.0
+
+ - **FEAT**: use the sqlcipher-android library in db encryption android plugin ([#174](https://github.com/rudderlabs/rudder-sdk-flutter/issues/174)). ([b0abeb1d](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b0abeb1d9063e56dca5f756225ad9b62c03616b8))
+
 ## 2.8.1
 
  - **FIX**: update the version of iOS SDK to address the Privacy Manifest issue ([#162](https://github.com/rudderlabs/rudder-sdk-flutter/issues/162)). ([08c9d23c](https://github.com/rudderlabs/rudder-sdk-flutter/commit/08c9d23cbf3361cc63ce13ab20416d387991596a))

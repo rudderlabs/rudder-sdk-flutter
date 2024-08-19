@@ -334,10 +334,9 @@ packages:
   rudder_sdk_flutter_platform_interface:
     dependency: "direct main"
     description:
-      name: rudder_sdk_flutter_platform_interface
-      sha256: d3a86fa3a8bb1a79ccb5a3647868e4e97ce7f94dbc754cd932f188289294a417
-      url: "https://pub.dev"
-    source: hosted
+      path: "../rudder_plugin_interface"
+      relative: true
+    source: path
     version: "2.8.0"
   sky_engine:
     dependency: transitive

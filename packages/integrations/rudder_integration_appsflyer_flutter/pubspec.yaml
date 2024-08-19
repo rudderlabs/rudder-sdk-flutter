@@ -1,6 +1,6 @@
 name: rudder_integration_appsflyer_flutter
 description: RudderStack Device Mode for Appsflyer on Flutter SDK.
-version: 1.1.12
+version: 1.1.13
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 
 environment:
@@ -11,8 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
-  rudder_sdk_flutter: ^2.9.2
-  rudder_sdk_flutter_platform_interface: ^2.8.0
+  rudder_sdk_flutter: ^2.10.0
+  rudder_sdk_flutter_platform_interface: ^2.9.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

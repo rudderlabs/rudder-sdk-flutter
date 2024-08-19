@@ -27,7 +27,7 @@ apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 33
+    compileSdk 34
 
     lintOptions {
         disable 'InvalidPackage'
@@ -37,7 +37,7 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId 'com.rudderstack.rudder_sdk_flutter_example'
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdk 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -65,8 +65,4 @@ flutter {
 
 dependencies {
     implementation 'com.google.android.gms:play-services-ads:19.3.0'
-
-     //sql-cipher
-    implementation "net.zetetic:android-database-sqlcipher:4.5.4"
-    implementation "androidx.sqlite:sqlite:2.3.1"
 }
