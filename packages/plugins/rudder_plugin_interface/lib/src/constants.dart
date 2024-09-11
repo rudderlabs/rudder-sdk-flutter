@@ -60,6 +60,9 @@ class Constants {
   static const int DEFAULT_BACK_OFF_FACTOR = 2;
   static const int DEFAULT_MAX_ATTEMPTS = 10;
   static const int DEFAULT_MAX_ITEMS = 100;
+  static const bool DEFAULT_LOCK_INTEGRATIONS_VERSION = false;
+  static const bool DEFAULT_LOCK_PLUGINS_VERSION = false;
+  static const bool DEFAULT_POLYFILL_IF_REQUIRED = false;
 
   //BEACON
   static const int DEFAULT_BEACON_FLUSH_QUEUE_INTERVAL = 600000;

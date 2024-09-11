@@ -167,6 +167,11 @@ class RudderConfig {
       _webConfigMap["queueOptions"] = queueOpts;
 
       _webConfigMap["useBeacon"] = webConfig.useBeacon;
+      _webConfigMap["lockIntegrationsVersion"] =
+          webConfig.lockIntegrationsVersion;
+      _webConfigMap["lockPluginsVersion"] = webConfig.lockPluginsVersion;
+      _webConfigMap["polyfillIfRequired"] = webConfig.polyfillIfRequired;
+
       //beacon queue opts if available
       if (webConfig.useBeacon) {
         beaconOpts["maxItems"] =
@@ -189,6 +194,15 @@ class RudderConfig {
         _webConfigMap["destSDKBaseUrl"] =
             Constants.DEFAULT_DESTINATION_SDK_BASE_URL;
       }
+      if (webConfig.pluginsSDKBaseURL != null) {
+        if (Utils.isValidUrl(webConfig.pluginsSDKBaseURL as String)) {
+          _webConfigMap["pluginsSDKBaseURL"] = webConfig.pluginsSDKBaseURL;
+        } else {
+          RudderLogger.logWarn(
+              "Plugin SDK Base Url is not valid, using default");
+        }
+      }
+
       sessionOpts['autoTrack'] = webConfig.autoSessionTracking;
       if (webConfig.sessionTimeoutInMillis < 0) {
         RudderLogger.logError("invalid sessionTimeoutInMillis. Set to default");
@@ -197,6 +211,10 @@ class RudderConfig {
         sessionOpts['timeout'] = webConfig.sessionTimeoutInMillis;
       }
       _webConfigMap["sessions"] = sessionOpts;
+
+      if (webConfig.storage != null) {
+        _webConfigMap["storage"] = webConfig.storage?.toMap();
+      }
     }
   }
 

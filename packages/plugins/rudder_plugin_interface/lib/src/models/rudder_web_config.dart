@@ -1,4 +1,5 @@
 import '../constants.dart';
+import './web_config_interfaces/index.dart';
 
 class WebConfig {
   ///web default true
@@ -43,6 +44,20 @@ class WebConfig {
   /// @param sessionTimeoutInMillis (duration of inactivity of session in milliseconds)
   final int _sessionTimeoutInMillis;
 
+  /// @param pluginsSDKBaseURL (base url to fetch plugins from)
+  final String? _pluginsSDKBaseURL;
+
+  /// default false
+  final bool _lockIntegrationsVersion;
+
+  /// default false
+  final bool _lockPluginsVersion;
+
+  /// default false
+  final bool _polyfillIfRequired;
+
+  final StorageOpts? _storage;
+
   WebConfig(
       {loadIntegration = Constants.DEFAULT_LOAD_INTEGRATION,
       secureCookie = Constants.DEFAULT_SECURE_COOKIE,
@@ -58,7 +73,12 @@ class WebConfig {
       destSDKBaseURL = Constants.DEFAULT_DESTINATION_SDK_BASE_URL,
       autoSessionTracking = Constants.AUTO_SESSION_TRACKING,
       sessionTimeoutInMillis = Constants.DEFAULT_SESSION_TIMEOUT_WEB,
-      Map<String, bool>? cookieConsentManagers})
+      lockIntegrationsVersion = Constants.DEFAULT_LOCK_INTEGRATIONS_VERSION,
+      lockPluginsVersion = Constants.DEFAULT_LOCK_PLUGINS_VERSION,
+      polyfillIfRequired = Constants.DEFAULT_POLYFILL_IF_REQUIRED,
+      Map<String, bool>? cookieConsentManagers,
+      pluginsSDKBaseURL,
+      storage})
       : _loadIntegration = loadIntegration,
         _secureCookie = secureCookie,
         _useBeacon = useBeacon,
@@ -72,11 +92,22 @@ class WebConfig {
         _destSDKBaseURL = destSDKBaseURL,
         _autoSessionTracking = autoSessionTracking,
         _sessionTimeoutInMillis = sessionTimeoutInMillis,
-        _cookieConsentManagers = cookieConsentManagers;
+        _cookieConsentManagers = cookieConsentManagers,
+        _pluginsSDKBaseURL = pluginsSDKBaseURL,
+        _lockIntegrationsVersion = lockIntegrationsVersion,
+        _lockPluginsVersion = lockPluginsVersion,
+        _polyfillIfRequired = polyfillIfRequired,
+        _storage = storage;
 
   String get destSDKBaseURL => _destSDKBaseURL;
 
   bool get useBeacon => _useBeacon;
+
+  bool get lockIntegrationsVersion => _lockIntegrationsVersion;
+
+  bool get lockPluginsVersion => _lockPluginsVersion;
+
+  bool get polyfillIfRequired => _polyfillIfRequired;
 
   bool get secureCookie => _secureCookie;
 
@@ -101,4 +132,8 @@ class WebConfig {
   bool get autoSessionTracking => _autoSessionTracking;
 
   int get sessionTimeoutInMillis => _sessionTimeoutInMillis;
+
+  String? get pluginsSDKBaseURL => _pluginsSDKBaseURL;
+
+  StorageOpts? get storage => _storage;
 }

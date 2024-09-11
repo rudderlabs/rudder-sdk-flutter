@@ -11,3 +11,4 @@ export 'src/models/rudder_integration.dart';
 export 'src/models/rudder_option.dart';
 export 'src/models/rudder_property.dart';
 export 'src/models/rudder_traits.dart';
+export 'src/models/web_config_interfaces/index.dart';
