@@ -2,6 +2,7 @@
  * Default value holder class
  * */
 import 'enums.dart';
+import './models/web_config_interfaces/index.dart';
 
 class Constants {
   // how often config should be fetched from the server (in hours) (2 hrs by default)
@@ -62,12 +63,15 @@ class Constants {
   static const int DEFAULT_MAX_ITEMS = 100;
   static const bool DEFAULT_LOCK_INTEGRATIONS_VERSION = false;
   static const bool DEFAULT_LOCK_PLUGINS_VERSION = false;
-  static const bool DEFAULT_POLYFILL_IF_REQUIRED = false;
+  static const bool DEFAULT_POLYFILL_IF_REQUIRED = true;
+  static const UaChTrackLevel DEFAULT_UACH_TRACK_LEVEL = UaChTrackLevel.none;
+  static const bool DEFAULT_USE_GLOBAL_INTEGRATIONS_CONFIG_IN_EVENTS = false;
+  static const bool DEFAULT_BUFFER_DATA_PLANE_EVENTS_UNTIL_READY = false;
+  static const int DEFAULT_DATA_PLANE_EVENTS_BUFFER_TIMEOUT =
+      10 * 1000; // 10 seconds
+  static const bool DEFAULT_USE_SERVER_SIDE_COOKIES = false;
 
   //BEACON
   static const int DEFAULT_BEACON_FLUSH_QUEUE_INTERVAL = 600000;
   static const int DEFAULT_BEACON_MAX_ITEMS = 10;
-
-  static const String DEFAULT_DESTINATION_SDK_BASE_URL =
-      "https://cdn.rudderlabs.com/v1.1/js-integrations";
 }

@@ -50,12 +50,25 @@ class HomeScreenState extends State<HomeScreen> {
         recordScreenViews: true,
         collectDeviceId: false);
     WebConfig wc = WebConfig(
-        autoSessionTracking: true,
-        sessionTimeoutInMillis: 10000,
-        storage: StorageOpts(type: StorageType.localStorage, entries: {
-          UserSessionKey.anonymousId:
-              LoadOptionStorageEntry(type: StorageType.cookieStorage)
-        }));
+      storage: StorageOpts(type: StorageType.localStorage, entries: {
+        UserSessionKey.anonymousId:
+            LoadOptionStorageEntry(type: StorageType.cookieStorage)
+      }),
+      lockIntegrationsVersion: true,
+      lockPluginsVersion: true,
+      // queueOptions: QueueOpts(
+      //   maxRetryDelay: 60000,
+      //   minRetryDelay: 1000,
+      //   backoffFactor: 2),
+      // useBeacon: true,
+      // beaconQueueOptions: BeaconQueueOpts(
+      //     maxItems: 2, flushQueueInterval: 5000),
+      // destSDKBaseURL: "https://cdn.rudderlabs.com/v1.1/js-integrations",
+      // pluginsSDKBaseURL: "https://cdn.rudderlabs.com/v3/modern/plugins/rsa-plugins.js",
+      //  sessions: SessionOpts( autoTrack: true, timeout: 2 * 60 * 1000),
+      //  uaChTrackLevel: UaChTrackLevel.defaultLevel,
+      // plugins: [PluginName.BeaconQueue, PluginName.DeviceModeDestinations],
+    );
     RudderConfigBuilder builder = RudderConfigBuilder();
     builder
       ..withFactory(RudderIntegrationKochavaFlutter())

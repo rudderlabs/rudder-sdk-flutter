@@ -39,11 +39,8 @@ class RudderConfig {
   ) {
     RudderLogger.init(logLevel);
     _dataPlaneUrl = dataPlaneUrl;
-    //web integrations, QueueOpts, BeaconQueueOpts and CookieConsentManager initialization
+
     final Map<String, String> queueOpts = {};
-    final Map<String, String> beaconOpts = {};
-    final Map<String, dynamic> cookieConsent = {};
-    final Map<String, dynamic> sessionOpts = {};
 
     if (Utils.isEmpty(dataPlaneUrl)) {
       RudderLogger.logError(
@@ -152,47 +149,43 @@ class RudderConfig {
     if (webConfig != null) {
       _webConfigMap["secureCookie"] = webConfig.secureCookie;
       _webConfigMap["loadIntegration"] = webConfig.loadIntegration;
-      queueOpts["maxRetryDelay"] = webConfig.maxRetryDelay
-          .clamp(Constants.DEFAULT_MIN_RETRY_DELAY,
-              Constants.DEFAULT_MAX_RETRY_DELAY)
-          .toString();
-      queueOpts["minRetryDelay"] = webConfig.minRetryDelay
-          .clamp(Constants.DEFAULT_MIN_RETRY_DELAY,
-              Constants.DEFAULT_MAX_RETRY_DELAY)
-          .toString();
-      queueOpts["backoffFactor"] =
-          webConfig.backoffFactor.clamp(0, 10).toString();
-      queueOpts["maxAttempts"] = webConfig.maxAttempts.clamp(0, 100).toString();
-      queueOpts["maxItems"] = webConfig.maxItems.clamp(1, 1000).toString();
-      _webConfigMap["queueOptions"] = queueOpts;
-
       _webConfigMap["useBeacon"] = webConfig.useBeacon;
       _webConfigMap["lockIntegrationsVersion"] =
           webConfig.lockIntegrationsVersion;
       _webConfigMap["lockPluginsVersion"] = webConfig.lockPluginsVersion;
       _webConfigMap["polyfillIfRequired"] = webConfig.polyfillIfRequired;
+      _webConfigMap["useGlobalIntegrationsConfigInEvents"] =
+          webConfig.useGlobalIntegrationsConfigInEvents;
+      _webConfigMap["bufferDataPlaneEventsUntilReady"] =
+          webConfig.bufferDataPlaneEventsUntilReady;
+      _webConfigMap["dataPlaneEventsBufferTimeout"] =
+          webConfig.dataPlaneEventsBufferTimeout;
+      _webConfigMap["useServerSideCookies"] = webConfig.useServerSideCookies;
+      _webConfigMap["sendAdblockPage"] = webConfig.sendAdblockPage;
+      _webConfigMap["sameDomainCookiesOnly"] = webConfig.sameDomainCookiesOnly;
 
+      if (webConfig.queueOptions != null) {
+        _webConfigMap["queueOptions"] = webConfig.queueOptions?.toMap();
+      }
       //beacon queue opts if available
-      if (webConfig.useBeacon) {
-        beaconOpts["maxItems"] =
-            webConfig.maxBeaconItems.clamp(1, 1000).toString();
-        beaconOpts["flushQueueInterval"] =
-            webConfig.beaconFlushQueueInterval.clamp(1, 60000).toString();
-        _webConfigMap["beaconQueueOpts"] = beaconOpts;
+      if (webConfig.useBeacon && webConfig.beaconQueueOptions != null) {
+        _webConfigMap["beaconQueueOptions"] =
+            webConfig.beaconQueueOptions?.toMap();
       }
-      // cookie consent
-      if (webConfig.cookieConsentManagers != null) {
-        webConfig.cookieConsentManagers?.forEach((key, value) {
-          cookieConsent[key] = {"enabled": true};
-        });
-        _webConfigMap["cookieConsentManager"] = cookieConsent;
+      // consent manager
+      if (webConfig.consentManagement != null) {
+        _webConfigMap["consentManagement"] =
+            webConfig.consentManagement?.toMap();
       }
-      if (Utils.isValidUrl(webConfig.destSDKBaseURL)) {
-        _webConfigMap["destSDKBaseURL"] = webConfig.destSDKBaseURL;
-      } else {
-        RudderLogger.logWarn("Dest SDK Base Url is not valid, using default");
-        _webConfigMap["destSDKBaseUrl"] =
-            Constants.DEFAULT_DESTINATION_SDK_BASE_URL;
+      if (webConfig.sessions != null) {
+        _webConfigMap["sessions"] = webConfig.sessions?.toMap();
+      }
+      if (webConfig.destSDKBaseURL != null) {
+        if (Utils.isValidUrl(webConfig.destSDKBaseURL as String)) {
+          _webConfigMap["destSDKBaseURL"] = webConfig.destSDKBaseURL;
+        } else {
+          RudderLogger.logWarn("Dest SDK Base Url is not valid, using default");
+        }
       }
       if (webConfig.pluginsSDKBaseURL != null) {
         if (Utils.isValidUrl(webConfig.pluginsSDKBaseURL as String)) {
@@ -202,18 +195,51 @@ class RudderConfig {
               "Plugin SDK Base Url is not valid, using default");
         }
       }
-
-      sessionOpts['autoTrack'] = webConfig.autoSessionTracking;
-      if (webConfig.sessionTimeoutInMillis < 0) {
-        RudderLogger.logError("invalid sessionTimeoutInMillis. Set to default");
-        sessionOpts['timeout'] = Constants.DEFAULT_SESSION_TIMEOUT_WEB;
-      } else {
-        sessionOpts['timeout'] = webConfig.sessionTimeoutInMillis;
-      }
-      _webConfigMap["sessions"] = sessionOpts;
-
       if (webConfig.storage != null) {
         _webConfigMap["storage"] = webConfig.storage?.toMap();
+      }
+      if (webConfig.destinationsQueueOpts != null) {
+        _webConfigMap["destinationsQueueOpts"] =
+            webConfig.destinationsQueueOpts?.toMap();
+      }
+      if (webConfig.anonymousIdOptions != null) {
+        _webConfigMap["anonymousIdOptions"] =
+            webConfig.anonymousIdOptions?.toMap();
+      }
+      if (webConfig.onLoaded != null) {
+        _webConfigMap["onLoaded"] = webConfig.onLoaded;
+      }
+      if (webConfig.sendAdblockPageOptions != null) {
+        _webConfigMap["sendAdblockPageOptions"] =
+            webConfig.sendAdblockPageOptions?.toMap();
+      }
+      if (webConfig.plugins != null) {
+        _webConfigMap["plugins"] = webConfig.plugins;
+      }
+      if (webConfig.polyfillURL != null) {
+        if (Utils.isValidUrl(webConfig.polyfillURL as String)) {
+          _webConfigMap["polyfillURL"] = webConfig.polyfillURL;
+        } else {
+          RudderLogger.logWarn(
+              "Provided Polyfill Url is not valid, using default");
+        }
+      }
+      if (webConfig.preConsent != null) {
+        _webConfigMap["preConsent"] = webConfig.preConsent?.toMap();
+      }
+      if (webConfig.transportMode != null) {
+        _webConfigMap["transportMode"] =
+            webConfig.transportMode.toString().split('.').last;
+      }
+      if (webConfig.externalAnonymousIdCookieName != null) {
+        _webConfigMap["externalAnonymousIdCookieName"] =
+            webConfig.externalAnonymousIdCookieName;
+      }
+      if (webConfig.dataServiceEndpoint != null) {
+        _webConfigMap["dataServiceEndpoint"] = webConfig.dataServiceEndpoint;
+      }
+      if (webConfig.uaChTrackLevel != null) {
+        _webConfigMap["uaChTrackLevel"] = webConfig.uaChTrackLevel?.value;
       }
     }
   }
