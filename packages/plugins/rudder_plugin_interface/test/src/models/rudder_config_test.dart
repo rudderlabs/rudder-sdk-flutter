@@ -11,10 +11,23 @@ void main() {
     final MobileConfig mobileConfig = MobileConfig(
         dbCountThreshold: 400, sleepTimeOut: 5000, configRefreshInterval: 20);
     final WebConfig webConfig = WebConfig(
-        maxAttempts: 12,
-        maxRetryDelay: 1300,
-        destSDKBaseURL: "https://api.com",
-        cookieConsentManagers: {"oneTrust": false});
+      storage: StorageOpts(type: StorageType.localStorage, entries: {
+        UserSessionKey.anonymousId:
+            LoadOptionStorageEntry(type: StorageType.cookieStorage)
+      }),
+      lockIntegrationsVersion: true,
+      lockPluginsVersion: true,
+      destSDKBaseURL: "https://api.com",
+      pluginsSDKBaseURL: "https://api.com/plugins/",
+      queueOptions: QueueOpts(
+          maxRetryDelay: 60000, minRetryDelay: 1000, backoffFactor: 2),
+      useBeacon: true,
+      beaconQueueOptions:
+          BeaconQueueOpts(maxItems: 2, flushQueueInterval: 5000),
+      sessions: SessionOpts(autoTrack: true, timeout: 2 * 60 * 1000),
+      uaChTrackLevel: UaChTrackLevel.defaultLevel,
+      plugins: [PluginName.BeaconQueue, PluginName.DeviceModeDestinations],
+    );
 
     final List<RudderIntegration> factories = [
       create(() {}, "1"),
@@ -46,12 +59,21 @@ void main() {
     expect(mobileMap["sleepTimeOut"], equals(mobileConfig.sleepTimeOut));
 
     expect(webMap["configUrl"], equals("$configUrl/"));
+    expect(webMap["storage"], isA<Map>());
+    expect(webMap["storage"], equals(webConfig.storage?.toMap()));
     expect(webMap["queueOptions"], isA<Map>());
-    expect(webMap["destSDKBaseURL"], webConfig.destSDKBaseURL);
-
-    final Map<String, dynamic> queueOpts = webMap["queueOptions"];
-    expect(queueOpts["maxRetryDelay"], webConfig.maxRetryDelay.toString());
-    expect(queueOpts["maxAttempts"], webConfig.maxAttempts.toString());
+    expect(webMap["queueOptions"], equals(webConfig.queueOptions?.toMap()));
+    expect(webMap["destSDKBaseURL"], equals(webConfig.destSDKBaseURL));
+    expect(webMap["pluginsSDKBaseURL"], equals(webConfig.pluginsSDKBaseURL));
+    expect(webMap["lockIntegrationsVersion"],
+        equals(webConfig.lockIntegrationsVersion));
+    expect(webMap["lockPluginsVersion"], equals(webConfig.lockPluginsVersion));
+    expect(webMap["useBeacon"], equals(webConfig.useBeacon));
+    expect(webMap["beaconQueueOptions"],
+        equals(webConfig.beaconQueueOptions?.toMap()));
+    expect(webMap["sessions"], equals(webConfig.sessions?.toMap()));
+    expect(webMap["uaChTrackLevel"], equals(webConfig.uaChTrackLevel?.value));
+    expect(webMap["plugins"], equals(webConfig.plugins));
   });
 
   test('data residency value is properly set', () {
