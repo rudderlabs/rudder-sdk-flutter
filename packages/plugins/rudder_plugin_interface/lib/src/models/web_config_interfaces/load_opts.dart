@@ -1,7 +1,5 @@
 typedef OnLoadedCallback = void Function(dynamic analytics);
 
-enum EventsTransportMode { xhr, beacon }
-
 enum PluginName {
   BeaconQueue,
   CustomConsentManager,

@@ -2,7 +2,6 @@
  * Default value holder class
  * */
 import 'enums.dart';
-import './models/web_config_interfaces/index.dart';
 
 class Constants {
   // how often config should be fetched from the server (in hours) (2 hrs by default)
@@ -51,27 +50,4 @@ class Constants {
 
   static const DataResidencyServer DEFAULT_DATA_RESIDENCY_SERVER =
       DataResidencyServer.US;
-
-  //web load integration
-  static const bool DEFAULT_LOAD_INTEGRATION = true;
-  static const bool DEFAULT_SECURE_COOKIE = false;
-  static const bool DEFAULT_USE_BEACON = false;
-  static const int DEFAULT_MAX_RETRY_DELAY = 360000;
-  static const int DEFAULT_MIN_RETRY_DELAY = 1000;
-  static const int DEFAULT_BACK_OFF_FACTOR = 2;
-  static const int DEFAULT_MAX_ATTEMPTS = 10;
-  static const int DEFAULT_MAX_ITEMS = 100;
-  static const bool DEFAULT_LOCK_INTEGRATIONS_VERSION = false;
-  static const bool DEFAULT_LOCK_PLUGINS_VERSION = false;
-  static const bool DEFAULT_POLYFILL_IF_REQUIRED = true;
-  static const UaChTrackLevel DEFAULT_UACH_TRACK_LEVEL = UaChTrackLevel.none;
-  static const bool DEFAULT_USE_GLOBAL_INTEGRATIONS_CONFIG_IN_EVENTS = false;
-  static const bool DEFAULT_BUFFER_DATA_PLANE_EVENTS_UNTIL_READY = false;
-  static const int DEFAULT_DATA_PLANE_EVENTS_BUFFER_TIMEOUT =
-      10 * 1000; // 10 seconds
-  static const bool DEFAULT_USE_SERVER_SIDE_COOKIES = false;
-
-  //BEACON
-  static const int DEFAULT_BEACON_FLUSH_QUEUE_INTERVAL = 600000;
-  static const int DEFAULT_BEACON_MAX_ITEMS = 10;
 }

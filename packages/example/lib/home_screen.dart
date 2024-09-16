@@ -52,7 +52,7 @@ class HomeScreenState extends State<HomeScreen> {
     WebConfig wc = WebConfig(
       storage: StorageOpts(type: StorageType.localStorage, entries: {
         UserSessionKey.anonymousId:
-            LoadOptionStorageEntry(type: StorageType.cookieStorage)
+            StorageEntry(type: StorageType.cookieStorage)
       }),
       lockIntegrationsVersion: true,
       lockPluginsVersion: true,

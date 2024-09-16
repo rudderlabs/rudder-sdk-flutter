@@ -1,17 +1,16 @@
-import '../constants.dart';
 import './web_config_interfaces/index.dart';
 
 class WebConfig {
   ///web default true
-  final bool _loadIntegration;
+  final bool? _loadIntegration;
 
   ///web default false
-  final bool _secureCookie;
+  final bool? _secureCookie;
 
   final QueueOpts? _queueOptions;
 
   ///web default false
-  final bool _useBeacon;
+  final bool? _useBeacon;
 
   final BeaconQueueOpts? _beaconQueueOptions;
 
@@ -23,13 +22,13 @@ class WebConfig {
   final String? _pluginsSDKBaseURL;
 
   /// default false
-  final bool _lockIntegrationsVersion;
+  final bool? _lockIntegrationsVersion;
 
   /// default false
-  final bool _lockPluginsVersion;
+  final bool? _lockPluginsVersion;
 
   /// default false
-  final bool _polyfillIfRequired;
+  final bool? _polyfillIfRequired;
 
   final StorageOpts? _storage;
 
@@ -49,15 +48,13 @@ class WebConfig {
 
   final String? _polyfillURL;
 
-  final bool _useGlobalIntegrationsConfigInEvents;
+  final bool? _useGlobalIntegrationsConfigInEvents;
 
-  final bool _bufferDataPlaneEventsUntilReady;
+  final bool? _bufferDataPlaneEventsUntilReady;
 
-  final int _dataPlaneEventsBufferTimeout;
+  final int? _dataPlaneEventsBufferTimeout;
 
   final PreConsentOptions? _preConsent;
-
-  final EventsTransportMode? _transportMode;
 
   final ConsentManagementOptions? _consentManagement;
 
@@ -65,25 +62,22 @@ class WebConfig {
 
   final String? _externalAnonymousIdCookieName;
 
-  final bool _useServerSideCookies;
+  final bool? _useServerSideCookies;
 
   final String? _dataServiceEndpoint;
 
   WebConfig(
-      {loadIntegration = Constants.DEFAULT_LOAD_INTEGRATION,
-      secureCookie = Constants.DEFAULT_SECURE_COOKIE,
-      useBeacon = Constants.DEFAULT_USE_BEACON,
-      lockIntegrationsVersion = Constants.DEFAULT_LOCK_INTEGRATIONS_VERSION,
-      lockPluginsVersion = Constants.DEFAULT_LOCK_PLUGINS_VERSION,
-      polyfillIfRequired = Constants.DEFAULT_POLYFILL_IF_REQUIRED,
-      uaChTrackLevel = Constants.DEFAULT_UACH_TRACK_LEVEL,
-      useGlobalIntegrationsConfigInEvents =
-          Constants.DEFAULT_USE_GLOBAL_INTEGRATIONS_CONFIG_IN_EVENTS,
-      bufferDataPlaneEventsUntilReady =
-          Constants.DEFAULT_BUFFER_DATA_PLANE_EVENTS_UNTIL_READY,
-      dataPlaneEventsBufferTimeout =
-          Constants.DEFAULT_DATA_PLANE_EVENTS_BUFFER_TIMEOUT,
-      useServerSideCookies = Constants.DEFAULT_USE_SERVER_SIDE_COOKIES,
+      {loadIntegration,
+      secureCookie,
+      useBeacon,
+      lockIntegrationsVersion,
+      lockPluginsVersion,
+      polyfillIfRequired,
+      uaChTrackLevel,
+      useGlobalIntegrationsConfigInEvents,
+      bufferDataPlaneEventsUntilReady,
+      dataPlaneEventsBufferTimeout,
+      useServerSideCookies,
       destSDKBaseURL,
       pluginsSDKBaseURL,
       storage,
@@ -95,7 +89,6 @@ class WebConfig {
       plugins,
       polyfillURL,
       preConsent,
-      transportMode,
       consentManagement,
       sameDomainCookiesOnly,
       externalAnonymousIdCookieName,
@@ -126,7 +119,6 @@ class WebConfig {
         _bufferDataPlaneEventsUntilReady = bufferDataPlaneEventsUntilReady,
         _dataPlaneEventsBufferTimeout = dataPlaneEventsBufferTimeout,
         _preConsent = preConsent,
-        _transportMode = transportMode,
         _consentManagement = consentManagement,
         _sameDomainCookiesOnly = sameDomainCookiesOnly,
         _externalAnonymousIdCookieName = externalAnonymousIdCookieName,
@@ -137,17 +129,17 @@ class WebConfig {
 
   String? get destSDKBaseURL => _destSDKBaseURL;
 
-  bool get useBeacon => _useBeacon;
+  bool? get useBeacon => _useBeacon;
 
-  bool get lockIntegrationsVersion => _lockIntegrationsVersion;
+  bool? get lockIntegrationsVersion => _lockIntegrationsVersion;
 
-  bool get lockPluginsVersion => _lockPluginsVersion;
+  bool? get lockPluginsVersion => _lockPluginsVersion;
 
-  bool get polyfillIfRequired => _polyfillIfRequired;
+  bool? get polyfillIfRequired => _polyfillIfRequired;
 
-  bool get secureCookie => _secureCookie;
+  bool? get secureCookie => _secureCookie;
 
-  bool get loadIntegration => _loadIntegration;
+  bool? get loadIntegration => _loadIntegration;
 
   SessionOpts? get sessions => _sessions;
 
@@ -171,16 +163,14 @@ class WebConfig {
 
   String? get polyfillURL => _polyfillURL;
 
-  bool get useGlobalIntegrationsConfigInEvents =>
+  bool? get useGlobalIntegrationsConfigInEvents =>
       _useGlobalIntegrationsConfigInEvents;
 
-  bool get bufferDataPlaneEventsUntilReady => _bufferDataPlaneEventsUntilReady;
+  bool? get bufferDataPlaneEventsUntilReady => _bufferDataPlaneEventsUntilReady;
 
-  int get dataPlaneEventsBufferTimeout => _dataPlaneEventsBufferTimeout;
+  int? get dataPlaneEventsBufferTimeout => _dataPlaneEventsBufferTimeout;
 
   PreConsentOptions? get preConsent => _preConsent;
-
-  EventsTransportMode? get transportMode => _transportMode;
 
   ConsentManagementOptions? get consentManagement => _consentManagement;
 
@@ -188,7 +178,7 @@ class WebConfig {
 
   String? get externalAnonymousIdCookieName => _externalAnonymousIdCookieName;
 
-  bool get useServerSideCookies => _useServerSideCookies;
+  bool? get useServerSideCookies => _useServerSideCookies;
 
   String? get dataServiceEndpoint => _dataServiceEndpoint;
 

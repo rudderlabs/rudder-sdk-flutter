@@ -168,7 +168,7 @@ class RudderConfig {
         _webConfigMap["queueOptions"] = webConfig.queueOptions?.toMap();
       }
       //beacon queue opts if available
-      if (webConfig.useBeacon && webConfig.beaconQueueOptions != null) {
+      if (webConfig.useBeacon != null && webConfig.beaconQueueOptions != null) {
         _webConfigMap["beaconQueueOptions"] =
             webConfig.beaconQueueOptions?.toMap();
       }
@@ -181,19 +181,10 @@ class RudderConfig {
         _webConfigMap["sessions"] = webConfig.sessions?.toMap();
       }
       if (webConfig.destSDKBaseURL != null) {
-        if (Utils.isValidUrl(webConfig.destSDKBaseURL as String)) {
-          _webConfigMap["destSDKBaseURL"] = webConfig.destSDKBaseURL;
-        } else {
-          RudderLogger.logWarn("Dest SDK Base Url is not valid, using default");
-        }
+        _webConfigMap["destSDKBaseURL"] = webConfig.destSDKBaseURL;
       }
       if (webConfig.pluginsSDKBaseURL != null) {
-        if (Utils.isValidUrl(webConfig.pluginsSDKBaseURL as String)) {
-          _webConfigMap["pluginsSDKBaseURL"] = webConfig.pluginsSDKBaseURL;
-        } else {
-          RudderLogger.logWarn(
-              "Plugin SDK Base Url is not valid, using default");
-        }
+        _webConfigMap["pluginsSDKBaseURL"] = webConfig.pluginsSDKBaseURL;
       }
       if (webConfig.storage != null) {
         _webConfigMap["storage"] = webConfig.storage?.toMap();
@@ -217,19 +208,10 @@ class RudderConfig {
         _webConfigMap["plugins"] = webConfig.plugins;
       }
       if (webConfig.polyfillURL != null) {
-        if (Utils.isValidUrl(webConfig.polyfillURL as String)) {
-          _webConfigMap["polyfillURL"] = webConfig.polyfillURL;
-        } else {
-          RudderLogger.logWarn(
-              "Provided Polyfill Url is not valid, using default");
-        }
+        _webConfigMap["polyfillURL"] = webConfig.polyfillURL;
       }
       if (webConfig.preConsent != null) {
         _webConfigMap["preConsent"] = webConfig.preConsent?.toMap();
-      }
-      if (webConfig.transportMode != null) {
-        _webConfigMap["transportMode"] =
-            webConfig.transportMode.toString().split('.').last;
       }
       if (webConfig.externalAnonymousIdCookieName != null) {
         _webConfigMap["externalAnonymousIdCookieName"] =

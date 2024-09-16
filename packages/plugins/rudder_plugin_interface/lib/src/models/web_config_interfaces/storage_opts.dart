@@ -24,13 +24,13 @@ enum StorageEncryptionVersion {
   v3,
 }
 
-// Define the LoadOptionStorageEntry class
-class LoadOptionStorageEntry {
+// Define the StorageEntry class
+class StorageEntry {
   final StorageType type;
 
-  LoadOptionStorageEntry({required this.type});
+  StorageEntry({required this.type});
 
-  // Method to convert the LoadOptionStorageEntry object to a Map<String, dynamic>
+  // Method to convert the StorageEntry object to a Map<String, dynamic>
   Map<String, dynamic> toMap() {
     return {
       'type': type.toString().split('.').last,
@@ -88,7 +88,7 @@ class StorageOpts {
   final bool? migrate;
   final StorageType? type;
   final CookieOptions? cookie;
-  final Map<UserSessionKey, LoadOptionStorageEntry>? entries;
+  final Map<UserSessionKey, StorageEntry>? entries;
 
   StorageOpts({
     this.encryption,

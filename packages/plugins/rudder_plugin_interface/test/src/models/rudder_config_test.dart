@@ -13,7 +13,7 @@ void main() {
     final WebConfig webConfig = WebConfig(
       storage: StorageOpts(type: StorageType.localStorage, entries: {
         UserSessionKey.anonymousId:
-            LoadOptionStorageEntry(type: StorageType.cookieStorage)
+            StorageEntry(type: StorageType.cookieStorage)
       }),
       lockIntegrationsVersion: true,
       lockPluginsVersion: true,
@@ -27,6 +27,36 @@ void main() {
       sessions: SessionOpts(autoTrack: true, timeout: 2 * 60 * 1000),
       uaChTrackLevel: UaChTrackLevel.defaultLevel,
       plugins: [PluginName.BeaconQueue, PluginName.DeviceModeDestinations],
+      loadIntegration: true,
+      secureCookie: false,
+      polyfillIfRequired: true,
+      destinationsQueueOpts: DestinationsQueueOpts(maxItems: 10),
+      useGlobalIntegrationsConfigInEvents: true,
+      bufferDataPlaneEventsUntilReady: true,
+      dataPlaneEventsBufferTimeout: 1000,
+      useServerSideCookies: false,
+      anonymousIdOptions: AnonymousIdOptions(
+          autoCapture: AutoCapture(enabled: true, source: "source")),
+      onLoaded: (analytics) => {analytics.setAnonymousId("123")},
+      sendAdblockPage: true,
+      sendAdblockPageOptions: ApiOptions(
+        additionalProperties: {
+          "key1": "value1",
+          "key2": 12345,
+        },
+      ),
+      preConsent: PreConsentOptions(
+        enabled: true,
+        events: PreConsentEventsOptions(delivery: DeliveryType.immediate),
+      ),
+      consentManagement: ConsentManagementOptions(
+        enabled: true,
+        provider: ConsentManagementProvider.oneTrust,
+      ),
+      polyfillURL: "https://dummy-polyfill.com",
+      sameDomainCookiesOnly: false,
+      externalAnonymousIdCookieName: "external_anonymous_id",
+      dataServiceEndpoint: "https://data-service.com",
     );
 
     final List<RudderIntegration> factories = [
@@ -74,6 +104,35 @@ void main() {
     expect(webMap["sessions"], equals(webConfig.sessions?.toMap()));
     expect(webMap["uaChTrackLevel"], equals(webConfig.uaChTrackLevel?.value));
     expect(webMap["plugins"], equals(webConfig.plugins));
+    expect(webMap["loadIntegration"], equals(webConfig.loadIntegration));
+    expect(webMap["secureCookie"], equals(webConfig.secureCookie));
+    expect(webMap["polyfillIfRequired"], equals(webConfig.polyfillIfRequired));
+    expect(webMap["destinationsQueueOpts"],
+        equals(webConfig.destinationsQueueOpts?.toMap()));
+    expect(webMap["useGlobalIntegrationsConfigInEvents"],
+        equals(webConfig.useGlobalIntegrationsConfigInEvents));
+    expect(webMap["bufferDataPlaneEventsUntilReady"],
+        equals(webConfig.bufferDataPlaneEventsUntilReady));
+    expect(webMap["dataPlaneEventsBufferTimeout"],
+        equals(webConfig.dataPlaneEventsBufferTimeout));
+    expect(
+        webMap["useServerSideCookies"], equals(webConfig.useServerSideCookies));
+    expect(webMap["anonymousIdOptions"],
+        equals(webConfig.anonymousIdOptions?.toMap()));
+    expect(webMap["onLoaded"], isNotNull);
+    expect(webMap["sendAdblockPage"], equals(webConfig.sendAdblockPage));
+    expect(webMap["sendAdblockPageOptions"],
+        equals(webConfig.sendAdblockPageOptions?.toMap()));
+    expect(webMap["preConsent"], equals(webConfig.preConsent?.toMap()));
+    expect(webMap["consentManagement"],
+        equals(webConfig.consentManagement?.toMap()));
+    expect(webMap["polyfillURL"], equals(webConfig.polyfillURL));
+    expect(webMap["sameDomainCookiesOnly"],
+        equals(webConfig.sameDomainCookiesOnly));
+    expect(webMap["externalAnonymousIdCookieName"],
+        equals(webConfig.externalAnonymousIdCookieName));
+    expect(
+        webMap["dataServiceEndpoint"], equals(webConfig.dataServiceEndpoint));
   });
 
   test('data residency value is properly set', () {
