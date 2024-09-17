@@ -11,16 +11,47 @@ void main() {
     final MobileConfig mobileConfig = MobileConfig(
         dbCountThreshold: 400, sleepTimeOut: 5000, configRefreshInterval: 20);
     final WebConfig webConfig = WebConfig(
-      storage: StorageOpts(type: StorageType.localStorage, entries: {
-        UserSessionKey.anonymousId:
-            StorageEntry(type: StorageType.cookieStorage)
-      }),
+      storage: StorageOpts(
+          encryption: StorageEncryption(version: StorageEncryptionVersion.v3),
+          migrate: true,
+          type: StorageType.sessionStorage,
+          cookie: CookieOptions(
+            maxage: 1000,
+            path: "/",
+            domain: "example.com",
+            samesite: "Lax",
+            secure: true,
+          ),
+          entries: {
+            UserSessionKey.anonymousId:
+                StorageEntry(type: StorageType.cookieStorage),
+            UserSessionKey.userId:
+                StorageEntry(type: StorageType.cookieStorage),
+            UserSessionKey.userTraits:
+                StorageEntry(type: StorageType.localStorage),
+            UserSessionKey.sessionInfo:
+                StorageEntry(type: StorageType.memoryStorage),
+            UserSessionKey.groupId: StorageEntry(type: StorageType.none),
+            UserSessionKey.groupTraits: StorageEntry(type: StorageType.none),
+            UserSessionKey.initialReferrer:
+                StorageEntry(type: StorageType.cookieStorage),
+            UserSessionKey.initialReferringDomain:
+                StorageEntry(type: StorageType.cookieStorage),
+          }),
       lockIntegrationsVersion: true,
       lockPluginsVersion: true,
       destSDKBaseURL: "https://api.com",
       pluginsSDKBaseURL: "https://api.com/plugins/",
       queueOptions: QueueOpts(
-          maxRetryDelay: 60000, minRetryDelay: 1000, backoffFactor: 2),
+          maxRetryDelay: 5 * 60 * 1000,
+          minRetryDelay: 1000,
+          backoffFactor: 2,
+          backoffJitter: 0.1,
+          maxAttempts: 5,
+          maxItems: 10,
+          batch: BatchOpts(
+              enabled: true, maxItems: 5, maxSize: 1000, flushInterval: 1000),
+          timerScaleFactor: 1.5),
       useBeacon: true,
       beaconQueueOptions:
           BeaconQueueOpts(maxItems: 2, flushQueueInterval: 5000),
@@ -48,10 +79,14 @@ void main() {
       preConsent: PreConsentOptions(
         enabled: true,
         events: PreConsentEventsOptions(delivery: DeliveryType.immediate),
+        storage:
+            PreConsentStorageOptions(strategy: StorageStrategy.anonymousId),
       ),
       consentManagement: ConsentManagementOptions(
         enabled: true,
         provider: ConsentManagementProvider.oneTrust,
+        allowedConsentIds: ["consent1", "consent2"],
+        deniedConsentIds: ["consent3", "consent4"],
       ),
       polyfillURL: "https://dummy-polyfill.com",
       sameDomainCookiesOnly: false,
