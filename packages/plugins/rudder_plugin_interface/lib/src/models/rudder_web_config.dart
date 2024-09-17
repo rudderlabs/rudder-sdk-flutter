@@ -1,104 +1,188 @@
-import '../constants.dart';
+import './web_config_interfaces/index.dart';
 
 class WebConfig {
   ///web default true
-  final bool _loadIntegration;
+  final bool? _loadIntegration;
 
   ///web default false
-  final bool _secureCookie;
+  final bool? _secureCookie;
 
-  /// web default 3_60_000
-  final int _maxRetryDelay;
-
-  ///web default 1_000
-  final int _minRetryDelay;
-
-  ///web back off factor default 2
-  final int _backoffFactor;
-
-  /// web default 10
-  final int _maxAttempts;
-
-  /// web default 100
-  final int _maxItems;
+  final QueueOpts? _queueOptions;
 
   ///web default false
-  final bool _useBeacon;
+  final bool? _useBeacon;
 
-  ///utilised only if _useBeacon is true
-  final int _maxBeaconItems;
+  final BeaconQueueOpts? _beaconQueueOptions;
 
-  ///utilised only if _useBeacon is true
-  final int _beaconFlushQueueInterval;
+  final String? _destSDKBaseURL;
 
-  ///web default https://cdn.rudderlabs.com/v1.1/js-integrations
-  final String _destSDKBaseURL;
+  final SessionOpts? _sessions;
 
-  ///cookie consent managers, e.g ("oneTrust", true), default empty
-  final Map<String, bool>? _cookieConsentManagers;
+  /// @param pluginsSDKBaseURL (base url to fetch plugins from)
+  final String? _pluginsSDKBaseURL;
 
-  /// @param autoSessionTracking whether to track session automatically
-  final bool _autoSessionTracking;
+  /// default false
+  final bool? _lockIntegrationsVersion;
 
-  /// @param sessionTimeoutInMillis (duration of inactivity of session in milliseconds)
-  final int _sessionTimeoutInMillis;
+  /// default false
+  final bool? _lockPluginsVersion;
+
+  /// default false
+  final bool? _polyfillIfRequired;
+
+  final StorageOpts? _storage;
+
+  final DestinationsQueueOpts? _destinationsQueueOpts;
+
+  final AnonymousIdOptions? _anonymousIdOptions;
+
+  final OnLoadedCallback? _onLoaded;
+
+  final UaChTrackLevel? _uaChTrackLevel;
+
+  final bool? _sendAdblockPage;
+
+  final ApiOptions? _sendAdblockPageOptions;
+
+  final List<PluginName>? _plugins;
+
+  final String? _polyfillURL;
+
+  final bool? _useGlobalIntegrationsConfigInEvents;
+
+  final bool? _bufferDataPlaneEventsUntilReady;
+
+  final int? _dataPlaneEventsBufferTimeout;
+
+  final PreConsentOptions? _preConsent;
+
+  final ConsentManagementOptions? _consentManagement;
+
+  final bool? _sameDomainCookiesOnly;
+
+  final String? _externalAnonymousIdCookieName;
+
+  final bool? _useServerSideCookies;
+
+  final String? _dataServiceEndpoint;
 
   WebConfig(
-      {loadIntegration = Constants.DEFAULT_LOAD_INTEGRATION,
-      secureCookie = Constants.DEFAULT_SECURE_COOKIE,
-      useBeacon = Constants.DEFAULT_USE_BEACON,
-      maxRetryDelay = Constants.DEFAULT_MAX_RETRY_DELAY,
-      minRetryDelay = Constants.DEFAULT_MIN_RETRY_DELAY,
-      backoffFactor = Constants.DEFAULT_BACK_OFF_FACTOR,
-      maxAttempts = Constants.DEFAULT_MAX_ATTEMPTS,
-      maxItems = Constants.DEFAULT_MAX_ITEMS,
-      maxBeaconItems = Constants.DEFAULT_BEACON_MAX_ITEMS,
-      int beaconFlushQueueInterval =
-          Constants.DEFAULT_BEACON_FLUSH_QUEUE_INTERVAL,
-      destSDKBaseURL = Constants.DEFAULT_DESTINATION_SDK_BASE_URL,
-      autoSessionTracking = Constants.AUTO_SESSION_TRACKING,
-      sessionTimeoutInMillis = Constants.DEFAULT_SESSION_TIMEOUT_WEB,
-      Map<String, bool>? cookieConsentManagers})
+      {loadIntegration,
+      secureCookie,
+      useBeacon,
+      lockIntegrationsVersion,
+      lockPluginsVersion,
+      polyfillIfRequired,
+      uaChTrackLevel,
+      useGlobalIntegrationsConfigInEvents,
+      bufferDataPlaneEventsUntilReady,
+      dataPlaneEventsBufferTimeout,
+      useServerSideCookies,
+      destSDKBaseURL,
+      pluginsSDKBaseURL,
+      storage,
+      destinationsQueueOpts,
+      anonymousIdOptions,
+      onLoaded,
+      sendAdblockPage,
+      sendAdblockPageOptions,
+      plugins,
+      polyfillURL,
+      preConsent,
+      consentManagement,
+      sameDomainCookiesOnly,
+      externalAnonymousIdCookieName,
+      dataServiceEndpoint,
+      queueOptions,
+      beaconQueueOptions,
+      sessions})
       : _loadIntegration = loadIntegration,
         _secureCookie = secureCookie,
         _useBeacon = useBeacon,
-        _maxRetryDelay = maxRetryDelay,
-        _minRetryDelay = minRetryDelay,
-        _backoffFactor = backoffFactor,
-        _maxAttempts = maxAttempts,
-        _maxItems = maxItems,
-        _maxBeaconItems = maxBeaconItems,
-        _beaconFlushQueueInterval = beaconFlushQueueInterval,
         _destSDKBaseURL = destSDKBaseURL,
-        _autoSessionTracking = autoSessionTracking,
-        _sessionTimeoutInMillis = sessionTimeoutInMillis,
-        _cookieConsentManagers = cookieConsentManagers;
+        _sessions = sessions,
+        _pluginsSDKBaseURL = pluginsSDKBaseURL,
+        _lockIntegrationsVersion = lockIntegrationsVersion,
+        _lockPluginsVersion = lockPluginsVersion,
+        _polyfillIfRequired = polyfillIfRequired,
+        _storage = storage,
+        _destinationsQueueOpts = destinationsQueueOpts,
+        _anonymousIdOptions = anonymousIdOptions,
+        _onLoaded = onLoaded,
+        _uaChTrackLevel = uaChTrackLevel,
+        _sendAdblockPage = sendAdblockPage,
+        _sendAdblockPageOptions = sendAdblockPageOptions,
+        _plugins = plugins,
+        _polyfillURL = polyfillURL,
+        _useGlobalIntegrationsConfigInEvents =
+            useGlobalIntegrationsConfigInEvents,
+        _bufferDataPlaneEventsUntilReady = bufferDataPlaneEventsUntilReady,
+        _dataPlaneEventsBufferTimeout = dataPlaneEventsBufferTimeout,
+        _preConsent = preConsent,
+        _consentManagement = consentManagement,
+        _sameDomainCookiesOnly = sameDomainCookiesOnly,
+        _externalAnonymousIdCookieName = externalAnonymousIdCookieName,
+        _useServerSideCookies = useServerSideCookies,
+        _dataServiceEndpoint = dataServiceEndpoint,
+        _queueOptions = queueOptions,
+        _beaconQueueOptions = beaconQueueOptions;
 
-  String get destSDKBaseURL => _destSDKBaseURL;
+  String? get destSDKBaseURL => _destSDKBaseURL;
 
-  bool get useBeacon => _useBeacon;
+  bool? get useBeacon => _useBeacon;
 
-  bool get secureCookie => _secureCookie;
+  bool? get lockIntegrationsVersion => _lockIntegrationsVersion;
 
-  bool get loadIntegration => _loadIntegration;
+  bool? get lockPluginsVersion => _lockPluginsVersion;
 
-  Map<String, bool>? get cookieConsentManagers => _cookieConsentManagers;
+  bool? get polyfillIfRequired => _polyfillIfRequired;
 
-  int get beaconFlushQueueInterval => _beaconFlushQueueInterval;
+  bool? get secureCookie => _secureCookie;
 
-  int get maxBeaconItems => _maxBeaconItems;
+  bool? get loadIntegration => _loadIntegration;
 
-  int get maxItems => _maxItems;
+  SessionOpts? get sessions => _sessions;
 
-  int get maxAttempts => _maxAttempts;
+  String? get pluginsSDKBaseURL => _pluginsSDKBaseURL;
 
-  int get backoffFactor => _backoffFactor;
+  StorageOpts? get storage => _storage;
 
-  int get minRetryDelay => _minRetryDelay;
+  DestinationsQueueOpts? get destinationsQueueOpts => _destinationsQueueOpts;
 
-  int get maxRetryDelay => _maxRetryDelay;
+  AnonymousIdOptions? get anonymousIdOptions => _anonymousIdOptions;
 
-  bool get autoSessionTracking => _autoSessionTracking;
+  OnLoadedCallback? get onLoaded => _onLoaded;
 
-  int get sessionTimeoutInMillis => _sessionTimeoutInMillis;
+  UaChTrackLevel? get uaChTrackLevel => _uaChTrackLevel;
+
+  bool? get sendAdblockPage => _sendAdblockPage;
+
+  ApiOptions? get sendAdblockPageOptions => _sendAdblockPageOptions;
+
+  List<PluginName>? get plugins => _plugins;
+
+  String? get polyfillURL => _polyfillURL;
+
+  bool? get useGlobalIntegrationsConfigInEvents =>
+      _useGlobalIntegrationsConfigInEvents;
+
+  bool? get bufferDataPlaneEventsUntilReady => _bufferDataPlaneEventsUntilReady;
+
+  int? get dataPlaneEventsBufferTimeout => _dataPlaneEventsBufferTimeout;
+
+  PreConsentOptions? get preConsent => _preConsent;
+
+  ConsentManagementOptions? get consentManagement => _consentManagement;
+
+  bool? get sameDomainCookiesOnly => _sameDomainCookiesOnly;
+
+  String? get externalAnonymousIdCookieName => _externalAnonymousIdCookieName;
+
+  bool? get useServerSideCookies => _useServerSideCookies;
+
+  String? get dataServiceEndpoint => _dataServiceEndpoint;
+
+  QueueOpts? get queueOptions => _queueOptions;
+
+  BeaconQueueOpts? get beaconQueueOptions => _beaconQueueOptions;
 }

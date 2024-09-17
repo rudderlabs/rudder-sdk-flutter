@@ -49,8 +49,14 @@ class HomeScreenState extends State<HomeScreen> {
         gzip: false,
         recordScreenViews: true,
         collectDeviceId: false);
-    WebConfig wc =
-        WebConfig(autoSessionTracking: true, sessionTimeoutInMillis: 10000);
+    WebConfig wc = WebConfig(
+      storage: StorageOpts(type: StorageType.localStorage, entries: {
+        UserSessionKey.anonymousId:
+            StorageEntry(type: StorageType.cookieStorage)
+      }),
+      lockIntegrationsVersion: true,
+      lockPluginsVersion: true,
+    );
     RudderConfigBuilder builder = RudderConfigBuilder();
     builder
       ..withFactory(RudderIntegrationKochavaFlutter())
