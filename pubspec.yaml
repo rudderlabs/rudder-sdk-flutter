@@ -32,8 +32,8 @@ dependencies:
     path: "packages/integrations/rudder_integration_adjust_flutter"
   rudder_integration_leanplum_flutter:
     path: "packages/integrations/rudder_integration_leanplum_flutter"
-  rudder_integration_kochava_flutter:
-    path: "packages/integrations/rudder_integration_kochava_flutter"
+  # rudder_integration_kochava_flutter:
+  #   path: "packages/integrations/rudder_integration_kochava_flutter"
   flutter_plugin_tools: ^0.12.1
 
 
