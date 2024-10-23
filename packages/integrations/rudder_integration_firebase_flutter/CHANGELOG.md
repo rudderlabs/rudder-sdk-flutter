@@ -3,12 +3,6 @@
 > Note: This release has breaking changes.
 
  - **FIX**: version conflict issues ([#186](https://github.com/rudderlabs/rudder-sdk-flutter/issues/186)). ([d1009f71](https://github.com/rudderlabs/rudder-sdk-flutter/commit/d1009f719d3297e36941d0b0def4b30a004c91f0))
- - **FIX**: made Appcenter, Appsflyer, Firebase iOS Modules as static_frameworks. ([ee0fb3e3](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ee0fb3e367528c732ffc01f339984ec15ae92a5e))
- - **FIX**: fixed flutter engine hasn't started running issue ([#78](https://github.com/rudderlabs/rudder-sdk-flutter/issues/78)). ([53f9965e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/53f9965e63c0ec36e3b298956c1df1a231f5a2e0))
- - **FEAT**: use the sqlcipher-android library in db encryption android plugin ([#174](https://github.com/rudderlabs/rudder-sdk-flutter/issues/174)). ([b0abeb1d](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b0abeb1d9063e56dca5f756225ad9b62c03616b8))
- - **FEAT**: added kochava device mode support ([#152](https://github.com/rudderlabs/rudder-sdk-flutter/issues/152)). ([7de30862](https://github.com/rudderlabs/rudder-sdk-flutter/commit/7de3086291a0355a474aa81b5be91906dd00bb70))
- - **FEAT**: made deviceId collection configurable and de-coupled anonymousid and deviceId ([#117](https://github.com/rudderlabs/rudder-sdk-flutter/issues/117)). ([28611542](https://github.com/rudderlabs/rudder-sdk-flutter/commit/28611542be971ddd389b011c77a3b5d82b6d7fff))
- - **BREAKING** **FEAT**: web config options update to the latest ([#179](https://github.com/rudderlabs/rudder-sdk-flutter/issues/179)). ([ee8c1eb7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ee8c1eb76f93ff61cf5fc0f05b75a1794ad31810))
 
 ## 3.0.0
 
