@@ -1,5 +1,5 @@
 name: rudder_sdk_flutter_monorepo
-version: 4.0.0
+version: 4.0.1
 description: The RudderStack Flutter SDK Monorepo.
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 repository: https://github.com/rudderlabs/rudder-sdk-flutter
@@ -16,15 +16,24 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  rudder_sdk_flutter: 2.10.0
-  rudder_integration_amplitude_flutter: 2.0.0
-  rudder_integration_firebase_flutter: 3.0.0
-  rudder_integration_braze_flutter: 2.0.0
-  rudder_integration_appcenter_flutter: 2.0.0
-  rudder_integration_appsflyer_flutter: 1.1.14
-  rudder_integration_adjust_flutter: 2.0.0
-  rudder_integration_leanplum_flutter: 2.0.0
-  rudder_integration_kochava_flutter: 2.0.0
+  rudder_sdk_flutter:
+    path: "packages/plugins/rudder_plugin"
+  rudder_integration_amplitude_flutter:
+    path: "packages/integrations/rudder_integration_amplitude_flutter"
+  rudder_integration_firebase_flutter:
+    path: "packages/integrations/rudder_integration_firebase_flutter"
+  rudder_integration_braze_flutter:
+    path: "packages/integrations/rudder_integration_braze_flutter"
+  rudder_integration_appcenter_flutter:
+    path: "packages/integrations/rudder_integration_appcenter_flutter"
+  rudder_integration_appsflyer_flutter:
+    path: "packages/integrations/rudder_integration_appsflyer_flutter"
+  rudder_integration_adjust_flutter:
+    path: "packages/integrations/rudder_integration_adjust_flutter"
+  rudder_integration_leanplum_flutter:
+    path: "packages/integrations/rudder_integration_leanplum_flutter"
+  rudder_integration_kochava_flutter:
+    path: "packages/integrations/rudder_integration_kochava_flutter"
   flutter_plugin_tools: ^0.12.1
 
 

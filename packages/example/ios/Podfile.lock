@@ -109,11 +109,6 @@ PODS:
   - GoogleUtilities/UserDefaults (7.13.0):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
-  - KochavaAdNetworkiOS (5.1.0):
-    - KochavaTrackeriOS (~> 5.1.0)
-  - KochavaCoreiOS (5.1.1)
-  - KochavaTrackeriOS (5.1.0):
-    - KochavaCoreiOS (~> 5.1.0)
   - Leanplum-iOS-SDK (4.0.0)
   - MetricsReporter (1.2.1):
     - RSCrashReporter (= 1.0.1)
@@ -145,10 +140,6 @@ PODS:
   - Rudder-Firebase (3.0.0):
     - FirebaseAnalytics (= 10.3.0)
     - Rudder (~> 1.8)
-  - Rudder-Kochava (1.0.1):
-    - KochavaAdNetworkiOS (= 5.1.0)
-    - KochavaTrackeriOS (= 5.1.0)
-    - Rudder (~> 1.0)
   - Rudder-Leanplum (1.0.2):
     - Leanplum-iOS-SDK (= 4.0.0)
     - Rudder (~> 1.0)
@@ -176,10 +167,6 @@ PODS:
     - Flutter
     - Rudder-Firebase (= 3.0.0)
     - rudder_plugin_ios
-  - rudder_integration_kochava_flutter (1.0.0):
-    - Flutter
-    - Rudder-Kochava (= 1.0.1)
-    - rudder_plugin_ios
   - rudder_integration_leanplum_flutter (1.0.1):
     - Flutter
     - Rudder-Leanplum (= 1.0.2)
@@ -206,6 +193,7 @@ PODS:
     - SQLCipher/common
 
 DEPENDENCIES:
+  - Adjust (= 4.38.1)
   - Flutter (from `Flutter`)
   - rudder_integration_adjust_flutter (from `.symlinks/plugins/rudder_integration_adjust_flutter/ios`)
   - rudder_integration_amplitude_flutter (from `.symlinks/plugins/rudder_integration_amplitude_flutter/ios`)
@@ -213,7 +201,6 @@ DEPENDENCIES:
   - rudder_integration_appsflyer_flutter (from `.symlinks/plugins/rudder_integration_appsflyer_flutter/ios`)
   - rudder_integration_braze_flutter (from `.symlinks/plugins/rudder_integration_braze_flutter/ios`)
   - rudder_integration_firebase_flutter (from `.symlinks/plugins/rudder_integration_firebase_flutter/ios`)
-  - rudder_integration_kochava_flutter (from `.symlinks/plugins/rudder_integration_kochava_flutter/ios`)
   - rudder_integration_leanplum_flutter (from `.symlinks/plugins/rudder_integration_leanplum_flutter/ios`)
   - rudder_plugin_db_encryption (from `.symlinks/plugins/rudder_plugin_db_encryption/ios`)
   - rudder_plugin_ios (from `.symlinks/plugins/rudder_plugin_ios/ios`)
@@ -231,9 +218,6 @@ SPEC REPOS:
     - FirebaseInstallations
     - GoogleAppMeasurement
     - GoogleUtilities
-    - KochavaAdNetworkiOS
-    - KochavaCoreiOS
-    - KochavaTrackeriOS
     - Leanplum-iOS-SDK
     - MetricsReporter
     - nanopb
@@ -246,7 +230,6 @@ SPEC REPOS:
     - Rudder-Appsflyer
     - Rudder-Braze
     - Rudder-Firebase
-    - Rudder-Kochava
     - Rudder-Leanplum
     - RudderDatabaseEncryption
     - RudderKit
@@ -268,8 +251,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/rudder_integration_braze_flutter/ios"
   rudder_integration_firebase_flutter:
     :path: ".symlinks/plugins/rudder_integration_firebase_flutter/ios"
-  rudder_integration_kochava_flutter:
-    :path: ".symlinks/plugins/rudder_integration_kochava_flutter/ios"
   rudder_integration_leanplum_flutter:
     :path: ".symlinks/plugins/rudder_integration_leanplum_flutter/ios"
   rudder_plugin_db_encryption:
@@ -290,9 +271,6 @@ SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   GoogleAppMeasurement: c7d6fff39bf2d829587d74088d582e32d75133c3
   GoogleUtilities: d053d902a8edaa9904e1bd00c37535385b8ed152
-  KochavaAdNetworkiOS: b4a671bdb13deb8b1fef59efb34b57ac775aa49e
-  KochavaCoreiOS: c099a9e3d80eda82428374acb29ce61d7c275568
-  KochavaTrackeriOS: c6b14739bc31a10ce8c8737b75cfecf9394903b3
   Leanplum-iOS-SDK: 8115f65d185eb94d94c4ab08176dfcb4a8b97926
   MetricsReporter: 99596ee5003c69949ed2f50acc34aee83c42f843
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
@@ -305,7 +283,6 @@ SPEC CHECKSUMS:
   Rudder-Appsflyer: b19834ae8d933444411813556e0fe70a33df224a
   Rudder-Braze: e58e0e8163a2dcf0d45ec2d12bdb0ec3329c3681
   Rudder-Firebase: 9f061bf3c23900e1a8f32f8b079ae17e04874f17
-  Rudder-Kochava: 96f3a98355cc5c202f4b5e281c8db1758a09a710
   Rudder-Leanplum: e2c9ffa48ea227c3574998afa1e287061ad042ee
   rudder_integration_adjust_flutter: f6a577ba34897c0f0c632b9f5b4481655c64c5a0
   rudder_integration_amplitude_flutter: cd42eb43e0c6bf73b70ace1f89179d5c344f03f3
@@ -313,7 +290,6 @@ SPEC CHECKSUMS:
   rudder_integration_appsflyer_flutter: 47ac2556ff3b538c9ca5a144ca1c616a6ee6415b
   rudder_integration_braze_flutter: 7c05ce87d5bfc0f6dc00e641f09595e8867a1ebe
   rudder_integration_firebase_flutter: e68a0a215725a04883a83c7f0d16b68f3d6c217d
-  rudder_integration_kochava_flutter: 8403b6f8f797c742e43d38dd24a803f1e7186a81
   rudder_integration_leanplum_flutter: e78fd45ea2b251891a8c1ced32071b3254077862
   rudder_plugin_db_encryption: dd7c5dccfe409c14a226dbc4be19256929060f9a
   rudder_plugin_ios: a337ccdc5313621e0b1260551e8ebbc6bb492c36
@@ -322,6 +298,6 @@ SPEC CHECKSUMS:
   SDWebImage: 40b0b4053e36c660a764958bff99eed16610acbb
   SQLCipher: 838309284f29953a28ad2e81d87d55ea6b7c74fd
 
-PODFILE CHECKSUM: a5f5d7f5a11db7c7e642078abfcd793cf55602b7
+PODFILE CHECKSUM: 4e777ae6648ce97fa9650180d69b098c3925a93a
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.15.2
