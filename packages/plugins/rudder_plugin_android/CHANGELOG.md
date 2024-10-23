@@ -1,3 +1,8 @@
+## 3.0.1
+
+ - **FIX**: flutter android build issue ([#187](https://github.com/rudderlabs/rudder-sdk-flutter/issues/187)). ([0f3e21cc](https://github.com/rudderlabs/rudder-sdk-flutter/commit/0f3e21cc5a74552d74fe13f43039f0f6d428a89c))
+ - **FIX**: version conflict issues ([#186](https://github.com/rudderlabs/rudder-sdk-flutter/issues/186)). ([d1009f71](https://github.com/rudderlabs/rudder-sdk-flutter/commit/d1009f719d3297e36941d0b0def4b30a004c91f0))
+
 ## 3.0.0
 
 > Note: This release has breaking changes.
