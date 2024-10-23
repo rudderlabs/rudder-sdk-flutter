@@ -1,3 +1,7 @@
+## 2.0.1
+
+ - **FIX**: version conflict issues ([#186](https://github.com/rudderlabs/rudder-sdk-flutter/issues/186)). ([d1009f71](https://github.com/rudderlabs/rudder-sdk-flutter/commit/d1009f719d3297e36941d0b0def4b30a004c91f0))
+
 ## 2.0.0
 
 > Note: This release has breaking changes.
