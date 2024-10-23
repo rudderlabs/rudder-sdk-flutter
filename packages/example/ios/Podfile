@@ -31,6 +31,9 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
+  # Fix Adjust iOS SDK to a particular version to avoid the build error caused by the breaking changes in the latest version
+  pod 'Adjust', '4.38.1'
+
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 

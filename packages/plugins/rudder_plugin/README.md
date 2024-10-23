@@ -18,7 +18,7 @@ Released under [MIT License](https://opensource.org/licenses/MIT)
 
 ```groovy
 dependencies:
-  rudder_sdk_flutter: ^2.1.0
+  rudder_sdk_flutter: ^3.0.0
 ```
 
 2. Navigate to your Application's root folder and install all the required dependencies with:
