@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
   s.dependency 'rudder_plugin_ios'
-  s.dependency 'Rudder-Kochava', '1.0.1'
+  s.dependency 'Rudder-Kochava', '>= 1.1.0-beta'
   s.platform = :ios, '9.0'
   s.static_framework = true
 
