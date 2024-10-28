@@ -29,8 +29,8 @@ dependencies:
     path: "../integrations/rudder_integration_leanplum_flutter"
   rudder_integration_appsflyer_flutter:
     path: "../integrations/rudder_integration_appsflyer_flutter"
-  # rudder_integration_kochava_flutter:
-  #   path: "../integrations/rudder_integration_kochava_flutter"
+  rudder_integration_kochava_flutter:
+    path: "../integrations/rudder_integration_kochava_flutter"
     # When depending on this package from a real application you should use:
     #   rudder_sdk_flutter: ^x.y.z
     # See https://dart.dev/tools/pub/dependencies#version-constraints

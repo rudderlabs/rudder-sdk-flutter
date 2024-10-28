@@ -32,6 +32,10 @@ android {
     defaultConfig {
         minSdkVersion 16
     }
+
+    configurations.configureEach {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    }
 }
 
 dependencies {
@@ -39,5 +43,5 @@ dependencies {
     implementation 'com.rudderstack.android.sdk:core:[1.21.3 2.0.0)'
     implementation project(path: ':rudder_plugin_android')
     // RudderStack Kochava-SDK
-    implementation 'com.rudderstack.android.integration:kochava:1.0.1'
+    implementation 'com.rudderstack.android.integration:kochava:1.0.1-SNAPSHOT'
 }

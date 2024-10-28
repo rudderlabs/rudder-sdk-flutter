@@ -2,12 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:rudder_plugin_db_encryption/rudder_plugin_db_encryption.dart';
 import 'package:rudder_sdk_flutter/RudderController.dart';
-import 'package:rudder_integration_appcenter_flutter/rudder_integration_appcenter_flutter.dart';
-import 'package:rudder_integration_braze_flutter/rudder_integration_braze_flutter.dart';
-import 'package:rudder_integration_firebase_flutter/rudder_integration_firebase_flutter.dart';
-import 'package:rudder_integration_amplitude_flutter/rudder_integration_amplitude_flutter.dart';
+import 'package:rudder_integration_kochava_flutter/rudder_integration_kochava_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
@@ -24,48 +20,18 @@ class HomeScreenState extends State<HomeScreen> {
   final RudderController rudderClient = RudderController.instance;
 
   void __identify() {
-    RudderTraits traits = RudderTraits()
-        .putName("Sai Venkat")
-        .putAge("22")
-        .put("city", "Hyderabad")
-        .put("state", "Telangana")
-        .putValue({"key1": "value1", "key2": "value2"}).put("details", {
-      "hobby": "football",
-      "fav_color": "red"
-    }).putEmail("saivenkatdesu@gmail.com");
-    rudderClient.identify("161FA04009", traits: traits);
-    setOutput(
-        "identify : \nname:Sai Venkat\nage: 22\nemail:saivenkatdesu@gmail.com"
-        "\nuserId: 161FA04009\ntraits:empty");
+    rudderClient.identify("161FA04009");
+    setOutput("identify : \nuserId: 161FA04009\ntraits:empty");
   }
 
   void __initialize() {
-    RudderDBEncryption dbEncryption = RudderDBEncryption(true, "password");
-    MobileConfig mc = MobileConfig(
-        autoCollectAdvertId: false,
-        sessionTimeoutInMillis: 6000,
-        dbEncryption: dbEncryption,
-        gzip: false,
-        recordScreenViews: true,
-        collectDeviceId: false);
-    WebConfig wc = WebConfig(
-      storage: StorageOpts(type: StorageType.localStorage, entries: {
-        UserSessionKey.anonymousId:
-            StorageEntry(type: StorageType.cookieStorage)
-      }),
-      lockIntegrationsVersion: true,
-      lockPluginsVersion: true,
-    );
+    MobileConfig mc = MobileConfig(gzip: false, trackLifecycleEvents: false);
     RudderConfigBuilder builder = RudderConfigBuilder();
     builder
-      ..withFactory(RudderIntegrationAppcenterFlutter())
-      ..withFactory(RudderIntegrationFirebaseFlutter())
-      ..withFactory(RudderIntegrationBrazeFlutter())
-      ..withFactory(RudderIntegrationAmplitudeFlutter())
+      ..withFactory(RudderIntegrationKochavaFlutter())
       ..withDataPlaneUrl(
           dotenv.env['DATA_PLANE_URL'] ?? "https://hosted.rudderlabs.com")
       ..withMobileConfig(mc)
-      ..withWebConfig(wc)
       ..withLogLevel(RudderLogger.VERBOSE)
       ..withDataResidencyServer(DataResidencyServer.US);
     String writeKey = dotenv.env['WRITE_KEY'] ?? "INVALID_WRITE_KEY";
@@ -76,93 +42,83 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void __track() {
-    RudderProperty property = RudderProperty();
-    property
-      ..put("colour", "red")
-      ..put("manufacturer", "hyundai")
-      ..put("model", "i20")
-      ..put("marks", [1, 2, 3, 4])
-      ..put("something nested", [
-        {
-          "nest_2": [76, 78],
-          "nest_2_1": {"nest_2_2": "some val"}
-        },
-        {
-          "string_arr": ["a", "b"]
-        }
-      ]);
+    rudderClient.track(
+      "Order Completed",
+      properties: RudderProperty()
+        ..put("products", getMultipleProductsAsList())
+        ..put("revenue", 8.99)
+        ..put("currency", "USD")
+        ..put("quantity", 2)
+        ..put("order_id", "order123")
+        ..put("checkout_id", "check123")
+        ..put("custom_1", "string")
+        ..put("custom_2", 1230)
+        ..put("custom_3", true),
+    );
 
-    RudderOption options = RudderOption();
-    options
-      ..putIntegration("All", true)
-      ..putIntegration("Mixpanel", false)
-      ..putCustomContext("address", {
-        "city": "kolkata",
-        "pin": "700091",
-        "state": {"name": "West Bengal", "code": "WB"},
-        "country": {"name": "India", "code": "IN"},
-        "zone": 12,
-        "lat": 22.5726,
-      });
+    rudderClient.track(
+      "Order Completed",
+      properties: RudderProperty()
+        ..put("products", getSingleProductsAsJSON())
+        ..put("revenue", 14)
+        ..put("currency", "USD")
+        ..put("quantity", 1)
+        ..put("sku", "G-32")
+        ..put("productId", 123),
+    );
 
-    rudderClient.track("Went on a drive web",
-        properties: property, options: options);
+    rudderClient.track(
+      "Checkout Started",
+      properties: RudderProperty()
+        ..put("products", getMultipleProductsAsList())
+        ..put("currency", "USD")
+        ..put("order_id", "order123")
+        ..put("product_id", "pro123")
+        ..put("custom_1", "string")
+        ..put("custom_2", 1230)
+        ..put("custom_3", true),
+    );
 
-    setOutput(
-        "track:\n\tproperty:\n\t\tcolour:red\n\t\tmanufacturer:hyundai\n\t\tmodel:i20"
-        "\n\toptions:\n\t\tall:false\n\t\tMixpanel:false\n\tevent: Went on a drive");
+    rudderClient.track(
+      "Product Added to Wishlist",
+      properties: RudderProperty()
+        ..put("name", "Gold")
+        ..put("quantity", 678),
+    );
+
+    rudderClient.track(
+      "Product Added",
+      properties: RudderProperty()
+        ..put("product_id", "product_001")
+        ..put("name", "Gold")
+        ..put("quantity", 678),
+    );
+
+    rudderClient.track(
+      "product reviewed",
+      properties: RudderProperty()..put("rating", 5),
+    );
+
+    rudderClient.track(
+      "products searched",
+      properties: RudderProperty()..put("query", "www.facebook.com"),
+    );
+
+    rudderClient.track("Custom track event");
   }
 
   void __screen() {
     RudderProperty screenProperty = RudderProperty();
     screenProperty
-      ..put("browser", "chrome")
-      ..put("device", "mac book pro");
-    rudderClient.screen("Walmart Cart web",
+      ..put("key-1", "value-1")
+      ..put("key-2", 200);
+    rudderClient.screen("RS Screen Event",
         category: "home", properties: screenProperty, options: null);
-
-    setOutput(
-        "screen:\n\tproperty:\n\t\tbrowser: chrome\n\t\tdevice: mac book pro\n\t\tname:Walmart Cart");
-  }
-
-  void __group() {
-    RudderTraits groupTraits = RudderTraits();
-    groupTraits
-      ..put("place", "kolkata")
-      ..put("size", "fifteen")
-      ..put("details", {"domain": "SDK", "type": "flutter"})
-      ..putValue({"key1": "value1", "key2": "value2"});
-    rudderClient.group("Integrations-Rudder", groupTraits: groupTraits);
-    setOutput(
-        "group\n\ttraits:\n\t\tplace:kolkata\n\t\tsize:fifteen\n\tid: Integrations-Rudder");
   }
 
   void __reset() {
     rudderClient.reset(clearAnonymousId: true);
     setOutput("reset");
-  }
-
-  void __alias() {
-    rudderClient.alias("4009");
-    setOutput("alias : 4009");
-  }
-
-  void __startSession() {
-    rudderClient.startSession();
-  }
-
-  void __endSession() {
-    rudderClient.endSession();
-  }
-
-  Future<void> __getSessionId() async {
-    int? sessionId = await rudderClient.getSessionId();
-    setOutput("Session Id : $sessionId");
-  }
-
-  Future<void> __getRudderContext() async {
-    Map? context = await rudderClient.getRudderContext();
-    setOutput(context.toString());
   }
 
 //text to be displayed
@@ -172,6 +128,29 @@ class HomeScreenState extends State<HomeScreen> {
     setState(() {
       _output = "output - $text";
     });
+  }
+
+  List<Map<String, dynamic>> getMultipleProductsAsList() {
+    final Map<String, dynamic> product1 = {
+      "product_id": "pro1",
+      "name": "monopoly"
+    };
+
+    final Map<String, dynamic> product2 = {
+      "product_id": "pro2",
+      "name": "games"
+    };
+
+    return [product1, product2];
+  }
+
+  List<Map<String, dynamic>> getSingleProductsAsJSON() {
+    final Map<String, dynamic> product1 = {
+      "product_id": 123.87,
+      "name": "Monopoly"
+    };
+
+    return [product1];
   }
 
   @override
@@ -204,40 +183,8 @@ class HomeScreenState extends State<HomeScreen> {
                       child: const Text('Screen'),
                     ),
                     ElevatedButton(
-                      onPressed: __group,
-                      child: const Text('Group'),
-                    ),
-                    ElevatedButton(
-                      onPressed: __startSession,
-                      child: const Text('Start Session'),
-                    ),
-                    ElevatedButton(
-                      onPressed: __endSession,
-                      child: const Text('End Session'),
-                    ),
-                    ElevatedButton(
-                        onPressed: __getSessionId,
-                        child: const Text('Get Session Id')),
-                    ElevatedButton(
                       onPressed: __reset,
                       child: const Text('Reset'),
-                    ),
-                    ElevatedButton(
-                      onPressed: __alias,
-                      child: const Text('Alias'),
-                    ),
-                    ElevatedButton(
-                      child: const Text('Rudder Context'),
-                      onPressed: () async => await __getRudderContext(),
-                    ),
-                    ElevatedButton(
-                      onPressed: __getRudderContext,
-                      child: const Text('Set Advertsing ID'),
-                    ),
-                    ElevatedButton(
-                      child: const Text('Go to screen 2'),
-                      onPressed: () =>
-                          Navigator.of(context).pushNamed('screen2'),
                     ),
                     Text(_output)
                   ],
