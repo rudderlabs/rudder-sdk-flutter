@@ -39,7 +39,7 @@ dependencies {
     implementation 'com.rudderstack.android.sdk:core:[1.7.0, 2.0.0)'
     implementation project(path: ':rudder_plugin_android')
     //Rudder-Firebase Android Device Mode
-    implementation('com.rudderstack.android.integration:firebase:3.2.0')
+    implementation('com.rudderstack.android.integration:firebase:[3.2.0, 4.0.0)')
     // Firebase SDK Dependencies
     implementation platform('com.google.firebase:firebase-bom:[33.5.1, 34.0)')
     implementation 'com.google.firebase:firebase-analytics'
