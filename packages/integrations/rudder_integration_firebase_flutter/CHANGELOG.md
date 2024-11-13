@@ -1,3 +1,7 @@
+## 4.1.0
+
+ - **FEAT**: update firebase SDKs to the latest version ([#191](https://github.com/rudderlabs/rudder-sdk-flutter/issues/191)). ([6b21414d](https://github.com/rudderlabs/rudder-sdk-flutter/commit/6b21414d6cc48035784fbade21a68efea9a7b2ca))
+
 ## 4.0.0
 
 > Note: This release has breaking changes.
