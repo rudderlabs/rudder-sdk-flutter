@@ -49,7 +49,7 @@ class RudderLogger {
 
   static void logVerbose(String message) {
     if (__logLevel >= VERBOSE) {
-      _logger.v(__TAG, error: "Verbose: $message");
+      _logger.t(__TAG, error: "Verbose: $message");
     }
   }
 }

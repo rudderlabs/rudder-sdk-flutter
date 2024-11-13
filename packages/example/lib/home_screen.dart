@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:rudder_integration_clevertap_flutter/rudder_integration_clevertap_flutter.dart';
 import 'package:rudder_plugin_db_encryption/rudder_plugin_db_encryption.dart';
 import 'package:rudder_sdk_flutter/RudderController.dart';
 import 'package:rudder_integration_appcenter_flutter/rudder_integration_appcenter_flutter.dart';
@@ -62,6 +63,7 @@ class HomeScreenState extends State<HomeScreen> {
       ..withFactory(RudderIntegrationFirebaseFlutter())
       ..withFactory(RudderIntegrationBrazeFlutter())
       ..withFactory(RudderIntegrationAmplitudeFlutter())
+      ..withFactory(RudderIntegrationClevertapFlutter())
       ..withDataPlaneUrl(
           dotenv.env['DATA_PLANE_URL'] ?? "https://hosted.rudderlabs.com")
       ..withMobileConfig(mc)
