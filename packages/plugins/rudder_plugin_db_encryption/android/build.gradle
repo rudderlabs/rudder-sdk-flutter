@@ -1,57 +1,41 @@
 group 'com.rudderstack.rudder_plugin_db_encryption'
 version '1.0'
 
-buildscript {
-  repositories {
-    google()
-    mavenCentral()
-  }
-
-  dependencies {
-    classpath 'com.android.tools.build:gradle:7.3.0'
-  }
-}
-
-rootProject.allprojects {
-  repositories {
-    google()
-    mavenCentral()
-  }
-}
-
 apply plugin: 'com.android.library'
 
 android {
-  compileSdkVersion 31
+    compileSdkVersion 31
 
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-  }
-
-  defaultConfig {
-    minSdkVersion 16
-  }
-
-  dependencies {
-    // Rudder dependencies
-    implementation project(path: ':rudder_plugin_android')
-
-    //sql-cipher dependencies
-    implementation "net.zetetic:sqlcipher-android:4.5.6@aar"
-    implementation "androidx.sqlite:sqlite:2.4.0"
-
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:5.0.0'
-  }
-
-  testOptions {
-    unitTests.all {
-      testLogging {
-        events "passed", "skipped", "failed", "standardOut", "standardError"
-        outputs.upToDateWhen { false }
-        showStandardStreams = true
-      }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
-  }
+
+    defaultConfig {
+        minSdkVersion 16
+    }
+
+    namespace = "com.rudderstack.rudder_plugin_db_encryption"
+
+    dependencies {
+        // Rudder dependencies
+        implementation project(path: ':rudder_plugin_android')
+
+        //sql-cipher dependencies
+        implementation "net.zetetic:sqlcipher-android:4.5.6@aar"
+        implementation "androidx.sqlite:sqlite:2.4.0"
+
+        testImplementation 'junit:junit:4.13.2'
+        testImplementation 'org.mockito:mockito-core:5.0.0'
+    }
+
+    testOptions {
+        unitTests.all {
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen { false }
+                showStandardStreams = true
+            }
+        }
+    }
 }

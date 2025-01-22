@@ -1,3 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.rudderstack.rudder_plugin_db_encryption">
-</manifest>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" />
