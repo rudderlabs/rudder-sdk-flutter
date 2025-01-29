@@ -1,3 +1,7 @@
+## 4.2.0
+
+ - **FEAT**: make flutter packages compatible with gradle v8xx ([#199](https://github.com/rudderlabs/rudder-sdk-flutter/issues/199)). ([ebb80e80](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ebb80e80d87028370ef6c86ecc2afc0521719ec8))
+
 ## 4.1.0
 
  - **FEAT**: update firebase SDKs to the latest version ([#191](https://github.com/rudderlabs/rudder-sdk-flutter/issues/191)). ([6b21414d](https://github.com/rudderlabs/rudder-sdk-flutter/commit/6b21414d6cc48035784fbade21a68efea9a7b2ca))

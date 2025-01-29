@@ -7,10 +7,6 @@ buildscript {
         mavenCentral()
         maven { url "https://appboy.github.io/appboy-android-sdk/sdk" }
     }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
-    }
 }
 
 rootProject.allprojects {
@@ -34,6 +30,7 @@ android {
     defaultConfig {
         minSdkVersion 16
     }
+    namespace = "com.rudderstack.sdk.flutter.integrations.rudder_integration_braze_flutter"
 }
 
 dependencies {

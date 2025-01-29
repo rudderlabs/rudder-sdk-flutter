@@ -1,6 +1,6 @@
 name: rudder_plugin_db_encryption
 description: The DB Encryption Plugin for the RudderStack Flutter SDK allows you to encrypt the database of your Flutter app. It can be easily integrated into your Flutter application. After integrating this SDK, you will also send the event data to your preferred analytics destination/s, such as Google Analytics, Amplitude, and more.
-version: 1.1.2
+version: 1.2.0
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 repository: https://github.com/rudderlabs/rudder-sdk-flutter
 issue_tracker: https://github.com/rudderlabs/rudder-sdk-flutter/issues
@@ -15,8 +15,8 @@ dependencies:
   flutter:
     sdk: flutter
   plugin_platform_interface: ^2.0.2
-  rudder_sdk_flutter: ^3.0.1
-  rudder_sdk_flutter_platform_interface: ^3.0.0
+  rudder_sdk_flutter: ^3.1.0
+  rudder_sdk_flutter_platform_interface: ^3.1.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

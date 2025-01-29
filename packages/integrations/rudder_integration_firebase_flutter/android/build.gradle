@@ -1,24 +1,6 @@
 group 'com.rudderstack.sdk.flutter.integrations.rudder_integration_firebase_flutter'
 version '1.0'
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
-    }
-}
-
-rootProject.allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
 apply plugin: 'com.android.library'
 
 android {
@@ -32,6 +14,7 @@ android {
     defaultConfig {
         minSdkVersion 16
     }
+    namespace = "com.rudderstack.sdk.flutter.integrations.rudder_integration_firebase_flutter"
 }
 
 dependencies {
