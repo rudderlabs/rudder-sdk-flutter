@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**: make flutter packages compatible with gradle v8xx ([#199](https://github.com/rudderlabs/rudder-sdk-flutter/issues/199)). ([ebb80e80](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ebb80e80d87028370ef6c86ecc2afc0521719ec8))
+
 ## 2.0.1
 
  - **FIX**: flutter android build issue ([#187](https://github.com/rudderlabs/rudder-sdk-flutter/issues/187)). ([0f3e21cc](https://github.com/rudderlabs/rudder-sdk-flutter/commit/0f3e21cc5a74552d74fe13f43039f0f6d428a89c))
