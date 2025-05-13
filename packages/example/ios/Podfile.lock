@@ -3,34 +3,18 @@ PODS:
     - Adjust/Core (= 4.38.1)
   - Adjust/Core (4.38.1)
   - Amplitude (7.2.2)
-  - Appboy-iOS-SDK (4.4.2):
-    - Appboy-iOS-SDK/UI (= 4.4.2)
-  - Appboy-iOS-SDK/ContentCards (4.4.2):
-    - Appboy-iOS-SDK/Core
-    - SDWebImage (< 6, >= 5.8.2)
-  - Appboy-iOS-SDK/Core (4.4.2)
-  - Appboy-iOS-SDK/InAppMessage (4.4.2):
-    - Appboy-iOS-SDK/Core
-    - SDWebImage (< 6, >= 5.8.2)
-  - Appboy-iOS-SDK/NewsFeed (4.4.2):
-    - Appboy-iOS-SDK/Core
-    - SDWebImage (< 6, >= 5.8.2)
-  - Appboy-iOS-SDK/UI (4.4.2):
-    - Appboy-iOS-SDK/ContentCards
-    - Appboy-iOS-SDK/Core
-    - Appboy-iOS-SDK/InAppMessage
-    - Appboy-iOS-SDK/NewsFeed
-  - AppCenter (5.0.5):
-    - AppCenter/Analytics (= 5.0.5)
-    - AppCenter/Crashes (= 5.0.5)
-  - AppCenter/Analytics (5.0.5):
+  - AppCenter (5.0.6):
+    - AppCenter/Analytics (= 5.0.6)
+    - AppCenter/Crashes (= 5.0.6)
+  - AppCenter/Analytics (5.0.6):
     - AppCenter/Core
-  - AppCenter/Core (5.0.5)
-  - AppCenter/Crashes (5.0.5):
+  - AppCenter/Core (5.0.6)
+  - AppCenter/Crashes (5.0.6):
     - AppCenter/Core
   - AppsFlyerFramework (6.9.2):
     - AppsFlyerFramework/Main (= 6.9.2)
   - AppsFlyerFramework/Main (6.9.2)
+  - BrazeKit (11.1.1)
   - FirebaseAnalytics (11.4.0):
     - FirebaseAnalytics/AdIdSupport (= 11.4.0)
     - FirebaseCore (~> 11.0)
@@ -49,14 +33,14 @@ PODS:
     - GoogleUtilities/Network (~> 8.0)
     - "GoogleUtilities/NSData+zlib (~> 8.0)"
     - nanopb (~> 3.30910.0)
-  - FirebaseCore (11.4.2):
-    - FirebaseCoreInternal (< 12.0, >= 11.4.2)
+  - FirebaseCore (11.12.0):
+    - FirebaseCoreInternal (~> 11.12.0)
     - GoogleUtilities/Environment (~> 8.0)
     - GoogleUtilities/Logger (~> 8.0)
-  - FirebaseCoreInternal (11.4.2):
+  - FirebaseCoreInternal (11.12.0):
     - "GoogleUtilities/NSData+zlib (~> 8.0)"
-  - FirebaseInstallations (11.4.0):
-    - FirebaseCore (~> 11.0)
+  - FirebaseInstallations (11.12.0):
+    - FirebaseCore (~> 11.12.0)
     - GoogleUtilities/Environment (~> 8.0)
     - GoogleUtilities/UserDefaults (~> 8.0)
     - PromisesObjC (~> 2.4)
@@ -119,7 +103,7 @@ PODS:
   - nanopb/encode (3.30910.0)
   - PromisesObjC (2.4.0)
   - RSCrashReporter (1.0.1)
-  - Rudder (1.30.0):
+  - Rudder (1.31.1):
     - MetricsReporter (= 2.0.0)
   - Rudder-Adjust (1.0.0):
     - Adjust
@@ -133,10 +117,10 @@ PODS:
   - Rudder-Appsflyer (2.2.0):
     - AppsFlyerFramework (~> 6.9.1)
     - Rudder (~> 1.0)
-  - Rudder-Braze (1.0.3):
-    - Appboy-iOS-SDK (= 4.4.2)
-    - Rudder (~> 1.0)
-  - Rudder-Firebase (3.5.0):
+  - Rudder-Braze (4.0.0):
+    - BrazeKit (~> 11.1.1)
+    - Rudder (~> 1.26)
+  - Rudder-Firebase (3.6.0):
     - FirebaseAnalytics (~> 11.4.0)
     - Rudder (~> 1.29)
   - Rudder-Leanplum (1.0.2):
@@ -160,7 +144,7 @@ PODS:
     - rudder_plugin_ios
   - rudder_integration_braze_flutter (1.0.1):
     - Flutter
-    - Rudder-Braze (= 1.0.3)
+    - Rudder-Braze (~> 4.0)
     - rudder_plugin_ios
   - rudder_integration_firebase_flutter (2.0.0):
     - Flutter
@@ -182,13 +166,10 @@ PODS:
     - Rudder (~> 1.20)
     - SQLCipher (~> 4.0)
   - RudderKit (1.4.0)
-  - SDWebImage (5.20.0):
-    - SDWebImage/Core (= 5.20.0)
-  - SDWebImage/Core (5.20.0)
-  - SQLCipher (4.6.1):
-    - SQLCipher/standard (= 4.6.1)
-  - SQLCipher/common (4.6.1)
-  - SQLCipher/standard (4.6.1):
+  - SQLCipher (4.7.0):
+    - SQLCipher/standard (= 4.7.0)
+  - SQLCipher/common (4.7.0)
+  - SQLCipher/standard (4.7.0):
     - SQLCipher/common
 
 DEPENDENCIES:
@@ -208,9 +189,9 @@ SPEC REPOS:
   trunk:
     - Adjust
     - Amplitude
-    - Appboy-iOS-SDK
     - AppCenter
     - AppsFlyerFramework
+    - BrazeKit
     - FirebaseAnalytics
     - FirebaseCore
     - FirebaseCoreInternal
@@ -232,7 +213,6 @@ SPEC REPOS:
     - Rudder-Leanplum
     - RudderDatabaseEncryption
     - RudderKit
-    - SDWebImage
     - SQLCipher
 
 EXTERNAL SOURCES:
@@ -260,13 +240,13 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Adjust: e449a8b88cd2261d8f548df023823f7e861a059c
   Amplitude: 517cdc7c485bda64b685174426ecbf17746eb16a
-  Appboy-iOS-SDK: 4a7dfe908639da81e5e85849355f6066b58b4cc6
-  AppCenter: 994875ea7941b9e168babb98299f900a94bcef13
+  AppCenter: 395cc12b428b8fdf12e9f92294d93a55bac389e4
   AppsFlyerFramework: 75e2e46970e520c88b0456dc6fae98c51b36163a
+  BrazeKit: 879da791a0f4e247846a06c6de95f8b93f4579df
   FirebaseAnalytics: 3feef9ae8733c567866342a1000691baaa7cad49
-  FirebaseCore: 6b32c57269bd999aab34354c3923d92a6e5f3f84
-  FirebaseCoreInternal: 35731192cab10797b88411be84940d2beb33a238
-  FirebaseInstallations: 6ef4a1c7eb2a61ee1f74727d7f6ce2e72acf1414
+  FirebaseCore: 9d7a0caf39ec7317fbe13b3c7864c8c2acc60da8
+  FirebaseCoreInternal: 480d23e21f699cc7bcbc3d8eaa301f15d1e3ffaf
+  FirebaseInstallations: 41189d8b11007152d9e46ec844019f38a0a4282a
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   GoogleAppMeasurement: 987769c4ca6b968f2479fbcc9fe3ce34af454b8e
   GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
@@ -275,28 +255,27 @@ SPEC CHECKSUMS:
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RSCrashReporter: 6b8376ac729b0289ebe0908553e5f56d8171f313
-  Rudder: 408085701df64dd8258f47c4af0b6f8cff5ac581
+  Rudder: 352cb3417238fb84cc083826d9a5a7cc91efaa69
   Rudder-Adjust: 5f14011c8f7237d80a96a10655ac03ebf832bcc4
   Rudder-Amplitude: f845cc125a1a58d4de6155391a2b0392815ae898
   Rudder-AppCenter: 9eca9241e3707a0e9610714dd91dc8da4bae7e1f
   Rudder-Appsflyer: b19834ae8d933444411813556e0fe70a33df224a
-  Rudder-Braze: e58e0e8163a2dcf0d45ec2d12bdb0ec3329c3681
-  Rudder-Firebase: 8f47fae73f71cb000d01fe557f523bd0a03fb178
+  Rudder-Braze: 0bdbacc1fb37b556f0f7cbd62ecb255498443105
+  Rudder-Firebase: d66ed5a8ef4a7dde1d6ce2997e6cfac262c098be
   Rudder-Leanplum: e2c9ffa48ea227c3574998afa1e287061ad042ee
-  rudder_integration_adjust_flutter: f6a577ba34897c0f0c632b9f5b4481655c64c5a0
-  rudder_integration_amplitude_flutter: cd42eb43e0c6bf73b70ace1f89179d5c344f03f3
-  rudder_integration_appcenter_flutter: 8c2a4dbc34238ca901cd86aa003fc8a9dc693a1c
-  rudder_integration_appsflyer_flutter: 47ac2556ff3b538c9ca5a144ca1c616a6ee6415b
-  rudder_integration_braze_flutter: 7c05ce87d5bfc0f6dc00e641f09595e8867a1ebe
-  rudder_integration_firebase_flutter: 6e496146b42e1ee1b0ea1acfa7b6babf304f92a5
-  rudder_integration_leanplum_flutter: e78fd45ea2b251891a8c1ced32071b3254077862
-  rudder_plugin_db_encryption: dd7c5dccfe409c14a226dbc4be19256929060f9a
-  rudder_plugin_ios: a337ccdc5313621e0b1260551e8ebbc6bb492c36
+  rudder_integration_adjust_flutter: 85499bbe06186aad51dcc37dd313e7514068279a
+  rudder_integration_amplitude_flutter: 0188f8cb0b50035031d24e2ed1250cd0eb7f4f90
+  rudder_integration_appcenter_flutter: db23d17bce256934fd3f4ac06352db7b8c6e1ffe
+  rudder_integration_appsflyer_flutter: 3e991dec31882ebca96ce8e61451dd535b820702
+  rudder_integration_braze_flutter: a8c8f898c10e5235ece7404cc6e5f23b864780c7
+  rudder_integration_firebase_flutter: 8ac1f770bc71ffea373b164b53d2dadd38660dae
+  rudder_integration_leanplum_flutter: 957f3c7ea226c21155766a22c0a34704750a59df
+  rudder_plugin_db_encryption: 4e84d0f08521538582d5c688a1245faca48f3ee3
+  rudder_plugin_ios: 4361db2778b3dea839bf508ec6674fc09c5256a7
   RudderDatabaseEncryption: 409b8623c114a43af6332a694601373fde45e1ca
   RudderKit: f272f9872183946452ac94cd7bb2244a71e6ca8f
-  SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
-  SQLCipher: 77fbe633cd84db04b07876dd50766b4924b57d61
+  SQLCipher: ba9d0076041ed767c5bd3d3f77098318d04a403c
 
-PODFILE CHECKSUM: 4e777ae6648ce97fa9650180d69b098c3925a93a
+PODFILE CHECKSUM: 08ffa6de81fe1ad2a1887c61415ac02514baa72e
 
 COCOAPODS: 1.16.2

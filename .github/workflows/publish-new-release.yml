@@ -53,7 +53,7 @@ jobs:
           echo "DATE=$(date)" >> $GITHUB_ENV
 
       - name: Create pull request into develop
-        uses: repo-sync/pull-request@v2
+        uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 #v2
         with:
           source_branch: 'main'
           destination_branch: 'develop'
@@ -80,7 +80,7 @@ jobs:
 
       - name: Send message to Slack channel
         id: slack
-        uses: slackapi/slack-github-action@v2.0.0
+        uses: slackapi/slack-github-action@v2.1.0
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           PROJECT_NAME: 'Flutter SDK monorepo (v2.x)'

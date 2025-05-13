@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: update braze integration to the latest version ([#206](https://github.com/rudderlabs/rudder-sdk-flutter/issues/206)). ([a5619dde](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a5619dde1f70511d7f521c1c14e740440fb0e06b))
+
 ## 2.1.0
 
  - **FEAT**: make flutter packages compatible with gradle v8xx ([#199](https://github.com/rudderlabs/rudder-sdk-flutter/issues/199)). ([ebb80e80](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ebb80e80d87028370ef6c86ecc2afc0521719ec8))
