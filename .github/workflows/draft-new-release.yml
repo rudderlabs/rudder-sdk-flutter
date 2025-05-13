@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Dart
-        uses: dart-lang/setup-dart@v1.3
+        uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d #v1.3
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -24,7 +24,7 @@ jobs:
           java-version: '11'
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046 #v2.19.0
         with:
           channel: 'stable'
           architecture: x64
@@ -90,7 +90,7 @@ jobs:
           git push --follow-tags
 
       - name: Create pull request into main
-        uses: repo-sync/pull-request@v2
+        uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 #v2
         with:
           source_branch: ${{ steps.create-release.outputs.branch_name }}
           destination_branch: 'main'
