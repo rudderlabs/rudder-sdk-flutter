@@ -104,8 +104,21 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   }
 
   @override
-  void reset({bool clearAnonymousId = false}) {
-    web_js.reset(clearAnonymousId);
+  void reset({
+    @Deprecated('Use options parameter instead. Will be removed in v4.0.0')
+    bool clearAnonymousId = false,
+    RudderResetOption? options,
+  }) {
+    // Handle backward compatibility and new options
+    if (options != null) {
+      // For web, we extract the clearAnonymousId from options for now
+      // The web SDK currently only supports clearAnonymousId parameter
+      // TODO: Extend web SDK to support full reset options in future
+      web_js.reset(options.clearAnonymousId);
+    } else {
+      // Fallback to legacy clearAnonymousId parameter
+      web_js.reset(clearAnonymousId);
+    }
   }
 
   @override

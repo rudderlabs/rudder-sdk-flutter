@@ -43,8 +43,32 @@ class RudderController {
     RudderSdkPlatform.instance.alias(newId, options: options);
   }
 
-  void reset({bool clearAnonymousId = false}) {
-    RudderSdkPlatform.instance.reset(clearAnonymousId: clearAnonymousId);
+  /// Resets the user identification and related data.
+  /// 
+  /// [clearAnonymousId] is deprecated and will be removed in v4.0.0.
+  /// Use [options] parameter instead with RudderResetOption(clearAnonymousId: true, resetDeviceState: false, resetIntegrationState: false).
+  /// 
+  /// [options] provides comprehensive control over what gets reset.
+  /// If both parameters are provided, [options] takes precedence.
+  /// 
+  /// Example usage:
+  /// ```dart
+  /// // Legacy usage (deprecated)
+  /// RudderController.reset(clearAnonymousId: true);
+  /// 
+  /// // New usage with options
+  /// RudderController.reset(options: RudderResetOption(clearAnonymousId: true));
+  /// RudderController.reset(options: RudderResetOption(clearAnonymousId: false, resetDeviceState: true, resetIntegrationState: true));
+  /// ```
+  void reset({
+    @Deprecated('Use options parameter instead. Will be removed in v4.0.0')
+    bool clearAnonymousId = false,
+    RudderResetOption? options,
+  }) {
+    RudderSdkPlatform.instance.reset(
+      clearAnonymousId: clearAnonymousId,
+      options: options,
+    );
   }
 
   void optOut(bool optOut) {

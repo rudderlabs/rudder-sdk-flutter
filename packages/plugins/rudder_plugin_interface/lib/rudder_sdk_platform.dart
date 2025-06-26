@@ -61,7 +61,18 @@ abstract class RudderSdkPlatform extends PlatformInterface {
     throw UnimplementedError('load(String writeKey, String dataPlaneUrl) has not been implemented.');
   }*/
 
-  void reset({bool clearAnonymousId = false}) {
+  /// Resets the user identification and related data.
+  /// 
+  /// [clearAnonymousId] is deprecated and will be removed in v4.0.0.
+  /// Use [options] parameter instead with RudderResetOption(clearAnonymousId: true, resetDeviceState: false, resetIntegrationState: false).
+  /// 
+  /// [options] provides comprehensive control over what gets reset.
+  /// If both parameters are provided, [options] takes precedence.
+  void reset({
+    @Deprecated('Use options parameter instead. Will be removed in v4.0.0')
+    bool clearAnonymousId = false,
+    RudderResetOption? options,
+  }) {
     throw UnimplementedError('reset() has not been implemented.');
   }
 

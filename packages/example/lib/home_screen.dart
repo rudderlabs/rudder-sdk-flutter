@@ -138,7 +138,12 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void __reset() {
+    // Legacy usage (deprecated)
+    rudderClient.reset();
     rudderClient.reset(clearAnonymousId: true);
+    // New usage with options
+    rudderClient.reset(options: RudderResetOption(clearAnonymousId: true));
+    rudderClient.reset(options: RudderResetOption(clearAnonymousId: true, resetDeviceState: false, resetIntegrationState: false));
     setOutput("reset");
   }
 

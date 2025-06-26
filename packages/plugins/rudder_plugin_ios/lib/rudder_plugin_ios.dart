@@ -112,9 +112,24 @@ class RudderSdkFlutterIos extends RudderSdkPlatform {
   }
 
   @override
-  void reset({bool clearAnonymousId = false}) {
+  void reset({
+    @Deprecated('Use options parameter instead. Will be removed in v4.0.0')
+    bool clearAnonymousId = false,
+    RudderResetOption? options,
+  }) {
     Map<String, dynamic> params = {};
-    params["clearAnonymousId"] = clearAnonymousId;
+    
+    // Handle backward compatibility and new options
+    if (options != null) {
+      // New options parameter takes precedence
+      params.addAll(options.toMobileMap());
+    } else {
+      // Fallback to legacy clearAnonymousId parameter
+      params["clearAnonymousId"] = clearAnonymousId;
+      params["resetDeviceState"] = true; // Default behavior
+      params["resetIntegrationState"] = true; // Default behavior
+    }
+    
     _platformChannel.invokeMethod("reset", params);
   }
 
