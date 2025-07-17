@@ -11,4 +11,9 @@ class BeaconQueueOpts {
       'flushQueueInterval': flushQueueInterval,
     };
   }
+
+  @override
+  String toString() {
+    return toMap().toString();
+  }
 }

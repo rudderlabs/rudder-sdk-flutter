@@ -25,6 +25,11 @@ class PreConsentStorageOptions {
       'strategy': strategy.name, // Convert enum to string
     };
   }
+
+  @override
+  String toString() {
+    return toMap().toString();
+  }
 }
 
 class PreConsentEventsOptions {
@@ -36,6 +41,11 @@ class PreConsentEventsOptions {
     return {
       'delivery': delivery.name, // Convert enum to string
     };
+  }
+
+  @override
+  String toString() {
+    return toMap().toString();
   }
 }
 
@@ -56,6 +66,11 @@ class PreConsentOptions {
       'storage': storage?.toMap(),
       'events': events?.toMap(),
     };
+  }
+
+  @override
+  String toString() {
+    return toMap().toString();
   }
 }
 
@@ -80,5 +95,10 @@ class ConsentManagementOptions {
       'allowedConsentIds': allowedConsentIds,
       'deniedConsentIds': deniedConsentIds,
     };
+  }
+
+  @override
+  String toString() {
+    return toMap().toString();
   }
 }

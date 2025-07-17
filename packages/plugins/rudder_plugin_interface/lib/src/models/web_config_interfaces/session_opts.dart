@@ -11,4 +11,9 @@ class SessionOpts {
       'timeout': timeout,
     };
   }
+
+  @override
+  String toString() {
+    return toMap().toString();
+  }
 }
