@@ -10,6 +10,7 @@ import 'package:rudder_integration_firebase_flutter/rudder_integration_firebase_
 import 'package:rudder_integration_amplitude_flutter/rudder_integration_amplitude_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 bool isInitialized = false;
 
@@ -25,22 +26,31 @@ class HomeScreenState extends State<HomeScreen> {
 
   void __identify() {
     RudderTraits traits = RudderTraits()
-        .putName("Sai Venkat")
+        .putName("John Doe")
         .putAge("22")
-        .put("city", "Hyderabad")
-        .put("state", "Telangana")
+        .put("city", "New York")
+        .put("state", "New York")
         .putValue({"key1": "value1", "key2": "value2"}).put("details", {
       "hobby": "football",
       "fav_color": "red"
-    }).putEmail("saivenkatdesu@gmail.com");
-    rudderClient.identify("161FA04009", traits: traits);
-    setOutput(
-        "identify : \nname:Sai Venkat\nage: 22\nemail:saivenkatdesu@gmail.com"
-        "\nuserId: 161FA04009\ntraits:empty");
+    }).putEmail("john.doe@example.com");
+
+    Map<String, dynamic> identifyArgs = {
+      "User ID": "1234567890",
+      "Traits": traits
+    };
+
+    rudderClient.identify(identifyArgs["User ID"] as String,
+        traits: identifyArgs["Traits"] as RudderTraits);
+
+    setOutput("identify: \n${identifyArgs.toString()}");
   }
 
   void __initialize() {
-    RudderDBEncryption dbEncryption = RudderDBEncryption(true, "password");
+    RudderDBEncryption? dbEncryption;
+    if (!kIsWeb) {
+      dbEncryption = RudderDBEncryption(true, "password");
+    }
     MobileConfig mc = MobileConfig(
         autoCollectAdvertId: false,
         sessionTimeoutInMillis: 6000,
@@ -56,23 +66,33 @@ class HomeScreenState extends State<HomeScreen> {
       lockIntegrationsVersion: true,
       lockPluginsVersion: true,
     );
+
+    Map<String, dynamic> initArgs = {
+      "Write Key": dotenv.env['WRITE_KEY'] as String,
+      "Data Plane URL": dotenv.env['DATA_PLANE_URL'] as String,
+      "Web Config": wc,
+      "Mobile Config": mc,
+      "Log Level": RudderLogger.VERBOSE,
+      "Data Residency Server": DataResidencyServer.US,
+    };
+
     RudderConfigBuilder builder = RudderConfigBuilder();
     builder
       ..withFactory(RudderIntegrationAppcenterFlutter())
       ..withFactory(RudderIntegrationFirebaseFlutter())
       ..withFactory(RudderIntegrationBrazeFlutter())
       ..withFactory(RudderIntegrationAmplitudeFlutter())
-      ..withDataPlaneUrl(
-          dotenv.env['DATA_PLANE_URL'] ?? "https://hosted.rudderlabs.com")
+      ..withDataPlaneUrl(initArgs["Data Plane URL"] as String)
       ..withMobileConfig(mc)
       ..withWebConfig(wc)
-      ..withLogLevel(RudderLogger.VERBOSE)
-      ..withDataResidencyServer(DataResidencyServer.US);
-    String writeKey = dotenv.env['WRITE_KEY'] ?? "INVALID_WRITE_KEY";
-    rudderClient.initialize(writeKey, config: builder.build(), options: null);
+      ..withLogLevel(initArgs["Log Level"] as int)
+      ..withDataResidencyServer(
+          initArgs["Data Residency Server"] as DataResidencyServer);
+    rudderClient.initialize(initArgs["Write Key"] as String,
+        config: builder.build(), options: null);
     isInitialized = true;
 
-    setOutput("initialize:\nwriteKey: $writeKey");
+    setOutput("initialize:\n${initArgs.toString()}");
   }
 
   void __track() {
@@ -105,12 +125,17 @@ class HomeScreenState extends State<HomeScreen> {
         "lat": 22.5726,
       });
 
-    rudderClient.track("Went on a drive web",
-        properties: property, options: options);
+    Map<String, dynamic> trackArgs = {
+      "Event": "Went on a drive web",
+      "Properties": property,
+      "Options": options
+    };
 
-    setOutput(
-        "track:\n\tproperty:\n\t\tcolour:red\n\t\tmanufacturer:hyundai\n\t\tmodel:i20"
-        "\n\toptions:\n\t\tall:false\n\t\tMixpanel:false\n\tevent: Went on a drive");
+    rudderClient.track(trackArgs["Event"] as String,
+        properties: trackArgs["Properties"] as RudderProperty,
+        options: trackArgs["Options"] as RudderOption);
+
+    setOutput("track:\n${trackArgs.toString()}");
   }
 
   void __screen() {
@@ -118,11 +143,20 @@ class HomeScreenState extends State<HomeScreen> {
     screenProperty
       ..put("browser", "chrome")
       ..put("device", "mac book pro");
-    rudderClient.screen("Walmart Cart web",
-        category: "home", properties: screenProperty, options: null);
 
-    setOutput(
-        "screen:\n\tproperty:\n\t\tbrowser: chrome\n\t\tdevice: mac book pro\n\t\tname:Walmart Cart");
+    Map<String, dynamic> screenArgs = {
+      "Name": "Walmart Cart web",
+      "Category": "home",
+      "Properties": screenProperty,
+      "Options": null
+    };
+
+    rudderClient.screen(screenArgs["Name"] as String,
+        category: screenArgs["Category"] as String,
+        properties: screenArgs["Properties"] as RudderProperty,
+        options: screenArgs["Options"]);
+
+    setOutput("screen:\n${screenArgs.toString()}");
   }
 
   void __group() {
@@ -132,9 +166,16 @@ class HomeScreenState extends State<HomeScreen> {
       ..put("size", "fifteen")
       ..put("details", {"domain": "SDK", "type": "flutter"})
       ..putValue({"key1": "value1", "key2": "value2"});
-    rudderClient.group("Integrations-Rudder", groupTraits: groupTraits);
-    setOutput(
-        "group\n\ttraits:\n\t\tplace:kolkata\n\t\tsize:fifteen\n\tid: Integrations-Rudder");
+
+    Map<String, dynamic> groupArgs = {
+      "Group ID": "Integrations-Rudder",
+      "Traits": groupTraits
+    };
+
+    rudderClient.group(groupArgs["Group ID"] as String,
+        groupTraits: groupArgs["Traits"] as RudderTraits);
+
+    setOutput("group:\n${groupArgs.toString()}");
   }
 
   void __reset() {
@@ -143,8 +184,11 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void __alias() {
-    rudderClient.alias("4009");
-    setOutput("alias : 4009");
+    Map<String, dynamic> aliasArgs = {"User ID": "4009"};
+
+    rudderClient.alias(aliasArgs["User ID"] as String);
+
+    setOutput("alias:\n${aliasArgs.toString()}");
   }
 
   void __startSession() {
@@ -157,12 +201,14 @@ class HomeScreenState extends State<HomeScreen> {
 
   Future<void> __getSessionId() async {
     int? sessionId = await rudderClient.getSessionId();
-    setOutput("Session Id : $sessionId");
+
+    setOutput("getSessionId:\n$sessionId");
   }
 
   Future<void> __getRudderContext() async {
     Map? context = await rudderClient.getRudderContext();
-    setOutput(context.toString());
+
+    setOutput("getRudderContext:\n${context.toString()}");
   }
 
 //text to be displayed
@@ -170,7 +216,7 @@ class HomeScreenState extends State<HomeScreen> {
 
   void setOutput(String text) {
     setState(() {
-      _output = "output - $text";
+      _output = text;
     });
   }
 
@@ -178,72 +224,191 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.only(top: 30.0),
-          child: SingleChildScrollView(
-            child: SafeArea(
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
                   children: [
-                    const Text("This is Home screen"),
-                    ElevatedButton(
-                      onPressed: __initialize,
-                      child: const Text('Initialize SDK'),
+                    const Text(
+                      "RudderStack Flutter Web SDK Example - Home Screen",
+                      style:
+                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
                     ),
-                    ElevatedButton(
-                      onPressed: __identify,
-                      child: const Text('Identify call'),
+                    const SizedBox(height: 16),
+                    Card(
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Initialization",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            const Divider(),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: __initialize,
+                                    child: const Text('Initialize SDK'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    ElevatedButton(
-                      onPressed: __track,
-                      child: const Text('Track'),
+                    const SizedBox(height: 12),
+                    Card(
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("User Actions",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            const Divider(),
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: __identify,
+                                  child: const Text('Identify User'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: __track,
+                                  child: const Text('Track Event'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: __screen,
+                                  child: const Text('Screen Event'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: __group,
+                                  child: const Text('Group'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: __alias,
+                                  child: const Text('Alias User'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    ElevatedButton(
-                      onPressed: __screen,
-                      child: const Text('Screen'),
+                    const SizedBox(height: 12),
+                    Card(
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Session Management",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            const Divider(),
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: __startSession,
+                                  child: const Text('Start Session'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: __endSession,
+                                  child: const Text('End Session'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: __getSessionId,
+                                  child: const Text('Get Session Id'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: __reset,
+                                  child: const Text('Reset'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    ElevatedButton(
-                      onPressed: __group,
-                      child: const Text('Group'),
+                    const SizedBox(height: 12),
+                    Card(
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Utilities",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            const Divider(),
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () async =>
+                                      await __getRudderContext(),
+                                  child: const Text('Get Rudder Context'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    ElevatedButton(
-                      onPressed: __startSession,
-                      child: const Text('Start Session'),
+                    const SizedBox(height: 12),
+                    Card(
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Navigation",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            const Divider(),
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () => Navigator.of(context)
+                                      .pushNamed('screen2'),
+                                  child: const Text('Go to screen 2'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    ElevatedButton(
-                      onPressed: __endSession,
-                      child: const Text('End Session'),
-                    ),
-                    ElevatedButton(
-                        onPressed: __getSessionId,
-                        child: const Text('Get Session Id')),
-                    ElevatedButton(
-                      onPressed: __reset,
-                      child: const Text('Reset'),
-                    ),
-                    ElevatedButton(
-                      onPressed: __alias,
-                      child: const Text('Alias'),
-                    ),
-                    ElevatedButton(
-                      child: const Text('Rudder Context'),
-                      onPressed: () async => await __getRudderContext(),
-                    ),
-                    ElevatedButton(
-                      onPressed: __getRudderContext,
-                      child: const Text('Set Advertsing ID'),
-                    ),
-                    ElevatedButton(
-                      child: const Text('Go to screen 2'),
-                      onPressed: () =>
-                          Navigator.of(context).pushNamed('screen2'),
-                    ),
-                    Text(_output)
                   ],
                 ),
               ),
-            ),
+              Container(
+                width: double.infinity,
+                color: Colors.black87,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                child: Text(
+                  _output,
+                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                  maxLines: 6,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
           ),
         ),
       ),

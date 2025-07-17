@@ -11,11 +11,7 @@ packages:
 
 command:
   bootstrap:
-    usePubspecOverrides: true
-    # It seems so that running "pub get" in parallel has some issues (like
-    # https://github.com/dart-lang/pub/issues/3404). Disabling this feature
-    # makes the CI much more stable.
-    runPubGetInParallel: false
+    enforceLockfile: true
 
   version:
     # Only allow versioning to happen on main branch.
@@ -83,6 +79,12 @@ scripts:
        - Requires `flutter_plugin_tools` (`dart pub global activate flutter_plugin_tools`).
        - Requires `clang-format` (can be installed via Brew on macOS).
        - Requires `swiftformat` (can be installed via Brew on macOS).
+
+  upgrade-dependencies:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter pub upgrade"
+    description: Upgrade all the dependencies.
 
   test:
     run: |

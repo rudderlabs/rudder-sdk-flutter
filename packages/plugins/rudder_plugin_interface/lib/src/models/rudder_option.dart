@@ -95,4 +95,9 @@ class RudderOption {
             MapEntry(integration, enabled is bool ? enabled : true));
     return integrationsMobile;
   }
+
+  @override
+  String toString() {
+    return toWebMap().toString();
+  }
 }
