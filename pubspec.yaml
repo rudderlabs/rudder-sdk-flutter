@@ -25,7 +25,7 @@ dependencies:
   rudder_integration_adjust_flutter: ^2.1.0
   rudder_integration_leanplum_flutter: ^2.1.0
   rudder_integration_kochava_flutter: ^2.1.0
-  rudder_plugin_interface: ^3.1.0
+  rudder_sdk_flutter_platform_interface: ^3.1.0
   rudder_plugin_android: ^3.1.0
   rudder_plugin_ios: ^3.1.0
   rudder_plugin_web: ^3.0.2
