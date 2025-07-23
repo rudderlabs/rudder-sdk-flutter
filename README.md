@@ -37,6 +37,5 @@ alter the name in the run:example:android command.
 
 Optionally for auto formatting source code via relevant Melos command you will need to install:
 
-- flutter_plugin_tools (dart pub global activate flutter_plugin_tools).
 - clang-format (can be installed via Brew on macOS).
 - swiftformat (can be installed via Brew on macOS).

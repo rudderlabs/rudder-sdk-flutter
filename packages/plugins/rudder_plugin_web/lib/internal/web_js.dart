@@ -1,5 +1,5 @@
 @JS()
-library rudder_analytics.js;
+library;
 
 import 'package:js/js.dart';
 // import 'package:rudder_sdk_flutter/RudderLogger.dart';

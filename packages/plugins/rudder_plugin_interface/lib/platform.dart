@@ -1,4 +1,4 @@
-library rudder_sdk_flutter_platform_interface;
+library;
 
 export 'src/constants.dart';
 export 'src/enums.dart';

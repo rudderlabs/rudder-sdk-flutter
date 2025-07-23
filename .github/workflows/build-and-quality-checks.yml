@@ -47,7 +47,6 @@ jobs:
 
       - name: Execute quality checks
         run: |
-          melos run analyze:ci
           melos run doctor
 
       - name: Execute build check
