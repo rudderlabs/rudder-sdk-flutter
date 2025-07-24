@@ -31,7 +31,7 @@ jobs:
 
       - name: Install Melos
         run: |
-          dart pub global activate melos 2.9.0
+          dart pub global activate melos 6.3.3
 
       # In order to make a commit, we need to initialize a user.
       # You may choose to write something less generic here if you want, it doesn't matter functionality wise.
@@ -95,6 +95,5 @@ jobs:
           source_branch: ${{ steps.create-release.outputs.branch_name }}
           destination_branch: 'main'
           github_token: ${{ secrets.PAT }}
-          pr_title: 'chore(release): pulling ${{ steps.create-release.outputs.branch_name }} into main'
+          pr_title: 'chore(release): pull ${{ steps.create-release.outputs.branch_name }} into main'
           pr_body: ':crown: *An automated PR*'
-          pr_reviewer: '@rudderlabs/sdk-flutter'

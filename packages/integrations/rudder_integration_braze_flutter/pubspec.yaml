@@ -4,8 +4,8 @@ version: 2.2.0
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 
 environment:
-  sdk: ">=2.17.6 <3.0.0"
-  flutter: ">=2.5.0"
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -14,8 +14,7 @@ dependencies:
   rudder_sdk_flutter: ^3.1.0
   rudder_sdk_flutter_platform_interface: ^3.1.0
 dev_dependencies:
-  flutter_lints: ^2.0.1
-  dart_code_metrics: ^5.7.6
+  flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
 

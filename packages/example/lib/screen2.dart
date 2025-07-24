@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Screen2 extends StatefulWidget {
-  const Screen2({Key? key}) : super(key: key);
+  const Screen2({super.key});
 
   @override
   Screen2State createState() => Screen2State();

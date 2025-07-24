@@ -14,7 +14,7 @@ import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 bool isInitialized = false;
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   HomeScreenState createState() => HomeScreenState();

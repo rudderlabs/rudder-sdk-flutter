@@ -43,7 +43,7 @@ jobs:
 
       - name: Install Melos
         run: |
-          dart pub global activate melos 2.9.0
+          dart pub  ^6.3.3
 
       - name: Install dependencies
         run: |

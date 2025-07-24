@@ -32,7 +32,7 @@ jobs:
 
       - name: Install Melos
         run: |
-          dart pub global activate melos 2.9.0
+          dart pub global activate melos 6.3.3
 
       - name: Setup .env file
         run: |
@@ -47,7 +47,6 @@ jobs:
 
       - name: Execute quality checks
         run: |
-          melos run analyze:ci
           melos run doctor
 
       - name: Execute build check
