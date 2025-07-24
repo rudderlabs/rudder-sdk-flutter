@@ -83,12 +83,6 @@ scripts:
       Run format for all the packages.
        - Requires `swiftformat` (can be installed via Brew on macOS).
 
-  upgrade-dependencies:
-    run: |
-      melos exec -c 1 --fail-fast -- \
-        "flutter pub upgrade"
-    description: Upgrade all the dependencies.
-
   test:
     run: |
       melos exec -c 1 --dir-exists="test" --ignore="*example*" -- \
