@@ -211,6 +211,35 @@ class HomeScreenState extends State<HomeScreen> {
     setOutput("getRudderContext:\n${context.toString()}");
   }
 
+  void __optOut() {
+    rudderClient.optOut(true);
+    setOutput("optOut: User opted out of tracking");
+  }
+
+  void __optIn() {
+    rudderClient.optOut(false);
+    setOutput("optIn: User opted back into tracking");
+  }
+
+  void __putAnonymousId() {
+    String anonymousId = "anonymous_${DateTime.now().millisecondsSinceEpoch}";
+    rudderClient.putAnonymousId(anonymousId);
+    setOutput("putAnonymousId: $anonymousId");
+  }
+
+  void __putDeviceToken() {
+    String deviceToken = "device_token_${DateTime.now().millisecondsSinceEpoch}";
+    rudderClient.putDeviceToken(deviceToken);
+    setOutput("putDeviceToken: $deviceToken");
+  }
+
+  void __putAdvertisingId() {
+    String advertisingId = "advertising_id_${DateTime.now().millisecondsSinceEpoch}";
+    rudderClient.putAdvertisingId(advertisingId);
+    setOutput("putAdvertisingId: $advertisingId");
+  }
+
+
 //text to be displayed
   String _output = "";
 
@@ -334,6 +363,89 @@ class HomeScreenState extends State<HomeScreen> {
                                 ElevatedButton(
                                   onPressed: __reset,
                                   child: const Text('Reset'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Card(
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Data Management",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            const Divider(),
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: __optOut,
+                                  child: const Text('Opt Out'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: __optIn,
+                                  child: const Text('Opt In'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Card(
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("User Identification",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            const Divider(),
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: __putAnonymousId,
+                                  child: const Text('Put Anonymous ID'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Card(
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Device Information",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            const Divider(),
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: __putDeviceToken,
+                                  child: const Text('Put Device Token'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: __putAdvertisingId,
+                                  child: const Text('Put Advertising ID'),
                                 ),
                               ],
                             ),
