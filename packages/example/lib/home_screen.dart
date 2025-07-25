@@ -1,5 +1,6 @@
-// ignore_for_file: unused_element
+// ignore_for_file: unused_element, avoid_print
 
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rudder_plugin_db_encryption/rudder_plugin_db_encryption.dart';
@@ -13,6 +14,7 @@ import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 bool isInitialized = false;
+const isRunningWithWasm = bool.fromEnvironment('dart.tool.dart2wasm');
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,6 +25,13 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   final RudderController rudderClient = RudderController.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    // Print WASM boolean value to output on startup
+    setOutput("Is Running with Wasm: $isRunningWithWasm");
+  }
 
   void __identify() {
     RudderTraits traits = RudderTraits()
@@ -43,7 +52,7 @@ class HomeScreenState extends State<HomeScreen> {
     rudderClient.identify(identifyArgs["User ID"] as String,
         traits: identifyArgs["Traits"] as RudderTraits);
 
-    setOutput("identify: \n${identifyArgs.toString()}");
+    setOutput("identify: \n${formatJson(identifyArgs)}");
   }
 
   void __initialize() {
@@ -92,7 +101,7 @@ class HomeScreenState extends State<HomeScreen> {
         config: builder.build(), options: null);
     isInitialized = true;
 
-    setOutput("initialize:\n${initArgs.toString()}");
+    setOutput("initialize:\n${formatJson(initArgs)}");
   }
 
   void __track() {
@@ -135,7 +144,7 @@ class HomeScreenState extends State<HomeScreen> {
         properties: trackArgs["Properties"] as RudderProperty,
         options: trackArgs["Options"] as RudderOption);
 
-    setOutput("track:\n${trackArgs.toString()}");
+    setOutput("track:\n${formatJson(trackArgs)}");
   }
 
   void __screen() {
@@ -156,7 +165,7 @@ class HomeScreenState extends State<HomeScreen> {
         properties: screenArgs["Properties"] as RudderProperty,
         options: screenArgs["Options"]);
 
-    setOutput("screen:\n${screenArgs.toString()}");
+    setOutput("screen:\n${formatJson(screenArgs)}");
   }
 
   void __group() {
@@ -175,12 +184,15 @@ class HomeScreenState extends State<HomeScreen> {
     rudderClient.group(groupArgs["Group ID"] as String,
         groupTraits: groupArgs["Traits"] as RudderTraits);
 
-    setOutput("group:\n${groupArgs.toString()}");
+    setOutput("group:\n${formatJson(groupArgs)}");
   }
 
   void __reset() {
-    rudderClient.reset(clearAnonymousId: true);
-    setOutput("reset");
+    Map<String, dynamic> resetArgs = {"Clear Anonymous ID": true};
+    rudderClient.reset(
+        clearAnonymousId: resetArgs["Clear Anonymous ID"] as bool);
+
+    setOutput("reset:\n${formatJson(resetArgs)}");
   }
 
   void __alias() {
@@ -188,15 +200,20 @@ class HomeScreenState extends State<HomeScreen> {
 
     rudderClient.alias(aliasArgs["User ID"] as String);
 
-    setOutput("alias:\n${aliasArgs.toString()}");
+    setOutput("alias:\n${formatJson(aliasArgs)}");
   }
 
   void __startSession() {
-    rudderClient.startSession();
+    Map<String, dynamic> startSessionArgs = {"Session ID": 1234567890};
+    rudderClient.startSession(sessionId: startSessionArgs["Session ID"]);
+
+    setOutput("startSession:\n${formatJson(startSessionArgs)}");
   }
 
   void __endSession() {
     rudderClient.endSession();
+
+    setOutput("endSession");
   }
 
   Future<void> __getSessionId() async {
@@ -208,45 +225,113 @@ class HomeScreenState extends State<HomeScreen> {
   Future<void> __getRudderContext() async {
     Map? context = await rudderClient.getRudderContext();
 
-    setOutput("getRudderContext:\n${context.toString()}");
+    setOutput("getRudderContext:\n${formatJson(context)}");
   }
 
   void __optOut() {
-    rudderClient.optOut(true);
-    setOutput("optOut: User opted out of tracking");
+    Map<String, dynamic> optOutArgs = {"Opt Out": true};
+    rudderClient.optOut(optOutArgs["Opt Out"] as bool);
+
+    setOutput("optOut:\n${formatJson(optOutArgs)}");
   }
 
   void __optIn() {
-    rudderClient.optOut(false);
-    setOutput("optIn: User opted back into tracking");
+    Map<String, dynamic> optInArgs = {"Opt In": false};
+    rudderClient.optOut(optInArgs["Opt In"] as bool);
+
+    setOutput("optIn:\n${formatJson(optInArgs)}");
   }
 
   void __putAnonymousId() {
-    String anonymousId = "anonymous_${DateTime.now().millisecondsSinceEpoch}";
+    Map<String, dynamic> putAnonymousIdArgs = {
+      "Anonymous ID": "anonymous_${DateTime.now().millisecondsSinceEpoch}"
+    };
+
+    String anonymousId = putAnonymousIdArgs["Anonymous ID"] as String;
     rudderClient.putAnonymousId(anonymousId);
-    setOutput("putAnonymousId: $anonymousId");
+    setOutput("putAnonymousId:\n${formatJson(putAnonymousIdArgs)}");
   }
 
   void __putDeviceToken() {
-    String deviceToken = "device_token_${DateTime.now().millisecondsSinceEpoch}";
+    Map<String, dynamic> putDeviceTokenArgs = {
+      "Device Token": "device_token_${DateTime.now().millisecondsSinceEpoch}"
+    };
+
+    String deviceToken = putDeviceTokenArgs["Device Token"] as String;
     rudderClient.putDeviceToken(deviceToken);
-    setOutput("putDeviceToken: $deviceToken");
+    setOutput("putDeviceToken:\n${formatJson(putDeviceTokenArgs)}");
   }
 
   void __putAdvertisingId() {
-    String advertisingId = "advertising_id_${DateTime.now().millisecondsSinceEpoch}";
+    Map<String, dynamic> putAdvertisingIdArgs = {
+      "Advertising ID":
+          "advertising_id_${DateTime.now().millisecondsSinceEpoch}"
+    };
+
+    String advertisingId = putAdvertisingIdArgs["Advertising ID"] as String;
     rudderClient.putAdvertisingId(advertisingId);
-    setOutput("putAdvertisingId: $advertisingId");
+    setOutput("putAdvertisingId:\n${formatJson(putAdvertisingIdArgs)}");
   }
 
-
-//text to be displayed
+  //text to be displayed
   String _output = "";
+
+  dynamic makeJsonSerializable(dynamic obj) {
+    if (obj == null) return null;
+
+    if (obj is String || obj is num || obj is bool) {
+      return obj;
+    }
+
+    if (obj is List) {
+      return obj.map((item) => makeJsonSerializable(item)).toList();
+    }
+
+    if (obj is Map) {
+      final result = <String, dynamic>{};
+      obj.forEach((key, value) {
+        result[key.toString()] = makeJsonSerializable(value);
+      });
+      return result;
+    }
+
+    // Handle special Rudder classes by extracting their underlying Map data
+    if (obj is RudderTraits) {
+      return makeJsonSerializable(obj.toWebTraits());
+    }
+
+    if (obj is RudderProperty) {
+      return makeJsonSerializable(obj.getMap());
+    }
+
+    if (obj is RudderOption) {
+      return makeJsonSerializable(obj.toWebMap());
+    }
+
+    // For other custom objects, convert to string representation
+    return obj.toString();
+  }
+
+  String formatJson(dynamic data) {
+    try {
+      const encoder = JsonEncoder.withIndent('  ');
+
+      // Convert to JSON-serializable format first
+      final serializable = makeJsonSerializable(data);
+      return encoder.convert(serializable);
+    } catch (e) {
+      return "Error formatting: ${data.toString()}\nException: $e";
+    }
+  }
 
   void setOutput(String text) {
     setState(() {
       _output = text;
     });
+
+    if (kIsWeb) {
+      print(text);
+    }
   }
 
   @override
@@ -510,14 +595,15 @@ class HomeScreenState extends State<HomeScreen> {
               ),
               Container(
                 width: double.infinity,
+                height: 200,
                 color: Colors.black87,
                 padding:
                     const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                child: Text(
-                  _output,
-                  style: const TextStyle(color: Colors.white, fontSize: 16),
-                  maxLines: 6,
-                  overflow: TextOverflow.ellipsis,
+                child: SingleChildScrollView(
+                  child: Text(
+                    _output,
+                    style: const TextStyle(color: Colors.white, fontSize: 16),
+                  ),
                 ),
               ),
             ],
