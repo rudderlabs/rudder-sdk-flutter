@@ -45,3 +45,4 @@ dart_pre_commit:
   pull-up-dependencies: false
   analyze:
     error-level: info
+    ignore-unstaged-files: true

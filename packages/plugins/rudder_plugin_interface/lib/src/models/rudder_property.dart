@@ -39,4 +39,9 @@ class RudderProperty {
   }
 
   RudderProperty.fromMap(Map<String, dynamic> map) : __map = map;
+
+  @override
+  String toString() {
+    return getMap().toString();
+  }
 }
