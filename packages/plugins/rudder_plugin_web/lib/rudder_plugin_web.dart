@@ -68,37 +68,43 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
         ?.map((key, value) => MapEntry(key, value is bool ? value : false));
     final configMap = rudderConfig.toMapWeb();
     configMap["integrations"] = integrationMap;
-    web_js.load(writeKey.toJS, rudderConfig.dataPlaneUrl.toJS, configMap.jsify() as JSObject?);
+    web_js.load(writeKey.toJS, rudderConfig.dataPlaneUrl.toJS,
+        configMap.jsify() as JSObject?);
   }
 
   @override
   void identify(String userId, {RudderTraits? traits, RudderOption? options}) {
-    web_js.identify(userId.toJS, traits?.toWebTraits()?.jsify() as JSObject?, options?.toWebMap()?.jsify() as JSObject?);
+    web_js.identify(userId.toJS, traits?.toWebTraits().jsify() as JSObject?,
+        options?.toWebMap().jsify() as JSObject?);
   }
 
   @override
   void track(String eventName,
       {RudderProperty? properties, RudderOption? options}) {
-    web_js.track(eventName.toJS, properties?.getMap()?.jsify() as JSObject?, options?.toWebMap()?.jsify() as JSObject?);
+    web_js.track(eventName.toJS, properties?.getMap().jsify() as JSObject?,
+        options?.toWebMap().jsify() as JSObject?);
   }
 
   @override
   void screen(String screenName,
       {String? category, RudderProperty? properties, RudderOption? options}) {
-    web_js.page(category?.toJS, screenName.toJS, properties?.getMap()?.jsify() as JSObject?,
-        options?.toWebMap()?.jsify() as JSObject?);
+    web_js.page(
+        category?.toJS,
+        screenName.toJS,
+        properties?.getMap().jsify() as JSObject?,
+        options?.toWebMap().jsify() as JSObject?);
   }
 
   @override
   void group(String groupId,
       {RudderTraits? groupTraits, RudderOption? options}) {
-    web_js.group(groupId.toJS, groupTraits?.toWebTraits()?.jsify() as JSObject?,
-        options?.toWebMap()?.jsify() as JSObject?);
+    web_js.group(groupId.toJS, groupTraits?.toWebTraits().jsify() as JSObject?,
+        options?.toWebMap().jsify() as JSObject?);
   }
 
   @override
   void alias(String newId, {RudderOption? options}) {
-    web_js.alias(newId.toJS, options?.toWebMap()?.jsify() as JSObject?);
+    web_js.alias(newId.toJS, options?.toWebMap().jsify() as JSObject?);
   }
 
   @override
@@ -142,7 +148,7 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   }
 
   @override
-  Future<Map?> getRudderContext() async {    
+  Future<Map?> getRudderContext() async {
     return {
       "traits": web_js.getUserTraits()?.dartify(),
       "anonymousId": web_js.getAnonymousId()?.toDart
