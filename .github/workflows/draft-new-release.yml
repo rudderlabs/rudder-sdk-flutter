@@ -52,7 +52,7 @@ jobs:
           git merge origin/main
           current_version=$(grep -A0 'version:' pubspec.yaml | tail -n1 | awk '{ print $2 }')
 
-          melos version -a --no-git-tag-version --no-changelog --yes
+          melos version -a --no-git-tag-version --no-changelog --yes --no-git-commit-version
           new_version=$(grep -A0 'version:' pubspec.yaml | tail -n1 | awk '{ print $2 }')
           git reset --hard
 
