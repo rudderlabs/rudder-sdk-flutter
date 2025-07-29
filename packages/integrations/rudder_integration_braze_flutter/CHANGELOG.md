@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**: add Wasm support ([#218](https://github.com/rudderlabs/rudder-sdk-flutter/issues/218)). ([74f4a3e2](https://github.com/rudderlabs/rudder-sdk-flutter/commit/74f4a3e23e4c282b2d3548a3e6a6b4b8659f4035))
+
 ## 2.2.0
 
  - **FEAT**: update braze integration to the latest version ([#206](https://github.com/rudderlabs/rudder-sdk-flutter/issues/206)). ([a5619dde](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a5619dde1f70511d7f521c1c14e740440fb0e06b))

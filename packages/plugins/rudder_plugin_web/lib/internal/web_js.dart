@@ -1,47 +1,43 @@
-@JS()
-library rudder_analytics.js;
+@JS('rudderanalytics')
+library;
 
-import 'package:js/js.dart';
-// import 'package:rudder_sdk_flutter/RudderLogger.dart';
+import 'dart:js_interop';
 
-@JS("rudderanalytics.load")
-external load(String writeKey, String dataPlaneUrl, dynamic options);
+@JS("load")
+external void load(JSString writeKey, JSString dataPlaneUrl, JSObject? options);
 
-@JS("rudderanalytics.setAnonymousId")
-external setAnonymousId(String anonymousId);
+@JS('setAnonymousId')
+external void setAnonymousId(JSString anonymousId);
 
-@JS("rudderanalytics.identify")
-external identify(String userId, dynamic traits, dynamic options);
+@JS('identify')
+external void identify(JSString userId, JSObject? traits, JSObject? options);
 
-@JS("rudderanalytics.page")
-external page(
-    String? category, String name, dynamic properties, dynamic options);
+@JS('page')
+external void page(JSString? category, JSString name, JSObject? properties, JSObject? options);
 
-@JS("rudderanalytics.track")
-external track(String event, dynamic properties, dynamic options);
+@JS('track')
+external void track(JSString event, JSObject? properties, JSObject? options);
 
-@JS("rudderanalytics.alias")
-external alias(
-    String to, //Denotes the new identifier of the user.
-    dynamic options);
+@JS('alias')
+external void alias(JSString to, JSObject? options);
 
-@JS("rudderanalytics.group")
-external group(String groupId, dynamic traits, dynamic options);
+@JS('group')
+external void group(JSString groupId, JSObject? traits, JSObject? options);
 
-@JS("rudderanalytics.reset")
-external reset(bool clearAnonymousId);
+@JS('reset')
+external void reset(JSBoolean clearAnonymousId);
 
-@JS("rudderanalytics.startSession")
-external startSession(int? sessionId);
+@JS('startSession')
+external void startSession(JSNumber? sessionId);
 
-@JS("rudderanalytics.endSession")
-external endSession();
+@JS('endSession')
+external void endSession();
 
-@JS("rudderanalytics.getAnonymousId")
-external String? getAnonymousId();
+@JS('getAnonymousId')
+external JSString? getAnonymousId();
 
-@JS("rudderanalytics.getUserTraits")
-external dynamic getUserTraits();
+@JS('getUserTraits')
+external JSObject? getUserTraits();
 
-@JS("rudderanalytics.getSessionId")
-external int? getSessionId();
+@JS('getSessionId')
+external JSNumber? getSessionId();

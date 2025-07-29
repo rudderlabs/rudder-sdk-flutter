@@ -1,5 +1,5 @@
 name: rudder_sdk_flutter_monorepo
-version: 4.3.0
+version: 4.4.0
 description: The RudderStack Flutter SDK Monorepo.
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 repository: https://github.com/rudderlabs/rudder-sdk-flutter
@@ -11,37 +11,20 @@ documentation: https://docs.rudderstack.com/rudderstack-sdk-integration-guides/r
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
-  sdk: '>=2.17.6 <3.0.0'
-
-dependencies:
-  flutter:
-    sdk: flutter
-  rudder_sdk_flutter: ^3.1.0
-  rudder_integration_amplitude_flutter: ^2.1.0
-  rudder_integration_firebase_flutter: ^4.2.0
-  rudder_integration_braze_flutter: ^2.2.0
-  rudder_integration_appcenter_flutter: ^2.1.0
-  rudder_integration_appsflyer_flutter: ^1.2.0
-  rudder_integration_adjust_flutter: ^2.1.0
-  rudder_integration_leanplum_flutter: ^2.1.0
-  rudder_integration_kochava_flutter: ^2.1.0
-  flutter_plugin_tools: ^0.12.1
-
+  sdk: ">=3.0.0 <4.0.0"
 
 dev_dependencies:
-  dart_pre_commit: ^4.0.0
-  flutter_lints: ^2.0.1
-  dart_code_metrics: ^5.7.6
+  dart_pre_commit: ^5.4.6
+  flutter_lints: ^6.0.0
   watcher: ^1.1.0
-  melos: ^3.4.0
+  melos: ^6.3.3
 
 dart_pre_commit:
   format: true
-  test-imports: false
-  lib-exports: false
+  custom-lint: false
   flutter-compat: false
   outdated: false
   pull-up-dependencies: false
   analyze:
     error-level: info
-    scan-mode: staged
+    ignore-unstaged-files: true

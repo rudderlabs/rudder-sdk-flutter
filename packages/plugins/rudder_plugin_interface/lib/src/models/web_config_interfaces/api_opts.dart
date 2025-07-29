@@ -7,6 +7,11 @@ class ApiObject {
   Map<String, dynamic> toMap() {
     return properties;
   }
+
+  @override
+  String toString() {
+    return toMap().toString();
+  }
 }
 
 class DestinationIntgConfig {
@@ -24,6 +29,11 @@ class DestinationIntgConfig {
     } else {
       return {};
     }
+  }
+
+  @override
+  String toString() {
+    return toMap().toString();
   }
 }
 
@@ -46,6 +56,11 @@ class IntegrationOpts {
     }
 
     return map;
+  }
+
+  @override
+  String toString() {
+    return toMap().toString();
   }
 }
 
@@ -76,5 +91,10 @@ class ApiOptions {
     }
 
     return map;
+  }
+
+  @override
+  String toString() {
+    return toMap().toString();
   }
 }

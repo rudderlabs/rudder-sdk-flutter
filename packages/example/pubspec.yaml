@@ -6,7 +6,7 @@ description: Demonstrates how to use the rudder_sdk_flutter plugin.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
-  sdk: '>=2.17.6 <3.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -14,7 +14,7 @@ dependencies:
   rudder_sdk_flutter:
     path: "../plugins/rudder_plugin"
   rudder_plugin_db_encryption:
-    path: "../integrations/rudder_plugin_db_encryption"
+    path: "../plugins/rudder_plugin_db_encryption"
   rudder_integration_amplitude_flutter:
     path: "../integrations/rudder_integration_amplitude_flutter"
   rudder_integration_adjust_flutter:
@@ -50,9 +50,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_dotenv: ^5.0.2
 
+  rudder_sdk_flutter_platform_interface: ^3.2.0
 dev_dependencies:
-  flutter_lints: ^2.0.1
-  dart_code_metrics: ^5.7.6
+  flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
 

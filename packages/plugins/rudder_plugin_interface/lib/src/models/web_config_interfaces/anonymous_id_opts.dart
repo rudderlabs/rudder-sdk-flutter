@@ -14,6 +14,11 @@ class AutoCapture {
       'source': source,
     };
   }
+
+  @override
+  String toString() {
+    return toMap().toString();
+  }
 }
 
 class AnonymousIdOptions {
@@ -27,5 +32,10 @@ class AnonymousIdOptions {
       'autoCapture':
           autoCapture?.toMap(), // Convert autoCapture to a map if not null
     };
+  }
+
+  @override
+  String toString() {
+    return toMap().toString();
   }
 }

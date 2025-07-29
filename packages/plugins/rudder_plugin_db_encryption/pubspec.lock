@@ -58,12 +58,17 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_lints
-      sha256: "3105dc8492f6183fb076ccf1f351ac3d60564bff92e20bfc4af9cc1651f4e7e1"
+      sha256: a25a15ebbdfc33ab1cd26c63a6ee519df92338a9c10f122adda92938253bef04
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0"
+    version: "2.0.3"
   flutter_test:
     dependency: "direct dev"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
+  flutter_web_plugins:
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -95,10 +100,10 @@ packages:
     dependency: transitive
     description:
       name: lints
-      sha256: a5e2b223cb7c9c8efdc663ef484fdd95bb243bff242ef5b13e26883547fce9a0
+      sha256: "0a217c6c989d21039f1498c3ed9f3ed71b354e69873f13a8dfc3c9fe76f1b452"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0"
+    version: "2.1.1"
   logger:
     dependency: transitive
     description:
@@ -140,13 +145,41 @@ packages:
     source: hosted
     version: "1.9.1"
   plugin_platform_interface:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: plugin_platform_interface
       sha256: "4820fbfdb9478b1ebae27888254d445073732dae3d6ea81f0b7e06d5dedc3f02"
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  rudder_plugin_android:
+    dependency: "direct overridden"
+    description:
+      path: "../rudder_plugin_android"
+      relative: true
+    source: path
+    version: "3.1.1"
+  rudder_plugin_ios:
+    dependency: "direct overridden"
+    description:
+      path: "../rudder_plugin_ios"
+      relative: true
+    source: path
+    version: "3.1.1"
+  rudder_plugin_web:
+    dependency: "direct overridden"
+    description:
+      path: "../rudder_plugin_web"
+      relative: true
+    source: path
+    version: "3.1.0"
+  rudder_sdk_flutter:
+    dependency: "direct main"
+    description:
+      path: "../rudder_plugin"
+      relative: true
+    source: path
+    version: "3.2.0"
   rudder_sdk_flutter_platform_interface:
     dependency: "direct main"
     description:
@@ -224,5 +257,5 @@ packages:
     source: hosted
     version: "15.0.0"
 sdks:
-  dart: ">=3.8.0 <4.0.0"
+  dart: ">=3.7.0-0 <4.0.0"
   flutter: ">=3.18.0-18.0.pre.54"
