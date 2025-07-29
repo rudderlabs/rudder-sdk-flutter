@@ -1,3 +1,8 @@
+## 2.3.0
+
+ - **FIX**: address snyk issue in amplitude ([#222](https://github.com/rudderlabs/rudder-sdk-flutter/issues/222)). ([bc761348](https://github.com/rudderlabs/rudder-sdk-flutter/commit/bc7613483800924dd546d528661c2f30af0c7398))
+ - **FEAT**: add Wasm support ([#218](https://github.com/rudderlabs/rudder-sdk-flutter/issues/218)). ([74f4a3e2](https://github.com/rudderlabs/rudder-sdk-flutter/commit/74f4a3e23e4c282b2d3548a3e6a6b4b8659f4035))
+
 ## 2.1.0
 
  - **FEAT**: make flutter packages compatible with gradle v8xx ([#199](https://github.com/rudderlabs/rudder-sdk-flutter/issues/199)). ([ebb80e80](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ebb80e80d87028370ef6c86ecc2afc0521719ec8))
