@@ -20,6 +20,11 @@ class BatchOpts {
       'flushInterval': flushInterval,
     };
   }
+
+  @override
+  String toString() {
+    return toMap().toString();
+  }
 }
 
 class QueueOpts {
@@ -56,5 +61,10 @@ class QueueOpts {
           batch?.toMap(), // Convert the batch object to a map if it's not null
       'timerScaleFactor': timerScaleFactor,
     };
+  }
+
+  @override
+  String toString() {
+    return toMap().toString();
   }
 }

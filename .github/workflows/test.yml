@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Dart
-        uses: dart-lang/setup-dart@6a218f2413a3e78e9087f638a238f6b40893203d #v1.3
+        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c #v1.3
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -30,7 +30,7 @@ jobs:
           java-version: '11'
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046 #v2.19.0
+        uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e #v2.21.0
         with:
           channel: 'stable'
           architecture: x64
@@ -44,7 +44,7 @@ jobs:
 
       - name: Install Melos
         run: |
-          dart pub global activate melos 2.9.0
+          dart pub global activate melos 6.3.3
 
       - name: Install dependencies
         run: |
@@ -62,7 +62,7 @@ jobs:
           melos run combine:coverage
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@aa494459d7c39c106cc77b166de8b4250a32bb97  #v5.1.0
+        uses: SonarSource/sonarqube-scan-action@2500896589ef8f7247069a56136f8dc177c27ccf  #v5.2.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

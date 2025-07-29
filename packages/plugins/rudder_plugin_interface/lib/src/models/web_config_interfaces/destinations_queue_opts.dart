@@ -9,4 +9,9 @@ class DestinationsQueueOpts {
       'maxItems': maxItems,
     };
   }
+
+  @override
+  String toString() {
+    return toMap().toString();
+  }
 }

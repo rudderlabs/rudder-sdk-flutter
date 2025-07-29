@@ -6,7 +6,7 @@ import 'screen3.dart';
 import 'my_route_observer.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'screen2': (context) => const Screen2(),
         'screen3': (context) => const Screen3(),
+        'home_screen': (context) => const HomeScreen(),
       },
     );
   }

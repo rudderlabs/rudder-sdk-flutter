@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:js/js_util.dart' as js;
+import 'dart:js_interop';
 // In order to *not* need this ignore, consider extracting the "web" version
 // of your plugin as a separate package, instead of inlining it in the same
 // package as the core of your plugin.
@@ -68,49 +68,53 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
         ?.map((key, value) => MapEntry(key, value is bool ? value : false));
     final configMap = rudderConfig.toMapWeb();
     configMap["integrations"] = integrationMap;
-    web_js.load(writeKey, rudderConfig.dataPlaneUrl, _jsify(configMap));
+    web_js.load(writeKey.toJS, rudderConfig.dataPlaneUrl.toJS,
+        configMap.jsify() as JSObject?);
   }
 
   @override
   void identify(String userId, {RudderTraits? traits, RudderOption? options}) {
-    web_js.identify(
-        userId, _jsify(traits?.toWebTraits()), _jsify(options?.toWebMap()));
+    web_js.identify(userId.toJS, traits?.toWebTraits().jsify() as JSObject?,
+        options?.toWebMap().jsify() as JSObject?);
   }
 
   @override
   void track(String eventName,
       {RudderProperty? properties, RudderOption? options}) {
-    web_js.track(
-        eventName, _jsify(properties?.getMap()), _jsify(options?.toWebMap()));
+    web_js.track(eventName.toJS, properties?.getMap().jsify() as JSObject?,
+        options?.toWebMap().jsify() as JSObject?);
   }
 
   @override
   void screen(String screenName,
       {String? category, RudderProperty? properties, RudderOption? options}) {
-    web_js.page(category, screenName, _jsify(properties?.getMap()),
-        _jsify(options?.toWebMap()));
+    web_js.page(
+        category?.toJS,
+        screenName.toJS,
+        properties?.getMap().jsify() as JSObject?,
+        options?.toWebMap().jsify() as JSObject?);
   }
 
   @override
   void group(String groupId,
       {RudderTraits? groupTraits, RudderOption? options}) {
-    web_js.group(groupId, _jsify(groupTraits?.toWebTraits()),
-        _jsify(options?.toWebMap()));
+    web_js.group(groupId.toJS, groupTraits?.toWebTraits().jsify() as JSObject?,
+        options?.toWebMap().jsify() as JSObject?);
   }
 
   @override
   void alias(String newId, {RudderOption? options}) {
-    web_js.alias(newId, _jsify(options?.toWebMap()));
+    web_js.alias(newId.toJS, options?.toWebMap().jsify() as JSObject?);
   }
 
   @override
   void reset({bool clearAnonymousId = false}) {
-    web_js.reset(clearAnonymousId);
+    web_js.reset(clearAnonymousId.toJS);
   }
 
   @override
   void optOut(bool optOut) {
-    RudderLogger.logInfo("opt out is not available for web");
+    RudderLogger.logInfo("optOut is not available for web");
   }
 
   @override
@@ -125,12 +129,12 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
 
   @override
   void putAnonymousId(String anonymousId) {
-    web_js.setAnonymousId(anonymousId);
+    web_js.setAnonymousId(anonymousId.toJS);
   }
 
   @override
   void startSession({int? sessionId}) {
-    web_js.startSession(sessionId);
+    web_js.startSession(sessionId?.toJS);
   }
 
   @override
@@ -140,40 +144,14 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
 
   @override
   Future<int?> getSessionId() async {
-    return web_js.getSessionId();
+    return web_js.getSessionId()?.toDartInt;
   }
 
   @override
   Future<Map?> getRudderContext() async {
     return {
-      "traits": web_js.getUserTraits(),
-      "anonymousId": web_js.getAnonymousId()
+      "traits": web_js.getUserTraits()?.dartify(),
+      "anonymousId": web_js.getAnonymousId()?.toDart
     };
-  }
-
-  dynamic _jsify(Object? object) {
-    if (object != null) {
-      // final encode =  json.encode(object);
-      // final encode = JsObject.jsify(object);
-      if (object is Map) {
-        final encode = mapToJSObj(object);
-        return encode;
-      }
-    }
-    return null;
-  }
-
-  static dynamic mapToJSObj(Map<dynamic, dynamic> map) {
-    var object = js.newObject();
-    map.forEach((k, v) {
-      var key = k;
-      var value = v is Map
-          ? mapToJSObj(v)
-          : v is Iterable
-              ? js.jsify(v)
-              : v;
-      js.setProperty(object, key, value);
-    });
-    return object;
   }
 }

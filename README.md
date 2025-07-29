@@ -21,7 +21,7 @@ Add you .env file as per the .env.sample with secrets used in unit tests.
 
 To setup locally:
 
-    dart pub global activate melos 2.9.0
+    dart pub global activate melos 6.3.3
     melos run flutter:upgrade
     melos run setup
     melos run build:sdk:all
@@ -37,6 +37,5 @@ alter the name in the run:example:android command.
 
 Optionally for auto formatting source code via relevant Melos command you will need to install:
 
-- flutter_plugin_tools (dart pub global activate flutter_plugin_tools).
 - clang-format (can be installed via Brew on macOS).
 - swiftformat (can be installed via Brew on macOS).

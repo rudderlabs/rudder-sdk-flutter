@@ -51,21 +51,23 @@ scripts:
         "flutter clean"
     description: Run extra clean steps post melos clean lifecycle
 
+  upgrade-dependencies:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter pub upgrade"
+    description: Upgrade all the dependencies.
+
   analyze:
     run: |
-      melos exec -c 1 -- \
-        "flutter pub run dart_code_metrics:metrics ."
-      melos exec -c 1 -- \
+      melos exec -c 1 --fail-fast -- \
         "dart analyze . --no-fatal-warnings"
     description: |
-      Run `dart analyze` and Dart Code Metrics in all packages.
+      Run `dart analyze` in all packages.
        - Note: you can also rely on your IDEs Dart Analysis / Issues window.
 
   analyze:ci:
     # We are setting the concurrency to 1 because a higher concurrency can crash
     # the analysis server on low performance machines (like GitHub Actions).
-    #    TODO: add this
-    #      dart run dart_code_metrics:metrics analyze . --json-path=reports/code.metrics.report.json && /
     run: |
       mkdir -p reports && /
       dart analyze . --no-fatal-warnings --format json > reports/lint.report.json && /
@@ -75,22 +77,19 @@ scripts:
   format:
     run: |
       dart fix --apply && \
-      flutter pub run flutter_plugin_tools format && \
-      flutter format packages && \
+      dart format . && \
       swiftformat .
     description: |
       Run format for all the packages.
-       - Requires `flutter_plugin_tools` (`dart pub global activate flutter_plugin_tools`).
-       - Requires `clang-format` (can be installed via Brew on macOS).
        - Requires `swiftformat` (can be installed via Brew on macOS).
 
   test:
     run: |
-      melos exec -c 1 --fail-fast -- \
+      melos exec -c 1 --dir-exists="test" --ignore="*example*" -- \
         "flutter test --no-pub --machine --coverage > tests.output"
     description: Run `flutter test` for a specific package.
-    select-package:
-      dir-exists:
+    packageFilters:
+      dirExists:
         - test
 #      ignore:
 #        - '*example*'
@@ -100,23 +99,23 @@ scripts:
       melos exec -c 1 --fail-fast -- \
         "flutter build bundle --target=lib/RudderController.dart"
     description: Build the SDK plugin.
-    select-package:
-      scope: '*rudder_sdk_flutter'
+    packageFilters:
+      scope: 'rudder_sdk_flutter'
 
   build:sdk:interface:
     run: |
       melos exec -c 1 --fail-fast -- \
         "flutter build bundle --target=lib/rudder_sdk_platform.dart"
     description: Build the SDK Interface plugin.
-    select-package:
-      scope: '*rudder_sdk_flutter_platform_interface*'
+    packageFilters:
+      scope: 'rudder_sdk_flutter_platform_interface'
 
   build:sdk:android:
     run: |
       melos exec -c 1 --fail-fast -- \
         "flutter build bundle --target=lib/rudder_plugin_android.dart"
     description: Build the SDK Android plugin.
-    select-package:
+    packageFilters:
       scope: '*rudder_plugin_android*'
 
   build:sdk:ios:
@@ -124,7 +123,7 @@ scripts:
       melos exec -c 1 --fail-fast -- \
         "flutter build bundle --target=lib/rudder_plugin_ios.dart"
     description: Build the SDK iOS plugin.
-    select-package:
+    packageFilters:
       scope: '*rudder_plugin_ios*'
 
 #  build:sdk:web:
@@ -132,7 +131,7 @@ scripts:
 #      melos exec -c 1 --fail-fast -- \
 #        "flutter build bundle --target=lib/rudder_plugin_web.dart"
 #    description: Build the SDK Web plugin.
-#    select-package:
+#    packageFilters:
 #      scope: '*rudder_plugin_web*'
 
   build:sdk:db_encryption:
@@ -140,7 +139,7 @@ scripts:
       melos exec -c 1 --fail-fast -- \
         "flutter build bundle --target=lib/rudder_plugin_db_encryption.dart"
     description: Build the DB Encryption plugin.
-    select-package:
+    packageFilters:
       scope: '*rudder_plugin_db_encryption*'
 
   build:integration:adjust:
@@ -148,7 +147,7 @@ scripts:
       melos exec -c 1 --fail-fast -- \
         "flutter build bundle --target=lib/rudder_integration_adjust_flutter.dart"
     description: Build the Adjust integration plugin.
-    select-package:
+    packageFilters:
       scope: '*rudder_integration_adjust_flutter'
 
   build:integration:amplitude:
@@ -156,7 +155,7 @@ scripts:
       melos exec -c 1 --fail-fast -- \
         "flutter build bundle --target=lib/rudder_integration_amplitude_flutter.dart"
     description: Build the Amplitude integration plugin.
-    select-package:
+    packageFilters:
       scope: '*rudder_integration_amplitude_flutter'
 
   build:integration:appcenter:
@@ -164,7 +163,7 @@ scripts:
       melos exec -c 1 --fail-fast -- \
         "flutter build bundle --target=lib/rudder_integration_appcenter_flutter.dart"
     description: Build the AppCenter integration plugin.
-    select-package:
+    packageFilters:
       scope: '*rudder_integration_appcenter_flutter'
 
   build:integration:appsflyer:
@@ -172,7 +171,7 @@ scripts:
       melos exec -c 1 --fail-fast -- \
         "flutter build bundle --target=lib/rudder_integration_appsflyer_flutter.dart"
     description: Build the AppsFlyer integration plugin.
-    select-package:
+    packageFilters:
       scope: '*rudder_integration_appsflyer_flutter'
 
   build:integration:braze:
@@ -180,7 +179,7 @@ scripts:
       melos exec -c 1 --fail-fast -- \
         "flutter build bundle --target=lib/rudder_integration_braze_flutter.dart"
     description: Build the Braze integration plugin.
-    select-package:
+    packageFilters:
       scope: '*rudder_integration_braze_flutter'
 
   build:integration:firebase:
@@ -188,7 +187,7 @@ scripts:
       melos exec -c 1 --fail-fast -- \
         "flutter build bundle --target=lib/rudder_integration_firebase_flutter.dart"
     description: Build the Firebase integration plugin.
-    select-package:
+    packageFilters:
       scope: '*rudder_integration_firebase_flutter'
 
   build:integration:leanplum:
@@ -196,7 +195,7 @@ scripts:
       melos exec -c 1 --fail-fast -- \
         "flutter build bundle --target=lib/rudder_integration_leanplum_flutter.dart"
     description: Build the Leanplum integration plugin.
-    select-package:
+    packageFilters:
       scope: '*rudder_integration_leanplum_flutter'
 
   build:integration:kochava:
@@ -204,13 +203,14 @@ scripts:
       melos exec -c 1 --fail-fast -- \
         "flutter build bundle --target=lib/rudder_integration_kochava_flutter.dart"
     description: Build the Kochava integration plugin.
-    select-package:
+    packageFilters:
       scope: '*rudder_integration_kochava_flutter'
 
   build:integration:all:
     run: |
       melos run build:integration:adjust --no-select && \
       melos run build:integration:amplitude --no-select && \
+      melos run build:integration:appsflyer --no-select && \
       melos run build:integration:appcenter --no-select && \
       melos run build:integration:braze --no-select && \
       melos run build:integration:firebase --no-select && \
@@ -224,8 +224,8 @@ scripts:
       melos exec -c 1 --fail-fast -- \
         "flutter build apk --no-pub"
     description: Build a specific example app for Android.
-    select-package:
-      dir-exists:
+    packageFilters:
+      dirExists:
         - android
       scope: '*rudder_sdk_flutter_example*'
 
@@ -234,8 +234,8 @@ scripts:
       melos exec -c 1 --fail-fast -- \
         "flutter build ios --no-codesign --no-pub"
     description: Build a specific example app for iOS.
-    select-package:
-      dir-exists:
+    packageFilters:
+      dirExists:
         - ios
       scope: '*rudder_sdk_flutter_example*'
 
@@ -244,8 +244,8 @@ scripts:
       melos exec -c 1 --fail-fast -- \
         "flutter build web"
     description: Build a specific example app for Web.
-    select-package:
-      dir-exists:
+    packageFilters:
+      dirExists:
         - web
       scope: '*rudder_sdk_flutter_example*'
 
@@ -257,8 +257,8 @@ scripts:
       && melos exec -c 1 --fail-fast -- \
         "flutter run -d Pixel_6_Pro_API_33"
     description: Run a specific example app for Android.
-    select-package:
-      dir-exists:
+    packageFilters:
+      dirExists:
         - android
       scope: '*rudder_sdk_flutter_example*'
 
@@ -271,8 +271,8 @@ scripts:
       melos exec -c 1 --fail-fast -- \
         "flutter run"
     description: Run a specific example app for iOS.
-    select-package:
-      dir-exists:
+    packageFilters:
+      dirExists:
         - ios
       scope: '*rudder_sdk_flutter_example*'
 
@@ -281,8 +281,8 @@ scripts:
       melos exec -c 1 --fail-fast -- \
         "flutter run"
     description: Run a specific example app for Web.
-    select-package:
-      dir-exists:
+    packageFilters:
+      dirExists:
         - web
       scope: '*rudder_sdk_flutter_example*'
 

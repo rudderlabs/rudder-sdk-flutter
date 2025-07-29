@@ -270,6 +270,11 @@ class RudderTraits {
   Map<String, dynamic> toMobileTraits() {
     return __traitsMap;
   }
+
+  @override
+  String toString() {
+    return toWebTraits().toString();
+  }
 }
 
 class Address {
@@ -349,6 +354,11 @@ class Address {
     addressMap["street"] = street;
     return this;
   }
+
+  @override
+  String toString() {
+    return addressMap.toString();
+  }
 }
 
 class Company {
@@ -396,5 +406,10 @@ class Company {
   Company putIndustry(String industry) {
     companyMap["industry"] = industry;
     return this;
+  }
+
+  @override
+  String toString() {
+    return companyMap.toString();
   }
 }

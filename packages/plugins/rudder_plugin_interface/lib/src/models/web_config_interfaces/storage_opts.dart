@@ -36,6 +36,11 @@ class StorageEntry {
       'type': type.toString().split('.').last,
     };
   }
+
+  @override
+  String toString() {
+    return toMap().toString();
+  }
 }
 
 // Define the StorageEncryption class
@@ -49,6 +54,11 @@ class StorageEncryption {
     return {
       'version': version.toString().split('.').last,
     };
+  }
+
+  @override
+  String toString() {
+    return toMap().toString();
   }
 }
 
@@ -80,6 +90,11 @@ class CookieOptions {
       'secure': secure,
     };
   }
+
+  @override
+  String toString() {
+    return toMap().toString();
+  }
 }
 
 // Define the StorageOpts class
@@ -108,5 +123,10 @@ class StorageOpts {
       'entries': entries?.map((key, value) =>
           MapEntry(key.toString().split('.').last, value.toMap())),
     };
+  }
+
+  @override
+  String toString() {
+    return toMap().toString();
   }
 }
