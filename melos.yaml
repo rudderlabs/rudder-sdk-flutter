@@ -41,7 +41,7 @@ scripts:
   setup:ci:
     run: |
       melos clean && \
-      melos bootstrap --no-published
+      melos bootstrap
     description: Prepare monorepo in CI runners
 
   postclean:
