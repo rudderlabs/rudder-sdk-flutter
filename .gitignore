@@ -23,3 +23,4 @@ tests.output
 .scannerwork/
 .flutter-plugins
 .flutter-plugins-dependencies
+pubspec_overrides.yaml
