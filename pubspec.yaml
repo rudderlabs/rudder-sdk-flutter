@@ -13,38 +13,6 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 environment:
   sdk: ">=3.0.0 <4.0.0"
 
-dependencies:
-  flutter:
-    sdk: flutter
-  rudder_sdk_flutter: 
-    path: packages/plugins/rudder_plugin
-  rudder_integration_amplitude_flutter: 
-    path: packages/integrations/rudder_integration_amplitude_flutter
-  rudder_integration_firebase_flutter: 
-    path: packages/integrations/rudder_integration_firebase_flutter
-  rudder_integration_braze_flutter: 
-    path: packages/integrations/rudder_integration_braze_flutter
-  rudder_integration_appcenter_flutter: 
-    path: packages/integrations/rudder_integration_appcenter_flutter
-  rudder_integration_appsflyer_flutter: 
-    path: packages/integrations/rudder_integration_appsflyer_flutter
-  rudder_integration_adjust_flutter: 
-    path: packages/integrations/rudder_integration_adjust_flutter
-  rudder_integration_leanplum_flutter: 
-    path: packages/integrations/rudder_integration_leanplum_flutter
-  rudder_integration_kochava_flutter: 
-    path: packages/integrations/rudder_integration_kochava_flutter
-  rudder_sdk_flutter_platform_interface:
-    path: packages/plugins/rudder_plugin_interface
-  rudder_plugin_android: 
-    path: packages/plugins/rudder_plugin_android
-  rudder_plugin_ios: 
-    path: packages/plugins/rudder_plugin_ios
-  rudder_plugin_web: 
-    path: packages/plugins/rudder_plugin_web
-  rudder_plugin_db_encryption: 
-    path: packages/plugins/rudder_plugin_db_encryption
-
 dev_dependencies:
   dart_pre_commit: ^5.4.6
   flutter_lints: ^6.0.0
