@@ -36,13 +36,6 @@ jobs:
           channel: 'stable'
           architecture: x64
 
-      - name: Setup credentials
-        run: |
-          if [ ! -d ~/Library/Application\ Support/dart ]; then
-            mkdir ~/Library/Application\ Support/dart
-          fi
-          echo '${{ secrets.PUB_DEV_CREDENTIALS_JSON }}' > ~/Library/Application\ Support/dart/pub-credentials.json
-
       - name: Install Melos
         run: |
           dart pub global activate melos 6.3.3
