@@ -1,3 +1,7 @@
+## 2.2.1
+
+ - **FIX**: address snyk issue in Amplitude integration ([#230](https://github.com/rudderlabs/rudder-sdk-flutter/issues/230)). ([dade6242](https://github.com/rudderlabs/rudder-sdk-flutter/commit/dade62428a0225b8ad6f73955fe9c19595bab26f))
+
 ## 2.2.0
 
  - **FIX**: address snyk issue in amplitude ([#222](https://github.com/rudderlabs/rudder-sdk-flutter/issues/222)). ([bc761348](https://github.com/rudderlabs/rudder-sdk-flutter/commit/bc7613483800924dd546d528661c2f30af0c7398))
