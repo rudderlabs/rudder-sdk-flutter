@@ -12,23 +12,23 @@ dependencies:
   flutter:
     sdk: flutter
   rudder_sdk_flutter:
-    path: "../plugins/rudder_plugin"
+    path: "packages/plugins/rudder_plugin"
   rudder_plugin_db_encryption:
-    path: "../plugins/rudder_plugin_db_encryption"
+    path: "packages/plugins/rudder_plugin_db_encryption"
   rudder_integration_amplitude_flutter:
-    path: "../integrations/rudder_integration_amplitude_flutter"
+    path: "packages/integrations/rudder_integration_amplitude_flutter"
   rudder_integration_adjust_flutter:
-    path: "../integrations/rudder_integration_adjust_flutter"
+    path: "packages/integrations/rudder_integration_adjust_flutter"
   rudder_integration_firebase_flutter:
-    path: "../integrations/rudder_integration_firebase_flutter"
+    path: "packages/integrations/rudder_integration_firebase_flutter"
   rudder_integration_braze_flutter:
-    path: "../integrations/rudder_integration_braze_flutter"
+    path: "packages/integrations/rudder_integration_braze_flutter"
   rudder_integration_appcenter_flutter:
-    path: "../integrations/rudder_integration_appcenter_flutter"
+    path: "packages/integrations/rudder_integration_appcenter_flutter"
   rudder_integration_leanplum_flutter:
-    path: "../integrations/rudder_integration_leanplum_flutter"
+    path: "packages/integrations/rudder_integration_leanplum_flutter"
   rudder_integration_appsflyer_flutter:
-    path: "../integrations/rudder_integration_appsflyer_flutter"
+    path: "packages/integrations/rudder_integration_appsflyer_flutter"
   # rudder_integration_kochava_flutter:
   #   path: "../integrations/rudder_integration_kochava_flutter"
     # When depending on this package from a real application you should use:
