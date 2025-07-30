@@ -4,9 +4,6 @@ import 'package:flutter/services.dart';
 import 'rudder_plugin_db_encryption_platform_interface.dart';
 
 /// An implementation of [RudderPluginDbEncryptionPlatform] that uses method channels.
-///
-/// This class communicates with the native platform code through a [MethodChannel]
-/// to provide database encryption functionality.
 class MethodChannelRudderPluginDbEncryption
     extends RudderPluginDbEncryptionPlatform {
   /// The method channel used to interact with the native platform.

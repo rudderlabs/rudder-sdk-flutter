@@ -9,8 +9,8 @@ import 'rudder_plugin_db_encryption_platform_interface.dart';
 /// Example usage:
 /// ```dart
 /// final dbEncryption = RudderDBEncryption(true, 'your-encryption-key');
-/// dbEncryption.addDBEncryptionToConfig();
 /// ```
+/// Pass the `dbEncryption` configuration to the RudderStack SDK before initialization.
 class RudderDBEncryption implements DBEncryptionInterface {
   final bool _enabled;
   final String _key;
@@ -39,10 +39,9 @@ class RudderDBEncryption implements DBEncryptionInterface {
     return {"enabled": _enabled, "key": _key};
   }
 
-  /// Adds the database encryption configuration to RudderStack SDK.
-  ///
-  /// Call this method before initializing the RudderStack SDK to enable
-  /// database encryption with the specified configuration.
+  /// Adds the database encryption configuration to the RudderStack SDK.
+  /// This method is called internally by the RudderStack SDK
+  /// to apply the encryption settings.
   @override
   void addDBEncryptionToConfig() {
     RudderPluginDbEncryptionPlatform.instance
