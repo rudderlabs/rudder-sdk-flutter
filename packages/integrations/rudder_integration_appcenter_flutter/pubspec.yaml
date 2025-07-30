@@ -1,17 +1,17 @@
 name: rudder_integration_appcenter_flutter
 description: Flutter Device Mode Support for App Center Destination
-version: 2.1.0
+version: 2.2.0
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=3.0.0 <4.0.0"
+  flutter: ">=3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  rudder_sdk_flutter: ^3.1.0
-  rudder_sdk_flutter_platform_interface: ^3.1.0
+  rudder_sdk_flutter: ^3.2.0
+  rudder_sdk_flutter_platform_interface: ^3.2.0
 dev_dependencies:
   flutter_lints: ^6.0.0
   flutter_test:
