@@ -7,7 +7,7 @@ packages:
   - .
   - packages/plugins/**
   - packages/integrations/**
-  - packages/example
+  - example
 
 command:
   bootstrap:
