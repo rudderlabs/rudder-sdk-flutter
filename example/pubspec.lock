@@ -210,6 +210,13 @@ packages:
       relative: true
     source: path
     version: "4.3.0"
+  rudder_integration_kochava_flutter:
+    dependency: "direct overridden"
+    description:
+      path: "../packages/integrations/rudder_integration_kochava_flutter"
+      relative: true
+    source: path
+    version: "2.2.0"
   rudder_integration_leanplum_flutter:
     dependency: "direct main"
     description:
