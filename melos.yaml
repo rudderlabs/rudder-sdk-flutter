@@ -69,8 +69,8 @@ scripts:
     # We are setting the concurrency to 1 because a higher concurrency can crash
     # the analysis server on low performance machines (like GitHub Actions).
     run: |
-      mkdir -p reports && /
-      dart analyze . --no-fatal-warnings --format json > reports/lint.report.json && /
+      mkdir -p reports && \
+      dart analyze . --no-fatal-warnings --format json > reports/lint.report.json && \
       tail -n +2 "reports/lint.report.json" > "reports/lint.report.tmp.json" && mv "reports/lint.report.tmp.json" "reports/lint.report.json"
     description: Run `dart analyze` in all packages and output to json file
 
