@@ -58,14 +58,6 @@ dev_dependencies:
 dependency_overrides:
   rudder_sdk_flutter:
     path: "../packages/plugins/rudder_plugin"
-  rudder_sdk_flutter_platform_interface:
-    path: "../packages/plugins/rudder_plugin_interface"
-  rudder_plugin_android:
-    path: "../packages/plugins/rudder_plugin_android"
-  rudder_plugin_ios:
-    path: "../packages/plugins/rudder_plugin_ios"
-  rudder_plugin_web:
-    path: "../packages/plugins/rudder_plugin_web"
   rudder_plugin_db_encryption:
     path: "../packages/plugins/rudder_plugin_db_encryption"
   rudder_integration_amplitude_flutter:
@@ -82,8 +74,6 @@ dependency_overrides:
     path: "../packages/integrations/rudder_integration_leanplum_flutter"
   rudder_integration_appsflyer_flutter:
     path: "../packages/integrations/rudder_integration_appsflyer_flutter"
-  rudder_integration_kochava_flutter:
-    path: "../packages/integrations/rudder_integration_kochava_flutter"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
