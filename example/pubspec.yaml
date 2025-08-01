@@ -11,31 +11,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  rudder_sdk_flutter:
-    path: 3.2.0
-  rudder_plugin_db_encryption:
-    path: 1.3.0
-  rudder_integration_amplitude_flutter:
-    path: 2.2.1
-  rudder_integration_adjust_flutter:
-    path: 2.2.0
-  rudder_integration_firebase_flutter:
-    path: 4.3.0
-  rudder_integration_braze_flutter:
-    path: 2.3.0
-  rudder_integration_appcenter_flutter:
-    path: 2.2.0
-  rudder_integration_leanplum_flutter:
-    path: 2.2.0
-  rudder_integration_appsflyer_flutter:
-    path: 1.3.0
-  # rudder_integration_kochava_flutter:
-  #   path: 2.2.0
-    # When depending on this package from a real application you should use:
-    #   rudder_sdk_flutter: ^x.y.z
-    # See https://dart.dev/tools/pub/dependencies#version-constraints
-    # The example app is bundled with the plugin so we use a path dependency on
-    # the parent directory to use the current plugin's version.
+  rudder_sdk_flutter: 3.2.0
+  rudder_plugin_db_encryption: 1.3.0
+  rudder_integration_amplitude_flutter: 2.2.1
+  rudder_integration_adjust_flutter: 2.2.0
+  rudder_integration_firebase_flutter: 4.3.0
+  rudder_integration_braze_flutter: 2.3.0
+  rudder_integration_appcenter_flutter: 2.2.0
+  rudder_integration_leanplum_flutter: 2.2.0
+  rudder_integration_appsflyer_flutter: 1.3.0
+  # rudder_integration_kochava_flutter: 2.2.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
