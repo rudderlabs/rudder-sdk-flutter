@@ -2,7 +2,7 @@ import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 import 'rudder_plugin_db_encryption_platform_interface.dart';
 
 /// A plugin that provides database encryption functionality for RudderStack Flutter SDK.
-/// 
+///
 /// This plugin allows you to encrypt the local database used by RudderStack SDK
 /// to store events before they are sent to analytics destinations.
 ///
@@ -26,7 +26,7 @@ class RudderDBEncryption implements DBEncryptionInterface {
   /// Whether database encryption is enabled.
   @override
   bool get enabled => _enabled;
-  
+
   /// The encryption key used for database encryption.
   @override
   String get key => _key;
