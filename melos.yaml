@@ -7,7 +7,6 @@ packages:
   - .
   - packages/plugins/**
   - packages/integrations/**
-  - example
 
 command:
   bootstrap:
@@ -219,73 +218,6 @@ scripts:
       melos bootstrap
     description: Build all the integrations.
 
-  build:example:android:
-    run: |
-      melos exec -c 1 --fail-fast -- \
-        "flutter build apk --no-pub"
-    description: Build a specific example app for Android.
-    packageFilters:
-      dirExists:
-        - android
-      scope: '*rudder_sdk_flutter_example*'
-
-  build:example:ios:
-    run: |
-      melos exec -c 1 --fail-fast -- \
-        "flutter build ios --no-codesign --no-pub"
-    description: Build a specific example app for iOS.
-    packageFilters:
-      dirExists:
-        - ios
-      scope: '*rudder_sdk_flutter_example*'
-
-  build:example:web:
-    run: |
-      melos exec -c 1 --fail-fast -- \
-        "flutter build web"
-    description: Build a specific example app for Web.
-    packageFilters:
-      dirExists:
-        - web
-      scope: '*rudder_sdk_flutter_example*'
-
-  run:example:android:
-    run: |
-     echo no | avdmanager create avd -n Pixel_6_Pro_API_33 -k "system-images;android-33;google_apis;arm64-v8a" --force &&
-     melos exec -c 1 --fail-fast -- \
-        "flutter emulators --launch Pixel_6_Pro_API_33"
-      && melos exec -c 1 --fail-fast -- \
-        "flutter run -d Pixel_6_Pro_API_33"
-    description: Run a specific example app for Android.
-    packageFilters:
-      dirExists:
-        - android
-      scope: '*rudder_sdk_flutter_example*'
-
-  run:example:ios:
-    run: |
-      melos exec -c 1 --fail-fast -- \
-        "flutter emulators"
-      melos exec -c 1 --fail-fast -- \
-        "flutter emulators --launch apple_ios_simulator"
-      melos exec -c 1 --fail-fast -- \
-        "flutter run"
-    description: Run a specific example app for iOS.
-    packageFilters:
-      dirExists:
-        - ios
-      scope: '*rudder_sdk_flutter_example*'
-
-  run:example:web:
-    run: |
-      melos exec -c 1 --fail-fast -- \
-        "flutter run"
-    description: Run a specific example app for Web.
-    packageFilters:
-      dirExists:
-        - web
-      scope: '*rudder_sdk_flutter_example*'
-
   build:sdk:all:
     run: |
       melos run build:sdk --no-select && \
@@ -296,19 +228,10 @@ scripts:
       melos bootstrap
     description: Build all SDK bundles.
 
-  build:example:all:
-    run: |
-      melos run build:example:ios --no-select && \
-      melos run build:example:android --no-select && \
-      melos run build:example:web --no-select && \
-      melos bootstrap
-    description: Build all example apps.
-
   build:all:
     run: |
       melos run build:sdk:all --no-select && \
       melos run build:integration:all --no-select && \
-      melos run build:example:all --no-select && \
       melos bootstrap
     description: Build all.
 
