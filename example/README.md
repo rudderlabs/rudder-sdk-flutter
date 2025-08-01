@@ -27,6 +27,34 @@ This example app demonstrates how to use the RudderStack Flutter SDK with variou
 flutter pub get
 ```
 
+### Local Development
+
+For local development with the SDK source code, uncomment the `dependency_overrides` section in `pubspec.yaml`:
+
+```yaml
+dependency_overrides:
+  rudder_sdk_flutter:
+    path: "../packages/plugins/rudder_plugin"
+  rudder_plugin_db_encryption:
+    path: "../packages/plugins/rudder_plugin_db_encryption"
+  rudder_integration_amplitude_flutter:
+    path: "../packages/integrations/rudder_integration_amplitude_flutter"
+  rudder_integration_adjust_flutter:
+    path: "../packages/integrations/rudder_integration_adjust_flutter"
+  rudder_integration_firebase_flutter:
+    path: "../packages/integrations/rudder_integration_firebase_flutter"
+  rudder_integration_braze_flutter:
+    path: "../packages/integrations/rudder_integration_braze_flutter"
+  rudder_integration_appcenter_flutter:
+    path: "../packages/integrations/rudder_integration_appcenter_flutter"
+  rudder_integration_leanplum_flutter:
+    path: "../packages/integrations/rudder_integration_leanplum_flutter"
+  rudder_integration_appsflyer_flutter:
+    path: "../packages/integrations/rudder_integration_appsflyer_flutter"
+```
+
+Then run `flutter pub get` again to use the local packages.
+
 ## Build for Production
 
 ### Android APK

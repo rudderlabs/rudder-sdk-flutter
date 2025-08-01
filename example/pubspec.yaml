@@ -47,25 +47,25 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-dependency_overrides:
-  rudder_sdk_flutter:
-    path: "../packages/plugins/rudder_plugin"
-  rudder_plugin_db_encryption:
-    path: "../packages/plugins/rudder_plugin_db_encryption"
-  rudder_integration_amplitude_flutter:
-    path: "../packages/integrations/rudder_integration_amplitude_flutter"
-  rudder_integration_adjust_flutter:
-    path: "../packages/integrations/rudder_integration_adjust_flutter"
-  rudder_integration_firebase_flutter:
-    path: "../packages/integrations/rudder_integration_firebase_flutter"
-  rudder_integration_braze_flutter:
-    path: "../packages/integrations/rudder_integration_braze_flutter"
-  rudder_integration_appcenter_flutter:
-    path: "../packages/integrations/rudder_integration_appcenter_flutter"
-  rudder_integration_leanplum_flutter:
-    path: "../packages/integrations/rudder_integration_leanplum_flutter"
-  rudder_integration_appsflyer_flutter:
-    path: "../packages/integrations/rudder_integration_appsflyer_flutter"
+# dependency_overrides:
+#   rudder_sdk_flutter:
+#     path: "../packages/plugins/rudder_plugin"
+#   rudder_plugin_db_encryption:
+#     path: "../packages/plugins/rudder_plugin_db_encryption"
+#   rudder_integration_amplitude_flutter:
+#     path: "../packages/integrations/rudder_integration_amplitude_flutter"
+#   rudder_integration_adjust_flutter:
+#     path: "../packages/integrations/rudder_integration_adjust_flutter"
+#   rudder_integration_firebase_flutter:
+#     path: "../packages/integrations/rudder_integration_firebase_flutter"
+#   rudder_integration_braze_flutter:
+#     path: "../packages/integrations/rudder_integration_braze_flutter"
+#   rudder_integration_appcenter_flutter:
+#     path: "../packages/integrations/rudder_integration_appcenter_flutter"
+#   rudder_integration_leanplum_flutter:
+#     path: "../packages/integrations/rudder_integration_leanplum_flutter"
+#   rudder_integration_appsflyer_flutter:
+#     path: "../packages/integrations/rudder_integration_appsflyer_flutter"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
