@@ -11,50 +11,46 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  rudder_sdk_flutter:
-    path: "../plugins/rudder_plugin"
-  rudder_plugin_db_encryption:
-    path: "../plugins/rudder_plugin_db_encryption"
-  rudder_integration_amplitude_flutter:
-    path: "../integrations/rudder_integration_amplitude_flutter"
-  rudder_integration_adjust_flutter:
-    path: "../integrations/rudder_integration_adjust_flutter"
-  rudder_integration_firebase_flutter:
-    path: "../integrations/rudder_integration_firebase_flutter"
-  rudder_integration_braze_flutter:
-    path: "../integrations/rudder_integration_braze_flutter"
-  rudder_integration_appcenter_flutter:
-    path: "../integrations/rudder_integration_appcenter_flutter"
-  rudder_integration_leanplum_flutter:
-    path: "../integrations/rudder_integration_leanplum_flutter"
-  rudder_integration_appsflyer_flutter:
-    path: "../integrations/rudder_integration_appsflyer_flutter"
-  # rudder_integration_kochava_flutter:
-  #   path: "../integrations/rudder_integration_kochava_flutter"
-    # When depending on this package from a real application you should use:
-    #   rudder_sdk_flutter: ^x.y.z
-    # See https://dart.dev/tools/pub/dependencies#version-constraints
-    # The example app is bundled with the plugin so we use a path dependency on
-    # the parent directory to use the current plugin's version.
-#    path: ../
-  # rudder_integration_appcenter_flutter:
-  #   # When depending on this package from a real application you should use:
-  #   #   rudder_integration_appcenter_flutter: ^x.y.z
-  #   # See https://dart.dev/tools/pub/dependencies#version-constraints
-  #   # The example app is bundled with the plugin so we use a path dependency on
-  #   # the parent directory to use the current plugin's version.
-  #   path: ../integrations/rudder-integration-appcenter-flutter/
+  rudder_sdk_flutter: 3.2.0
+  rudder_plugin_db_encryption: 1.3.0
+  rudder_integration_amplitude_flutter: 2.2.1
+  rudder_integration_adjust_flutter: 2.2.0
+  rudder_integration_firebase_flutter: 4.3.0
+  rudder_integration_braze_flutter: 2.3.0
+  rudder_integration_appcenter_flutter: 2.2.0
+  rudder_integration_leanplum_flutter: 2.2.0
+  rudder_integration_appsflyer_flutter: 1.3.0
+  # rudder_integration_kochava_flutter: 2.2.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   flutter_dotenv: ^5.0.2
 
-  rudder_sdk_flutter_platform_interface: ^3.2.0
 dev_dependencies:
   flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
+
+# dependency_overrides:
+#   rudder_sdk_flutter:
+#     path: "../packages/plugins/rudder_plugin"
+#   rudder_plugin_db_encryption:
+#     path: "../packages/plugins/rudder_plugin_db_encryption"
+#   rudder_integration_amplitude_flutter:
+#     path: "../packages/integrations/rudder_integration_amplitude_flutter"
+#   rudder_integration_adjust_flutter:
+#     path: "../packages/integrations/rudder_integration_adjust_flutter"
+#   rudder_integration_firebase_flutter:
+#     path: "../packages/integrations/rudder_integration_firebase_flutter"
+#   rudder_integration_braze_flutter:
+#     path: "../packages/integrations/rudder_integration_braze_flutter"
+#   rudder_integration_appcenter_flutter:
+#     path: "../packages/integrations/rudder_integration_appcenter_flutter"
+#   rudder_integration_leanplum_flutter:
+#     path: "../packages/integrations/rudder_integration_leanplum_flutter"
+#   rudder_integration_appsflyer_flutter:
+#     path: "../packages/integrations/rudder_integration_appsflyer_flutter"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

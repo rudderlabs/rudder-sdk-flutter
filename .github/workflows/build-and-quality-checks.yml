@@ -36,7 +36,7 @@ jobs:
 
       - name: Setup .env file
         run: |
-          cat <<EOF > packages/example/.env
+          cat <<EOF > example/.env
             WRITE_KEY=${{ secrets.TEST_WRITE_KEY }}
             DATA_PLANE_URL=${{ secrets.TEST_DATAPLANE_URL }}
             EOF
