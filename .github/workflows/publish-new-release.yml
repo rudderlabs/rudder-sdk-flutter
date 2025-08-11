@@ -78,37 +78,37 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Send message to Slack channel
-        id: slack
-        uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a  # v2.1.1
-        env:
-          PROJECT_NAME: 'Flutter SDK monorepo (v2.x)'
-          RELEASES_URL: 'https://github.com/rudderlabs/rudder-sdk-flutter/releases/'
-        with:
-          method: chat.postMessage
-          payload-templated: true
-          retries: rapid
-          token: ${{ secrets.SLACK_BOT_TOKEN }}
-          payload: |
-            {
-              "channel": "${{ secrets.SLACK_RELEASE_CHANNEL_ID }}",
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "New release: ${{ env.PROJECT_NAME }}"
-                  }
-                },
-                {
-                  "type": "divider"
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Release: <${{env.RELEASES_URL}}${{ steps.extract-version.outputs.release_version }}|v${{ steps.extract-version.outputs.release_version }}>*\n${{ env.DATE }}"
-                  }
-                }
-              ]
-            }
+      # - name: Send message to Slack channel
+      #   id: slack
+      #   uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a  # v2.1.1
+      #   env:
+      #     PROJECT_NAME: 'Flutter SDK monorepo (v2.x)'
+      #     RELEASES_URL: 'https://github.com/rudderlabs/rudder-sdk-flutter/releases/'
+      #   with:
+      #     method: chat.postMessage
+      #     payload-templated: true
+      #     retries: rapid
+      #     token: ${{ secrets.SLACK_BOT_TOKEN }}
+      #     payload: |
+      #       {
+      #         "channel": "${{ secrets.SLACK_RELEASE_CHANNEL_ID }}",
+      #         "blocks": [
+      #           {
+      #             "type": "header",
+      #             "text": {
+      #               "type": "plain_text",
+      #               "text": "New release: ${{ env.PROJECT_NAME }}"
+      #             }
+      #           },
+      #           {
+      #             "type": "divider"
+      #           },
+      #           {
+      #             "type": "section",
+      #             "text": {
+      #               "type": "mrkdwn",
+      #               "text": "*Release: <${{env.RELEASES_URL}}${{ steps.extract-version.outputs.release_version }}|v${{ steps.extract-version.outputs.release_version }}>*\n${{ env.DATE }}"
+      #             }
+      #           }
+      #         ]
+      #       }
