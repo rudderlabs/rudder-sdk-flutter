@@ -19,6 +19,7 @@ class RudderDBEncryption implements DBEncryptionInterface {
   ///
   /// [enabled] determines whether database encryption is enabled.
   /// [key] is the encryption key used to encrypt the database.
+  /// The key should be a strong, unique string for security purposes.
   RudderDBEncryption(enabled, key)
       : _enabled = enabled,
         _key = key;
