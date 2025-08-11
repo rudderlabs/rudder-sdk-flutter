@@ -1,6 +1,6 @@
 name: rudder_plugin_db_encryption
 description: Encrypt your Flutter app's database with this RudderStack plugin. Secure local storage while sending events to analytics destinations seamlessly.
-version: 1.4.0
+version: 1.4.1
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 repository: https://github.com/rudderlabs/rudder-sdk-flutter
 issue_tracker: https://github.com/rudderlabs/rudder-sdk-flutter/issues
