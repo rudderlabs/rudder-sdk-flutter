@@ -1,3 +1,7 @@
+## 1.4.1
+
+ - **DOCS**: clarify encryption key requirements in RudderDBEncryption constructor ([#241](https://github.com/rudderlabs/rudder-sdk-flutter/issues/241)). ([ab98b3f1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ab98b3f14e6c3e0a1ea5ba2bd02193d3a4e04bf5))
+
 ## 1.4.0
 
  - **FEAT**: enhance dbEncryption documentation ([#233](https://github.com/rudderlabs/rudder-sdk-flutter/issues/233)). ([94946e4a](https://github.com/rudderlabs/rudder-sdk-flutter/commit/94946e4af6f9d19db70d2fe523f6fdb4c7d8d846))

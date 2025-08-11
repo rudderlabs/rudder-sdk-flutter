@@ -15,6 +15,36 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`rudder_plugin_db_encryption` - `v1.4.1`](#rudder_plugin_db_encryption---v141)
+ - [`rudder_sdk_flutter_monorepo` - `v4.5.1`](#rudder_sdk_flutter_monorepo---v451)
+
+---
+
+#### `rudder_plugin_db_encryption` - `v1.4.1`
+
+ - **DOCS**: clarify encryption key requirements in RudderDBEncryption constructor ([#241](https://github.com/rudderlabs/rudder-sdk-flutter/issues/241)). ([ab98b3f1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ab98b3f14e6c3e0a1ea5ba2bd02193d3a4e04bf5))
+
+#### `rudder_sdk_flutter_monorepo` - `v4.5.1`
+
+ - **DOCS**: clarify encryption key requirements in RudderDBEncryption constructor ([#241](https://github.com/rudderlabs/rudder-sdk-flutter/issues/241)). ([ab98b3f1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ab98b3f14e6c3e0a1ea5ba2bd02193d3a4e04bf5))
+
+## 4.5.1
+
+ - **DOCS**: clarify encryption key requirements in RudderDBEncryption constructor ([#241](https://github.com/rudderlabs/rudder-sdk-flutter/issues/241)). ([ab98b3f1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ab98b3f14e6c3e0a1ea5ba2bd02193d3a4e04bf5))
+
+
+## 2025-08-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`rudder_plugin_db_encryption` - `v1.4.0`](#rudder_plugin_db_encryption---v140)
  - [`rudder_sdk_flutter_monorepo` - `v4.5.0`](#rudder_sdk_flutter_monorepo---v450)
 
