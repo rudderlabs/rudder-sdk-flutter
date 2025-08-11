@@ -22,10 +22,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Checkout to main
-        if: github.event.workflow_run.conclusion == 'success'
-        run: git checkout main
+          # For workflow_run triggers, explicitly use main branch
+          # For other triggers (tags, manual), use the default ref
+          ref: ${{ github.event.workflow_run.conclusion == 'success' && 'main' || github.ref }}
 
       - name: Setup Dart
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c #v1.3
