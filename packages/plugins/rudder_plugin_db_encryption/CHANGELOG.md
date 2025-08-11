@@ -1,3 +1,7 @@
+## 1.4.0
+
+ - **FEAT**: enhance dbEncryption documentation ([#233](https://github.com/rudderlabs/rudder-sdk-flutter/issues/233)). ([94946e4a](https://github.com/rudderlabs/rudder-sdk-flutter/commit/94946e4af6f9d19db70d2fe523f6fdb4c7d8d846))
+
 ## 1.3.0
 
  - **FEAT**: add Wasm support ([#218](https://github.com/rudderlabs/rudder-sdk-flutter/issues/218)). ([74f4a3e2](https://github.com/rudderlabs/rudder-sdk-flutter/commit/74f4a3e23e4c282b2d3548a3e6a6b4b8659f4035))

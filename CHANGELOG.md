@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-08-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`rudder_plugin_db_encryption` - `v1.4.0`](#rudder_plugin_db_encryption---v140)
+ - [`rudder_sdk_flutter_monorepo` - `v4.5.0`](#rudder_sdk_flutter_monorepo---v450)
+
+---
+
+#### `rudder_plugin_db_encryption` - `v1.4.0`
+
+ - **FEAT**: enhance dbEncryption documentation ([#233](https://github.com/rudderlabs/rudder-sdk-flutter/issues/233)). ([94946e4a](https://github.com/rudderlabs/rudder-sdk-flutter/commit/94946e4af6f9d19db70d2fe523f6fdb4c7d8d846))
+
+#### `rudder_sdk_flutter_monorepo` - `v4.5.0`
+
+ - **FEAT**: enhance dbEncryption documentation ([#233](https://github.com/rudderlabs/rudder-sdk-flutter/issues/233)). ([94946e4a](https://github.com/rudderlabs/rudder-sdk-flutter/commit/94946e4af6f9d19db70d2fe523f6fdb4c7d8d846))
+
+## 4.5.0
+
+ - **FEAT**: enhance dbEncryption documentation ([#233](https://github.com/rudderlabs/rudder-sdk-flutter/issues/233)). ([94946e4a](https://github.com/rudderlabs/rudder-sdk-flutter/commit/94946e4af6f9d19db70d2fe523f6fdb4c7d8d846))
+
+
 ## 2025-07-30
 
 ### Changes
