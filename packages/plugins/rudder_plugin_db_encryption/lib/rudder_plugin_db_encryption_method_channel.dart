@@ -10,6 +10,10 @@ class MethodChannelRudderPluginDbEncryption
   @visibleForTesting
   final methodChannel = const MethodChannel('rudder_plugin_db_encryption');
 
+  /// Adds database encryption configuration by invoking the native platform method.
+  ///
+  /// This sends the [dbEncryption] configuration to the native platform
+  /// implementation through the method channel.
   @override
   void addDBEncryptionToConfig(Map dbEncryption) {
     methodChannel.invokeMethod('addDBEncryptionToConfig', dbEncryption);
