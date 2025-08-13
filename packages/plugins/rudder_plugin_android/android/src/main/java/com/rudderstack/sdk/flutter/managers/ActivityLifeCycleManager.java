@@ -19,15 +19,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ActivityLifeCycleManager implements Application.ActivityLifecycleCallbacks {
   private AtomicInteger noOfActivities;
   private boolean fromBackground = false;
+  private Application application;
 
-  ActivityLifeCycleManager(Context context) {
+  public ActivityLifeCycleManager(Context context) {
     this.noOfActivities = new AtomicInteger(0);
-    Application application = (Application) context.getApplicationContext();
-    application.registerActivityLifecycleCallbacks(this);
+    this.application = (Application) context.getApplicationContext();
+    this.application.registerActivityLifecycleCallbacks(this);
   }
 
-  public static void registerActivityLifeCycleCallBacks(Context context) {
-    new ActivityLifeCycleManager(context);
+  public static ActivityLifeCycleManager registerActivityLifeCycleCallBacks(Context context) {
+    return new ActivityLifeCycleManager(context);
+  }
+
+  public void unregister() {
+    if (this.application != null) {
+      this.application.unregisterActivityLifecycleCallbacks(this);
+      this.application = null;
+    }
   }
 
   @Override
