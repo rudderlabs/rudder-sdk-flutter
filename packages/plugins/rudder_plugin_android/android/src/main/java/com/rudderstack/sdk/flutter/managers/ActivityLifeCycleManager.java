@@ -21,7 +21,7 @@ public class ActivityLifeCycleManager implements Application.ActivityLifecycleCa
   private boolean fromBackground = false;
   private Application application;
 
-  public ActivityLifeCycleManager(Context context) {
+  ActivityLifeCycleManager(Context context) {
     this.noOfActivities = new AtomicInteger(0);
     this.application = (Application) context.getApplicationContext();
     this.application.registerActivityLifecycleCallbacks(this);
