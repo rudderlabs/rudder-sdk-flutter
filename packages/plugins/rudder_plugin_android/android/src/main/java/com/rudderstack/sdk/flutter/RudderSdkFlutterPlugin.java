@@ -55,6 +55,7 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
 
   private UserSessionManager userSessionManager;
   private PreferenceManager preferenceManager;
+  private ActivityLifeCycleManager activityLifeCycleManager;
   private static List<RudderIntegration.Factory> integrationList;
 
   private List<String> staticMethods = new ArrayList<String>(Arrays.asList("initializeSDK", "putDeviceToken", "putAdvertisingId", "putAnonymousId"));
@@ -88,7 +89,9 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "rudder_sdk_flutter");
     channel.setMethodCallHandler(this);
     context = flutterPluginBinding.getApplicationContext();
-    ActivityLifeCycleManager.registerActivityLifeCycleCallBacks(context);
+    if (activityLifeCycleManager == null) {
+      activityLifeCycleManager = ActivityLifeCycleManager.registerActivityLifeCycleCallBacks(context);
+    }
     preferenceManager = PreferenceManager.getInstance(context);
     preferenceManager.migrateAppInfoPreferencesFromNative();
   }
@@ -378,6 +381,10 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+    if (activityLifeCycleManager != null) {
+      activityLifeCycleManager.unregister();
+      activityLifeCycleManager = null;
+    }
     channel.setMethodCallHandler(null);
   }
 
