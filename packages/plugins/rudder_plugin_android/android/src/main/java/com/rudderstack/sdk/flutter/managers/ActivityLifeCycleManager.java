@@ -50,9 +50,9 @@ public class ActivityLifeCycleManager implements Application.ActivityLifecycleCa
   @Override
   public void onActivityStarted(@NonNull Activity activity) {
     if (noOfActivities.incrementAndGet() == 1) {
-      executeRunnableLifeCycleEvent(new ApplicationOpenedRunnable(plugin, fromBackground));
+      executeRunnableLifeCycleEvent(this.plugin, new ApplicationOpenedRunnable(fromBackground));
     }
-    executeRunnableLifeCycleEvent(new ScreenViewRunnable(plugin, activity.getLocalClassName()));
+    executeRunnableLifeCycleEvent(this.plugin, new ScreenViewRunnable(activity.getLocalClassName()));
   }
 
   @Override
@@ -71,7 +71,7 @@ public class ActivityLifeCycleManager implements Application.ActivityLifecycleCa
   public void onActivityStopped(@NonNull Activity activity) {
     fromBackground = true;
     if (noOfActivities.decrementAndGet() == 0) {
-      executeRunnableLifeCycleEvent(new ApplicationBackgroundedRunnable(plugin));
+      executeRunnableLifeCycleEvent(this.plugin, new ApplicationBackgroundedRunnable());
     }
   }
 

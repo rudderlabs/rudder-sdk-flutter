@@ -201,7 +201,7 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     ApplicationLifeCycleManager applicationLifeCycleManager = new ApplicationLifeCycleManager((Application) context, userSessionManager, autoTrackLifeCycleEvents);
     applicationLifeCycleManager.trackApplicationLifeCycleEvents();
     for (RunnableLifeCycleEventsInterface runnableLifeCycleEvent : LifeCycleRunnables.runnableLifeCycleEvents) {
-      runnableLifeCycleEvent.run();
+      runnableLifeCycleEvent.run(this);
     }
     LifeCycleRunnables.runnableLifeCycleEvents.clear();
   }

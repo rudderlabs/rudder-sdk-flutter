@@ -8,63 +8,48 @@ public class LifeCycleRunnables {
   public static final List<RunnableLifeCycleEventsInterface> runnableLifeCycleEvents = new ArrayList<>();
 
   interface RunnableLifeCycleEventsInterface {
-    void run();
+    void run(RudderSdkFlutterPlugin plugin);
   }
 
   public static class ApplicationOpenedRunnable implements RunnableLifeCycleEventsInterface {
     boolean fromBackground;
-    RudderSdkFlutterPlugin plugin;
 
-    public ApplicationOpenedRunnable(RudderSdkFlutterPlugin plugin, boolean fromBackground) {
-      this.plugin = plugin;
+    public ApplicationOpenedRunnable(boolean fromBackground) {
       this.fromBackground = fromBackground;
     }
 
     @Override
-    public void run() {
-      if (plugin != null) {
-        plugin.trackApplicationOpened(fromBackground);
-      }
+    public void run(RudderSdkFlutterPlugin plugin) {
+      plugin.trackApplicationOpened(fromBackground);
     }
   }
 
   public static class ApplicationBackgroundedRunnable implements RunnableLifeCycleEventsInterface {
-    RudderSdkFlutterPlugin plugin;
-
-    public ApplicationBackgroundedRunnable(RudderSdkFlutterPlugin plugin) {
-      this.plugin = plugin;
-    }
 
     @Override
-    public void run() {
-      if (plugin != null) {
-        plugin.trackApplicationBackgrounded();
-      }
+    public void run(RudderSdkFlutterPlugin plugin) {
+      plugin.trackApplicationBackgrounded();
     }
   }
 
   public static class ScreenViewRunnable implements RunnableLifeCycleEventsInterface {
     String activityName;
-    RudderSdkFlutterPlugin plugin;
 
-    public ScreenViewRunnable(RudderSdkFlutterPlugin plugin, String activityName) {
-      this.plugin = plugin;
+    public ScreenViewRunnable(String activityName) {
       this.activityName = activityName;
     }
 
     @Override
-    public void run() {
-      if (plugin != null) {
-        plugin.trackScreen(activityName);
-      }
+    public void run(RudderSdkFlutterPlugin plugin) {
+      plugin.trackScreen(activityName);
     }
   }
 
-  public static void executeRunnableLifeCycleEvent(RunnableLifeCycleEventsInterface lifeCycleEvent) {
-    if (!RudderSdkFlutterPlugin.isInitialized.get()) {
+  public static void executeRunnableLifeCycleEvent(RudderSdkFlutterPlugin plugin, RunnableLifeCycleEventsInterface lifeCycleEvent) {
+    if (!RudderSdkFlutterPlugin.isInitialized.get() || plugin == null) {
       runnableLifeCycleEvents.add(lifeCycleEvent);
     } else {
-      lifeCycleEvent.run();
+      lifeCycleEvent.run(plugin);
     }
   }
 }
