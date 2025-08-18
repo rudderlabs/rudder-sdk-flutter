@@ -10,7 +10,7 @@ public class LifeCycleRunnables {
   public static final List<RunnableLifeCycleEventsInterface> runnableLifeCycleEvents = new ArrayList<>();
 
   interface RunnableLifeCycleEventsInterface {
-    void run(RudderSdkFlutterPlugin plugin);
+    void run(@NonNull RudderSdkFlutterPlugin plugin);
   }
 
   public static class ApplicationOpenedRunnable implements RunnableLifeCycleEventsInterface {
@@ -21,7 +21,7 @@ public class LifeCycleRunnables {
     }
 
     @Override
-    public void run(RudderSdkFlutterPlugin plugin) {
+    public void run(@NonNull RudderSdkFlutterPlugin plugin) {
       plugin.trackApplicationOpened(fromBackground);
     }
   }
@@ -29,7 +29,7 @@ public class LifeCycleRunnables {
   public static class ApplicationBackgroundedRunnable implements RunnableLifeCycleEventsInterface {
 
     @Override
-    public void run(RudderSdkFlutterPlugin plugin) {
+    public void run(@NonNull RudderSdkFlutterPlugin plugin) {
       plugin.trackApplicationBackgrounded();
     }
   }
@@ -42,7 +42,7 @@ public class LifeCycleRunnables {
     }
 
     @Override
-    public void run(RudderSdkFlutterPlugin plugin) {
+    public void run(@NonNull RudderSdkFlutterPlugin plugin) {
       plugin.trackScreen(activityName);
     }
   }
