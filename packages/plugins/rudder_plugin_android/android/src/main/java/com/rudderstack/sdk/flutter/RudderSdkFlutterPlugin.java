@@ -203,6 +203,7 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     for (RunnableLifeCycleEventsInterface runnableLifeCycleEvent : LifeCycleRunnables.runnableLifeCycleEvents) {
       runnableLifeCycleEvent.run();
     }
+    LifeCycleRunnables.runnableLifeCycleEvents.clear();
   }
 
   private void identify(@NonNull MethodCall call) {
