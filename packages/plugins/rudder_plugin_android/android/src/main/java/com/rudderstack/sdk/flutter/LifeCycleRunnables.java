@@ -1,5 +1,7 @@
 package com.rudderstack.sdk.flutter;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +47,8 @@ public class LifeCycleRunnables {
     }
   }
 
-  public static void executeRunnableLifeCycleEvent(RudderSdkFlutterPlugin plugin, RunnableLifeCycleEventsInterface lifeCycleEvent) {
-    if (!RudderSdkFlutterPlugin.isInitialized.get() || plugin == null) {
+  public static void executeRunnableLifeCycleEvent(@NonNull RudderSdkFlutterPlugin plugin, RunnableLifeCycleEventsInterface lifeCycleEvent) {
+    if (!RudderSdkFlutterPlugin.isInitialized.get()) {
       runnableLifeCycleEvents.add(lifeCycleEvent);
     } else {
       lifeCycleEvent.run(plugin);
