@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import static com.rudderstack.sdk.flutter.LifeCycleRunnables.ApplicationOpenedRunnable;
 import static com.rudderstack.sdk.flutter.LifeCycleRunnables.ApplicationBackgroundedRunnable;
 import static com.rudderstack.sdk.flutter.LifeCycleRunnables.ScreenViewRunnable;
+import com.rudderstack.sdk.flutter.RudderSdkFlutterPlugin;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -20,15 +21,17 @@ public class ActivityLifeCycleManager implements Application.ActivityLifecycleCa
   private AtomicInteger noOfActivities;
   private boolean fromBackground = false;
   private Application application;
+  private final RudderSdkFlutterPlugin plugin;
 
-  ActivityLifeCycleManager(Context context) {
+  ActivityLifeCycleManager(Context context, RudderSdkFlutterPlugin plugin) {
     this.noOfActivities = new AtomicInteger(0);
     this.application = (Application) context.getApplicationContext();
+    this.plugin = plugin;
     this.application.registerActivityLifecycleCallbacks(this);
   }
 
-  public static ActivityLifeCycleManager registerActivityLifeCycleCallBacks(Context context) {
-    return new ActivityLifeCycleManager(context);
+  public static ActivityLifeCycleManager registerActivityLifeCycleCallBacks(Context context, RudderSdkFlutterPlugin plugin) {
+    return new ActivityLifeCycleManager(context, plugin);
   }
 
   public void unregister() {
@@ -47,9 +50,9 @@ public class ActivityLifeCycleManager implements Application.ActivityLifecycleCa
   @Override
   public void onActivityStarted(@NonNull Activity activity) {
     if (noOfActivities.incrementAndGet() == 1) {
-      executeRunnableLifeCycleEvent(new ApplicationOpenedRunnable(fromBackground));
+      executeRunnableLifeCycleEvent(new ApplicationOpenedRunnable(plugin, fromBackground));
     }
-    executeRunnableLifeCycleEvent(new ScreenViewRunnable(activity.getLocalClassName()));
+    executeRunnableLifeCycleEvent(new ScreenViewRunnable(plugin, activity.getLocalClassName()));
   }
 
   @Override
@@ -68,7 +71,7 @@ public class ActivityLifeCycleManager implements Application.ActivityLifecycleCa
   public void onActivityStopped(@NonNull Activity activity) {
     fromBackground = true;
     if (noOfActivities.decrementAndGet() == 0) {
-      executeRunnableLifeCycleEvent(new ApplicationBackgroundedRunnable());
+      executeRunnableLifeCycleEvent(new ApplicationBackgroundedRunnable(plugin));
     }
   }
 

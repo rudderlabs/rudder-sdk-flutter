@@ -13,40 +13,55 @@ public class LifeCycleRunnables {
 
   public static class ApplicationOpenedRunnable implements RunnableLifeCycleEventsInterface {
     boolean fromBackground;
+    RudderSdkFlutterPlugin plugin;
 
-    public ApplicationOpenedRunnable(boolean fromBackground) {
+    public ApplicationOpenedRunnable(RudderSdkFlutterPlugin plugin, boolean fromBackground) {
+      this.plugin = plugin;
       this.fromBackground = fromBackground;
     }
 
     @Override
     public void run() {
-      RudderSdkFlutterPlugin.getInstance().trackApplicationOpened(fromBackground);
+      if (plugin != null) {
+        plugin.trackApplicationOpened(fromBackground);
+      }
     }
   }
 
   public static class ApplicationBackgroundedRunnable implements RunnableLifeCycleEventsInterface {
+    RudderSdkFlutterPlugin plugin;
+
+    public ApplicationBackgroundedRunnable(RudderSdkFlutterPlugin plugin) {
+      this.plugin = plugin;
+    }
 
     @Override
     public void run() {
-      RudderSdkFlutterPlugin.getInstance().trackApplicationBackgrounded();
+      if (plugin != null) {
+        plugin.trackApplicationBackgrounded();
+      }
     }
   }
 
   public static class ScreenViewRunnable implements RunnableLifeCycleEventsInterface {
     String activityName;
+    RudderSdkFlutterPlugin plugin;
 
-    public ScreenViewRunnable(String activityName) {
+    public ScreenViewRunnable(RudderSdkFlutterPlugin plugin, String activityName) {
+      this.plugin = plugin;
       this.activityName = activityName;
     }
 
     @Override
     public void run() {
-      RudderSdkFlutterPlugin.getInstance().trackScreen(activityName);
+      if (plugin != null) {
+        plugin.trackScreen(activityName);
+      }
     }
   }
 
   public static void executeRunnableLifeCycleEvent(RunnableLifeCycleEventsInterface lifeCycleEvent) {
-    if (RudderSdkFlutterPlugin.getInstance() == null || !RudderSdkFlutterPlugin.isInitialized.get()) {
+    if (!RudderSdkFlutterPlugin.isInitialized.get()) {
       runnableLifeCycleEvents.add(lifeCycleEvent);
     } else {
       lifeCycleEvent.run();
