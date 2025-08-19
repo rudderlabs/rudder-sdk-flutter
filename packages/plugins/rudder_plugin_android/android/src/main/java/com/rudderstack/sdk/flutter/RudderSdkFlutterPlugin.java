@@ -46,8 +46,7 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
 
   public static AtomicBoolean isInitialized = new AtomicBoolean(false);
   private static boolean autoTrackLifeCycleEvents = true;
-  // TODO: Make this static
-  private boolean autoRecordScreenViews = false;
+  private static boolean autoRecordScreenViews = false;
 
   private static boolean autoSessionTracking = true;
   private static Long sessionTimeoutInMilliSeconds = 300000L;
