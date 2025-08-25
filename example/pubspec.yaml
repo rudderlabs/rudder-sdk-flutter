@@ -35,6 +35,14 @@ dev_dependencies:
 # dependency_overrides:
 #   rudder_sdk_flutter:
 #     path: "../packages/plugins/rudder_plugin"
+#   rudder_sdk_flutter_platform_interface:
+#     path: "../packages/plugins/rudder_plugin_interface"
+#   rudder_plugin_android:
+#     path: "../packages/plugins/rudder_plugin_android"
+#   rudder_plugin_ios:
+#     path: "../packages/plugins/rudder_plugin_ios"
+#   rudder_plugin_web:
+#     path: "../packages/plugins/rudder_plugin_web"
 #   rudder_plugin_db_encryption:
 #     path: "../packages/plugins/rudder_plugin_db_encryption"
 #   rudder_integration_amplitude_flutter:
