@@ -117,6 +117,7 @@ class RudderConfig {
             mobileConfig.sessionTimeoutInMillis;
       }
       _mobileConfigMap['gzip'] = mobileConfig.gzip;
+      _mobileConfigMap['trackDeepLinks'] = mobileConfig.trackDeepLinks;
     }
     if (Utils.isEmpty(controlPlaneUrl)) {
       RudderLogger.logError(
