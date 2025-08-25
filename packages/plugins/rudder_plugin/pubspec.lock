@@ -104,14 +104,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.0"
-  logger:
-    dependency: transitive
-    description:
-      name: logger
-      sha256: "55d6c23a6c15db14920e037fe7e0dc32e7cdaf3b64b4b25df2d541b5b6b81c0c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.6.1"
   matcher:
     dependency: transitive
     description:
@@ -155,34 +147,30 @@ packages:
   rudder_plugin_android:
     dependency: "direct main"
     description:
-      name: rudder_plugin_android
-      sha256: "1528cd34ff9c5194f03fbf6449f9a4ab8aea65565807e27e49582de2b1e6dd70"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../rudder_plugin_android"
+      relative: true
+    source: path
     version: "3.1.1"
   rudder_plugin_ios:
     dependency: "direct main"
     description:
-      name: rudder_plugin_ios
-      sha256: ffbbc23625fb784923fce7c60a31c5cd2fc9d7dc9eb1ecc775ac1c9ecb46729d
-      url: "https://pub.dev"
-    source: hosted
+      path: "../rudder_plugin_ios"
+      relative: true
+    source: path
     version: "3.1.1"
   rudder_plugin_web:
     dependency: "direct main"
     description:
-      name: rudder_plugin_web
-      sha256: e81f597216bdf9b8d01ea1fa33fb10e6de818cea4a8aa79898dfe741e5b1a456
-      url: "https://pub.dev"
-    source: hosted
+      path: "../rudder_plugin_web"
+      relative: true
+    source: path
     version: "3.1.0"
   rudder_sdk_flutter_platform_interface:
     dependency: "direct main"
     description:
-      name: rudder_sdk_flutter_platform_interface
-      sha256: "589454f67fc8178cfb18c5140c27c419e09155c4a928f796b10565ca028e14b3"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../rudder_plugin_interface"
+      relative: true
+    source: path
     version: "3.2.0"
   sky_engine:
     dependency: transitive
