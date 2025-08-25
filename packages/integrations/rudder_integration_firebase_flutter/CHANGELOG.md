@@ -1,3 +1,7 @@
+## 4.3.1
+
+ - Update a dependency to the latest release.
+
 ## 4.3.0
 
  - **FEAT**: add Wasm support ([#218](https://github.com/rudderlabs/rudder-sdk-flutter/issues/218)). ([74f4a3e2](https://github.com/rudderlabs/rudder-sdk-flutter/commit/74f4a3e23e4c282b2d3548a3e6a6b4b8659f4035))

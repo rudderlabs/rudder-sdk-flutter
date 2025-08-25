@@ -1,3 +1,7 @@
+## 1.4.2
+
+ - Update a dependency to the latest release.
+
 ## 1.4.1
 
  - **DOCS**: clarify encryption key requirements in RudderDBEncryption constructor ([#241](https://github.com/rudderlabs/rudder-sdk-flutter/issues/241)). ([ab98b3f1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ab98b3f14e6c3e0a1ea5ba2bd02193d3a4e04bf5))

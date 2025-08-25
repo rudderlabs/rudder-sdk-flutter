@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-08-25
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`rudder_plugin_android` - `v3.1.2`](#rudder_plugin_android---v312)
+ - [`rudder_sdk_flutter_monorepo` - `v4.5.2`](#rudder_sdk_flutter_monorepo---v452)
+ - [`rudder_sdk_flutter` - `v3.2.1`](#rudder_sdk_flutter---v321)
+ - [`rudder_plugin_db_encryption` - `v1.4.2`](#rudder_plugin_db_encryption---v142)
+ - [`rudder_integration_amplitude_flutter` - `v2.2.2`](#rudder_integration_amplitude_flutter---v222)
+ - [`rudder_integration_appcenter_flutter` - `v2.2.1`](#rudder_integration_appcenter_flutter---v221)
+ - [`rudder_integration_firebase_flutter` - `v4.3.1`](#rudder_integration_firebase_flutter---v431)
+ - [`rudder_integration_leanplum_flutter` - `v2.2.1`](#rudder_integration_leanplum_flutter---v221)
+ - [`rudder_integration_adjust_flutter` - `v2.2.1`](#rudder_integration_adjust_flutter---v221)
+ - [`rudder_integration_kochava_flutter` - `v2.2.1`](#rudder_integration_kochava_flutter---v221)
+ - [`rudder_integration_appsflyer_flutter` - `v1.3.1`](#rudder_integration_appsflyer_flutter---v131)
+ - [`rudder_integration_braze_flutter` - `v2.3.1`](#rudder_integration_braze_flutter---v231)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `rudder_sdk_flutter` - `v3.2.1`
+ - `rudder_plugin_db_encryption` - `v1.4.2`
+ - `rudder_integration_amplitude_flutter` - `v2.2.2`
+ - `rudder_integration_appcenter_flutter` - `v2.2.1`
+ - `rudder_integration_firebase_flutter` - `v4.3.1`
+ - `rudder_integration_leanplum_flutter` - `v2.2.1`
+ - `rudder_integration_adjust_flutter` - `v2.2.1`
+ - `rudder_integration_kochava_flutter` - `v2.2.1`
+ - `rudder_integration_appsflyer_flutter` - `v1.3.1`
+ - `rudder_integration_braze_flutter` - `v2.3.1`
+
+---
+
+#### `rudder_plugin_android` - `v3.1.2`
+
+ - **FIX**: npe and memory leak issue ([#245](https://github.com/rudderlabs/rudder-sdk-flutter/issues/245)). ([b9910994](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b991099452dfda6a9fd0c34ef801bb78a2bff85c))
+ - **FIX**: prevent duplicate ActivityLifecycleCallbacks registration in android plugin ([#244](https://github.com/rudderlabs/rudder-sdk-flutter/issues/244)). ([f2e66be7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f2e66be768ca76f6bebe85cc344c4cfd0572b586))
+
+#### `rudder_sdk_flutter_monorepo` - `v4.5.2`
+
+ - **FIX**: npe and memory leak issue ([#245](https://github.com/rudderlabs/rudder-sdk-flutter/issues/245)). ([b9910994](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b991099452dfda6a9fd0c34ef801bb78a2bff85c))
+ - **FIX**: prevent duplicate ActivityLifecycleCallbacks registration in android plugin ([#244](https://github.com/rudderlabs/rudder-sdk-flutter/issues/244)). ([f2e66be7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f2e66be768ca76f6bebe85cc344c4cfd0572b586))
+
+## 4.5.2
+
+ - **FIX**: npe and memory leak issue ([#245](https://github.com/rudderlabs/rudder-sdk-flutter/issues/245)). ([b9910994](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b991099452dfda6a9fd0c34ef801bb78a2bff85c))
+ - **FIX**: prevent duplicate ActivityLifecycleCallbacks registration in android plugin ([#244](https://github.com/rudderlabs/rudder-sdk-flutter/issues/244)). ([f2e66be7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f2e66be768ca76f6bebe85cc344c4cfd0572b586))
+
+
 ## 2025-08-11
 
 ### Changes

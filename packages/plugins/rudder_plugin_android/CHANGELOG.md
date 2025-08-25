@@ -1,3 +1,8 @@
+## 3.1.2
+
+ - **FIX**: npe and memory leak issue ([#245](https://github.com/rudderlabs/rudder-sdk-flutter/issues/245)). ([b9910994](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b991099452dfda6a9fd0c34ef801bb78a2bff85c))
+ - **FIX**: prevent duplicate ActivityLifecycleCallbacks registration in android plugin ([#244](https://github.com/rudderlabs/rudder-sdk-flutter/issues/244)). ([f2e66be7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f2e66be768ca76f6bebe85cc344c4cfd0572b586))
+
 ## 3.1.1
 
  - Update a dependency to the latest release.
