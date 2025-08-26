@@ -1,11 +1,4 @@
 #import "./include/rudder_plugin_ios/RudderSdkFlutterPlugin.h"
-#if __has_include(<Rudder/Rudder.h>)
-#import <Rudder/Rudder.h>
-#else
-#import <Rudder.h>
-#endif
-#import "RSMessageType.h"
-#import "RSLogger.h"
 
 static NSNotification* _notification;
 static RSDBEncryption* _dbEncryption;
