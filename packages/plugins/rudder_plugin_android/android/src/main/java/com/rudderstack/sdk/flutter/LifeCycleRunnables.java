@@ -1,5 +1,7 @@
 package com.rudderstack.sdk.flutter;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +10,7 @@ public class LifeCycleRunnables {
   public static final List<RunnableLifeCycleEventsInterface> runnableLifeCycleEvents = new ArrayList<>();
 
   interface RunnableLifeCycleEventsInterface {
-    void run();
+    void run(@NonNull RudderSdkFlutterPlugin plugin);
   }
 
   public static class ApplicationOpenedRunnable implements RunnableLifeCycleEventsInterface {
@@ -19,16 +21,16 @@ public class LifeCycleRunnables {
     }
 
     @Override
-    public void run() {
-      RudderSdkFlutterPlugin.getInstance().trackApplicationOpened(fromBackground);
+    public void run(@NonNull RudderSdkFlutterPlugin plugin) {
+      plugin.trackApplicationOpened(fromBackground);
     }
   }
 
   public static class ApplicationBackgroundedRunnable implements RunnableLifeCycleEventsInterface {
 
     @Override
-    public void run() {
-      RudderSdkFlutterPlugin.getInstance().trackApplicationBackgrounded();
+    public void run(@NonNull RudderSdkFlutterPlugin plugin) {
+      plugin.trackApplicationBackgrounded();
     }
   }
 
@@ -40,16 +42,16 @@ public class LifeCycleRunnables {
     }
 
     @Override
-    public void run() {
-      RudderSdkFlutterPlugin.getInstance().trackScreen(activityName);
+    public void run(@NonNull RudderSdkFlutterPlugin plugin) {
+      plugin.trackScreen(activityName);
     }
   }
 
-  public static void executeRunnableLifeCycleEvent(RunnableLifeCycleEventsInterface lifeCycleEvent) {
-    if (RudderSdkFlutterPlugin.getInstance() == null || !RudderSdkFlutterPlugin.isInitialized.get()) {
+  public static void executeRunnableLifeCycleEvent(@NonNull RudderSdkFlutterPlugin plugin, RunnableLifeCycleEventsInterface lifeCycleEvent) {
+    if (!RudderSdkFlutterPlugin.isInitialized.get()) {
       runnableLifeCycleEvents.add(lifeCycleEvent);
     } else {
-      lifeCycleEvent.run();
+      lifeCycleEvent.run(plugin);
     }
   }
 }

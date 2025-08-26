@@ -43,14 +43,13 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
   public static final String PROPERTIES = "properties";
   public static final String CATEGORY = "category";
   private Context context;
-  private static RudderSdkFlutterPlugin instance;
 
   public static AtomicBoolean isInitialized = new AtomicBoolean(false);
-  private boolean autoTrackLifeCycleEvents = true;
-  private boolean autoRecordScreenViews = false;
+  private static boolean autoTrackLifeCycleEvents = true;
+  private static boolean autoRecordScreenViews = false;
 
-  private boolean autoSessionTracking = true;
-  private Long sessionTimeoutInMilliSeconds = 300000L;
+  private static boolean autoSessionTracking = true;
+  private static Long sessionTimeoutInMilliSeconds = 300000L;
 
 
   private UserSessionManager userSessionManager;
@@ -80,20 +79,32 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     }
   }
 
-  public static RudderSdkFlutterPlugin getInstance() {
-    return instance;
-  }
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
     channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "rudder_sdk_flutter");
     channel.setMethodCallHandler(this);
     context = flutterPluginBinding.getApplicationContext();
-    if (activityLifeCycleManager == null) {
-      activityLifeCycleManager = ActivityLifeCycleManager.registerActivityLifeCycleCallBacks(context);
-    }
     preferenceManager = PreferenceManager.getInstance(context);
     preferenceManager.migrateAppInfoPreferencesFromNative();
+    if (isInitialized.get()) {
+      restorePluginState(preferenceManager);
+    }
+    // This should be initialised at last, otherwise plugin state might not be restored, resulting in some issues
+    if (activityLifeCycleManager == null) {
+      activityLifeCycleManager = ActivityLifeCycleManager.registerActivityLifeCycleCallBacks(context, this);
+    }
+  }
+
+  private void restorePluginState(PreferenceManager preferenceManager) {
+    if (userSessionManager == null) {
+      this.userSessionManager = new UserSessionManager(
+              autoSessionTracking,
+              autoTrackLifeCycleEvents,
+              preferenceManager,
+              sessionTimeoutInMilliSeconds
+      );
+    }
   }
 
   @Override
@@ -155,7 +166,6 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
   }
 
   private void initializeSDK(MethodCall call) {
-    instance = this;
     initializeNativeSDK(call);
     initializeBridgeSDK(call);
     isInitialized.set(true);
@@ -190,8 +200,9 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     ApplicationLifeCycleManager applicationLifeCycleManager = new ApplicationLifeCycleManager((Application) context, userSessionManager, autoTrackLifeCycleEvents);
     applicationLifeCycleManager.trackApplicationLifeCycleEvents();
     for (RunnableLifeCycleEventsInterface runnableLifeCycleEvent : LifeCycleRunnables.runnableLifeCycleEvents) {
-      runnableLifeCycleEvent.run();
+      runnableLifeCycleEvent.run(this);
     }
+    LifeCycleRunnables.runnableLifeCycleEvents.clear();
   }
 
   private void identify(@NonNull MethodCall call) {
@@ -385,6 +396,7 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
       activityLifeCycleManager.unregister();
       activityLifeCycleManager = null;
     }
+    userSessionManager = null;
     channel.setMethodCallHandler(null);
   }
 
