@@ -172,10 +172,10 @@ PODS:
     - Rudder (~> 1.20)
     - SQLCipher (~> 4.0)
   - RudderKit (1.4.0)
-  - SQLCipher (4.9.0):
-    - SQLCipher/standard (= 4.9.0)
-  - SQLCipher/common (4.9.0)
-  - SQLCipher/standard (4.9.0):
+  - SQLCipher (4.10.0):
+    - SQLCipher/standard (= 4.10.0)
+  - SQLCipher/common (4.10.0)
+  - SQLCipher/standard (4.10.0):
     - SQLCipher/common
 
 DEPENDENCIES:
@@ -254,7 +254,7 @@ SPEC CHECKSUMS:
   FirebaseCore: efb3893e5b94f32b86e331e3bd6dadf18b66568e
   FirebaseCoreInternal: 9afa45b1159304c963da48addb78275ef701c6b4
   FirebaseInstallations: 317270fec08a5d418fdbc8429282238cab3ac843
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   GoogleAdsOnDeviceConversion: 2be6297a4f048459e0ae17fad9bfd2844e10cf64
   GoogleAppMeasurement: 700dce7541804bec33db590a5c496b663fbe2539
   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
@@ -282,7 +282,7 @@ SPEC CHECKSUMS:
   rudder_plugin_ios: 4361db2778b3dea839bf508ec6674fc09c5256a7
   RudderDatabaseEncryption: 409b8623c114a43af6332a694601373fde45e1ca
   RudderKit: f272f9872183946452ac94cd7bb2244a71e6ca8f
-  SQLCipher: 31878d8ebd27e5c96db0b7cb695c96e9f8ad77da
+  SQLCipher: eb79c64049cb002b4e9fcb30edb7979bf4706dfc
 
 PODFILE CHECKSUM: 08ffa6de81fe1ad2a1887c61415ac02514baa72e
 
