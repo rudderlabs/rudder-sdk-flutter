@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "rudder_plugin_ios",
     platforms: [
-        .iOS("11.0")
+        .iOS("12.0")
     ],
     products: [
         .library(name: "rudder-plugin-ios", targets: ["rudder_plugin_ios"])
