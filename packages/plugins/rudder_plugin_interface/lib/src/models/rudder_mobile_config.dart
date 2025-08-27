@@ -35,6 +35,9 @@ class MobileConfig {
   /// @param gzip whether to gzip compress the request payload or not
   final bool _gzip;
 
+  /// @param trackDeepLinks whether to track deep links automatically (Android only)
+  final bool _trackDeepLinks;
+
   MobileConfig(
       {dbCountThreshold = Constants.DB_COUNT_THRESHOLD,
       autoCollectAdvertId = Constants.AUTO_COLLECT_ADVERT_ID,
@@ -46,7 +49,8 @@ class MobileConfig {
       DBEncryptionInterface? dbEncryption,
       autoSessionTracking = Constants.AUTO_SESSION_TRACKING,
       sessionTimeoutInMillis = Constants.DEFAULT_SESSION_TIMEOUT_MOBILE,
-      gzip = Constants.DEFAULT_GZIP_COMPRESSION})
+      gzip = Constants.DEFAULT_GZIP_COMPRESSION,
+      trackDeepLinks = Constants.TRACK_DEEP_LINKS})
       : _dbCountThreshold = dbCountThreshold,
         _autoCollectAdvertId = autoCollectAdvertId,
         _collectDeviceId = collectDeviceId,
@@ -57,7 +61,8 @@ class MobileConfig {
         _dbEncryption = dbEncryption,
         _autoSessionTracking = autoSessionTracking,
         _sessionTimeoutInMillis = sessionTimeoutInMillis,
-        _gzip = gzip;
+        _gzip = gzip,
+        _trackDeepLinks = trackDeepLinks;
 
   int get dbCountThreshold => _dbCountThreshold;
 
@@ -80,4 +85,6 @@ class MobileConfig {
   int get sessionTimeoutInMillis => _sessionTimeoutInMillis;
 
   bool get gzip => _gzip;
+
+  bool get trackDeepLinks => _trackDeepLinks;
 }
