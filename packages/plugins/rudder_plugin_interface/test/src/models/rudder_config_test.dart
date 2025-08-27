@@ -191,4 +191,44 @@ void main() {
     expect(webMap["residencyServer"], equals("US"));
     expect(mobileMap["dataResidencyServer"], equals("US"));
   });
+
+  test('trackDeepLinks configuration parameter is properly handled', () {
+    // Test with trackDeepLinks set to true
+    final MobileConfig mobileConfigTrue = MobileConfig(trackDeepLinks: true);
+    RudderConfig configTrue = RudderConfigBuilder()
+        .withMobileConfig(mobileConfigTrue)
+        .build();
+    Map<String, dynamic> mobileMapTrue = configTrue.toMapMobile();
+    expect(mobileMapTrue["trackDeepLinks"], equals(true));
+
+    // Test with trackDeepLinks set to false
+    final MobileConfig mobileConfigFalse = MobileConfig(trackDeepLinks: false);
+    RudderConfig configFalse = RudderConfigBuilder()
+        .withMobileConfig(mobileConfigFalse)
+        .build();
+    Map<String, dynamic> mobileMapFalse = configFalse.toMapMobile();
+    expect(mobileMapFalse["trackDeepLinks"], equals(false));
+
+    // Test with default value (should be true)
+    final MobileConfig mobileConfigDefault = MobileConfig();
+    RudderConfig configDefault = RudderConfigBuilder()
+        .withMobileConfig(mobileConfigDefault)
+        .build();
+    Map<String, dynamic> mobileMapDefault = configDefault.toMapMobile();
+    expect(mobileMapDefault["trackDeepLinks"], equals(true));
+  });
+
+  test('MobileConfig trackDeepLinks getter works correctly', () {
+    // Test getter with explicit true value
+    final MobileConfig configTrue = MobileConfig(trackDeepLinks: true);
+    expect(configTrue.trackDeepLinks, equals(true));
+
+    // Test getter with explicit false value
+    final MobileConfig configFalse = MobileConfig(trackDeepLinks: false);
+    expect(configFalse.trackDeepLinks, equals(false));
+
+    // Test getter with default value
+    final MobileConfig configDefault = MobileConfig();
+    expect(configDefault.trackDeepLinks, equals(true));
+  });
 }
