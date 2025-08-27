@@ -35,3 +35,8 @@ Icon?
 
 /Flutter/Generated.xcconfig
 /Flutter/flutter_export_environment.sh
+
+# Swift Package Manager
+rudder_plugin_ios/.build/
+rudder_plugin_ios/.swiftpm/
+rudder_plugin_ios/Package.resolved

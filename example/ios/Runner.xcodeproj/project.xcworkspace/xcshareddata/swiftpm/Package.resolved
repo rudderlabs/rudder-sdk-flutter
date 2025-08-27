@@ -1,0 +1,41 @@
+{
+  "pins" : [
+    {
+      "identity" : "crash-reporter-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rudderlabs/crash-reporter-ios",
+      "state" : {
+        "revision" : "ee563535b64d9d5feacd0fa243663b2658033a19",
+        "version" : "1.0.1"
+      }
+    },
+    {
+      "identity" : "metrics-reporter-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rudderlabs/metrics-reporter-ios",
+      "state" : {
+        "revision" : "e307fa37c6c2d2cccf787d73b5b4b5bc3f650435",
+        "version" : "2.0.0"
+      }
+    },
+    {
+      "identity" : "rudder-ios-kit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rudderlabs/rudder-ios-kit",
+      "state" : {
+        "revision" : "8a557a80cc1b0e0bc948c2b17fe0fd3809bcfd61",
+        "version" : "1.4.0"
+      }
+    },
+    {
+      "identity" : "rudder-sdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rudderlabs/rudder-sdk-ios.git",
+      "state" : {
+        "revision" : "6fa297b1fa1f8911db17bdc9058df093419ebd15",
+        "version" : "1.31.1"
+      }
+    }
+  ],
+  "version" : 2
+}

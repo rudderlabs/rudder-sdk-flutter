@@ -9,11 +9,11 @@ RudderStack flutter SDK ios plugin project
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'RudderStack' => 'sdk-accounts@rudderstack.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
-  s.public_header_files = 'Classes/**/*.h'
+  s.source_files = 'rudder_plugin_ios/Sources/rudder_plugin_ios/**/*'
+  s.public_header_files = 'rudder_plugin_ios/Sources/rudder_plugin_ios/include/**/*.h'
   s.dependency 'Flutter'
-  s.dependency "Rudder", '>= 1.26.3', '< 2.0.0'
-  s.platform = :ios, '8.0'
+  s.dependency "Rudder", '>= 1.31.1', '< 2.0.0'
+  s.platform = :ios, '12.0'
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
