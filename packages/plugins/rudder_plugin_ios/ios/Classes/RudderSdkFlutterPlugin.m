@@ -214,6 +214,10 @@ BOOL isRegistrarDetached = NO;
     [configBuilder withGzip: [[configDict objectForKey:@"gzip"] boolValue]];
     [configBuilder
      withTrackLifecycleEvens:[[configDict objectForKey:@"trackLifecycleEvents"] boolValue]];
+    BOOL trackDeepLinks = [[configDict objectForKey:@"trackDeepLinks"] boolValue];
+    if (trackDeepLinks) {
+        [RSLogger logDebug:@"trackDeepLinks is not supported on Flutter iOS"];
+    }
     [configBuilder withRecordScreenViews:[[configDict objectForKey:@"recordScreenViews"] boolValue]];
     [configBuilder withSessionTimeoutMillis:[[configDict objectForKey:@"sessionTimeoutInMillis"]longValue]];
     [configBuilder withAutoSessionTracking:[[configDict objectForKey:@"autoSessionTracking"] boolValue]];
