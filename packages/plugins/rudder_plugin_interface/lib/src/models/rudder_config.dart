@@ -6,22 +6,21 @@ import 'rudder_mobile_config.dart';
 import 'rudder_web_config.dart';
 import 'rudder_integration.dart';
 
-/*
- * Config class for RudderClient
- * - endPointUri -> API endpoint for flushing events
- * - flushQueueSize -> maximum number of events to be batched
- * - dbCountThreshold -> maximum number of events to be persisted in local DB
- * - sleepTimeOut -> timeout for automatic flushing since last successful flush
- * - logLevel -> level of logging for debugging
- * - configRefreshInterval -> time in hours as interval of downloading config from config server
- * - trackLifecycleEvents -> whether track lifecycle events automatically
- * - recordScreenViews -> whether we should record screen views automatically
- * - controlPlaneUrl -> link to self-hosted sourceConfig
- *
- * default values are set at Constants file
- *
- * */
-
+/// Configuration class for RudderStack SDK initialization.
+///
+/// RudderConfig manages all configuration settings for the RudderStack SDK,
+/// including data plane URLs, batch settings, logging levels, and platform-specific
+/// configurations for both mobile and web platforms.
+///
+/// Key configuration options:
+/// - **dataPlaneUrl**: API endpoint for sending events
+/// - **flushQueueSize**: Maximum number of events to batch before sending
+/// - **logLevel**: Level of logging for debugging
+/// - **controlPlaneUrl**: URL for downloading source configuration
+/// - **mobileConfig**: Mobile-specific configuration options
+/// - **webConfig**: Web-specific configuration options
+///
+/// Use [RudderConfigBuilder] to create instances of this class.
 class RudderConfig {
   final Map<String, dynamic> _mobileConfigMap = {};
   final Map<String, dynamic> _webConfigMap = {};
@@ -226,23 +225,47 @@ class RudderConfig {
     }
   }
 
+  /// Returns the configuration map formatted for mobile platforms.
+  ///
+  /// This method provides the configuration settings specific to mobile platforms
+  /// (Android/iOS) in a format suitable for platform channel communication.
+  ///
+  /// Returns a [Map<String, dynamic>] containing mobile-specific configuration.
   Map<String, dynamic> toMapMobile() {
     return _mobileConfigMap;
   }
 
+  /// Returns the configuration map formatted for web platforms.
+  ///
+  /// This method provides the configuration settings specific to web platforms
+  /// in a format suitable for the JavaScript SDK.
+  ///
+  /// Returns a [Map<String, dynamic>] containing web-specific configuration.
   Map<String, dynamic> toMapWeb() {
     return _webConfigMap;
   }
 
+  /// Gets the data plane URL for sending events.
+  ///
+  /// Returns the configured data plane URL as a [String].
   String get dataPlaneUrl => _dataPlaneUrl;
 }
 
-/// RudderConfigBuilder class for RudderConfig
+/// Builder class for creating [RudderConfig] instances.
+///
+/// RudderConfigBuilder provides a fluent interface for constructing
+/// RudderConfig objects with various configuration options. Use this
+/// builder to set up SDK configuration before initialization.
 class RudderConfigBuilder {
   String __dataPlaneUrl = Constants.DATA_PLANE_URL;
 
-  /// @param dataPlaneUrl Your data-plane Url
-  /// @return RudderConfigBuilder
+  /// Sets the data plane URL for sending events.
+  ///
+  /// The data plane URL is the endpoint where all events will be sent.
+  /// If the URL is empty, null, or malformed, it will fallback to the default URL.
+  ///
+  /// [dataPlaneUrl] - The data plane URL to use.
+  /// Returns this [RudderConfigBuilder] instance for method chaining.
   RudderConfigBuilder withDataPlaneUrl(String dataPlaneUrl) {
     if (Utils.isEmpty(dataPlaneUrl)) {
       RudderLogger.logError(
@@ -259,8 +282,13 @@ class RudderConfigBuilder {
 
   int __flushQueueSize = Constants.FLUSH_QUEUE_SIZE;
 
-  /// @param flushQueueSize No. of events you want to send in a batch (min = 1, max = 100)
-  /// @return RudderConfigBuilder
+  /// Sets the flush queue size for batching events.
+  ///
+  /// Determines how many events to batch together before sending to the server.
+  /// Valid range is 1-100. Values outside this range will use the default.
+  ///
+  /// [flushQueueSize] - Number of events to batch (min = 1, max = 100).
+  /// Returns this [RudderConfigBuilder] instance for method chaining.
   RudderConfigBuilder withFlushQueueSize(int flushQueueSize) {
     if (flushQueueSize < 1 || flushQueueSize > 100) {
       RudderLogger.logError(
@@ -283,9 +311,13 @@ class RudderConfigBuilder {
 
   int __logLevel = RudderLogger.NONE;
 
-  /// @param logLevel Determine how much log you want to generate.
-  /// Use RudderLogger.NONE for production
-  /// @return RudderConfigBuilder
+  /// Sets the logging level for the SDK.
+  ///
+  /// Controls the verbosity of SDK logging. Use [RudderLogger.NONE] for production
+  /// to disable all logging, or higher levels for debugging.
+  ///
+  /// [logLevel] - The logging level (use RudderLogger constants).
+  /// Returns this [RudderConfigBuilder] instance for method chaining.
   RudderConfigBuilder withLogLevel(int logLevel) {
     __logLevel = logLevel;
     return this;
@@ -293,6 +325,13 @@ class RudderConfigBuilder {
 
   MobileConfig __mobileConfig = MobileConfig();
 
+  /// Sets the mobile-specific configuration.
+  ///
+  /// Provides configuration options specific to mobile platforms (Android/iOS)
+  /// such as lifecycle tracking, screen view recording, and database settings.
+  ///
+  /// [mobileConfig] - The mobile configuration to use.
+  /// Returns this [RudderConfigBuilder] instance for method chaining.
   RudderConfigBuilder withMobileConfig(MobileConfig mobileConfig) {
     __mobileConfig = mobileConfig;
     return this;
@@ -300,6 +339,13 @@ class RudderConfigBuilder {
 
   WebConfig __webConfig = WebConfig();
 
+  /// Sets the web-specific configuration.
+  ///
+  /// Provides configuration options specific to web platforms including
+  /// cookie settings, integration loading, and queue options.
+  ///
+  /// [webConfig] - The web configuration to use.
+  /// Returns this [RudderConfigBuilder] instance for method chaining.
   RudderConfigBuilder withWebConfig(WebConfig webConfig) {
     __webConfig = webConfig;
     return this;
@@ -307,8 +353,13 @@ class RudderConfigBuilder {
 
   String __controlPlaneUrl = Constants.CONTROL_PLANE_URL;
 
-  /// @param controlPlaneUrl Your hosted version of sourceConfig
-  /// @return RudderConfigBuilder
+  /// Sets the control plane URL for source configuration.
+  ///
+  /// The control plane URL is used to download source configuration and
+  /// destination settings. Use this if you're hosting your own control plane.
+  ///
+  /// [controlPlaneUrl] - The control plane URL to use.
+  /// Returns this [RudderConfigBuilder] instance for method chaining.
   RudderConfigBuilder withControlPlaneUrl(String controlPlaneUrl) {
     __controlPlaneUrl = controlPlaneUrl;
     return this;
@@ -340,8 +391,12 @@ class RudderConfigBuilder {
     return this;
   }
 
-  /// Finalize your config building
-  /// @return RudderConfig
+  /// Builds and returns the final [RudderConfig] instance.
+  ///
+  /// Creates a [RudderConfig] with all the specified configuration options.
+  /// This method should be called after setting all desired configuration values.
+  ///
+  /// Returns a configured [RudderConfig] instance ready for SDK initialization.
   RudderConfig build() {
     return RudderConfig.__rudderConfig(
         __dataPlaneUrl,
