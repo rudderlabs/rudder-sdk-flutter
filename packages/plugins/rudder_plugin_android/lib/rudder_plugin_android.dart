@@ -1,14 +1,3 @@
-/// Android platform implementation for RudderStack Flutter SDK.
-///
-/// This library provides the Android-specific implementation of the RudderStack
-/// Flutter SDK, enabling native event tracking and analytics integration on
-/// Android devices.
-///
-/// The main class [RudderSdkFlutterAndroid] implements the platform interface
-/// and handles communication with the native Android RudderStack SDK through
-/// method channels.
-library rudder_plugin_android;
-
 import 'dart:async';
 
 import 'package:flutter/services.dart';
@@ -24,12 +13,6 @@ const MethodChannel _platformChannel = MethodChannel('rudder_sdk_flutter');
 /// RudderStack SDK.
 
 class RudderSdkFlutterAndroid extends RudderSdkPlatform {
-  /// Creates an instance of [RudderSdkFlutterAndroid].
-  ///
-  /// This constructor initializes the Android platform implementation
-  /// of the RudderStack Flutter SDK.
-  RudderSdkFlutterAndroid();
-
   /// Registers this Android implementation as the platform instance.
   ///
   /// This method should be called to register the Android platform
