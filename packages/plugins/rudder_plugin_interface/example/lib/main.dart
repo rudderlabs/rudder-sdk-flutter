@@ -18,5 +18,5 @@ void main() {
     ..withMobileConfig(mc)
     ..withLogLevel(RudderLogger.VERBOSE);
 
-  RudderController.initialize('your-write-key', config: builder.build());
+  RudderController.instance.initialize('your-write-key', config: builder.build());
 }
