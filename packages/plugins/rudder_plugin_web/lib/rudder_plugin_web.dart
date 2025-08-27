@@ -98,6 +98,8 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   ///
   /// This method is used to track screen navigation and user flow.
   /// It helps understand user navigation patterns and popular areas of your app.
+  ///
+  /// **Note**: On web, this method maps to the `page` event in the RudderStack JS SDK.
   @override
   void screen(String screenName,
       {String? category, RudderProperty? properties, RudderOption? options}) {
