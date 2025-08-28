@@ -2,26 +2,40 @@ import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 
 import '../utils.dart';
 
+/// A class representing user traits for RudderStack identify calls.
+///
+/// RudderTraits is used to store and manage user-specific information that
+/// can be sent with identify events. It provides a convenient way to build
+/// and manage user profile data including personal information, company details,
+/// and address information.
+///
+/// The traits are internally stored as a map and can be converted to different
+/// formats for web and mobile platforms. Custom traits can be added using the
+/// [put] and [putValue] methods.
 class RudderTraits {
   final Map<String, dynamic> __traitsMap = {};
 
-  /// Initialise RudderTraits
+  /// Creates a new [RudderTraits] instance with optional user information.
   ///
-  /// @param address     Address
-  /// @param age         String
-  /// @param birthday    String
-  /// @param company     Company
-  /// @param createdAt   String
-  /// @param description String
-  /// @param email       String
-  /// @param firstName   String
-  /// @param gender      String
-  /// @param id          String
-  /// @param lastName    String
-  /// @param name        String
-  /// @param phone       String
-  /// @param title
-  /// @param userName    String
+  /// All parameters are optional and can be set individually or through
+  /// the various put methods after construction.
+  ///
+  /// Parameters:
+  /// - [address] - User's address information
+  /// - [age] - User's age as a string
+  /// - [birthday] - User's birthday
+  /// - [company] - User's company information
+  /// - [createdAt] - Account creation timestamp
+  /// - [description] - User description
+  /// - [email] - User's email address
+  /// - [firstName] - User's first name
+  /// - [gender] - User's gender
+  /// - [id] - User's unique identifier
+  /// - [lastName] - User's last name
+  /// - [name] - User's full name
+  /// - [phone] - User's phone number
+  /// - [title] - User's title or position
+  /// - [userName] - User's username
   RudderTraits(
       {Address? address,
       String? age,
@@ -113,6 +127,10 @@ class RudderTraits {
     return this;
   }
 
+  /// Sets the user's birthday as a string.
+  ///
+  /// [birthdayString] - The birthday as a string in any format.
+  /// Returns this [RudderTraits] instance for method chaining.
   RudderTraits putBirthdayString(String birthdayString) {
     __traitsMap["birthday"] = birthdayString;
     return this;
@@ -245,6 +263,13 @@ class RudderTraits {
     return this;
   }
 
+  /// Adds multiple key-value pairs to the traits extras.
+  ///
+  /// This method allows adding multiple custom traits at once. The 'extras' key
+  /// is reserved and will be ignored if present in the map with a warning logged.
+  ///
+  /// [map] - A map of key-value pairs to add to the traits.
+  /// Returns this [RudderTraits] instance for method chaining.
   RudderTraits putValue(Map<String, dynamic> map) {
     if (map.remove("extras") != null) {
       RudderLogger.logError(
@@ -257,6 +282,10 @@ class RudderTraits {
     return this;
   }
 
+  /// Converts traits to a format suitable for web platforms.
+  ///
+  /// This method flattens the extras map into the main traits map for web compatibility.
+  /// Returns a [Map<String, dynamic>] containing all traits formatted for web.
   Map<String, dynamic> toWebTraits() {
     Map<String, dynamic> webTraits = Map.from(__traitsMap);
 
@@ -267,6 +296,10 @@ class RudderTraits {
     return webTraits;
   }
 
+  /// Converts traits to a format suitable for mobile platforms.
+  ///
+  /// Returns the internal traits map as-is for mobile platform compatibility.
+  /// Returns a [Map<String, dynamic>] containing all traits formatted for mobile.
   Map<String, dynamic> toMobileTraits() {
     return __traitsMap;
   }
@@ -277,16 +310,25 @@ class RudderTraits {
   }
 }
 
+/// A class representing user address information.
+///
+/// Address is used to store geographical location data for users, including
+/// city, country, postal code, state, and street information. This can be used
+/// as part of [RudderTraits] for user identification.
 class Address {
   Map<String, String> addressMap = {};
 
-  /// constructor
+  /// Creates a new [Address] instance with optional address components.
   ///
-  /// @param city       String
-  /// @param country    String
-  /// @param postalCode String
-  /// @param state      String
-  /// @param street     String
+  /// All parameters are optional and can be set individually or through
+  /// the various put methods after construction.
+  ///
+  /// Parameters:
+  /// - [city] - The city name
+  /// - [country] - The country name
+  /// - [postalCode] - The postal/ZIP code
+  /// - [state] - The state or province
+  /// - [street] - The street address
   Address(
       {String? city,
       String? country,
@@ -361,14 +403,23 @@ class Address {
   }
 }
 
+/// A class representing user's company information.
+///
+/// Company is used to store business-related information about the user,
+/// including company name, ID, and industry. This can be used as part of
+/// [RudderTraits] for user identification.
 class Company {
   Map<String, String> companyMap = {};
 
-  /// constructor
+  /// Creates a new [Company] instance with optional company information.
   ///
-  /// @param name     String
-  /// @param id       String
-  /// @param industry String
+  /// All parameters are optional and can be set individually or through
+  /// the various put methods after construction.
+  ///
+  /// Parameters:
+  /// - [name] - The company name
+  /// - [id] - The company identifier
+  /// - [industry] - The industry the company belongs to
   Company({String? name, String? id, String? industry}) {
     if (name != null) {
       companyMap["name"] = name;

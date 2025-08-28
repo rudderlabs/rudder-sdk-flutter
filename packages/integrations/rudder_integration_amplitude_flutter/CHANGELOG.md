@@ -1,3 +1,7 @@
+## 2.3.0
+
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+
 ## 2.2.1
 
  - **FIX**: address snyk issue in Amplitude integration ([#230](https://github.com/rudderlabs/rudder-sdk-flutter/issues/230)). ([dade6242](https://github.com/rudderlabs/rudder-sdk-flutter/commit/dade62428a0225b8ad6f73955fe9c19595bab26f))

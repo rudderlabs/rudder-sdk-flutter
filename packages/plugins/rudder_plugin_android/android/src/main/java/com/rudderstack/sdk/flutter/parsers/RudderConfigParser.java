@@ -26,6 +26,7 @@ public class RudderConfigParser {
       .withCollectDeviceId((Boolean) configMap.get("collectDeviceId"))
       .withControlPlaneUrl((String) configMap.get("controlPlaneUrl"))
       .withGzip((Boolean) configMap.get("gzip"))
+      .withTrackDeepLinks((Boolean) configMap.get("trackDeepLinks"))
       // disabling the below three flags on the native side as they are handled on the flutter side
       .withTrackLifecycleEvents(false)
       .withRecordScreenViews(false)

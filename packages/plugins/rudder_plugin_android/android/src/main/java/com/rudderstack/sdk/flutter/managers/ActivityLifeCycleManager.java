@@ -13,21 +13,32 @@ import androidx.annotation.Nullable;
 import static com.rudderstack.sdk.flutter.LifeCycleRunnables.ApplicationOpenedRunnable;
 import static com.rudderstack.sdk.flutter.LifeCycleRunnables.ApplicationBackgroundedRunnable;
 import static com.rudderstack.sdk.flutter.LifeCycleRunnables.ScreenViewRunnable;
+import com.rudderstack.sdk.flutter.RudderSdkFlutterPlugin;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ActivityLifeCycleManager implements Application.ActivityLifecycleCallbacks {
-  private AtomicInteger noOfActivities;
-  private boolean fromBackground = false;
+  private static final AtomicInteger noOfActivities = new AtomicInteger(0);
+  private static final AtomicBoolean fromBackground = new AtomicBoolean(false);
+  private Application application;
+  private final RudderSdkFlutterPlugin plugin;
 
-  ActivityLifeCycleManager(Context context) {
-    this.noOfActivities = new AtomicInteger(0);
-    Application application = (Application) context.getApplicationContext();
-    application.registerActivityLifecycleCallbacks(this);
+  ActivityLifeCycleManager(Context context, RudderSdkFlutterPlugin plugin) {
+    this.application = (Application) context.getApplicationContext();
+    this.plugin = plugin;
+    this.application.registerActivityLifecycleCallbacks(this);
   }
 
-  public static void registerActivityLifeCycleCallBacks(Context context) {
-    new ActivityLifeCycleManager(context);
+  public static ActivityLifeCycleManager registerActivityLifeCycleCallBacks(Context context, RudderSdkFlutterPlugin plugin) {
+    return new ActivityLifeCycleManager(context, plugin);
+  }
+
+  public void unregister() {
+    if (this.application != null) {
+      this.application.unregisterActivityLifecycleCallbacks(this);
+      this.application = null;
+    }
   }
 
   @Override
@@ -39,9 +50,9 @@ public class ActivityLifeCycleManager implements Application.ActivityLifecycleCa
   @Override
   public void onActivityStarted(@NonNull Activity activity) {
     if (noOfActivities.incrementAndGet() == 1) {
-      executeRunnableLifeCycleEvent(new ApplicationOpenedRunnable(fromBackground));
+      executeRunnableLifeCycleEvent(this.plugin, new ApplicationOpenedRunnable(fromBackground.get()));
     }
-    executeRunnableLifeCycleEvent(new ScreenViewRunnable(activity.getLocalClassName()));
+    executeRunnableLifeCycleEvent(this.plugin, new ScreenViewRunnable(activity.getLocalClassName()));
   }
 
   @Override
@@ -58,9 +69,9 @@ public class ActivityLifeCycleManager implements Application.ActivityLifecycleCa
 
   @Override
   public void onActivityStopped(@NonNull Activity activity) {
-    fromBackground = true;
+    fromBackground.set(true);
     if (noOfActivities.decrementAndGet() == 0) {
-      executeRunnableLifeCycleEvent(new ApplicationBackgroundedRunnable());
+      executeRunnableLifeCycleEvent(this.plugin, new ApplicationBackgroundedRunnable());
     }
   }
 

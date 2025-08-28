@@ -48,6 +48,9 @@ class Constants {
   // whether we should record screen views automatically
   static const bool RECORD_SCREEN_VIEWS = false;
 
+  // whether we should track deep links automatically
+  static const bool TRACK_DEEP_LINKS = true;
+
   static const DataResidencyServer DEFAULT_DATA_RESIDENCY_SERVER =
       DataResidencyServer.US;
 }

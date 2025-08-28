@@ -1,7 +1,4 @@
-#import "RudderSdkFlutterPlugin.h"
-#import <Rudder/Rudder.h>
-#import "RSMessageType.h"
-#import "RSLogger.h"
+#import "./include/rudder_plugin_ios/RudderSdkFlutterPlugin.h"
 
 static NSNotification* _notification;
 static RSDBEncryption* _dbEncryption;
@@ -214,6 +211,10 @@ BOOL isRegistrarDetached = NO;
     [configBuilder withGzip: [[configDict objectForKey:@"gzip"] boolValue]];
     [configBuilder
      withTrackLifecycleEvens:[[configDict objectForKey:@"trackLifecycleEvents"] boolValue]];
+    BOOL trackDeepLinks = [[configDict objectForKey:@"trackDeepLinks"] boolValue];
+    if (trackDeepLinks) {
+        [RSLogger logDebug:@"Automatic deep link tracking is not supported on Flutter iOS"];
+    }
     [configBuilder withRecordScreenViews:[[configDict objectForKey:@"recordScreenViews"] boolValue]];
     [configBuilder withSessionTimeoutMillis:[[configDict objectForKey:@"sessionTimeoutInMillis"]longValue]];
     [configBuilder withAutoSessionTracking:[[configDict objectForKey:@"autoSessionTracking"] boolValue]];

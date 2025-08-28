@@ -1,6 +1,6 @@
 name: rudder_sdk_flutter_platform_interface
-version: 3.2.0
-description: A platform interface for mobile and web sdk
+version: 3.3.0
+description: Platform interface for RudderStack Flutter SDK - Defines contracts for iOS, Android, and Web implementations.
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 repository: https://github.com/rudderlabs/rudder-sdk-flutter
 issue_tracker: https://github.com/rudderlabs/rudder-sdk-flutter/issues
@@ -13,8 +13,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  logger: ^2.0.2
-  plugin_platform_interface: ^2.0.0
+  plugin_platform_interface: ^2.1.0
 
 dev_dependencies:
   flutter_lints: ^6.0.0
