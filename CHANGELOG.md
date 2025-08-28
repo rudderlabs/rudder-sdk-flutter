@@ -3,6 +3,126 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-08-28
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`rudder_integration_adjust_flutter` - `v2.3.0`](#rudder_integration_adjust_flutter---v230)
+ - [`rudder_integration_amplitude_flutter` - `v2.3.0`](#rudder_integration_amplitude_flutter---v230)
+ - [`rudder_integration_appcenter_flutter` - `v2.3.0`](#rudder_integration_appcenter_flutter---v230)
+ - [`rudder_integration_appsflyer_flutter` - `v1.4.0`](#rudder_integration_appsflyer_flutter---v140)
+ - [`rudder_integration_braze_flutter` - `v2.4.0`](#rudder_integration_braze_flutter---v240)
+ - [`rudder_integration_firebase_flutter` - `v4.4.0`](#rudder_integration_firebase_flutter---v440)
+ - [`rudder_integration_kochava_flutter` - `v2.3.0`](#rudder_integration_kochava_flutter---v230)
+ - [`rudder_integration_leanplum_flutter` - `v2.3.0`](#rudder_integration_leanplum_flutter---v230)
+ - [`rudder_plugin_android` - `v3.2.0`](#rudder_plugin_android---v320)
+ - [`rudder_plugin_db_encryption` - `v1.5.0`](#rudder_plugin_db_encryption---v150)
+ - [`rudder_plugin_ios` - `v3.2.0`](#rudder_plugin_ios---v320)
+ - [`rudder_plugin_web` - `v3.2.0`](#rudder_plugin_web---v320)
+ - [`rudder_sdk_flutter` - `v3.3.0`](#rudder_sdk_flutter---v330)
+ - [`rudder_sdk_flutter_monorepo` - `v4.6.0`](#rudder_sdk_flutter_monorepo---v460)
+ - [`rudder_sdk_flutter_platform_interface` - `v3.3.0`](#rudder_sdk_flutter_platform_interface---v330)
+
+---
+
+#### `rudder_integration_adjust_flutter` - `v2.3.0`
+
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+
+#### `rudder_integration_amplitude_flutter` - `v2.3.0`
+
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+
+#### `rudder_integration_appcenter_flutter` - `v2.3.0`
+
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+
+#### `rudder_integration_appsflyer_flutter` - `v1.4.0`
+
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+
+#### `rudder_integration_braze_flutter` - `v2.4.0`
+
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+
+#### `rudder_integration_firebase_flutter` - `v4.4.0`
+
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+
+#### `rudder_integration_kochava_flutter` - `v2.3.0`
+
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+
+#### `rudder_integration_leanplum_flutter` - `v2.3.0`
+
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+
+#### `rudder_plugin_android` - `v3.2.0`
+
+ - **FIX**: npe and memory leak issue ([#245](https://github.com/rudderlabs/rudder-sdk-flutter/issues/245)). ([b9910994](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b991099452dfda6a9fd0c34ef801bb78a2bff85c))
+ - **FIX**: prevent duplicate ActivityLifecycleCallbacks registration in android plugin ([#244](https://github.com/rudderlabs/rudder-sdk-flutter/issues/244)). ([f2e66be7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f2e66be768ca76f6bebe85cc344c4cfd0572b586))
+ - **FEAT**: improve Flutter package score for core SDK plugins ([#259](https://github.com/rudderlabs/rudder-sdk-flutter/issues/259)). ([e489fa86](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e489fa8624e0742c35de38fd2f91b960754097c8))
+ - **FEAT**: add track deep links flag to RudderConfigParser. ([d5bf24fe](https://github.com/rudderlabs/rudder-sdk-flutter/commit/d5bf24feaf47a41b66c24952d2d8b161e76be02c))
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+
+#### `rudder_plugin_db_encryption` - `v1.5.0`
+
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+
+#### `rudder_plugin_ios` - `v3.2.0`
+
+ - **FEAT**: improve Flutter package score for core SDK plugins ([#259](https://github.com/rudderlabs/rudder-sdk-flutter/issues/259)). ([e489fa86](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e489fa8624e0742c35de38fd2f91b960754097c8))
+ - **FEAT**: log unsupported deep link tracking on Flutter iOS. ([caed4e1e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/caed4e1e72490bb1c7de4be93d16910f1b11ac4f))
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+
+#### `rudder_plugin_web` - `v3.2.0`
+
+ - **FEAT**: improve Flutter package score for core SDK plugins ([#259](https://github.com/rudderlabs/rudder-sdk-flutter/issues/259)). ([e489fa86](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e489fa8624e0742c35de38fd2f91b960754097c8))
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+
+#### `rudder_sdk_flutter` - `v3.3.0`
+
+ - **FEAT**: improve Flutter package score for core SDK plugins ([#259](https://github.com/rudderlabs/rudder-sdk-flutter/issues/259)). ([e489fa86](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e489fa8624e0742c35de38fd2f91b960754097c8))
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+
+#### `rudder_sdk_flutter_monorepo` - `v4.6.0`
+
+ - **FIX**: npe and memory leak issue ([#245](https://github.com/rudderlabs/rudder-sdk-flutter/issues/245)). ([b9910994](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b991099452dfda6a9fd0c34ef801bb78a2bff85c))
+ - **FIX**: prevent duplicate ActivityLifecycleCallbacks registration in android plugin ([#244](https://github.com/rudderlabs/rudder-sdk-flutter/issues/244)). ([f2e66be7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f2e66be768ca76f6bebe85cc344c4cfd0572b586))
+ - **FEAT**: improve Flutter package score for core SDK plugins ([#259](https://github.com/rudderlabs/rudder-sdk-flutter/issues/259)). ([e489fa86](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e489fa8624e0742c35de38fd2f91b960754097c8))
+ - **FEAT**: log unsupported deep link tracking on Flutter iOS. ([caed4e1e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/caed4e1e72490bb1c7de4be93d16910f1b11ac4f))
+ - **FEAT**: add track deep links flag to RudderConfigParser. ([d5bf24fe](https://github.com/rudderlabs/rudder-sdk-flutter/commit/d5bf24feaf47a41b66c24952d2d8b161e76be02c))
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+ - **FEAT**: add track deep links flag to mobile config map. ([710c7e1e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/710c7e1e561e85e737da488007eb3e19b8d419c0))
+ - **FEAT**: add deep link tracking flag to mobile config. ([f633c1d8](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f633c1d81fa1f01947c58b7c7a14f366ea23c18f))
+
+#### `rudder_sdk_flutter_platform_interface` - `v3.3.0`
+
+ - **FEAT**: improve Flutter package score for core SDK plugins ([#259](https://github.com/rudderlabs/rudder-sdk-flutter/issues/259)). ([e489fa86](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e489fa8624e0742c35de38fd2f91b960754097c8))
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+ - **FEAT**: add track deep links flag to mobile config map. ([710c7e1e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/710c7e1e561e85e737da488007eb3e19b8d419c0))
+ - **FEAT**: add deep link tracking flag to mobile config. ([f633c1d8](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f633c1d81fa1f01947c58b7c7a14f366ea23c18f))
+
+## 4.6.0
+
+ - **FIX**: npe and memory leak issue ([#245](https://github.com/rudderlabs/rudder-sdk-flutter/issues/245)). ([b9910994](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b991099452dfda6a9fd0c34ef801bb78a2bff85c))
+ - **FIX**: prevent duplicate ActivityLifecycleCallbacks registration in android plugin ([#244](https://github.com/rudderlabs/rudder-sdk-flutter/issues/244)). ([f2e66be7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f2e66be768ca76f6bebe85cc344c4cfd0572b586))
+ - **FEAT**: improve Flutter package score for core SDK plugins ([#259](https://github.com/rudderlabs/rudder-sdk-flutter/issues/259)). ([e489fa86](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e489fa8624e0742c35de38fd2f91b960754097c8))
+ - **FEAT**: log unsupported deep link tracking on Flutter iOS. ([caed4e1e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/caed4e1e72490bb1c7de4be93d16910f1b11ac4f))
+ - **FEAT**: add track deep links flag to RudderConfigParser. ([d5bf24fe](https://github.com/rudderlabs/rudder-sdk-flutter/commit/d5bf24feaf47a41b66c24952d2d8b161e76be02c))
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+ - **FEAT**: add track deep links flag to mobile config map. ([710c7e1e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/710c7e1e561e85e737da488007eb3e19b8d419c0))
+ - **FEAT**: add deep link tracking flag to mobile config. ([f633c1d8](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f633c1d81fa1f01947c58b7c7a14f366ea23c18f))
+
+
 ## 2025-08-11
 
 ### Changes

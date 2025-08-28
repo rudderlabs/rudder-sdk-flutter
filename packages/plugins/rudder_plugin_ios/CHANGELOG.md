@@ -1,3 +1,9 @@
+## 3.2.0
+
+ - **FEAT**: improve Flutter package score for core SDK plugins ([#259](https://github.com/rudderlabs/rudder-sdk-flutter/issues/259)). ([e489fa86](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e489fa8624e0742c35de38fd2f91b960754097c8))
+ - **FEAT**: log unsupported deep link tracking on Flutter iOS. ([caed4e1e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/caed4e1e72490bb1c7de4be93d16910f1b11ac4f))
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+
 ## 3.1.1
 
  - Update a dependency to the latest release.
