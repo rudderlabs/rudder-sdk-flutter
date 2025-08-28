@@ -13,7 +13,8 @@ external void setAnonymousId(JSString anonymousId);
 external void identify(JSString userId, JSObject? traits, JSObject? options);
 
 @JS('page')
-external void page(JSString? category, JSString name, JSObject? properties, JSObject? options);
+external void page(
+    JSString? category, JSString name, JSObject? properties, JSObject? options);
 
 @JS('track')
 external void track(JSString event, JSObject? properties, JSObject? options);
