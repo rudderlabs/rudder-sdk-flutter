@@ -1,14 +1,3 @@
-/// iOS platform implementation for RudderStack Flutter SDK.
-///
-/// This library provides the iOS-specific implementation of the RudderStack
-/// Flutter SDK, enabling native event tracking and analytics integration on
-/// iOS devices.
-///
-/// The main class [RudderSdkFlutterIos] implements the platform interface
-/// and handles communication with the native iOS RudderStack SDK through
-/// method channels.
-library rudder_plugin_ios;
-
 import 'dart:async';
 
 import 'package:flutter/services.dart';
@@ -23,12 +12,6 @@ const MethodChannel _platformChannel = MethodChannel('rudder_sdk_flutter');
 /// providing native iOS features like device token handling, advertising ID
 /// management, and iOS-specific session tracking.
 class RudderSdkFlutterIos extends RudderSdkPlatform {
-  /// Creates an instance of [RudderSdkFlutterIos].
-  ///
-  /// This constructor initializes the iOS platform implementation
-  /// of the RudderStack Flutter SDK.
-  RudderSdkFlutterIos();
-
   /// Registers this iOS implementation as the platform instance.
   ///
   /// This method should be called to register the iOS-specific implementation
