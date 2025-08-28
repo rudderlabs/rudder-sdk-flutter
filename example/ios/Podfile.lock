@@ -167,7 +167,7 @@ PODS:
     - RudderDatabaseEncryption (~> 1.0.0)
   - rudder_plugin_ios (0.0.1):
     - Flutter
-    - Rudder (< 2.0.0, >= 1.26.3)
+    - Rudder (< 2.0.0, >= 1.31.1)
   - RudderDatabaseEncryption (1.0.0):
     - Rudder (~> 1.20)
     - SQLCipher (~> 4.0)
@@ -279,7 +279,7 @@ SPEC CHECKSUMS:
   rudder_integration_firebase_flutter: 8ac1f770bc71ffea373b164b53d2dadd38660dae
   rudder_integration_leanplum_flutter: 957f3c7ea226c21155766a22c0a34704750a59df
   rudder_plugin_db_encryption: 4e84d0f08521538582d5c688a1245faca48f3ee3
-  rudder_plugin_ios: 4361db2778b3dea839bf508ec6674fc09c5256a7
+  rudder_plugin_ios: 6eee402f8e5f8d701896d4febf0e10d7d631a91f
   RudderDatabaseEncryption: 409b8623c114a43af6332a694601373fde45e1ca
   RudderKit: f272f9872183946452ac94cd7bb2244a71e6ca8f
   SQLCipher: eb79c64049cb002b4e9fcb30edb7979bf4706dfc
