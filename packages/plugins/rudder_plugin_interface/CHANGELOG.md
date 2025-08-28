@@ -1,3 +1,10 @@
+## 3.3.0
+
+ - **FEAT**: improve Flutter package score for core SDK plugins ([#259](https://github.com/rudderlabs/rudder-sdk-flutter/issues/259)). ([e489fa86](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e489fa8624e0742c35de38fd2f91b960754097c8))
+ - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
+ - **FEAT**: add track deep links flag to mobile config map. ([710c7e1e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/710c7e1e561e85e737da488007eb3e19b8d419c0))
+ - **FEAT**: add deep link tracking flag to mobile config. ([f633c1d8](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f633c1d81fa1f01947c58b7c7a14f366ea23c18f))
+
 ## 3.2.0
 
  - **FEAT**: add Wasm support ([#218](https://github.com/rudderlabs/rudder-sdk-flutter/issues/218)). ([74f4a3e2](https://github.com/rudderlabs/rudder-sdk-flutter/commit/74f4a3e23e4c282b2d3548a3e6a6b4b8659f4035))
