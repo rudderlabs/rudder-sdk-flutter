@@ -1,1 +1,21 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application>
+        <!-- 
+            App Startup configuration for early initialization of activity lifecycle tracking.
+            Uses AndroidX App Startup library for more efficient initialization compared to ContentProviders.
+            This ensures we capture all activity events including the first onCreate.
+            Runs automatically before Application.onCreate() - no developer setup required.
+        -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <!-- Register our EarlyLifecycleInitializer for automatic startup -->
+            <meta-data
+                android:name="com.rudderstack.sdk.flutter.initializers.EarlyLifecycleInitializer"
+                android:value="androidx.startup" />
+        </provider>
+    </application>
+</manifest>

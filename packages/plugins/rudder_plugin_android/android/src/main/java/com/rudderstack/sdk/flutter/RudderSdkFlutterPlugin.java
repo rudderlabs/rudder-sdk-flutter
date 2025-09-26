@@ -8,6 +8,7 @@ import static com.rudderstack.sdk.flutter.LifeCycleRunnables.RunnableLifeCycleEv
 
 import android.app.Application;
 import android.content.Context;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ import com.rudderstack.android.sdk.core.RudderProperty;
 import com.rudderstack.android.sdk.core.RudderTraits;
 import com.rudderstack.sdk.flutter.managers.ActivityLifeCycleManager;
 import com.rudderstack.sdk.flutter.managers.ApplicationLifeCycleManager;
+import com.rudderstack.sdk.flutter.managers.EarlyActivityLifeCycleManager;
 import com.rudderstack.sdk.flutter.managers.PreferenceManager;
 import com.rudderstack.sdk.flutter.managers.UserSessionManager;
 
@@ -47,6 +49,7 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
   public static AtomicBoolean isInitialized = new AtomicBoolean(false);
   private static boolean autoTrackLifeCycleEvents = true;
   private static boolean autoRecordScreenViews = false;
+  private static boolean autoTrackDeepLinks = true;
 
   private static boolean autoSessionTracking = true;
   private static Long sessionTimeoutInMilliSeconds = 300000L;
@@ -90,6 +93,10 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     if (isInitialized.get()) {
       restorePluginState(preferenceManager);
     }
+
+    // Set up early activity lifecycle manager to use this plugin instance
+    EarlyActivityLifeCycleManager.setPlugin(this);
+
     // This should be initialised at last, otherwise plugin state might not be restored, resulting in some issues
     if (activityLifeCycleManager == null) {
       activityLifeCycleManager = ActivityLifeCycleManager.registerActivityLifeCycleCallBacks(context, this);
@@ -188,6 +195,7 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     Map<String, Object> configMap = (Map<String, Object>) argumentsMap.get("config");
     autoTrackLifeCycleEvents = (Boolean) configMap.get("trackLifecycleEvents");
     autoRecordScreenViews = (Boolean) configMap.get("recordScreenViews");
+    autoTrackDeepLinks = (Boolean) configMap.get("trackDeepLinks");
     sessionTimeoutInMilliSeconds = getLong(configMap.get("sessionTimeoutInMillis"));
     autoSessionTracking = (Boolean) configMap.get("autoSessionTracking");
 
@@ -381,6 +389,42 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     }
   }
 
+  public void trackDeepLinkOpened(String url, String referrer) {
+    if (autoTrackDeepLinks) {
+      RudderProperty property = new RudderProperty();
+
+      // Add referrer information if available
+      if (referrer != null && !referrer.isEmpty()) {
+        property.put("referring_application", referrer);
+      }
+
+      // Extract URI parameters and add URL
+      putUriParams(property, url);
+
+      RudderClient.getInstance().track("Deep Link Opened", property);
+      this.userSessionManager.updateLastEventTimestamp();
+    }
+  }
+
+  private void putUriParams(RudderProperty property, String url) {
+    try {
+      Uri uri = Uri.parse(url);
+      if (uri.isHierarchical()) {
+        for (String parameterName : uri.getQueryParameterNames()) {
+          String value = uri.getQueryParameter(parameterName);
+          if (value != null && !value.trim().isEmpty()) {
+            property.put(parameterName, value);
+          }
+        }
+      }
+    } catch (Exception ignored) {
+      // If URI parsing fails, continue without parameters
+    }
+
+    // Always add the URL itself
+    property.put("url", url);
+  }
+
   public void trackScreen(String screenName) {
     if (autoRecordScreenViews) {
       RudderProperty property = new RudderProperty();
@@ -396,6 +440,8 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
       activityLifeCycleManager.unregister();
       activityLifeCycleManager = null;
     }
+    // Clean up early activity lifecycle manager
+    EarlyActivityLifeCycleManager.cleanup();
     userSessionManager = null;
     channel.setMethodCallHandler(null);
   }
