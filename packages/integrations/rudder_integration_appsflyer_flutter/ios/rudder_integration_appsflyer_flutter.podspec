@@ -18,8 +18,8 @@ Pod::Spec.new do |s|
   s.static_framework = true
   s.dependency 'Flutter'
   s.dependency 'rudder_plugin_ios'
-  s.dependency 'Rudder-Appsflyer', '~> 2.8'
-  s.platform = :ios, '13.0'
+  s.dependency 'Rudder-Appsflyer', '2.2.0'
+  s.platform = :ios, '9.0'
 
   # Flutter.framework does not contain a i386 slice.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
