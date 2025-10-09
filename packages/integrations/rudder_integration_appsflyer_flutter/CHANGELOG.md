@@ -1,3 +1,7 @@
+## 1.5.0
+
+ - **FEAT**: update AppsFlyer integration version for iOS to 2.8 and minimum platform to 13.0 ([#271](https://github.com/rudderlabs/rudder-sdk-flutter/issues/271)). ([15bcd31a](https://github.com/rudderlabs/rudder-sdk-flutter/commit/15bcd31a17bb54b1c5974f4014b6b025ca58e3fe))
+
 ## 1.4.0
 
  - **FEAT**(core): remove WASM-incompatible logger dependency ([#250](https://github.com/rudderlabs/rudder-sdk-flutter/issues/250)). ([9afa5541](https://github.com/rudderlabs/rudder-sdk-flutter/commit/9afa5541ba400ff8c3ce628371c085c64a319d0d))
