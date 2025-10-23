@@ -146,7 +146,7 @@ PODS:
     - rudder_plugin_ios
   - rudder_integration_appsflyer_flutter (1.0.0):
     - Flutter
-    - Rudder-Appsflyer (= 3.0.0)
+    - Rudder-Appsflyer (~> 3.0)
     - rudder_plugin_ios
   - rudder_integration_braze_flutter (1.0.1):
     - Flutter
@@ -274,7 +274,7 @@ SPEC CHECKSUMS:
   rudder_integration_adjust_flutter: 85499bbe06186aad51dcc37dd313e7514068279a
   rudder_integration_amplitude_flutter: 0188f8cb0b50035031d24e2ed1250cd0eb7f4f90
   rudder_integration_appcenter_flutter: db23d17bce256934fd3f4ac06352db7b8c6e1ffe
-  rudder_integration_appsflyer_flutter: f989029985dc76cf38b6a75dcfe7857314a52b20
+  rudder_integration_appsflyer_flutter: 2785479b36973960ebb22dcdcb957b84367687fa
   rudder_integration_braze_flutter: a8c8f898c10e5235ece7404cc6e5f23b864780c7
   rudder_integration_firebase_flutter: 8ac1f770bc71ffea373b164b53d2dadd38660dae
   rudder_integration_leanplum_flutter: 957f3c7ea226c21155766a22c0a34704750a59df
