@@ -1,7 +1,3 @@
-## 2.0.0-beta.1
-
-- **FEAT**: update AppsFlyer-iOS integration version to 3.0.0-beta.1
-
 ## 1.5.0
 
  - **FEAT**: update AppsFlyer integration version for iOS to 2.8 and minimum platform to 13.0 ([#271](https://github.com/rudderlabs/rudder-sdk-flutter/issues/271)). ([15bcd31a](https://github.com/rudderlabs/rudder-sdk-flutter/commit/15bcd31a17bb54b1c5974f4014b6b025ca58e3fe))
