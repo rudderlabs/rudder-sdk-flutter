@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-10-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`rudder_integration_appsflyer_flutter` - `v2.0.0`](#rudder_integration_appsflyer_flutter---v200)
+ - [`rudder_sdk_flutter_monorepo` - `v5.0.0`](#rudder_sdk_flutter_monorepo---v500)
+
+Packages with other changes:
+
+ - There are no other changes in this release.
+
+---
+
+#### `rudder_integration_appsflyer_flutter` - `v2.0.0`
+
+ - **BREAKING** **FEAT**(appsflyer): bump the minimum ios version to the latest version ([#276](https://github.com/rudderlabs/rudder-sdk-flutter/issues/276)). ([fb766065](https://github.com/rudderlabs/rudder-sdk-flutter/commit/fb766065c59b56a9cfaa904817a6616d5f3c2412))
+
+#### `rudder_sdk_flutter_monorepo` - `v5.0.0`
+
+ - **BREAKING** **FEAT**(appsflyer): bump the minimum ios version to the latest version ([#276](https://github.com/rudderlabs/rudder-sdk-flutter/issues/276)). ([fb766065](https://github.com/rudderlabs/rudder-sdk-flutter/commit/fb766065c59b56a9cfaa904817a6616d5f3c2412))
+
+## 5.0.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**(appsflyer): bump the minimum ios version to the latest version ([#276](https://github.com/rudderlabs/rudder-sdk-flutter/issues/276)). ([fb766065](https://github.com/rudderlabs/rudder-sdk-flutter/commit/fb766065c59b56a9cfaa904817a6616d5f3c2412))
+
+
 ## 2025-10-06
 
 ### Changes
