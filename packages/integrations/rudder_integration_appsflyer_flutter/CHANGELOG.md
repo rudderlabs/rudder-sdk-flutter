@@ -1,3 +1,9 @@
+## 2.0.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**(appsflyer): bump the minimum ios version to the latest version ([#276](https://github.com/rudderlabs/rudder-sdk-flutter/issues/276)). ([fb766065](https://github.com/rudderlabs/rudder-sdk-flutter/commit/fb766065c59b56a9cfaa904817a6616d5f3c2412))
+
 ## 1.5.0
 
  - **FEAT**: update AppsFlyer integration version for iOS to 2.8 and minimum platform to 13.0 ([#271](https://github.com/rudderlabs/rudder-sdk-flutter/issues/271)). ([15bcd31a](https://github.com/rudderlabs/rudder-sdk-flutter/commit/15bcd31a17bb54b1c5974f4014b6b025ca58e3fe))
