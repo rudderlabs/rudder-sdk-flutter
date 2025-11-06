@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rudder_plugin_db_encryption/rudder_plugin_db_encryption.dart';
 import 'package:rudder_sdk_flutter/RudderController.dart';
@@ -58,7 +59,7 @@ class HomeScreenState extends State<HomeScreen> {
   void __initialize() {
     RudderDBEncryption? dbEncryption;
     if (!kIsWeb) {
-      dbEncryption = RudderDBEncryption(true, "password");
+      dbEncryption = RudderDBEncryption(false, "password");
     }
     MobileConfig mc = MobileConfig(
         autoCollectAdvertId: false,
@@ -276,6 +277,33 @@ class HomeScreenState extends State<HomeScreen> {
   //text to be displayed
   String _output = "";
 
+  // Counter for tracking created engines
+  int _engineCount = 0;
+
+  // Method to create a new FlutterEngine (triggers onAttachedToEngine)
+  Future<void> _createNewEngine() async {
+    const platform = MethodChannel('test_engine_channel');
+    try {
+      final String result = await platform.invokeMethod('createEngine');
+
+      _engineCount++;
+
+      setOutput('✅ $result\n\n'
+          'A new FlutterEngine was created!\n'
+          'onAttachedToEngine called for ALL plugins including RudderSdkFlutterPlugin.\n\n'
+          'Total engines created: $_engineCount\n\n'
+          'To reproduce issue:\n'
+          '1. Initialize SDK first (if not done)\n'
+          '2. Click this button 2-3 times to create multiple engines\n'
+          '3. Background the app (press home button)\n'
+          '4. Return to the app (tap app icon to foreground)\n'
+          '5. Check for NPE crash in RudderSdkFlutterPlugin\n\n'
+          'Check logcat for multiple "onAttachedToEngine" messages.');
+    } on PlatformException catch (e) {
+      setOutput('❌ Error creating engine: ${e.message}');
+    }
+  }
+
   dynamic makeJsonSerializable(dynamic obj) {
     if (obj == null) return null;
 
@@ -353,6 +381,31 @@ class HomeScreenState extends State<HomeScreen> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 16),
+                    Card(
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Testing - Reproduce Issue",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            const Divider(),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: ElevatedButton(
+                                    onPressed: _createNewEngine,
+                                    child: const Text('Create New Engine'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
                     Card(
                       elevation: 2,
                       child: Padding(
