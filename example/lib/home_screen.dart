@@ -63,6 +63,7 @@ class HomeScreenState extends State<HomeScreen> {
     }
     MobileConfig mc = MobileConfig(
         autoCollectAdvertId: false,
+        trackLifecycleEvents: true,
         sessionTimeoutInMillis: 6000,
         dbEncryption: dbEncryption,
         gzip: false,
