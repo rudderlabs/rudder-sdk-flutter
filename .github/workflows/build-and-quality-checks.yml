@@ -5,6 +5,9 @@ on:
     branches: ['develop', 'main']
     types: ['opened', 'reopened', 'synchronize']
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build & Code Quality Checks
@@ -18,13 +21,13 @@ jobs:
           egress-policy: audit
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
 
       - name: Setup Dart
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c #v1.3
 
       - name: Setup Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
           distribution: 'zulu'
           java-version: '11'
