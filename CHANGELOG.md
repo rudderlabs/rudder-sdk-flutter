@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2025-12-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`rudder_integration_braze_flutter` - `v2.5.0`](#rudder_integration_braze_flutter---v250)
+ - [`rudder_sdk_flutter_monorepo` - `v5.1.0`](#rudder_sdk_flutter_monorepo---v510)
+
+---
+
+#### `rudder_integration_braze_flutter` - `v2.5.0`
+
+ - **FEAT**(braze): bump braze android and ios sdk minimum version to the latest ([#281](https://github.com/rudderlabs/rudder-sdk-flutter/issues/281)). ([ce4868f4](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ce4868f4ab0107993c2c79a36605cb00dde2640b))
+
+#### `rudder_sdk_flutter_monorepo` - `v5.1.0`
+
+ - **FEAT**(braze): bump braze android and ios sdk minimum version to the latest ([#281](https://github.com/rudderlabs/rudder-sdk-flutter/issues/281)). ([ce4868f4](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ce4868f4ab0107993c2c79a36605cb00dde2640b))
+
+## 5.1.0
+
+ - **FEAT**(braze): bump braze android and ios sdk minimum version to the latest ([#281](https://github.com/rudderlabs/rudder-sdk-flutter/issues/281)). ([ce4868f4](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ce4868f4ab0107993c2c79a36605cb00dde2640b))
+
+
 ## 2025-10-23
 
 ### Changes

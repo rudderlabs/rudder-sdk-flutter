@@ -58,10 +58,11 @@ class HomeScreenState extends State<HomeScreen> {
   void __initialize() {
     RudderDBEncryption? dbEncryption;
     if (!kIsWeb) {
-      dbEncryption = RudderDBEncryption(true, "password");
+      dbEncryption = RudderDBEncryption(false, "password");
     }
     MobileConfig mc = MobileConfig(
         autoCollectAdvertId: false,
+        trackLifecycleEvents: true,
         sessionTimeoutInMillis: 6000,
         dbEncryption: dbEncryption,
         gzip: false,
@@ -583,6 +584,11 @@ class HomeScreenState extends State<HomeScreen> {
                                   onPressed: () => Navigator.of(context)
                                       .pushNamed('screen2'),
                                   child: const Text('Go to screen 2'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () => Navigator.of(context)
+                                      .pushNamed('advanced_use_cases'),
+                                  child: const Text('Advanced Use Cases'),
                                 ),
                               ],
                             ),
