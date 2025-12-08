@@ -3,17 +3,17 @@ PODS:
     - Adjust/Core (= 4.38.1)
   - Adjust/Core (4.38.1)
   - Amplitude (7.2.2)
-  - AppCenter (5.0.6):
-    - AppCenter/Analytics (= 5.0.6)
-    - AppCenter/Crashes (= 5.0.6)
-  - AppCenter/Analytics (5.0.6):
+  - AppCenter (5.10.0):
+    - AppCenter/Analytics (= 5.10.0)
+    - AppCenter/Crashes (= 5.10.0)
+  - AppCenter/Analytics (5.10.0):
     - AppCenter/Core
-  - AppCenter/Core (5.0.6)
-  - AppCenter/Crashes (5.0.6):
+  - AppCenter/Core (5.10.0)
+  - AppCenter/Crashes (5.10.0):
     - AppCenter/Core
-  - AppsFlyerFramework (6.17.7):
-    - AppsFlyerFramework/Main (= 6.17.7)
-  - AppsFlyerFramework/Main (6.17.7)
+  - AppsFlyerFramework (6.17.8):
+    - AppsFlyerFramework/Main (= 6.17.8)
+  - AppsFlyerFramework/Main (6.17.8)
   - BrazeKit (12.0.3)
   - FirebaseAnalytics (11.15.0):
     - FirebaseAnalytics/Default (= 11.15.0)
@@ -123,7 +123,7 @@ PODS:
   - Rudder-Appsflyer (3.0.0):
     - AppsFlyerFramework (~> 6.14)
     - Rudder (~> 1.12)
-  - Rudder-Braze (4.1.0):
+  - Rudder-Braze (4.2.0):
     - BrazeKit (~> 12.0.0)
     - Rudder (~> 1.26)
   - Rudder-Firebase (3.8.0):
@@ -150,7 +150,7 @@ PODS:
     - rudder_plugin_ios
   - rudder_integration_braze_flutter (1.0.1):
     - Flutter
-    - Rudder-Braze (~> 4.0)
+    - Rudder-Braze (~> 4.2)
     - rudder_plugin_ios
   - rudder_integration_firebase_flutter (2.0.0):
     - Flutter
@@ -247,8 +247,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Adjust: e449a8b88cd2261d8f548df023823f7e861a059c
   Amplitude: 517cdc7c485bda64b685174426ecbf17746eb16a
-  AppCenter: 395cc12b428b8fdf12e9f92294d93a55bac389e4
-  AppsFlyerFramework: ae7caf1688348f2d7a742037bd4fc6966d39d362
+  AppCenter: 7eb0ba42c148a5efb36dbdf0da15b64a9c3ce317
+  AppsFlyerFramework: 63577b60d6b9fcdab60135289979e7d1c9ec79b9
   BrazeKit: 44fab385edca94faaf96d7ce9f020b9c2ad3505e
   FirebaseAnalytics: 6433dfd311ba78084fc93bdfc145e8cb75740eae
   FirebaseCore: efb3893e5b94f32b86e331e3bd6dadf18b66568e
@@ -268,14 +268,14 @@ SPEC CHECKSUMS:
   Rudder-Amplitude: f845cc125a1a58d4de6155391a2b0392815ae898
   Rudder-AppCenter: 9eca9241e3707a0e9610714dd91dc8da4bae7e1f
   Rudder-Appsflyer: 040cdb332dc9428a750dc3e7ff80564ccac7e51c
-  Rudder-Braze: ea867202f0a253f0767d218a25e1f24aab947de0
+  Rudder-Braze: 14c462b26f3bc2ded77d962d4c19ddd872029d4d
   Rudder-Firebase: 7e80a7dfd39dbe35d8cb7c0ac12e57b43b690e6d
   Rudder-Leanplum: e2c9ffa48ea227c3574998afa1e287061ad042ee
   rudder_integration_adjust_flutter: 85499bbe06186aad51dcc37dd313e7514068279a
   rudder_integration_amplitude_flutter: 0188f8cb0b50035031d24e2ed1250cd0eb7f4f90
   rudder_integration_appcenter_flutter: db23d17bce256934fd3f4ac06352db7b8c6e1ffe
   rudder_integration_appsflyer_flutter: 2785479b36973960ebb22dcdcb957b84367687fa
-  rudder_integration_braze_flutter: a8c8f898c10e5235ece7404cc6e5f23b864780c7
+  rudder_integration_braze_flutter: 7c08f5058c3f6e8438c73042ed9a496fccf8b2e3
   rudder_integration_firebase_flutter: 8ac1f770bc71ffea373b164b53d2dadd38660dae
   rudder_integration_leanplum_flutter: 957f3c7ea226c21155766a22c0a34704750a59df
   rudder_plugin_db_encryption: 4e84d0f08521538582d5c688a1245faca48f3ee3
