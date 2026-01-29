@@ -3,15 +3,12 @@ name: Draft new release
 on:
   workflow_dispatch:
 
-permissions:
-  contents: read
-
 jobs:
   draft-new-release:
-    permissions:
-      contents: write  # for Git to git push
     name: Draft a new release
     runs-on: ubuntu-latest
+    permissions:
+      contents: read  # GITHUB_TOKEN only needs read for checkout
     if: startsWith(github.ref, 'refs/heads/develop') || startsWith(github.ref, 'refs/heads/hotfix/')
     steps:
       - name: Harden the runner (Audit all outbound calls)
@@ -19,9 +16,19 @@ jobs:
         with:
           egress-policy: audit
 
+      - name: Generate GitHub App Token
+        id: generate-token
+        uses: actions/create-github-app-token@67018539274d69449ef7c02e8e71183d1719ab42 # v2.1.4
+        with:
+          app-id: ${{ vars.RELEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_PRIVATE_KEY }}
+          permission-contents: write # to create commits, tags, and branches
+          permission-pull-requests: write # to create PRs that trigger CI checks
+
       - name: Checkout source branch
         uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
         with:
+          token: ${{ steps.generate-token.outputs.token }}
           fetch-depth: 0
 
       - name: Setup Dart
@@ -53,6 +60,8 @@ jobs:
       # Calculate the next release version based on conventional semantic release
       - name: Create release branch
         id: create-release
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           source_branch_name=${GITHUB_REF##*/}
           release_type=release
@@ -92,6 +101,8 @@ jobs:
           melos version -a --yes
 
       - name: Push new versions in release branch
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           git add .
           git commit --amend --no-edit
@@ -104,6 +115,6 @@ jobs:
         with:
           source_branch: ${{ steps.create-release.outputs.branch_name }}
           destination_branch: 'main'
-          github_token: ${{ secrets.PAT }}
+          github_token: ${{ steps.generate-token.outputs.token }}
           pr_title: 'chore(release): pull ${{ steps.create-release.outputs.branch_name }} into main'
           pr_body: ':crown: *An automated PR*'
