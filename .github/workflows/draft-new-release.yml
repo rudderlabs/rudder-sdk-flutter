@@ -83,13 +83,20 @@ jobs:
           echo "New version is $new_version"
           echo "New release branch name is $branch_name"
           git checkout -b "$branch_name"
-          git push --set-upstream origin "$branch_name"
 
           echo "source_branch_name=$source_branch_name" >> $GITHUB_OUTPUT
           echo "branch_name=$branch_name" >> $GITHUB_OUTPUT
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
           echo "CURRENT_VERSION_VALUE=$current_version" >> $GITHUB_ENV
           echo "NEW_VERSION_VALUE=$new_version" >> $GITHUB_ENV
+
+      - name: Push signed release branch
+        uses: ryancyq/github-signed-commit@e9f3b28c80da7be66d24b8f501a5abe82a6b855f # v1.2.0
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          branch: ${{ steps.create-release.outputs.branch_name }}
+          commit-message: "chore: create release branch ${{ steps.create-release.outputs.branch_name }}"
+          force: true
 
       - name: Update changelog & bump version
         id: finish-release
@@ -100,15 +107,22 @@ jobs:
           git add sonar-project.properties
           melos version -a --yes
 
-      - name: Push new versions in release branch
+      - name: Prepare version changes
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           git add .
           git commit --amend --no-edit
           git for-each-ref refs/tags
-          git push origin --tags
-          git push --follow-tags
+
+      - name: Push signed version changes and tags
+        uses: ryancyq/github-signed-commit@e9f3b28c80da7be66d24b8f501a5abe82a6b855f # v1.2.0
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          branch: ${{ steps.create-release.outputs.branch_name }}
+          commit-message: "chore: version bump to ${{ steps.create-release.outputs.new_version }}"
+          force: true
+          tags: true
 
       - name: Create pull request into main
         uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 #v2

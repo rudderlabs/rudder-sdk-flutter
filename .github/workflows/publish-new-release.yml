@@ -68,11 +68,21 @@ jobs:
           RELEASE_VERSION: ${{ steps.extract-version.outputs.release_version }}
         run: |
           git for-each-ref refs/tags
-          git tag --list | grep "$RELEASE_VERSION" && git tag -delete "$RELEASE_VERSION" && git push --delete origin "$RELEASE_VERSION"
-          git tag -a "v${RELEASE_VERSION}" -m "chore: release v${RELEASE_VERSION}"
-          git push origin "refs/tags/v${RELEASE_VERSION}"
-          DEBUG=conventional-github-releaser npx conventional-github-releaser -p angular --config github-release.config.js
           echo "DATE=$(date)" >> $GITHUB_ENV
+
+      - name: Push signed tag
+        uses: ryancyq/github-signed-commit@e9f3b28c80da7be66d24b8f501a5abe82a6b855f # v1.2.0
+        with:
+          token: ${{ steps.generate-token.outputs.token }}
+          ref: refs/tags/v${{ steps.extract-version.outputs.release_version }}
+          commit-message: "chore: release v${{ steps.extract-version.outputs.release_version }}"
+          force: true
+
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          DEBUG=conventional-github-releaser npx conventional-github-releaser -p angular --config github-release.config.js
 
       - name: Create pull request into develop
         uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 #v2
