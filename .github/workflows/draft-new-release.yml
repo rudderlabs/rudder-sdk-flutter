@@ -90,13 +90,15 @@ jobs:
           echo "CURRENT_VERSION_VALUE=$current_version" >> $GITHUB_ENV
           echo "NEW_VERSION_VALUE=$new_version" >> $GITHUB_ENV
 
-      - name: Push signed release branch
-        uses: ryancyq/github-signed-commit@e9f3b28c80da7be66d24b8f501a5abe82a6b855f # v1.2.0
-        with:
-          token: ${{ steps.generate-token.outputs.token }}
-          branch: ${{ steps.create-release.outputs.branch_name }}
-          commit-message: "chore: create release branch ${{ steps.create-release.outputs.branch_name }}"
-          force: true
+      - name: Create release branch via GitHub API
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          BASE_SHA=$(git rev-parse HEAD)
+          gh api repos/${{ github.repository }}/git/refs \
+            --method POST \
+            -f ref="refs/heads/${{ steps.create-release.outputs.branch_name }}" \
+            -f sha="$BASE_SHA"
 
       - name: Update changelog & bump version
         id: finish-release
@@ -115,14 +117,17 @@ jobs:
           git commit --amend --no-edit
           git for-each-ref refs/tags
 
-      - name: Push signed version changes and tags
+      - name: Push signed version changes
         uses: ryancyq/github-signed-commit@e9f3b28c80da7be66d24b8f501a5abe82a6b855f # v1.2.0
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         with:
-          token: ${{ steps.generate-token.outputs.token }}
-          branch: ${{ steps.create-release.outputs.branch_name }}
+          branch-name: ${{ steps.create-release.outputs.branch_name }}
           commit-message: "chore: version bump to ${{ steps.create-release.outputs.new_version }}"
-          force: true
-          tags: true
+          files: |
+            pubspec.yaml
+            sonar-project.properties
+            CHANGELOG.md
 
       - name: Create pull request into main
         uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 #v2

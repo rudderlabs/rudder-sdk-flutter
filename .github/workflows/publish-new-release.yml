@@ -78,11 +78,13 @@ jobs:
 
       - name: Create and push signed tag
         uses: ryancyq/github-signed-commit@e9f3b28c80da7be66d24b8f501a5abe82a6b855f # v1.2.0
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         with:
-          token: ${{ steps.generate-token.outputs.token }}
-          ref: refs/tags/v${{ steps.extract-version.outputs.release_version }}
+          branch-name: main
           commit-message: "chore: release v${{ steps.extract-version.outputs.release_version }}"
-          force: false
+          tag: 'v${{ steps.extract-version.outputs.release_version }}'
+          files: ''
 
       - name: Create GitHub Release
         env:
