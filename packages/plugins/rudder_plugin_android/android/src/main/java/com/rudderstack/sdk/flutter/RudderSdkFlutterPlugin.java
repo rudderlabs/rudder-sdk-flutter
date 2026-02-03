@@ -54,7 +54,6 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
 
   private UserSessionManager userSessionManager;
   private PreferenceManager preferenceManager;
-  private boolean isLifecycleOwner = false;
   private static List<RudderIntegration.Factory> integrationList;
 
   private List<String> staticMethods = new ArrayList<String>(Arrays.asList("initializeSDK", "putDeviceToken", "putAdvertisingId", "putAnonymousId"));
@@ -90,9 +89,8 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     if (isInitialized.get()) {
       restorePluginState(preferenceManager);
     }
-    // Register early to capture lifecycle events that may occur before SDK initialization completes.
-    // First caller wins ownership.
-    isLifecycleOwner = ActivityLifeCycleManager.registerIfNeeded(context, this);
+    // Register early to capture lifecycle events before SDK initialization
+    ActivityLifeCycleManager.registerIfNeeded(context, this);
   }
 
   private void restorePluginState(PreferenceManager preferenceManager) {
@@ -193,13 +191,8 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     userSessionManager = new UserSessionManager(autoSessionTracking, autoTrackLifeCycleEvents, preferenceManager, sessionTimeoutInMilliSeconds);
     userSessionManager.handleAutoSessionTracking();
 
-    // Set this plugin as active for lifecycle events
-    // Also re-registers if previous owner detached
-    boolean becameOwner = ActivityLifeCycleManager.setActivePlugin(context, this);
-    if (becameOwner) {
-      isLifecycleOwner = true;
-    }
-
+    // Set this plugin as active to receive lifecycle events
+    ActivityLifeCycleManager.setActivePlugin(context, this);
     initiateLifeCycleManagers();
   }
 
@@ -399,10 +392,7 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    if (isLifecycleOwner) {
-      ActivityLifeCycleManager.unregister();
-      isLifecycleOwner = false;
-    }
+    ActivityLifeCycleManager.unregister(this);
     userSessionManager = null;
     channel.setMethodCallHandler(null);
   }

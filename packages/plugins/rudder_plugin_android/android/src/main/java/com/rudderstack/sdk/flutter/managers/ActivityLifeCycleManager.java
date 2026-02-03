@@ -34,18 +34,15 @@ public class ActivityLifeCycleManager implements Application.ActivityLifecycleCa
   }
 
   /**
-   * First-wins registration. Only the first caller registers lifecycle callbacks.
+   * Registers lifecycle callbacks if not already registered.
    *
    * @param context the application context used to register lifecycle callbacks
    * @param plugin the plugin instance to receive lifecycle events
-   * @return true if this plugin became the owner, false if already registered
    */
-  public static synchronized boolean registerIfNeeded(Context context, RudderSdkFlutterPlugin plugin) {
+  public static synchronized void registerIfNeeded(Context context, RudderSdkFlutterPlugin plugin) {
     if (instance == null) {
       instance = new ActivityLifeCycleManager(context, plugin);
-      return true;
     }
-    return false;
   }
 
   /**
@@ -54,21 +51,23 @@ public class ActivityLifeCycleManager implements Application.ActivityLifecycleCa
    *
    * @param context the application context used if re-registration is needed
    * @param plugin the plugin instance to receive lifecycle events
-   * @return true if this plugin became a new owner (re-registration), false otherwise
    */
-  public static synchronized boolean setActivePlugin(Context context, RudderSdkFlutterPlugin plugin) {
+  public static synchronized void setActivePlugin(Context context, RudderSdkFlutterPlugin plugin) {
     if (instance != null) {
       instance.plugin = plugin;
-      return false;
+    } else {
+      registerIfNeeded(context, plugin);
     }
-    return registerIfNeeded(context, plugin);
   }
 
   /**
-   * Unregisters lifecycle callbacks and clears the singleton.
+   * Called when a plugin is detaching. If the detaching plugin is the current
+   * active plugin, unregisters lifecycle callbacks and clears the singleton.
+   *
+   * @param plugin the plugin that is detaching
    */
-  public static synchronized void unregister() {
-    if (instance != null && instance.application != null) {
+  public static synchronized void unregister(RudderSdkFlutterPlugin plugin) {
+    if (instance != null && instance.plugin == plugin) {
       instance.application.unregisterActivityLifecycleCallbacks(instance);
       instance.application = null;
       instance = null;
