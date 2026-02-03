@@ -54,7 +54,7 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
 
   private UserSessionManager userSessionManager;
   private PreferenceManager preferenceManager;
-  private ActivityLifeCycleManager activityLifeCycleManager;
+  private boolean isLifecycleOwner = false;
   private static List<RudderIntegration.Factory> integrationList;
 
   private List<String> staticMethods = new ArrayList<String>(Arrays.asList("initializeSDK", "putDeviceToken", "putAdvertisingId", "putAnonymousId"));
@@ -90,10 +90,9 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     if (isInitialized.get()) {
       restorePluginState(preferenceManager);
     }
-    // This should be initialised at last, otherwise plugin state might not be restored, resulting in some issues
-    if (activityLifeCycleManager == null) {
-      activityLifeCycleManager = ActivityLifeCycleManager.registerActivityLifeCycleCallBacks(context, this);
-    }
+    // Register early to capture lifecycle events that may occur before SDK initialization completes.
+    // First caller wins ownership.
+    isLifecycleOwner = ActivityLifeCycleManager.registerIfNeeded(context, this);
   }
 
   private void restorePluginState(PreferenceManager preferenceManager) {
@@ -193,6 +192,14 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
 
     userSessionManager = new UserSessionManager(autoSessionTracking, autoTrackLifeCycleEvents, preferenceManager, sessionTimeoutInMilliSeconds);
     userSessionManager.handleAutoSessionTracking();
+
+    // Set this plugin as active for lifecycle events
+    // Also re-registers if previous owner detached
+    boolean becameOwner = ActivityLifeCycleManager.setActivePlugin(context, this);
+    if (becameOwner) {
+      isLifecycleOwner = true;
+    }
+
     initiateLifeCycleManagers();
   }
 
@@ -392,9 +399,9 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    if (activityLifeCycleManager != null) {
-      activityLifeCycleManager.unregister();
-      activityLifeCycleManager = null;
+    if (isLifecycleOwner) {
+      ActivityLifeCycleManager.unregister();
+      isLifecycleOwner = false;
     }
     userSessionManager = null;
     channel.setMethodCallHandler(null);
