@@ -24,8 +24,4 @@ dependencies {
 
     // RudderStack AppsFlyer-SDK
     implementation 'com.rudderstack.android.integration:appsflyer:[2.4.0, 3.0.0)'
-
-    // AppsFlyer SDK
-    implementation 'com.appsflyer:af-android-sdk:[6.17.5, 7.0.0)'
-    implementation 'com.android.installreferrer:installreferrer:2.+'
 }
