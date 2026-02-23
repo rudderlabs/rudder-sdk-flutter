@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-02-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`rudder_integration_appsflyer_flutter` - `v2.1.0`](#rudder_integration_appsflyer_flutter---v210)
+ - [`rudder_sdk_flutter_monorepo` - `v5.3.0`](#rudder_sdk_flutter_monorepo---v530)
+
+---
+
+#### `rudder_integration_appsflyer_flutter` - `v2.1.0`
+
+ - **FEAT**(appsflyer): bump the minimum appslfyer integration version to 2.4.0 ([#291](https://github.com/rudderlabs/rudder-sdk-flutter/issues/291)). ([2171785f](https://github.com/rudderlabs/rudder-sdk-flutter/commit/2171785fd29b56bc94c690f2f088d46d26706124))
+
+#### `rudder_sdk_flutter_monorepo` - `v5.3.0`
+
+ - **FEAT**(appsflyer): bump the minimum appslfyer integration version to 2.4.0 ([#291](https://github.com/rudderlabs/rudder-sdk-flutter/issues/291)). ([2171785f](https://github.com/rudderlabs/rudder-sdk-flutter/commit/2171785fd29b56bc94c690f2f088d46d26706124))
+
+## 5.3.0
+
+ - **FEAT**(appsflyer): bump the minimum appslfyer integration version to 2.4.0 ([#291](https://github.com/rudderlabs/rudder-sdk-flutter/issues/291)). ([2171785f](https://github.com/rudderlabs/rudder-sdk-flutter/commit/2171785fd29b56bc94c690f2f088d46d26706124))
+
+
 ## 2026-01-28
 
 ### Changes
