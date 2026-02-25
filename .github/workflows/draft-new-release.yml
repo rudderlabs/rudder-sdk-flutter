@@ -3,15 +3,12 @@ name: Draft new release
 on:
   workflow_dispatch:
 
-permissions:
-  contents: read
-
 jobs:
   draft-new-release:
-    permissions:
-      contents: write  # for Git to git push
     name: Draft a new release
     runs-on: ubuntu-latest
+    permissions:
+      contents: read  # GITHUB_TOKEN only needs read for checkout
     if: startsWith(github.ref, 'refs/heads/develop') || startsWith(github.ref, 'refs/heads/hotfix/')
     steps:
       - name: Harden the runner (Audit all outbound calls)
@@ -19,9 +16,19 @@ jobs:
         with:
           egress-policy: audit
 
+      - name: Generate GitHub App Token
+        id: generate-token
+        uses: actions/create-github-app-token@67018539274d69449ef7c02e8e71183d1719ab42 # v2.1.4
+        with:
+          app-id: ${{ vars.RELEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_PRIVATE_KEY }}
+          permission-contents: write # to create commits, tags, and branches
+          permission-pull-requests: write # to create PRs that trigger CI checks
+
       - name: Checkout source branch
         uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
         with:
+          token: ${{ steps.generate-token.outputs.token }}
           fetch-depth: 0
 
       - name: Setup Dart
@@ -53,6 +60,8 @@ jobs:
       # Calculate the next release version based on conventional semantic release
       - name: Create release branch
         id: create-release
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           source_branch_name=${GITHUB_REF##*/}
           release_type=release
@@ -74,13 +83,22 @@ jobs:
           echo "New version is $new_version"
           echo "New release branch name is $branch_name"
           git checkout -b "$branch_name"
-          git push --set-upstream origin "$branch_name"
 
           echo "source_branch_name=$source_branch_name" >> $GITHUB_OUTPUT
           echo "branch_name=$branch_name" >> $GITHUB_OUTPUT
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
           echo "CURRENT_VERSION_VALUE=$current_version" >> $GITHUB_ENV
           echo "NEW_VERSION_VALUE=$new_version" >> $GITHUB_ENV
+
+      - name: Create release branch via GitHub API
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          BASE_SHA=$(git rev-parse HEAD)
+          gh api repos/${{ github.repository }}/git/refs \
+            --method POST \
+            -f ref="refs/heads/${{ steps.create-release.outputs.branch_name }}" \
+            -f sha="$BASE_SHA"
 
       - name: Update changelog & bump version
         id: finish-release
@@ -91,19 +109,31 @@ jobs:
           git add sonar-project.properties
           melos version -a --yes
 
-      - name: Push new versions in release branch
+      - name: Prepare version changes
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           git add .
           git commit --amend --no-edit
           git for-each-ref refs/tags
-          git push origin --tags
-          git push --follow-tags
+
+      - name: Push signed version changes
+        uses: ryancyq/github-signed-commit@e9f3b28c80da7be66d24b8f501a5abe82a6b855f # v1.2.0
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        with:
+          branch-name: ${{ steps.create-release.outputs.branch_name }}
+          commit-message: "chore: version bump to ${{ steps.create-release.outputs.new_version }}"
+          files: |
+            pubspec.yaml
+            sonar-project.properties
+            CHANGELOG.md
 
       - name: Create pull request into main
         uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 #v2
         with:
           source_branch: ${{ steps.create-release.outputs.branch_name }}
           destination_branch: 'main'
-          github_token: ${{ secrets.PAT }}
+          github_token: ${{ steps.generate-token.outputs.token }}
           pr_title: 'chore(release): pull ${{ steps.create-release.outputs.branch_name }} into main'
           pr_body: ':crown: *An automated PR*'
