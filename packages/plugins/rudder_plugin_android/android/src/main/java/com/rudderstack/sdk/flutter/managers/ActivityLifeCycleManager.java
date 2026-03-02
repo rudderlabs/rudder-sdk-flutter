@@ -21,23 +21,56 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class ActivityLifeCycleManager implements Application.ActivityLifecycleCallbacks {
   private static final AtomicInteger noOfActivities = new AtomicInteger(0);
   private static final AtomicBoolean fromBackground = new AtomicBoolean(false);
-  private Application application;
-  private final RudderSdkFlutterPlugin plugin;
 
-  ActivityLifeCycleManager(Context context, RudderSdkFlutterPlugin plugin) {
+  private static volatile ActivityLifeCycleManager instance;
+
+  private Application application;
+  private RudderSdkFlutterPlugin plugin;
+
+  private ActivityLifeCycleManager(Context context, RudderSdkFlutterPlugin plugin) {
     this.application = (Application) context.getApplicationContext();
     this.plugin = plugin;
     this.application.registerActivityLifecycleCallbacks(this);
   }
 
-  public static ActivityLifeCycleManager registerActivityLifeCycleCallBacks(Context context, RudderSdkFlutterPlugin plugin) {
-    return new ActivityLifeCycleManager(context, plugin);
+  /**
+   * Registers lifecycle callbacks if not already registered.
+   *
+   * @param context the application context used to register lifecycle callbacks
+   * @param plugin the plugin instance to receive lifecycle events
+   */
+  public static synchronized void registerIfNeeded(Context context, RudderSdkFlutterPlugin plugin) {
+    if (instance == null) {
+      instance = new ActivityLifeCycleManager(context, plugin);
+    }
   }
 
-  public void unregister() {
-    if (this.application != null) {
-      this.application.unregisterActivityLifecycleCallbacks(this);
-      this.application = null;
+  /**
+   * Updates the plugin reference to route events to the initialized plugin.
+   * Re-registers if callbacks were previously unregistered.
+   *
+   * @param context the application context used if re-registration is needed
+   * @param plugin the plugin instance to receive lifecycle events
+   */
+  public static synchronized void setActivePlugin(Context context, RudderSdkFlutterPlugin plugin) {
+    if (instance != null) {
+      instance.plugin = plugin;
+    } else {
+      registerIfNeeded(context, plugin);
+    }
+  }
+
+  /**
+   * Called when a plugin is detaching. If the detaching plugin is the current
+   * active plugin, unregisters lifecycle callbacks and clears the singleton.
+   *
+   * @param plugin the plugin that is detaching
+   */
+  public static synchronized void unregister(RudderSdkFlutterPlugin plugin) {
+    if (instance != null && instance.plugin == plugin) {
+      instance.application.unregisterActivityLifecycleCallbacks(instance);
+      instance.application = null;
+      instance = null;
     }
   }
 
