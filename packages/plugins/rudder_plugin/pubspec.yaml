@@ -1,5 +1,5 @@
 name: rudder_sdk_flutter
-version: 3.3.0
+version: 3.3.1
 description: Platform implementation of RudderStack Flutter SDK for native event tracking and analytics integration.
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 repository: https://github.com/rudderlabs/rudder-sdk-flutter
@@ -14,7 +14,7 @@ dependencies:
   flutter:
     sdk: flutter
   rudder_sdk_flutter_platform_interface: ^3.3.0
-  rudder_plugin_android: ^3.2.0
+  rudder_plugin_android: ^3.2.1
   rudder_plugin_ios: ^3.2.0
   rudder_plugin_web: ^3.2.0
 dev_dependencies:
