@@ -1,3 +1,7 @@
+## 2.6.0
+
+ - **FEAT**(braze): upgrade Rudder-Braze minimum version to 13.3.0 ([#284](https://github.com/rudderlabs/rudder-sdk-flutter/issues/284)). ([15010bfa](https://github.com/rudderlabs/rudder-sdk-flutter/commit/15010bfa6fe3862379c8b8d2e6567b67c7c9f5da))
+
 ## 2.5.0
 
  - **FEAT**(braze): bump braze android and ios sdk minimum version to the latest ([#281](https://github.com/rudderlabs/rudder-sdk-flutter/issues/281)). ([ce4868f4](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ce4868f4ab0107993c2c79a36605cb00dde2640b))

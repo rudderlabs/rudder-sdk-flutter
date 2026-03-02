@@ -1,3 +1,7 @@
+## 2.1.0
+
+ - **FEAT**(appsflyer): bump the minimum appslfyer integration version to 2.4.0 ([#291](https://github.com/rudderlabs/rudder-sdk-flutter/issues/291)). ([2171785f](https://github.com/rudderlabs/rudder-sdk-flutter/commit/2171785fd29b56bc94c690f2f088d46d26706124))
+
 ## 2.0.0
 
 > Note: This release has breaking changes.
