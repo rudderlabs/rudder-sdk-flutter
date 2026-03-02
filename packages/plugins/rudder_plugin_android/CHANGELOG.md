@@ -1,3 +1,7 @@
+## 3.2.1
+
+ - **FIX**(android): prevent memory leaks in multi-engine scenarios. ([e6cd6d35](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e6cd6d35855410448223992e082e440fe6519749))
+
 ## 3.2.0
 
  - **FIX**: npe and memory leak issue ([#245](https://github.com/rudderlabs/rudder-sdk-flutter/issues/245)). ([b9910994](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b991099452dfda6a9fd0c34ef801bb78a2bff85c))

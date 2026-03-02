@@ -3,6 +3,61 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-03-02
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`rudder_plugin_android` - `v3.2.1`](#rudder_plugin_android---v321)
+ - [`rudder_sdk_flutter_monorepo` - `v5.3.1`](#rudder_sdk_flutter_monorepo---v531)
+ - [`rudder_sdk_flutter` - `v3.3.1`](#rudder_sdk_flutter---v331)
+ - [`rudder_plugin_db_encryption` - `v1.5.1`](#rudder_plugin_db_encryption---v151)
+ - [`rudder_integration_firebase_flutter` - `v4.4.1`](#rudder_integration_firebase_flutter---v441)
+ - [`rudder_integration_amplitude_flutter` - `v2.3.1`](#rudder_integration_amplitude_flutter---v231)
+ - [`rudder_integration_adjust_flutter` - `v2.3.1`](#rudder_integration_adjust_flutter---v231)
+ - [`rudder_integration_kochava_flutter` - `v2.3.1`](#rudder_integration_kochava_flutter---v231)
+ - [`rudder_integration_appsflyer_flutter` - `v2.1.1`](#rudder_integration_appsflyer_flutter---v211)
+ - [`rudder_integration_appcenter_flutter` - `v2.3.1`](#rudder_integration_appcenter_flutter---v231)
+ - [`rudder_integration_braze_flutter` - `v2.6.1`](#rudder_integration_braze_flutter---v261)
+ - [`rudder_integration_leanplum_flutter` - `v2.3.1`](#rudder_integration_leanplum_flutter---v231)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `rudder_sdk_flutter` - `v3.3.1`
+ - `rudder_plugin_db_encryption` - `v1.5.1`
+ - `rudder_integration_firebase_flutter` - `v4.4.1`
+ - `rudder_integration_amplitude_flutter` - `v2.3.1`
+ - `rudder_integration_adjust_flutter` - `v2.3.1`
+ - `rudder_integration_kochava_flutter` - `v2.3.1`
+ - `rudder_integration_appsflyer_flutter` - `v2.1.1`
+ - `rudder_integration_appcenter_flutter` - `v2.3.1`
+ - `rudder_integration_braze_flutter` - `v2.6.1`
+ - `rudder_integration_leanplum_flutter` - `v2.3.1`
+
+---
+
+#### `rudder_plugin_android` - `v3.2.1`
+
+ - **FIX**(android): prevent memory leaks in multi-engine scenarios. ([e6cd6d35](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e6cd6d35855410448223992e082e440fe6519749))
+
+#### `rudder_sdk_flutter_monorepo` - `v5.3.1`
+
+ - **FIX**(android): prevent memory leaks in multi-engine scenarios. ([e6cd6d35](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e6cd6d35855410448223992e082e440fe6519749))
+
+## 5.3.1
+
+ - **FIX**(android): prevent memory leaks in multi-engine scenarios. ([e6cd6d35](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e6cd6d35855410448223992e082e440fe6519749))
+
+
 ## 2026-02-23
 
 ### Changes
