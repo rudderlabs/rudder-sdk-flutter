@@ -1,3 +1,7 @@
+## 3.3.1
+
+ - Update a dependency to the latest release.
+
 ## 3.3.0
 
  - **FEAT**: improve Flutter package score for core SDK plugins ([#259](https://github.com/rudderlabs/rudder-sdk-flutter/issues/259)). ([e489fa86](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e489fa8624e0742c35de38fd2f91b960754097c8))
