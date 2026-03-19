@@ -1,5 +1,7 @@
 # What is Rudder?
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/rudderlabs/rudder-sdk-flutter)
+
 **Short answer:**
 Rudder is an open-source Segment alternative written in Go, built for the enterprise.
 
