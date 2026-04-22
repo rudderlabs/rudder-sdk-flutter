@@ -50,9 +50,7 @@ BOOL isRegistrarDetached = NO;
         [RSClient getInstance:[call.arguments objectForKey:@"writeKey"]
                        config:[self getRudderConfigObject:[call.arguments objectForKey:@"config"]]
                       options:[self getRudderOptionsObject:[call.arguments objectForKey:@"options"]]];
-        if (_notification != nil) {
-            [[RSClient sharedInstance] trackLifecycleEvents:_notification.userInfo];
-        }
+        [[RSClient sharedInstance] trackLifecycleEvents:_notification.userInfo];
         return;
     } else if ([call.method isEqualToString:@"identify"]) {
         NSString* userId = [call.arguments objectForKey:@"userId"];
