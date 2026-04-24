@@ -61,7 +61,9 @@ jobs:
       - name: Get new version number
         run: |
           current_version=$(grep -A0 'version:' pubspec.yaml | tail -n1 | awk '{ print $2 }')
+          # zizmor: ignore[github-env]  # pubspec-derived version, not user-controlled
           echo "CURRENT_VERSION_VALUE=$current_version" >> $GITHUB_ENV
+          # zizmor: ignore[github-env]  # date command output, not user-controlled
           echo "DATE=$(date)" >> $GITHUB_ENV
 
       # - name: Send message to Slack channel
