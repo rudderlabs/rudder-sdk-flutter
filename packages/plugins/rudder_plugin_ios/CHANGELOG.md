@@ -1,3 +1,7 @@
+## 3.2.1
+
+ - **FIX**(ios): remove _notification nil guard for cold-start lifecycle on Flutter 3.41+ ([#302](https://github.com/rudderlabs/rudder-sdk-flutter/issues/302)). ([f12dd884](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f12dd884985b20a5c948421722b9b32aad5a3191))
+
 ## 3.2.0
 
  - **FEAT**: improve Flutter package score for core SDK plugins ([#259](https://github.com/rudderlabs/rudder-sdk-flutter/issues/259)). ([e489fa86](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e489fa8624e0742c35de38fd2f91b960754097c8))
