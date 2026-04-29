@@ -3,6 +3,63 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-04-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`rudder_plugin_ios` - `v3.2.1`](#rudder_plugin_ios---v321)
+ - [`rudder_sdk_flutter_monorepo` - `v5.3.2`](#rudder_sdk_flutter_monorepo---v532)
+ - [`rudder_sdk_flutter` - `v3.3.2`](#rudder_sdk_flutter---v332)
+ - [`rudder_plugin_db_encryption` - `v1.5.2`](#rudder_plugin_db_encryption---v152)
+ - [`rudder_integration_leanplum_flutter` - `v2.3.2`](#rudder_integration_leanplum_flutter---v232)
+ - [`rudder_integration_firebase_flutter` - `v4.4.2`](#rudder_integration_firebase_flutter---v442)
+ - [`rudder_integration_adjust_flutter` - `v2.3.2`](#rudder_integration_adjust_flutter---v232)
+ - [`rudder_integration_braze_flutter` - `v2.6.2`](#rudder_integration_braze_flutter---v262)
+ - [`rudder_integration_appsflyer_flutter` - `v2.1.2`](#rudder_integration_appsflyer_flutter---v212)
+ - [`rudder_integration_appcenter_flutter` - `v2.3.2`](#rudder_integration_appcenter_flutter---v232)
+ - [`rudder_integration_kochava_flutter` - `v2.3.2`](#rudder_integration_kochava_flutter---v232)
+ - [`rudder_integration_amplitude_flutter` - `v2.3.2`](#rudder_integration_amplitude_flutter---v232)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `rudder_sdk_flutter` - `v3.3.2`
+ - `rudder_plugin_db_encryption` - `v1.5.2`
+ - `rudder_integration_leanplum_flutter` - `v2.3.2`
+ - `rudder_integration_firebase_flutter` - `v4.4.2`
+ - `rudder_integration_adjust_flutter` - `v2.3.2`
+ - `rudder_integration_braze_flutter` - `v2.6.2`
+ - `rudder_integration_appsflyer_flutter` - `v2.1.2`
+ - `rudder_integration_appcenter_flutter` - `v2.3.2`
+ - `rudder_integration_kochava_flutter` - `v2.3.2`
+ - `rudder_integration_amplitude_flutter` - `v2.3.2`
+
+---
+
+#### `rudder_plugin_ios` - `v3.2.1`
+
+ - **FIX**(ios): remove _notification nil guard for cold-start lifecycle on Flutter 3.41+ ([#302](https://github.com/rudderlabs/rudder-sdk-flutter/issues/302)). ([f12dd884](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f12dd884985b20a5c948421722b9b32aad5a3191))
+
+#### `rudder_sdk_flutter_monorepo` - `v5.3.2`
+
+ - **FIX**(ios): remove _notification nil guard for cold-start lifecycle on Flutter 3.41+ ([#302](https://github.com/rudderlabs/rudder-sdk-flutter/issues/302)). ([f12dd884](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f12dd884985b20a5c948421722b9b32aad5a3191))
+ - **FIX**(vuln): pin and bump action refs (SEC-171) ([#299](https://github.com/rudderlabs/rudder-sdk-flutter/issues/299)). ([7eae07f0](https://github.com/rudderlabs/rudder-sdk-flutter/commit/7eae07f0766a7294f6ef45bf1c64175d657698f3))
+
+## 5.3.2
+
+ - **FIX**(ios): remove _notification nil guard for cold-start lifecycle on Flutter 3.41+ ([#302](https://github.com/rudderlabs/rudder-sdk-flutter/issues/302)). ([f12dd884](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f12dd884985b20a5c948421722b9b32aad5a3191))
+ - **FIX**(vuln): pin and bump action refs (SEC-171) ([#299](https://github.com/rudderlabs/rudder-sdk-flutter/issues/299)). ([7eae07f0](https://github.com/rudderlabs/rudder-sdk-flutter/commit/7eae07f0766a7294f6ef45bf1c64175d657698f3))
+
+
 ## 2026-03-02
 
 ### Changes
