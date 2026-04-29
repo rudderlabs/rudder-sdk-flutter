@@ -11,9 +11,9 @@ PODS:
   - AppCenter/Core (5.12.0)
   - AppCenter/Crashes (5.12.0):
     - AppCenter/Core
-  - AppsFlyerFramework (6.17.8):
-    - AppsFlyerFramework/Main (= 6.17.8)
-  - AppsFlyerFramework/Main (6.17.8)
+  - AppsFlyerFramework (6.17.9):
+    - AppsFlyerFramework/Main (= 6.17.9)
+  - AppsFlyerFramework/Main (6.17.9)
   - BrazeKit (13.3.0)
   - FirebaseAnalytics (11.15.0):
     - FirebaseAnalytics/Default (= 11.15.0)
@@ -99,18 +99,13 @@ PODS:
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
   - Leanplum-iOS-SDK (4.0.0)
-  - MetricsReporter (2.0.1):
-    - RSCrashReporter (= 1.0.1)
-    - RudderKit (= 1.4.0)
   - nanopb (3.30910.0):
     - nanopb/decode (= 3.30910.0)
     - nanopb/encode (= 3.30910.0)
   - nanopb/decode (3.30910.0)
   - nanopb/encode (3.30910.0)
   - PromisesObjC (2.4.0)
-  - RSCrashReporter (1.0.1)
-  - Rudder (1.31.2):
-    - MetricsReporter (= 2.0.1)
+  - Rudder (1.32.0)
   - Rudder-Adjust (1.0.0):
     - Adjust
     - Rudder
@@ -171,7 +166,6 @@ PODS:
   - RudderDatabaseEncryption (1.0.0):
     - Rudder (~> 1.20)
     - SQLCipher (~> 4.0)
-  - RudderKit (1.4.0)
   - SQLCipher (4.10.0):
     - SQLCipher/standard (= 4.10.0)
   - SQLCipher/common (4.10.0)
@@ -206,10 +200,8 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleUtilities
     - Leanplum-iOS-SDK
-    - MetricsReporter
     - nanopb
     - PromisesObjC
-    - RSCrashReporter
     - Rudder
     - Rudder-Adjust
     - Rudder-Amplitude
@@ -219,7 +211,6 @@ SPEC REPOS:
     - Rudder-Firebase
     - Rudder-Leanplum
     - RudderDatabaseEncryption
-    - RudderKit
     - SQLCipher
 
 EXTERNAL SOURCES:
@@ -248,7 +239,7 @@ SPEC CHECKSUMS:
   Adjust: e449a8b88cd2261d8f548df023823f7e861a059c
   Amplitude: 517cdc7c485bda64b685174426ecbf17746eb16a
   AppCenter: 38e27eb52113bff74426db9f500726933c8d2fd7
-  AppsFlyerFramework: 63577b60d6b9fcdab60135289979e7d1c9ec79b9
+  AppsFlyerFramework: 4f9a8237d40e9093941aef760cd77d606238aedd
   BrazeKit: 53ac2d77c7d5ab54ab73df75c9058ae89236fc54
   FirebaseAnalytics: 6433dfd311ba78084fc93bdfc145e8cb75740eae
   FirebaseCore: efb3893e5b94f32b86e331e3bd6dadf18b66568e
@@ -259,11 +250,9 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: 700dce7541804bec33db590a5c496b663fbe2539
   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
   Leanplum-iOS-SDK: 8115f65d185eb94d94c4ab08176dfcb4a8b97926
-  MetricsReporter: b76937c31c06e81316ec1f9049ee069ca69faea0
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
-  RSCrashReporter: 6b8376ac729b0289ebe0908553e5f56d8171f313
-  Rudder: d18a99cafd24734d516dfb3db65634a0962a5ce7
+  Rudder: fcd39cc69aeb05880a789b6ffdaf4ea93f6448a2
   Rudder-Adjust: 5f14011c8f7237d80a96a10655ac03ebf832bcc4
   Rudder-Amplitude: f845cc125a1a58d4de6155391a2b0392815ae898
   Rudder-AppCenter: 9eca9241e3707a0e9610714dd91dc8da4bae7e1f
@@ -281,9 +270,8 @@ SPEC CHECKSUMS:
   rudder_plugin_db_encryption: 4e84d0f08521538582d5c688a1245faca48f3ee3
   rudder_plugin_ios: 6eee402f8e5f8d701896d4febf0e10d7d631a91f
   RudderDatabaseEncryption: 409b8623c114a43af6332a694601373fde45e1ca
-  RudderKit: f272f9872183946452ac94cd7bb2244a71e6ca8f
   SQLCipher: eb79c64049cb002b4e9fcb30edb7979bf4706dfc
 
-PODFILE CHECKSUM: c50eafd79e926e71087744fa355513f6b29064aa
+PODFILE CHECKSUM: 08ffa6de81fe1ad2a1887c61415ac02514baa72e
 
 COCOAPODS: 1.16.2
