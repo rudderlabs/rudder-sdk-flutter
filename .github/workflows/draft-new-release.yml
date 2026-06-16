@@ -110,10 +110,13 @@ jobs:
           melos version -a --yes
 
       - name: Prepare version changes
+        id: prepare-changes
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           git add .
+          CHANGED_FILES=$(git diff --cached --name-only | tr '\n' ' ')
+          echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
           git commit --amend --no-edit
           git for-each-ref refs/tags
 
@@ -124,10 +127,7 @@ jobs:
         with:
           branch-name: ${{ steps.create-release.outputs.branch_name }}
           commit-message: "chore: version bump to ${{ steps.create-release.outputs.new_version }}"
-          files: |
-            pubspec.yaml
-            sonar-project.properties
-            CHANGELOG.md
+          files: ${{ steps.prepare-changes.outputs.changed_files }}
 
       - name: Create pull request into main
         uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 #v2

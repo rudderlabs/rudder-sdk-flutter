@@ -70,14 +70,15 @@ jobs:
       - name: Delete existing tag if present
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          RELEASE_VERSION: ${{ steps.extract-version.outputs.release_version }}
         run: |
-          if git tag --list | grep -q "^v${{ steps.extract-version.outputs.release_version }}$"; then
+          if git tag --list | grep -q "^v${RELEASE_VERSION}$"; then
             gh api \
               --method DELETE \
               -H "Accept: application/vnd.github+json" \
               -H "X-GitHub-Api-Version: 2022-11-28" \
-              /repos/${{ github.repository }}/git/refs/tags/v${{ steps.extract-version.outputs.release_version }} || true
-            git tag -d v${{ steps.extract-version.outputs.release_version }} || true
+              /repos/${{ github.repository }}/git/refs/tags/v${RELEASE_VERSION} || true
+            git tag -d v${RELEASE_VERSION} || true
           fi
 
       - name: Create and push signed tag
@@ -93,6 +94,7 @@ jobs:
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+          CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           DEBUG=conventional-github-releaser npx conventional-github-releaser -p angular --config github-release.config.js
 
