@@ -3,6 +3,9 @@ name: Draft new release
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   draft-new-release:
     name: Draft a new release
