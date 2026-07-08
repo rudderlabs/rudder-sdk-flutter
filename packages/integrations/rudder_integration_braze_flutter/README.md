@@ -6,6 +6,11 @@ With RudderStack, you can build customer data pipelines that connect your whole 
 
 Questions? Please join our [Slack channel](https://www.rudderstack.com/join-rudderstack-slack-community/) or read about us on [Product Hunt](https://www.producthunt.com/posts/rudderstack).
 
+## Requirements
+
+- **Android**: this integration requires a minimum Android SDK version of **25**. The underlying Braze Android SDK has enforced `minSdkVersion 25` since its `2.0.0` release, so your app's `minSdkVersion` must be `25` or higher.
+- **iOS**: minimum deployment target of **13.0**.
+
 ## Integrating Braze with the RudderStack Flutter SDK
 
 1. Add [Braze](https://www.braze.com/) as a destination in the [RudderStack dashboard](https://app.rudderstack.com/).

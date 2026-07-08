@@ -20,7 +20,7 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 34
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -28,7 +28,9 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 16
+        // Braze Android integration (>= 2.0.0) requires minSdk 25; declare it explicitly
+        // to match the already-enforced transitive constraint. See SDK-5080.
+        minSdkVersion 25
     }
     namespace = "com.rudderstack.sdk.flutter.integrations.rudder_integration_braze_flutter"
 }
