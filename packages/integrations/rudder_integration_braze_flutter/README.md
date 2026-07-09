@@ -19,7 +19,7 @@ Questions? Please join our [Slack channel](https://www.rudderstack.com/join-rudd
 
 ```groovy
 dependencies:
-  rudder_integration_braze_flutter: ^1.0.0
+  rudder_integration_braze_flutter: ^2.6.2
 ```
 
 3. Navigate to your Application's root folder and install all the required dependencies with:
