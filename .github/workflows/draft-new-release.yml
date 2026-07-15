@@ -91,14 +91,23 @@ jobs:
           echo "NEW_VERSION_VALUE=$new_version" >> $GITHUB_ENV
 
       - name: Create release branch via GitHub API
+        id: create-branch
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          BRANCH_NAME: ${{ steps.create-release.outputs.branch_name }}
         run: |
           BASE_SHA=$(git rev-parse HEAD)
           gh api repos/${{ github.repository }}/git/refs \
             --method POST \
-            -f ref="refs/heads/${{ steps.create-release.outputs.branch_name }}" \
+            -f ref="refs/heads/${BRANCH_NAME}" \
             -f sha="$BASE_SHA"
+
+          # `melos version` runs `git pull --tags`, which needs branch tracking.
+          # Creating the ref over the API does not set it.
+          git fetch origin "$BRANCH_NAME"
+          git branch --set-upstream-to="origin/${BRANCH_NAME}" "$BRANCH_NAME"
+
+          echo "base_sha=$BASE_SHA" >> $GITHUB_OUTPUT
 
       - name: Update changelog & bump version
         id: finish-release
@@ -113,14 +122,30 @@ jobs:
         id: prepare-changes
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          BASE_SHA: ${{ steps.create-branch.outputs.base_sha }}
         run: |
+          # Capture melos's tags before the rewind below moves HEAD off them.
+          PACKAGE_TAGS=$(git tag --points-at HEAD | tr '\n' ' ')
+          echo "package_tags=$PACKAGE_TAGS" >> $GITHUB_OUTPUT
+          echo "Package tags: $PACKAGE_TAGS"
+
+          # The signed-commit action commits *staged* changes, and melos has already
+          # committed them. Rewind so the release tree sits in the index instead.
           git add .
-          CHANGED_FILES=$(git diff --cached --name-only | tr '\n' ' ')
-          echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
-          git commit --amend --no-edit
-          git for-each-ref refs/tags
+          git reset --soft "$BASE_SHA"
+
+          # `files` is a multi-line input, so the newlines have to survive GITHUB_OUTPUT.
+          {
+            echo "changed_files<<CHANGED_FILES_EOF"
+            git diff --cached --name-only
+            echo "CHANGED_FILES_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "Files to publish:"
+          git diff --cached --name-only
 
       - name: Push signed version changes
+        id: push-changes
         uses: ryancyq/github-signed-commit@e9f3b28c80da7be66d24b8f501a5abe82a6b855f # v1.2.0
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
@@ -128,6 +153,22 @@ jobs:
           branch-name: ${{ steps.create-release.outputs.branch_name }}
           commit-message: "chore: version bump to ${{ steps.create-release.outputs.new_version }}"
           files: ${{ steps.prepare-changes.outputs.changed_files }}
+
+      - name: Push package tags
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          COMMIT_SHA: ${{ steps.push-changes.outputs.commit-sha }}
+          PACKAGE_TAGS: ${{ steps.prepare-changes.outputs.package_tags }}
+        run: |
+          # melos tagged a local commit, not the signed one pushed above. These tags must
+          # stay ancestors of main -- melos reads them to scope the next release.
+          for tag in $PACKAGE_TAGS; do
+            echo "Tagging ${tag} -> ${COMMIT_SHA}"
+            gh api "repos/${{ github.repository }}/git/refs" \
+              --method POST \
+              -f ref="refs/tags/${tag}" \
+              -f sha="$COMMIT_SHA"
+          done
 
       - name: Create pull request into main
         uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 #v2
