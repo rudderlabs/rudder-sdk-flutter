@@ -3,6 +3,71 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-07-15
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`rudder_plugin_android` - `v3.2.2`](#rudder_plugin_android---v322)
+ - [`rudder_sdk_flutter_monorepo` - `v5.3.3`](#rudder_sdk_flutter_monorepo---v533)
+ - [`rudder_sdk_flutter` - `v3.3.3`](#rudder_sdk_flutter---v333)
+ - [`rudder_plugin_db_encryption` - `v1.5.3`](#rudder_plugin_db_encryption---v153)
+ - [`rudder_integration_appsflyer_flutter` - `v2.1.3`](#rudder_integration_appsflyer_flutter---v213)
+ - [`rudder_integration_braze_flutter` - `v2.6.3`](#rudder_integration_braze_flutter---v263)
+ - [`rudder_integration_leanplum_flutter` - `v2.3.3`](#rudder_integration_leanplum_flutter---v233)
+ - [`rudder_integration_adjust_flutter` - `v2.3.3`](#rudder_integration_adjust_flutter---v233)
+ - [`rudder_integration_firebase_flutter` - `v4.4.3`](#rudder_integration_firebase_flutter---v443)
+ - [`rudder_integration_amplitude_flutter` - `v2.3.3`](#rudder_integration_amplitude_flutter---v233)
+ - [`rudder_integration_appcenter_flutter` - `v2.3.3`](#rudder_integration_appcenter_flutter---v233)
+ - [`rudder_integration_kochava_flutter` - `v2.3.3`](#rudder_integration_kochava_flutter---v233)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `rudder_sdk_flutter` - `v3.3.3`
+ - `rudder_plugin_db_encryption` - `v1.5.3`
+ - `rudder_integration_appsflyer_flutter` - `v2.1.3`
+ - `rudder_integration_braze_flutter` - `v2.6.3`
+ - `rudder_integration_leanplum_flutter` - `v2.3.3`
+ - `rudder_integration_adjust_flutter` - `v2.3.3`
+ - `rudder_integration_firebase_flutter` - `v4.4.3`
+ - `rudder_integration_amplitude_flutter` - `v2.3.3`
+ - `rudder_integration_appcenter_flutter` - `v2.3.3`
+ - `rudder_integration_kochava_flutter` - `v2.3.3`
+
+---
+
+#### `rudder_plugin_android` - `v3.2.2`
+
+ - **FIX**(android): align Kotlin jvmTarget with Java compileOptions ([#309](https://github.com/rudderlabs/rudder-sdk-flutter/issues/309)). ([7b2f2cc4](https://github.com/rudderlabs/rudder-sdk-flutter/commit/7b2f2cc4f51c6796e870c2d35c8b93f514ba7ecc))
+
+#### `rudder_sdk_flutter_monorepo` - `v5.3.3`
+
+ - **FIX**(ci): stage version bumps for the signed commit instead of committing them. ([c375e3da](https://github.com/rudderlabs/rudder-sdk-flutter/commit/c375e3dae802a7e6235b574a91c6099a31856ce2))
+ - **FIX**(ci): pass changed files to the signed commit as a newline-separated list. ([4fa3fb13](https://github.com/rudderlabs/rudder-sdk-flutter/commit/4fa3fb13825041fac4db427d902d1f2f1b952134))
+ - **FIX**(ci): repair draft-new-release after the App token migration. ([a7e4981e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a7e4981e74038e775f4661c4deb40b228e674cd0))
+ - **FIX**(ci): harden release workflow interpolation and file list (SEC-343). ([e87f285e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e87f285e6542d11061defa60e94a9acb4e37747b))
+ - **FIX**: correct ryancyq/github-signed-commit parameters. ([14bd4ae3](https://github.com/rudderlabs/rudder-sdk-flutter/commit/14bd4ae3ccc1b86aa28499808c96d61bb5934e64))
+ - **FIX**(android): align Kotlin jvmTarget with Java compileOptions ([#309](https://github.com/rudderlabs/rudder-sdk-flutter/issues/309)). ([7b2f2cc4](https://github.com/rudderlabs/rudder-sdk-flutter/commit/7b2f2cc4f51c6796e870c2d35c8b93f514ba7ecc))
+
+## 5.3.3
+
+ - **FIX**(ci): stage version bumps for the signed commit instead of committing them. ([c375e3da](https://github.com/rudderlabs/rudder-sdk-flutter/commit/c375e3dae802a7e6235b574a91c6099a31856ce2))
+ - **FIX**(ci): pass changed files to the signed commit as a newline-separated list. ([4fa3fb13](https://github.com/rudderlabs/rudder-sdk-flutter/commit/4fa3fb13825041fac4db427d902d1f2f1b952134))
+ - **FIX**(ci): repair draft-new-release after the App token migration. ([a7e4981e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a7e4981e74038e775f4661c4deb40b228e674cd0))
+ - **FIX**(ci): harden release workflow interpolation and file list (SEC-343). ([e87f285e](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e87f285e6542d11061defa60e94a9acb4e37747b))
+ - **FIX**: correct ryancyq/github-signed-commit parameters. ([14bd4ae3](https://github.com/rudderlabs/rudder-sdk-flutter/commit/14bd4ae3ccc1b86aa28499808c96d61bb5934e64))
+ - **FIX**(android): align Kotlin jvmTarget with Java compileOptions ([#309](https://github.com/rudderlabs/rudder-sdk-flutter/issues/309)). ([7b2f2cc4](https://github.com/rudderlabs/rudder-sdk-flutter/commit/7b2f2cc4f51c6796e870c2d35c8b93f514ba7ecc))
+
+
 ## 2026-04-29
 
 ### Changes
