@@ -96,15 +96,12 @@ jobs:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
-          # The tag is created remotely over the API by the step above, i.e. after checkout
-          # fetched tags. conventional-github-releaser picks its target from *local* tags
-          # (via git-semver-tags), so without this it targets the previous release and 422s.
+          # The step above created the tag remotely, after checkout fetched tags. The
+          # releaser reads *local* tags, so without this it targets the previous release.
           git fetch origin --tags --force
 
-          # Its transform matches a semver anywhere in the git decoration, so a branch ref
-          # such as `origin/release/5.3.3` gets mistaken for a tag. That yields a spurious
-          # `5.3.3` release holding the notes while the real `v5.3.3` is published empty.
-          # Hiding those refs from `git log --decorate` keeps tags the only match.
+          # The releaser matches a semver anywhere in the decoration, so a branch ref like
+          # `origin/release/5.3.3` reads as a tag and steals the release notes.
           git config log.excludeDecoration 'refs/remotes/origin/release/*'
           git config --add log.excludeDecoration 'refs/remotes/origin/hotfix-release/*'
 
@@ -126,10 +123,8 @@ jobs:
         with:
           branches: 'hotfix-release/*'
         env:
-          # This action lists PRs before deleting, so it needs pull-requests read and
-          # contents write. The job pins GITHUB_TOKEN to `contents: read`, and a job-level
-          # permissions block zeroes out everything it omits -- leaving pull-requests at
-          # none, which 403s. Use the app token, as every other privileged step here does.
+          # Lists PRs before deleting, so it needs pull-requests read + contents write.
+          # GITHUB_TOKEN has neither: the job pins it to `contents: read`.
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
       - name: Delete release branch
