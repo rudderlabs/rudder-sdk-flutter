@@ -137,9 +137,19 @@ jobs:
           # `melos version` has already committed the version bumps and changelogs by
           # this point, so the index is empty and diffing it would yield nothing.
           # Diff against the branch point instead to capture every released file.
-          CHANGED_FILES=$(git diff --name-only "$BASE_SHA" HEAD | tr '\n' ' ')
-          echo "changed_files=$CHANGED_FILES" >> $GITHUB_OUTPUT
-          echo "Files to publish: $CHANGED_FILES"
+          #
+          # The signed-commit action takes a newline-separated list, so the value has to
+          # keep its newlines -- collapsing it onto one line makes `git add` treat the
+          # whole list as a single pathspec and nothing gets committed. Multi-line values
+          # need a heredoc delimiter to survive GITHUB_OUTPUT.
+          {
+            echo "changed_files<<CHANGED_FILES_EOF"
+            git diff --name-only "$BASE_SHA" HEAD
+            echo "CHANGED_FILES_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "Files to publish:"
+          git diff --name-only "$BASE_SHA" HEAD
           git for-each-ref refs/tags
 
       - name: Push signed version changes
