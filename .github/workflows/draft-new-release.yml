@@ -125,32 +125,31 @@ jobs:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
           BASE_SHA: ${{ steps.create-branch.outputs.base_sha }}
         run: |
-          # Capture the tags melos just created before amending: `git commit --amend`
-          # rewrites the commit, leaving the tags pointing at the original object.
+          # Capture the tags melos created before rewinding below, so they can be
+          # re-pointed at the signed commit once it exists.
           PACKAGE_TAGS=$(git tag --points-at HEAD | tr '\n' ' ')
           echo "package_tags=$PACKAGE_TAGS" >> $GITHUB_OUTPUT
           echo "Package tags: $PACKAGE_TAGS"
 
+          # Stage anything melos left behind in the working tree, then rewind to the
+          # branch point keeping the tree in the index. The signed-commit action builds
+          # its commit from *staged* changes (`git status -suno --porcelain`), and melos
+          # has already committed everything, so without this it detects nothing to
+          # commit and the release branch ends up with no version bumps.
           git add .
-          git commit --amend --no-edit
+          git reset --soft "$BASE_SHA"
 
-          # `melos version` has already committed the version bumps and changelogs by
-          # this point, so the index is empty and diffing it would yield nothing.
-          # Diff against the branch point instead to capture every released file.
-          #
-          # The signed-commit action takes a newline-separated list, so the value has to
-          # keep its newlines -- collapsing it onto one line makes `git add` treat the
-          # whole list as a single pathspec and nothing gets committed. Multi-line values
-          # need a heredoc delimiter to survive GITHUB_OUTPUT.
+          # The action reads `files` as a multi-line input, so the value must keep its
+          # newlines -- a space-joined line is treated as one pathspec and matches
+          # nothing. Multi-line values need a heredoc delimiter to survive GITHUB_OUTPUT.
           {
             echo "changed_files<<CHANGED_FILES_EOF"
-            git diff --name-only "$BASE_SHA" HEAD
+            git diff --cached --name-only
             echo "CHANGED_FILES_EOF"
           } >> "$GITHUB_OUTPUT"
 
           echo "Files to publish:"
-          git diff --name-only "$BASE_SHA" HEAD
-          git for-each-ref refs/tags
+          git diff --cached --name-only
 
       - name: Push signed version changes
         id: push-changes
