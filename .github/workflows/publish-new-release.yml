@@ -96,6 +96,15 @@ jobs:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
+          # The step above created the tag remotely, after checkout fetched tags. The
+          # releaser reads *local* tags, so without this it targets the previous release.
+          git fetch origin --tags --force
+
+          # The releaser matches a semver anywhere in the decoration, so a branch ref like
+          # `origin/release/5.3.3` reads as a tag and steals the release notes.
+          git config log.excludeDecoration 'refs/remotes/origin/release/*'
+          git config --add log.excludeDecoration 'refs/remotes/origin/hotfix-release/*'
+
           DEBUG=conventional-github-releaser npx conventional-github-releaser -p angular --config github-release.config.js
 
       - name: Create pull request into develop
@@ -113,7 +122,9 @@ jobs:
         with:
           branches: 'hotfix-release/*'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Lists PRs before deleting, so it needs pull-requests read + contents write.
+          # GITHUB_TOKEN has neither: the job pins it to `contents: read`.
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
       - name: Delete release branch
         uses: koj-co/delete-merged-action@63a03c35810a8a7d4840d18793c0f68ff8b59450 # master
@@ -121,7 +132,7 @@ jobs:
         with:
           branches: 'release/*'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
       # - name: Send message to Slack channel
       #   id: slack
