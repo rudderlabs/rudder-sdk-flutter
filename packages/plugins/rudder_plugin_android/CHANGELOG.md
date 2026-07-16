@@ -1,3 +1,7 @@
+## 3.2.2
+
+ - **FIX**(android): align Kotlin jvmTarget with Java compileOptions ([#309](https://github.com/rudderlabs/rudder-sdk-flutter/issues/309)). ([7b2f2cc4](https://github.com/rudderlabs/rudder-sdk-flutter/commit/7b2f2cc4f51c6796e870c2d35c8b93f514ba7ecc))
+
 ## 3.2.1
 
  - **FIX**(android): prevent memory leaks in multi-engine scenarios. ([e6cd6d35](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e6cd6d35855410448223992e082e440fe6519749))
