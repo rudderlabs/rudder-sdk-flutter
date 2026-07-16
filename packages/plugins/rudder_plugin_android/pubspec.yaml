@@ -1,5 +1,5 @@
 name: rudder_plugin_android
-version: 3.2.1
+version: 3.2.2
 description: Android implementation of RudderStack Flutter SDK for native event tracking and analytics integration.
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 repository: https://github.com/rudderlabs/rudder-sdk-flutter
