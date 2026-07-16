@@ -2,6 +2,7 @@ group 'com.rudderstack.sdk.flutter'
 version '1.0'
 
 apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     compileSdk 34
@@ -16,6 +17,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
     namespace = "com.rudderstack.sdk.flutter"
 }
