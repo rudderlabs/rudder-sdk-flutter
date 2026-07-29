@@ -12,7 +12,7 @@ let package = Package(
         .library(name: "rudder-plugin-ios", targets: ["rudder_plugin_ios"])
     ],
     dependencies: [
-        .package(url: "https://github.com/rudderlabs/rudder-sdk-ios.git", from: "1.31.1")
+        .package(url: "https://github.com/rudderlabs/rudder-sdk-ios.git", from: "1.32.2")
     ],
     targets: [
         .target(
