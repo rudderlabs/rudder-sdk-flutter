@@ -1,3 +1,7 @@
+## 2.7.0
+
+ - **FEAT**(braze): bump braze android and ios integration minimum version to the latest ([#312](https://github.com/rudderlabs/rudder-sdk-flutter/issues/312)). ([0b0dff34](https://github.com/rudderlabs/rudder-sdk-flutter/commit/0b0dff34af561648fef814d7ac4a7c51294e4a18))
+
 ## 2.6.2
 
  - Update a dependency to the latest release.
