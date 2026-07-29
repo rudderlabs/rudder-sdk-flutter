@@ -12,7 +12,9 @@ RudderStack flutter SDK ios plugin project
   s.source_files = 'rudder_plugin_ios/Sources/rudder_plugin_ios/**/*'
   s.public_header_files = 'rudder_plugin_ios/Sources/rudder_plugin_ios/include/**/*.h'
   s.dependency 'Flutter'
-  s.dependency "Rudder", '>= 1.31.1', '< 2.0.0'
+  # Floor pinned to 1.32.2: this Rudder version carries the app-hang /
+  # main-thread persistence fix, so it must reach Flutter iOS consumers.
+  s.dependency "Rudder", '>= 1.32.2', '< 2.0.0'
   s.platform = :ios, '12.0'
 
   # Flutter.framework does not contain a i386 slice.

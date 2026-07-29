@@ -1,3 +1,7 @@
+## 3.2.2
+
+ - **FIX**(ios): raise Rudder pod floor to 1.32.2 for the app-hang/persistence fix ([#322](https://github.com/rudderlabs/rudder-sdk-flutter/issues/322)). ([a712f0cc](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a712f0cc68e515edfd3779c9d5cf5f7f9b13fc8e))
+
 ## 3.2.1
 
  - **FIX**(ios): remove _notification nil guard for cold-start lifecycle on Flutter 3.41+ ([#302](https://github.com/rudderlabs/rudder-sdk-flutter/issues/302)). ([f12dd884](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f12dd884985b20a5c948421722b9b32aad5a3191))

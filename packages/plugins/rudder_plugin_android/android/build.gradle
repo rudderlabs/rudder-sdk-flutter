@@ -25,6 +25,9 @@ android {
 }
 
 dependencies {
-    implementation 'com.rudderstack.android.sdk:core:[1.24.0, 2.0.0)'
+    // Floor pinned to 1.28.1: this core version scopes the Serializable ProGuard
+    // consumer rule to the persisted config graphs, restoring R8 optimization in
+    // host apps (previously the rule kept every Serializable class app-wide).
+    implementation 'com.rudderstack.android.sdk:core:[1.28.1, 2.0.0)'
     implementation 'com.google.code.gson:gson:2.8.6'
 }
