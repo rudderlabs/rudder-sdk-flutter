@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-07-29
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`rudder_plugin_android` - `v3.2.3`](#rudder_plugin_android---v323)
+ - [`rudder_plugin_ios` - `v3.2.2`](#rudder_plugin_ios---v322)
+ - [`rudder_sdk_flutter_monorepo` - `v5.4.1`](#rudder_sdk_flutter_monorepo---v541)
+ - [`rudder_sdk_flutter` - `v3.3.4`](#rudder_sdk_flutter---v334)
+ - [`rudder_plugin_db_encryption` - `v1.5.4`](#rudder_plugin_db_encryption---v154)
+ - [`rudder_integration_amplitude_flutter` - `v2.3.4`](#rudder_integration_amplitude_flutter---v234)
+ - [`rudder_integration_appsflyer_flutter` - `v2.1.4`](#rudder_integration_appsflyer_flutter---v214)
+ - [`rudder_integration_firebase_flutter` - `v4.4.4`](#rudder_integration_firebase_flutter---v444)
+ - [`rudder_integration_kochava_flutter` - `v2.3.4`](#rudder_integration_kochava_flutter---v234)
+ - [`rudder_integration_appcenter_flutter` - `v2.3.4`](#rudder_integration_appcenter_flutter---v234)
+ - [`rudder_integration_adjust_flutter` - `v2.3.4`](#rudder_integration_adjust_flutter---v234)
+ - [`rudder_integration_braze_flutter` - `v2.7.1`](#rudder_integration_braze_flutter---v271)
+ - [`rudder_integration_leanplum_flutter` - `v2.3.4`](#rudder_integration_leanplum_flutter---v234)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `rudder_sdk_flutter` - `v3.3.4`
+ - `rudder_plugin_db_encryption` - `v1.5.4`
+ - `rudder_integration_amplitude_flutter` - `v2.3.4`
+ - `rudder_integration_appsflyer_flutter` - `v2.1.4`
+ - `rudder_integration_firebase_flutter` - `v4.4.4`
+ - `rudder_integration_kochava_flutter` - `v2.3.4`
+ - `rudder_integration_appcenter_flutter` - `v2.3.4`
+ - `rudder_integration_adjust_flutter` - `v2.3.4`
+ - `rudder_integration_braze_flutter` - `v2.7.1`
+ - `rudder_integration_leanplum_flutter` - `v2.3.4`
+
+---
+
+#### `rudder_plugin_android` - `v3.2.3`
+
+ - **FIX**(android): ship scoped ProGuard consumer rule via core 1.28.1 to restore R8 optimization ([#321](https://github.com/rudderlabs/rudder-sdk-flutter/issues/321)). ([e8e3ab7f](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e8e3ab7fccb91669d4fee3121d9d761bfcfca639))
+
+#### `rudder_plugin_ios` - `v3.2.2`
+
+ - **FIX**(ios): raise Rudder pod floor to 1.32.2 for the app-hang/persistence fix ([#322](https://github.com/rudderlabs/rudder-sdk-flutter/issues/322)). ([a712f0cc](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a712f0cc68e515edfd3779c9d5cf5f7f9b13fc8e))
+
+#### `rudder_sdk_flutter_monorepo` - `v5.4.1`
+
+ - **FIX**(ios): raise Rudder pod floor to 1.32.2 for the app-hang/persistence fix ([#322](https://github.com/rudderlabs/rudder-sdk-flutter/issues/322)). ([a712f0cc](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a712f0cc68e515edfd3779c9d5cf5f7f9b13fc8e))
+ - **FIX**(android): ship scoped ProGuard consumer rule via core 1.28.1 to restore R8 optimization ([#321](https://github.com/rudderlabs/rudder-sdk-flutter/issues/321)). ([e8e3ab7f](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e8e3ab7fccb91669d4fee3121d9d761bfcfca639))
+
+## 5.4.1
+
+ - **FIX**(ios): raise Rudder pod floor to 1.32.2 for the app-hang/persistence fix ([#322](https://github.com/rudderlabs/rudder-sdk-flutter/issues/322)). ([a712f0cc](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a712f0cc68e515edfd3779c9d5cf5f7f9b13fc8e))
+ - **FIX**(android): ship scoped ProGuard consumer rule via core 1.28.1 to restore R8 optimization ([#321](https://github.com/rudderlabs/rudder-sdk-flutter/issues/321)). ([e8e3ab7f](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e8e3ab7fccb91669d4fee3121d9d761bfcfca639))
+
+
 ## 2026-07-16
 
 ### Changes

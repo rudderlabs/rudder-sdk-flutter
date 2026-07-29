@@ -1,3 +1,7 @@
+## 3.2.3
+
+ - **FIX**(android): ship scoped ProGuard consumer rule via core 1.28.1 to restore R8 optimization ([#321](https://github.com/rudderlabs/rudder-sdk-flutter/issues/321)). ([e8e3ab7f](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e8e3ab7fccb91669d4fee3121d9d761bfcfca639))
+
 ## 3.2.2
 
  - **FIX**(android): align Kotlin jvmTarget with Java compileOptions ([#309](https://github.com/rudderlabs/rudder-sdk-flutter/issues/309)). ([7b2f2cc4](https://github.com/rudderlabs/rudder-sdk-flutter/commit/7b2f2cc4f51c6796e870c2d35c8b93f514ba7ecc))
