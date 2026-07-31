@@ -1,5 +1,5 @@
 name: rudder_integration_braze_flutter
-description: RudderStack Device Mode for Braze on Flutter SDK
+description: RudderStack's Flutter device-mode integration for sending mobile analytics events to Braze on Android and iOS.
 version: 2.7.1
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 
