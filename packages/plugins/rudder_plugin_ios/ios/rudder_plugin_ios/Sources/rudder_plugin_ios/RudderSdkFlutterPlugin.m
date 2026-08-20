@@ -316,7 +316,11 @@ BOOL isRegistrarDetached = NO;
     if (integrationList == nil) {
         integrationList = [[NSMutableArray alloc] init];
     }
-    [integrationList addObject:integration];
+    // Factories are singletons registered once per engine; skip duplicates so
+    // multi-engine apps don't stack the same factory and double-forward events
+    if (![integrationList containsObject:integration]) {
+        [integrationList addObject:integration];
+    }
 }
 
 @end
