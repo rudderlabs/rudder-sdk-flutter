@@ -316,8 +316,8 @@ BOOL isRegistrarDetached = NO;
     if (integrationList == nil) {
         integrationList = [[NSMutableArray alloc] init];
     }
-    // Factories are singletons registered once per engine; skip duplicates so
-    // multi-engine apps don't stack the same factory and double-forward events
+    // Each engine (and Dart hot restart) re-registers the same singleton
+    // factories; skip duplicates to avoid re-initializing destination SDKs
     if (![integrationList containsObject:integration]) {
         [integrationList addObject:integration];
     }
