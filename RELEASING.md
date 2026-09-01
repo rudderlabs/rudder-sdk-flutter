@@ -135,15 +135,15 @@ OIDC gives GitHub Actions a short-lived identity. The repository does not store 
 
 The release manifest puts dependencies before dependents.
 
-The normal order is:
+The required dependency order is:
 
-1. `rudder_sdk_flutter_platform_interface`
-2. `rudder_plugin_ios`, `rudder_plugin_android`, and `rudder_plugin_web`
-3. `rudder_sdk_flutter`
-4. `rudder_plugin_db_encryption`
-5. Changed integration packages
+1. `rudder_sdk_flutter_platform_interface` comes before its dependents.
+2. `rudder_plugin_android`, `rudder_plugin_ios`, and `rudder_plugin_web` come before `rudder_sdk_flutter`.
+3. `rudder_sdk_flutter` comes before database encryption and integration packages.
 
 Integration packages are Adjust, Amplitude, App Center, AppsFlyer, Braze, Firebase, Kochava, and Leanplum.
+
+The manifest sorts independent packages by package name. Integration packages and database encryption have no dependency on each other.
 
 Package workflows can start at the same time. A dependent package waits until its required version is public.
 
