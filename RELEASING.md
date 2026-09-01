@@ -151,17 +151,45 @@ Package workflows can start at the same time. A dependent package waits until it
 
 1. Open the **Publish new github release** run.
 2. Confirm that the run succeeded.
-3. Open each **Deploy to pub.dev** run.
-4. Confirm that each required version is on [pub.dev](https://pub.dev/publishers/rudderstack.com/packages).
-5. Confirm that the Slack channel has one Flutter release message.
-6. Confirm that the selected Slack thread has the package versions.
-7. Confirm that the selected Slack thread has the back-merge pull request.
-8. Review the back-merge pull request.
-9. Get approval to merge the back-merge pull request.
-10. Merge the back-merge pull request with a merge commit.
-11. Add the GitHub, pub.dev, Snyk, and Sonar links to the Linear release ticket.
-12. Get approval to close the Linear release ticket.
-13. Move the release ticket and completed release issues to `Done`.
+3. Download the `release-packages-X.Y.Z` artifact from the release run.
+4. Confirm that every package tag points to the merged release commit.
+5. Open each **Deploy to pub.dev** run.
+6. Confirm that each required version is on [pub.dev](https://pub.dev/publishers/rudderstack.com/packages).
+7. Confirm that the Slack channel has one Flutter release message.
+8. Confirm that the selected Slack thread has the package versions.
+9. Confirm that the selected Slack thread has the back-merge pull request.
+10. Review the back-merge pull request.
+11. Get approval to merge the back-merge pull request.
+12. Merge the back-merge pull request with a merge commit.
+13. Add the GitHub, pub.dev, Snyk, and Sonar links to the Linear release ticket.
+14. Get approval to close the Linear release ticket.
+15. Move the release ticket and completed release issues to `Done`.
+
+Use the release pull request, workflow run, and artifact to verify the tags:
+
+```bash
+release_pr=RELEASE_PR_NUMBER
+release_run=RELEASE_WORKFLOW_RUN_ID
+release_version=X.Y.Z
+artifact_dir="/tmp/flutter-release-$release_version"
+
+gh run download "$release_run" \
+  --name "release-packages-$release_version" \
+  --dir "$artifact_dir"
+git fetch origin --tags
+merge_sha=$(gh pr view "$release_pr" --json mergeCommit --jq '.mergeCommit.oid')
+
+jq -r '.packages[].tag' "$artifact_dir/release-packages.json" | while IFS= read -r tag; do
+  tag_sha=$(git rev-list -n 1 "$tag")
+  if [ "$tag_sha" != "$merge_sha" ]; then
+    echo "$tag points to $tag_sha, not $merge_sha." >&2
+    exit 1
+  fi
+  echo "$tag -> $tag_sha"
+done
+```
+
+Stop if a package tag is missing or points to another commit.
 
 The following evidence shows a successful release:
 
@@ -169,7 +197,7 @@ The following evidence shows a successful release:
 | --- | --- |
 | Draft | Release pull request, package table, and Slack thread message |
 | Review | Green CI and a successful pub.dev dry run |
-| Publish | GitHub release and successful package workflows |
+| Publish | GitHub release, package tags on the merge commit, and successful package workflows |
 | Verify | Expected versions on pub.dev and Slack success messages |
 | Close | Merged back-merge pull request and completed Linear ticket |
 
