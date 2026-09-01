@@ -316,7 +316,11 @@ BOOL isRegistrarDetached = NO;
     if (integrationList == nil) {
         integrationList = [[NSMutableArray alloc] init];
     }
-    [integrationList addObject:integration];
+    // Each engine (and Dart hot restart) re-registers the same singleton
+    // factories; skip duplicates to avoid re-initializing destination SDKs
+    if (![integrationList containsObject:integration]) {
+        [integrationList addObject:integration];
+    }
 }
 
 @end

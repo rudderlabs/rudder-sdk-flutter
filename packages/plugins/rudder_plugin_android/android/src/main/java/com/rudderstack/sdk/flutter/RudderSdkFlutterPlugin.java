@@ -67,7 +67,11 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
     if (integrationList == null) {
       integrationList = new ArrayList<>();
     }
-    integrationList.add(integration);
+    // Each engine (and Dart hot restart) re-registers the same singleton
+    // factories; skip duplicates to avoid re-initializing destination SDKs
+    if (!integrationList.contains(integration)) {
+      integrationList.add(integration);
+    }
   }
 
   private static Map<String, Object> dbEncryptionMap = null;

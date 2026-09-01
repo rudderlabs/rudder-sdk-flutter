@@ -3,6 +3,66 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-09-01
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`rudder_plugin_android` - `v3.2.4`](#rudder_plugin_android---v324)
+ - [`rudder_plugin_ios` - `v3.2.3`](#rudder_plugin_ios---v323)
+ - [`rudder_sdk_flutter_monorepo` - `v5.4.2`](#rudder_sdk_flutter_monorepo---v542)
+ - [`rudder_sdk_flutter` - `v3.3.5`](#rudder_sdk_flutter---v335)
+ - [`rudder_plugin_db_encryption` - `v1.5.5`](#rudder_plugin_db_encryption---v155)
+ - [`rudder_integration_leanplum_flutter` - `v2.3.5`](#rudder_integration_leanplum_flutter---v235)
+ - [`rudder_integration_appcenter_flutter` - `v2.3.5`](#rudder_integration_appcenter_flutter---v235)
+ - [`rudder_integration_braze_flutter` - `v2.7.2`](#rudder_integration_braze_flutter---v272)
+ - [`rudder_integration_adjust_flutter` - `v2.3.5`](#rudder_integration_adjust_flutter---v235)
+ - [`rudder_integration_appsflyer_flutter` - `v2.1.5`](#rudder_integration_appsflyer_flutter---v215)
+ - [`rudder_integration_amplitude_flutter` - `v2.3.5`](#rudder_integration_amplitude_flutter---v235)
+ - [`rudder_integration_firebase_flutter` - `v4.4.5`](#rudder_integration_firebase_flutter---v445)
+ - [`rudder_integration_kochava_flutter` - `v2.3.5`](#rudder_integration_kochava_flutter---v235)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `rudder_sdk_flutter` - `v3.3.5`
+ - `rudder_plugin_db_encryption` - `v1.5.5`
+ - `rudder_integration_leanplum_flutter` - `v2.3.5`
+ - `rudder_integration_appcenter_flutter` - `v2.3.5`
+ - `rudder_integration_braze_flutter` - `v2.7.2`
+ - `rudder_integration_adjust_flutter` - `v2.3.5`
+ - `rudder_integration_appsflyer_flutter` - `v2.1.5`
+ - `rudder_integration_amplitude_flutter` - `v2.3.5`
+ - `rudder_integration_firebase_flutter` - `v4.4.5`
+ - `rudder_integration_kochava_flutter` - `v2.3.5`
+
+---
+
+#### `rudder_plugin_android` - `v3.2.4`
+
+ - **FIX**: dedupe integration factories across flutter engines ([#326](https://github.com/rudderlabs/rudder-sdk-flutter/issues/326)). ([c4605403](https://github.com/rudderlabs/rudder-sdk-flutter/commit/c4605403afc1aa26dbbbe9445fd57b301fa1ce79))
+
+#### `rudder_plugin_ios` - `v3.2.3`
+
+ - **FIX**: dedupe integration factories across flutter engines ([#326](https://github.com/rudderlabs/rudder-sdk-flutter/issues/326)). ([c4605403](https://github.com/rudderlabs/rudder-sdk-flutter/commit/c4605403afc1aa26dbbbe9445fd57b301fa1ce79))
+
+#### `rudder_sdk_flutter_monorepo` - `v5.4.2`
+
+ - **FIX**: dedupe integration factories across flutter engines ([#326](https://github.com/rudderlabs/rudder-sdk-flutter/issues/326)). ([c4605403](https://github.com/rudderlabs/rudder-sdk-flutter/commit/c4605403afc1aa26dbbbe9445fd57b301fa1ce79))
+
+## 5.4.2
+
+ - **FIX**: dedupe integration factories across flutter engines ([#326](https://github.com/rudderlabs/rudder-sdk-flutter/issues/326)). ([c4605403](https://github.com/rudderlabs/rudder-sdk-flutter/commit/c4605403afc1aa26dbbbe9445fd57b301fa1ce79))
+
+
 ## 2026-07-29
 
 ### Changes

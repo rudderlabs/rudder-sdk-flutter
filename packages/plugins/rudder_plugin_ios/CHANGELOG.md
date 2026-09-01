@@ -1,3 +1,7 @@
+## 3.2.3
+
+ - **FIX**: dedupe integration factories across flutter engines ([#326](https://github.com/rudderlabs/rudder-sdk-flutter/issues/326)). ([c4605403](https://github.com/rudderlabs/rudder-sdk-flutter/commit/c4605403afc1aa26dbbbe9445fd57b301fa1ce79))
+
 ## 3.2.2
 
  - **FIX**(ios): raise Rudder pod floor to 1.32.2 for the app-hang/persistence fix ([#322](https://github.com/rudderlabs/rudder-sdk-flutter/issues/322)). ([a712f0cc](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a712f0cc68e515edfd3779c9d5cf5f7f9b13fc8e))

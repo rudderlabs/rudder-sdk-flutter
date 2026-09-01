@@ -1,3 +1,7 @@
+## 3.2.4
+
+ - **FIX**: dedupe integration factories across flutter engines ([#326](https://github.com/rudderlabs/rudder-sdk-flutter/issues/326)). ([c4605403](https://github.com/rudderlabs/rudder-sdk-flutter/commit/c4605403afc1aa26dbbbe9445fd57b301fa1ce79))
+
 ## 3.2.3
 
  - **FIX**(android): ship scoped ProGuard consumer rule via core 1.28.1 to restore R8 optimization ([#321](https://github.com/rudderlabs/rudder-sdk-flutter/issues/321)). ([e8e3ab7f](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e8e3ab7fccb91669d4fee3121d9d761bfcfca639))
