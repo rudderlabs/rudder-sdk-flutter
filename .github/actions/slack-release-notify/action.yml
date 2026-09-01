@@ -1,0 +1,132 @@
+name: Slack release notification
+description: Store release thread data and post release messages.
+
+inputs:
+  mode:
+    description: The operation to run.
+    required: true
+  channel_id:
+    description: The Slack channel ID.
+    required: false
+    default: ''
+  thread_ts:
+    description: The Slack thread timestamp.
+    required: false
+    default: ''
+  release_version:
+    description: The monorepo release version.
+    required: false
+    default: ''
+  release_ticket_id:
+    description: The Linear release ticket identifier.
+    required: false
+    default: ''
+  slack_bot_token:
+    description: The Slack bot token.
+    required: false
+    default: ''
+  message:
+    description: The message text.
+    required: false
+    default: ''
+
+outputs:
+  channel_id:
+    description: The stored Slack channel ID.
+    value: ${{ steps.read-artifact.outputs.channel_id }}
+  thread_ts:
+    description: The stored Slack thread timestamp.
+    value: ${{ steps.read-artifact.outputs.thread_ts }}
+  release_ticket_id:
+    description: The stored Linear release ticket identifier.
+    value: ${{ steps.read-artifact.outputs.release_ticket_id }}
+
+runs:
+  using: composite
+  steps:
+    - name: Create release thread data
+      if: inputs.mode == 'upload-artifact'
+      shell: bash
+      env:
+        CHANNEL_ID: ${{ inputs.channel_id }}
+        RELEASE_TICKET_ID: ${{ inputs.release_ticket_id }}
+        THREAD_TS: ${{ inputs.thread_ts }}
+      run: |
+        destination="$RUNNER_TEMP/release-info"
+        mkdir -p "$destination"
+        jq -n \
+          --arg channel_id "$CHANNEL_ID" \
+          --arg release_ticket_id "$RELEASE_TICKET_ID" \
+          --arg thread_ts "$THREAD_TS" \
+          '{channel_id: $channel_id, thread_ts: $thread_ts, release_ticket_id: $release_ticket_id}' \
+          > "$destination/release-info.json"
+
+    - name: Upload release thread data
+      if: inputs.mode == 'upload-artifact'
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      with:
+        name: release-info-v${{ inputs.release_version }}
+        path: ${{ runner.temp }}/release-info/release-info.json
+        if-no-files-found: error
+        retention-days: 30
+
+    - name: Download release thread data
+      if: inputs.mode == 'download-artifact'
+      shell: bash
+      env:
+        ARTIFACT_NAME: release-info-v${{ inputs.release_version }}
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        artifact_id=$(gh api \
+          "repos/$GITHUB_REPOSITORY/actions/artifacts?name=$ARTIFACT_NAME&per_page=100" \
+          --jq '[.artifacts[] | select(.expired == false)] | sort_by(.created_at) | last | .id')
+
+        if [ -z "$artifact_id" ] || [ "$artifact_id" = "null" ]; then
+          echo "Release thread artifact $ARTIFACT_NAME was not found." >&2
+          exit 1
+        fi
+
+        destination="$RUNNER_TEMP/release-info-download"
+        mkdir -p "$destination"
+        gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$artifact_id/zip" \
+          > "$RUNNER_TEMP/release-info.zip"
+        unzip -o "$RUNNER_TEMP/release-info.zip" -d "$destination"
+
+    - name: Read release thread data
+      if: inputs.mode == 'download-artifact'
+      id: read-artifact
+      shell: bash
+      run: |
+        source_file="$RUNNER_TEMP/release-info-download/release-info.json"
+        echo "channel_id=$(jq -r '.channel_id' "$source_file")" >> "$GITHUB_OUTPUT"
+        echo "thread_ts=$(jq -r '.thread_ts' "$source_file")" >> "$GITHUB_OUTPUT"
+        echo "release_ticket_id=$(jq -r '.release_ticket_id' "$source_file")" >> "$GITHUB_OUTPUT"
+
+    - name: Post Slack thread message
+      if: inputs.mode == 'post-thread'
+      uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d # v4.0.0
+      with:
+        method: chat.postMessage
+        token: ${{ inputs.slack_bot_token }}
+        errors: true
+        retries: rapid
+        payload: |
+          {
+            "channel": "${{ inputs.channel_id }}",
+            "thread_ts": "${{ inputs.thread_ts }}",
+            "text": ${{ toJSON(inputs.message) }}
+          }
+
+    - name: Post Slack channel message
+      if: inputs.mode == 'post-channel'
+      uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d # v4.0.0
+      with:
+        method: chat.postMessage
+        token: ${{ inputs.slack_bot_token }}
+        errors: true
+        retries: rapid
+        payload: |
+          {
+            "channel": "${{ inputs.channel_id }}",
+            "text": ${{ toJSON(inputs.message) }}
+          }

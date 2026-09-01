@@ -19,8 +19,15 @@ jobs:
     name: Publish new release
     runs-on: ubuntu-latest
     permissions:
+      actions: read
       contents: read  # GITHUB_TOKEN only needs read for checkout
     if: (startsWith(github.event.pull_request.head.ref, 'release/') || startsWith(github.event.pull_request.head.ref, 'hotfix-release/')) && github.event.pull_request.merged == true # only merged pull requests must trigger this job
+    outputs:
+      backmerge_pr_url: ${{ steps.back-merge.outputs.pr_url }}
+      failed_package: ${{ steps.package-publications.outputs.failed_package }}
+      failed_run_url: ${{ steps.package-publications.outputs.failed_run_url }}
+      package_summary: ${{ steps.release-packages.outputs.package_summary }}
+      release_version: ${{ steps.extract-version.outputs.release_version }}
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
@@ -34,6 +41,11 @@ jobs:
         run: |
           VERSION="${BRANCH_NAME#hotfix-}"
           VERSION="${VERSION#release/}"
+
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Release branch must end with a semantic version such as 5.4.3." >&2
+            exit 1
+          fi
 
           echo "release_version=$VERSION" >> $GITHUB_OUTPUT
 
@@ -83,6 +95,7 @@ jobs:
           fi
 
           echo "manifest=$manifest" >> "$GITHUB_OUTPUT"
+          echo "package_summary=$(jq -r '[.packages[] | "\(.name) \(.version)"] | join(" · ")' "$manifest")" >> "$GITHUB_OUTPUT"
           {
             echo "## Release packages"
             echo
@@ -107,27 +120,35 @@ jobs:
           permission-contents: write # to create tags and releases
           permission-pull-requests: write # to create PRs that trigger CI checks
 
-      - name: Prepare release metadata
-        id: create_release
-        run: |
-          git for-each-ref refs/tags
-          echo "DATE=$(date)" >> $GITHUB_ENV
-
-      - name: Delete existing tag if present
+      - name: Check existing monorepo release
+        id: existing-release
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
           RELEASE_VERSION: ${{ steps.extract-version.outputs.release_version }}
         run: |
-          if git tag --list | grep -q "^v${RELEASE_VERSION}$"; then
-            gh api \
-              --method DELETE \
-              -H "Accept: application/vnd.github+json" \
-              -H "X-GitHub-Api-Version: 2022-11-28" \
-              /repos/${{ github.repository }}/git/refs/tags/v${RELEASE_VERSION} || true
-            git tag -d v${RELEASE_VERSION} || true
+          tag="v$RELEASE_VERSION"
+          existing_sha=$(git rev-list -n 1 "$tag" 2>/dev/null || true)
+
+          if [ -n "$existing_sha" ] && [ "$existing_sha" != "$MERGE_SHA" ]; then
+            echo "$tag points to $existing_sha, not $MERGE_SHA." >&2
+            exit 1
+          fi
+
+          if [ -n "$existing_sha" ]; then
+            echo "tag_exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag_exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          if gh api "repos/${{ github.repository }}/releases/tags/$tag" >/dev/null 2>&1; then
+            echo "release_exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "release_exists=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Create and push signed tag
+        if: ${{ steps.existing-release.outputs.tag_exists != 'true' }}
         uses: ryancyq/github-signed-commit@e9f3b28c80da7be66d24b8f501a5abe82a6b855f # v1.2.0
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
@@ -138,6 +159,7 @@ jobs:
           files: ''
 
       - name: Create GitHub Release
+        if: ${{ steps.existing-release.outputs.release_exists != 'true' }}
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{ steps.generate-token.outputs.token }}
@@ -187,7 +209,52 @@ jobs:
             create_tag "$tag"
           done < <(jq -r '.packages[].tag' "$MANIFEST")
 
+      - name: Wait for package publications
+        id: package-publications
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MANIFEST: ${{ steps.release-packages.outputs.manifest }}
+        run: |
+          while IFS=$'\t' read -r package tag; do
+            run_id=""
+            run_url=""
+
+            for attempt in $(seq 1 24); do
+              runs=$(gh api \
+                "repos/${{ github.repository }}/actions/workflows/deploy-pubdev.yml/runs?per_page=100")
+              run_id=$(jq -r --arg tag "$tag" \
+                '[.workflow_runs[] | select(.head_branch == $tag)] | sort_by(.created_at) | last | .id // empty' \
+                <<< "$runs")
+              run_url=$(jq -r --arg tag "$tag" \
+                '[.workflow_runs[] | select(.head_branch == $tag)] | sort_by(.created_at) | last | .html_url // empty' \
+                <<< "$runs")
+
+              if [ -n "$run_id" ]; then
+                break
+              fi
+
+              echo "Attempt $attempt of 24: waiting for the $tag publication workflow."
+              sleep 5
+            done
+
+            if [ -z "$run_id" ]; then
+              echo "failed_package=$package" >> "$GITHUB_OUTPUT"
+              echo "failed_run_url=https://github.com/${{ github.repository }}/actions/workflows/deploy-pubdev.yml" >> "$GITHUB_OUTPUT"
+              echo "No publication workflow was found for $tag." >&2
+              exit 1
+            fi
+
+            echo "Waiting for $package in $run_url."
+            if ! gh run watch "$run_id" --exit-status; then
+              echo "failed_package=$package" >> "$GITHUB_OUTPUT"
+              echo "failed_run_url=$run_url" >> "$GITHUB_OUTPUT"
+              echo "$package failed to publish." >&2
+              exit 1
+            fi
+          done < <(jq -r '.packages[] | [.name, .tag] | @tsv' "$MANIFEST")
+
       - name: Create pull request into develop
+        id: back-merge
         uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 #v2
         with:
           source_branch: 'main'
@@ -214,37 +281,121 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
-      # - name: Send message to Slack channel
-      #   id: slack
-      #   uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a  # v2.1.1
-      #   env:
-      #     PROJECT_NAME: 'Flutter SDK monorepo (v2.x)'
-      #     RELEASES_URL: 'https://github.com/rudderlabs/rudder-sdk-flutter/releases/'
-      #   with:
-      #     method: chat.postMessage
-      #     payload-templated: true
-      #     retries: rapid
-      #     token: ${{ secrets.SLACK_BOT_TOKEN }}
-      #     payload: |
-      #       {
-      #         "channel": "${{ secrets.SLACK_RELEASE_CHANNEL_ID }}",
-      #         "blocks": [
-      #           {
-      #             "type": "header",
-      #             "text": {
-      #               "type": "plain_text",
-      #               "text": "New release: ${{ env.PROJECT_NAME }}"
-      #             }
-      #           },
-      #           {
-      #             "type": "divider"
-      #           },
-      #           {
-      #             "type": "section",
-      #             "text": {
-      #               "type": "mrkdwn",
-      #               "text": "*Release: <${{env.RELEASES_URL}}${{ steps.extract-version.outputs.release_version }}|v${{ steps.extract-version.outputs.release_version }}>*\n${{ env.DATE }}"
-      #             }
-      #           }
-      #         ]
-      #       }
+
+  notify-slack:
+    name: Notify Slack about the release result
+    needs: [release]
+    if: ${{ always() && needs.release.result != 'skipped' }}
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout release commit
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+
+      - name: Read release thread data
+        id: release-thread
+        uses: ./.github/actions/slack-release-notify
+        with:
+          mode: download-artifact
+          release_version: ${{ needs.release.outputs.release_version }}
+
+      - name: Build success channel message
+        id: success-channel-message
+        if: ${{ needs.release.result == 'success' }}
+        env:
+          PACKAGE_SUMMARY: ${{ needs.release.outputs.package_summary }}
+          RELEASE_VERSION: ${{ needs.release.outputs.release_version }}
+        run: |
+          message=":rocket: *New release: Flutter SDK*"
+          message+=$'\n'"*Release:* <https://github.com/${{ github.repository }}/releases/tag/v$RELEASE_VERSION|v$RELEASE_VERSION>"
+          message+=$'\n'"*Packages:* $PACKAGE_SUMMARY"
+          message+=$'\n'"CC: <!subteam^S066Z6BUTAS> <!subteam^S03SW7DM8P3>"
+
+          delimiter=$(openssl rand -hex 16)
+          {
+            echo "text<<$delimiter"
+            echo "$message"
+            echo "$delimiter"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Post success channel message
+        if: ${{ needs.release.result == 'success' }}
+        uses: ./.github/actions/slack-release-notify
+        with:
+          mode: post-channel
+          slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+          channel_id: ${{ secrets.SLACK_RELEASE_CHANNEL_ID }}
+          message: ${{ steps.success-channel-message.outputs.text }}
+
+      - name: Build success thread message
+        id: success-thread-message
+        if: ${{ needs.release.result == 'success' }}
+        env:
+          BACKMERGE_PR_URL: ${{ needs.release.outputs.backmerge_pr_url }}
+          PACKAGE_SUMMARY: ${{ needs.release.outputs.package_summary }}
+          RELEASE_TICKET_ID: ${{ steps.release-thread.outputs.release_ticket_id }}
+          RELEASE_VERSION: ${{ needs.release.outputs.release_version }}
+        run: |
+          message=":white_check_mark: *Flutter release v$RELEASE_VERSION is complete*"
+          message+=$'\n'"*Published to pub.dev:* $PACKAGE_SUMMARY"
+          message+=$'\n'"*Back-merge:* <$BACKMERGE_PR_URL|Review back-merge PR>"
+          message+=$'\n'"*Linear:* <https://linear.app/rudderstack/issue/$RELEASE_TICKET_ID|$RELEASE_TICKET_ID>"
+          message+=$'\n'"CC: <!subteam^S066Z6BUTAS> <!subteam^S03SW7DM8P3>"
+
+          delimiter=$(openssl rand -hex 16)
+          {
+            echo "text<<$delimiter"
+            echo "$message"
+            echo "$delimiter"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Post success thread message
+        if: ${{ needs.release.result == 'success' }}
+        uses: ./.github/actions/slack-release-notify
+        with:
+          mode: post-thread
+          slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+          channel_id: ${{ steps.release-thread.outputs.channel_id }}
+          thread_ts: ${{ steps.release-thread.outputs.thread_ts }}
+          message: ${{ steps.success-thread-message.outputs.text }}
+
+      - name: Build failure thread message
+        id: failure-thread-message
+        if: ${{ needs.release.result != 'success' }}
+        env:
+          FAILED_PACKAGE: ${{ needs.release.outputs.failed_package || 'release workflow' }}
+          FAILED_RUN_URL: ${{ needs.release.outputs.failed_run_url || format('https://github.com/{0}/actions/runs/{1}', github.repository, github.run_id) }}
+          RELEASE_VERSION: ${{ needs.release.outputs.release_version || 'unknown' }}
+        run: |
+          message=":x: *Flutter release v$RELEASE_VERSION failed*"
+          message+=$'\n'"*Failed item:* $FAILED_PACKAGE"
+          message+=$'\n'"*Workflow:* <$FAILED_RUN_URL|View failed run>"
+          message+=$'\n'"Fix the cause. Then restart the failed package workflow and this release workflow."
+          message+=$'\n'"CC: <!subteam^S066Z6BUTAS> <!subteam^S03SW7DM8P3>"
+
+          delimiter=$(openssl rand -hex 16)
+          {
+            echo "text<<$delimiter"
+            echo "$message"
+            echo "$delimiter"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Post failure thread message
+        if: ${{ needs.release.result != 'success' }}
+        uses: ./.github/actions/slack-release-notify
+        with:
+          mode: post-thread
+          slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+          channel_id: ${{ steps.release-thread.outputs.channel_id }}
+          thread_ts: ${{ steps.release-thread.outputs.thread_ts }}
+          message: ${{ steps.failure-thread-message.outputs.text }}
