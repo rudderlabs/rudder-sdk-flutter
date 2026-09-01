@@ -297,6 +297,21 @@ jobs:
         with:
           egress-policy: audit
 
+      - name: Extract release version for notification
+        id: release-version
+        env:
+          BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
+        run: |
+          VERSION="${BRANCH_NAME#hotfix-}"
+          VERSION="${VERSION#release/}"
+
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Release branch must end with a semantic version such as 5.4.3." >&2
+            exit 1
+          fi
+
+          echo "release_version=$VERSION" >> "$GITHUB_OUTPUT"
+
       - name: Checkout release commit
         uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
         with:
@@ -307,14 +322,14 @@ jobs:
         uses: ./.github/actions/slack-release-notify
         with:
           mode: download-artifact
-          release_version: ${{ needs.release.outputs.release_version }}
+          release_version: ${{ steps.release-version.outputs.release_version }}
 
       - name: Build success channel message
         id: success-channel-message
         if: ${{ needs.release.result == 'success' }}
         env:
           PACKAGE_SUMMARY: ${{ needs.release.outputs.package_summary }}
-          RELEASE_VERSION: ${{ needs.release.outputs.release_version }}
+          RELEASE_VERSION: ${{ steps.release-version.outputs.release_version }}
         run: |
           message=":rocket: *New release: Flutter SDK*"
           message+=$'\n'"*Release:* <https://github.com/${{ github.repository }}/releases/tag/v$RELEASE_VERSION|v$RELEASE_VERSION>"
@@ -344,7 +359,7 @@ jobs:
           BACKMERGE_PR_URL: ${{ needs.release.outputs.backmerge_pr_url }}
           PACKAGE_SUMMARY: ${{ needs.release.outputs.package_summary }}
           RELEASE_TICKET_ID: ${{ steps.release-thread.outputs.release_ticket_id }}
-          RELEASE_VERSION: ${{ needs.release.outputs.release_version }}
+          RELEASE_VERSION: ${{ steps.release-version.outputs.release_version }}
         run: |
           message=":white_check_mark: *Flutter release v$RELEASE_VERSION is complete*"
           message+=$'\n'"*Published to pub.dev:* $PACKAGE_SUMMARY"
@@ -375,7 +390,7 @@ jobs:
         env:
           FAILED_PACKAGE: ${{ needs.release.outputs.failed_package || 'release workflow' }}
           FAILED_RUN_URL: ${{ needs.release.outputs.failed_run_url || format('https://github.com/{0}/actions/runs/{1}', github.repository, github.run_id) }}
-          RELEASE_VERSION: ${{ needs.release.outputs.release_version || 'unknown' }}
+          RELEASE_VERSION: ${{ steps.release-version.outputs.release_version }}
         run: |
           message=":x: *Flutter release v$RELEASE_VERSION failed*"
           message+=$'\n'"*Failed item:* $FAILED_PACKAGE"
