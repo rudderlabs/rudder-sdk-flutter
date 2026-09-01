@@ -8,8 +8,11 @@ on:
       - closed
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+
+concurrency:
+  group: publish-release-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
 
 jobs:
   release:
@@ -48,6 +51,10 @@ jobs:
         with:
           token: ${{ steps.generate-token.outputs.token }}
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c # v1.7.1
 
       - name: Setup Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
@@ -106,6 +113,79 @@ jobs:
           git config --add log.excludeDecoration 'refs/remotes/origin/hotfix-release/*'
 
           DEBUG=conventional-github-releaser npx conventional-github-releaser -p angular --config github-release.config.js
+
+      - name: Create ordered release package manifest
+        id: release-packages
+        env:
+          MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+        run: |
+          parent_count=$(git rev-list --parents -n 1 "$MERGE_SHA" | awk '{ print NF - 1 }')
+          if [ "$parent_count" -ne 2 ]; then
+            echo "The release pull request must use a merge commit." >&2
+            exit 1
+          fi
+
+          manifest="$RUNNER_TEMP/release-packages.json"
+          dart tool/release_packages.dart \
+            --base "$MERGE_SHA^1" \
+            --head "$MERGE_SHA" \
+            --output "$manifest"
+
+          package_count=$(jq '.packages | length' "$manifest")
+          if [ "$package_count" -eq 0 ]; then
+            echo "No package version changes were found." >&2
+            exit 1
+          fi
+
+          echo "manifest=$manifest" >> "$GITHUB_OUTPUT"
+          {
+            echo "## Release packages"
+            echo
+            echo '| Order | Package | Version | Path | Tag |'
+            echo '| ---: | --- | --- | --- | --- |'
+            jq -r '.packages | to_entries[] | "| \(.key + 1) | `\(.value.name)` | `\(.value.version)` | `\(.value.path)` | `\(.value.tag)` |"' "$manifest"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload release package manifest
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: release-packages-${{ steps.extract-version.outputs.release_version }}
+          path: ${{ steps.release-packages.outputs.manifest }}
+          if-no-files-found: error
+
+      - name: Create package tags on the merged commit
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          MANIFEST: ${{ steps.release-packages.outputs.manifest }}
+          MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+          RELEASE_VERSION: ${{ steps.extract-version.outputs.release_version }}
+        run: |
+          create_tag() {
+            tag="$1"
+            existing_sha=$(gh api \
+              "repos/${{ github.repository }}/git/ref/tags/$tag" \
+              --jq '.object.sha' 2>/dev/null || true)
+
+            if [ -n "$existing_sha" ]; then
+              if [ "$existing_sha" != "$MERGE_SHA" ]; then
+                echo "Tag $tag already points to $existing_sha, not $MERGE_SHA." >&2
+                exit 1
+              fi
+              echo "Tag $tag already points to $MERGE_SHA."
+              return
+            fi
+
+            echo "Creating $tag at $MERGE_SHA."
+            gh api "repos/${{ github.repository }}/git/refs" \
+              --method POST \
+              -f ref="refs/tags/$tag" \
+              -f sha="$MERGE_SHA"
+          }
+
+          create_tag "rudder_sdk_flutter_monorepo-v$RELEASE_VERSION"
+          while IFS= read -r tag; do
+            create_tag "$tag"
+          done < <(jq -r '.packages[].tag' "$MANIFEST")
 
       - name: Create pull request into develop
         uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 #v2
