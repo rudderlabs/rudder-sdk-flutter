@@ -19,6 +19,7 @@ jobs:
   publish:
     name: Publish package to pub.dev
     runs-on: ubuntu-latest
+    environment: pub-dev
 
     steps:
       - name: Harden the runner (Audit all outbound calls)

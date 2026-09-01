@@ -3,7 +3,7 @@
   "repository": "rudderlabs/rudder-sdk-flutter",
   "pushEvents": true,
   "workflowDispatchEvents": true,
-  "githubEnvironment": null,
+  "githubEnvironment": "pub-dev",
   "packages": [
     {
       "name": "rudder_sdk_flutter_platform_interface",
