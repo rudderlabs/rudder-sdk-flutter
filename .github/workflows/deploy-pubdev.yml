@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - 'rudder_*-v*'
+      - '!rudder_sdk_flutter_monorepo-v*'
   workflow_dispatch:
 
 permissions:
