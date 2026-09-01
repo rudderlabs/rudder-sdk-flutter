@@ -1,21 +1,23 @@
 name: Deploy to pub.dev
 
 on:
+  push:
+    tags:
+      - 'rudder_*-v*'
   workflow_dispatch:
-  workflow_run: # zizmor: ignore[dangerous-triggers]
-    workflows: ["Publish new github release"]
-    types:
-      - completed
 
 permissions:
-  id-token: write # allows the JWT to be requested from GitHub's OIDC provider
-  contents: read # This is required for actions/checkout
+  contents: read
+  id-token: write
+
+concurrency:
+  group: pubdev-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  deploy-tag:
-    name: Deploy to pub.dev
-    runs-on: macos-latest
-    if: startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/main') || github.event.workflow_run.conclusion == 'success'
+  publish:
+    name: Publish package to pub.dev
+    runs-on: ubuntu-latest
 
     steps:
       - name: Harden the runner (Audit all outbound calls)
@@ -23,79 +25,167 @@ jobs:
         with:
           egress-policy: audit
 
-      - name: Checkout
+      - name: Require a package tag
+        env:
+          REF_TYPE: ${{ github.ref_type }}
+        run: |
+          if [ "$REF_TYPE" != "tag" ]; then
+            echo "Run this workflow with a package tag as the Git ref." >&2
+            exit 1
+          fi
+
+      - name: Checkout package tag
         uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
         with:
-          fetch-depth: 0
-          # For workflow_run triggers, explicitly use main branch
-          # For other triggers (tags, manual), use the default ref
-          ref: ${{ github.event.workflow_run.conclusion == 'success' && 'main' || github.ref }}
+          ref: ${{ github.ref }}
 
       - name: Setup Dart
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c # v1.7.1
 
-      - name: Setup Java
-        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
-        with:
-          distribution: 'zulu'
-          java-version: '11'
+      - name: Resolve package from tag
+        id: package
+        env:
+          PACKAGE_TAG: ${{ github.ref_name }}
+        run: |
+          metadata="$RUNNER_TEMP/pubdev-package.json"
+          dart tool/pubdev_package.dart \
+            --tag "$PACKAGE_TAG" \
+            --output "$metadata"
+
+          echo "metadata=$metadata" >> "$GITHUB_OUTPUT"
+          echo "name=$(jq -r '.name' "$metadata")" >> "$GITHUB_OUTPUT"
+          echo "version=$(jq -r '.version' "$metadata")" >> "$GITHUB_OUTPUT"
+          echo "path=$(jq -r '.path' "$metadata")" >> "$GITHUB_OUTPUT"
+
+      - name: Check whether the version is already published
+        id: published
+        env:
+          PACKAGE_NAME: ${{ steps.package.outputs.name }}
+          PACKAGE_VERSION: ${{ steps.package.outputs.version }}
+        run: |
+          package_data=$(curl --fail --silent --show-error --retry 3 \
+            "https://pub.dev/api/packages/$PACKAGE_NAME")
+          if jq -e --arg version "$PACKAGE_VERSION" \
+            'any(.versions[]?; .version == $version)' <<< "$package_data" >/dev/null; then
+            echo "already=true" >> "$GITHUB_OUTPUT"
+            echo "$PACKAGE_NAME $PACKAGE_VERSION is already on pub.dev."
+          else
+            echo "already=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Wait for package dependencies
+        if: steps.published.outputs.already == 'false'
+        env:
+          METADATA: ${{ steps.package.outputs.metadata }}
+        run: |
+          while IFS=$'\t' read -r dependency version; do
+            [ -n "$dependency" ] || continue
+            echo "Waiting for $dependency $version."
+
+            available=false
+            for attempt in $(seq 1 60); do
+              package_data=$(curl --fail --silent --show-error --retry 3 \
+                "https://pub.dev/api/packages/$dependency")
+              if jq -e --arg version "$version" \
+                'any(.versions[]?; .version == $version)' <<< "$package_data" >/dev/null; then
+                available=true
+                echo "$dependency $version is available."
+                break
+              fi
+              echo "Attempt $attempt of 60: $dependency $version is not available yet."
+              sleep 10
+            done
+
+            if [ "$available" != "true" ]; then
+              echo "$dependency $version was not available after 10 minutes." >&2
+              exit 1
+            fi
+          done < <(jq -r '.dependencies[] | [.name, .version] | @tsv' "$METADATA")
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e #v2.21.0
+        if: steps.published.outputs.already == 'false'
+        uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e # v2.21.0
         with:
           channel: 'stable'
           architecture: x64
 
-      - name: Install Melos
+      - name: Resolve package dependencies
+        if: steps.published.outputs.already == 'false'
+        working-directory: ${{ steps.package.outputs.path }}
         run: |
-          dart pub global activate melos 6.3.3
+          flutter pub get
 
-      - name: Install dependencies
+      - name: Validate package archive
+        if: steps.published.outputs.already == 'false'
+        working-directory: ${{ steps.package.outputs.path }}
         run: |
-          melos run setup:ci
+          flutter pub publish --dry-run
 
-      - name: Publish package to pub.dev
+      - name: Publish package
+        id: publish
+        if: steps.published.outputs.already == 'false'
+        working-directory: ${{ steps.package.outputs.path }}
         run: |
-          melos publish --no-dry-run --yes
+          flutter pub publish --force
 
-      - name: Get new version number
-        id: get-version
+      - name: Verify published version
+        if: steps.published.outputs.already == 'false'
+        env:
+          PACKAGE_NAME: ${{ steps.package.outputs.name }}
+          PACKAGE_VERSION: ${{ steps.package.outputs.version }}
         run: |
-          current_version=$(grep -A0 'version:' pubspec.yaml | tail -n1 | awk '{ print $2 }')
-          echo "CURRENT_VERSION_VALUE=$current_version" >> "$GITHUB_OUTPUT"
-          echo "DATE=$(date)" >> "$GITHUB_OUTPUT"
+          for attempt in $(seq 1 30); do
+            package_data=$(curl --fail --silent --show-error --retry 3 \
+              "https://pub.dev/api/packages/$PACKAGE_NAME")
+            if jq -e --arg version "$PACKAGE_VERSION" \
+              'any(.versions[]?; .version == $version)' <<< "$package_data" >/dev/null; then
+              echo "$PACKAGE_NAME $PACKAGE_VERSION is available on pub.dev."
+              exit 0
+            fi
+            echo "Attempt $attempt of 30: waiting for pub.dev API verification."
+            sleep 10
+          done
 
-      # - name: Send message to Slack channel
-      #   id: slack
-      #   uses: slackapi/slack-github-action@91efab103c0de0a537f72a35f6b8cda0ee76bf0a  # v2.1.1
-      #   env:
-      #     PROJECT_NAME: 'Flutter SDK pub.dev packages'
-      #     RELEASES_URL: 'https://pub.dev/packages?q=rudder'
-      #   with:
-      #     method: chat.postMessage
-      #     payload-templated: true
-      #     retries: rapid
-      #     token: ${{ secrets.SLACK_BOT_TOKEN }}
-      #     payload: |
-      #       {
-      #         "channel": "${{ secrets.SLACK_RELEASE_CHANNEL_ID }}",
-      #         "blocks": [
-      #           {
-      #             "type": "header",
-      #             "text": {
-      #               "type": "plain_text",
-      #               "text": "New release: ${{ env.PROJECT_NAME }}"
-      #             }
-      #           },
-      #           {
-      #             "type": "divider"
-      #           },
-      #           {
-      #             "type": "section",
-      #             "text": {
-      #               "type": "mrkdwn",
-      #               "text": "*Release: <${{ env.RELEASES_URL }}|Latest Packages>*\n${{ steps.get-version.outputs.DATE }}"
-      #             }
-      #           }
-      #         ]
-      #       }
+          echo "pub.dev did not report $PACKAGE_NAME $PACKAGE_VERSION after five minutes." >&2
+          exit 1
+
+      - name: Write success summary
+        if: success()
+        env:
+          ALREADY_PUBLISHED: ${{ steps.published.outputs.already }}
+          PACKAGE_NAME: ${{ steps.package.outputs.name }}
+          PACKAGE_VERSION: ${{ steps.package.outputs.version }}
+        run: |
+          if [ "$ALREADY_PUBLISHED" = "true" ]; then
+            result="Already published; no publication was necessary."
+          else
+            result="Published and verified successfully."
+          fi
+          {
+            echo "## pub.dev publication"
+            echo
+            echo "- Package: \`$PACKAGE_NAME\`"
+            echo "- Version: \`$PACKAGE_VERSION\`"
+            echo "- Result: $result"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Write failure summary
+        if: failure() && steps.package.outcome == 'success'
+        env:
+          PACKAGE_NAME: ${{ steps.package.outputs.name }}
+          PACKAGE_TAG: ${{ github.ref_name }}
+          PACKAGE_VERSION: ${{ steps.package.outputs.version }}
+        run: |
+          {
+            echo "## pub.dev publication failed"
+            echo
+            echo "- Package: \`$PACKAGE_NAME\`"
+            echo "- Version: \`$PACKAGE_VERSION\`"
+            echo "- Tag: \`$PACKAGE_TAG\`"
+            echo
+            echo "After you fix the cause, restart with:"
+            echo
+            echo '```bash'
+            echo "gh workflow run deploy-pubdev.yml --ref \"$PACKAGE_TAG\""
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
