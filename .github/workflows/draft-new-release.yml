@@ -2,6 +2,15 @@ name: Draft new release
 
 on:
   workflow_dispatch:
+    inputs:
+      release_ticket_id:
+        description: 'Linear release ticket ID, for example SDK-5380'
+        required: true
+        type: string
+      slack_message_link:
+        description: 'Slack message URL for the release thread'
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -17,6 +26,11 @@ jobs:
     permissions:
       contents: read  # GITHUB_TOKEN only needs read for checkout
     if: startsWith(github.ref, 'refs/heads/develop') || startsWith(github.ref, 'refs/heads/hotfix/')
+    outputs:
+      package_summary: ${{ steps.release-packages.outputs.package_summary }}
+      release_branch: ${{ steps.create-release.outputs.branch_name }}
+      release_pr_url: ${{ steps.create-pr.outputs.pr_url }}
+      release_version: ${{ steps.create-release.outputs.new_version }}
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
@@ -56,6 +70,21 @@ jobs:
       - name: Install Melos
         run: |
           dart pub global activate melos 6.3.3
+
+      - name: Validate release inputs
+        env:
+          RELEASE_TICKET_ID: ${{ inputs.release_ticket_id }}
+          SLACK_MESSAGE_LINK: ${{ inputs.slack_message_link }}
+        run: |
+          if [[ ! "$RELEASE_TICKET_ID" =~ ^[A-Z]+-[0-9]+$ ]]; then
+            echo "Release ticket ID must use a format such as SDK-5380." >&2
+            exit 1
+          fi
+
+          if [[ ! "$SLACK_MESSAGE_LINK" =~ ^https://rudderlabs\.slack\.com/archives/[^/]+/p[0-9]+ ]]; then
+            echo "Slack message URL must link to a rudderlabs.slack.com message." >&2
+            exit 1
+          fi
 
       # In order to make a commit, we need to initialize a user.
       # You may choose to write something less generic here if you want, it doesn't matter functionality wise.
@@ -176,6 +205,7 @@ jobs:
           fi
 
           echo "manifest=$manifest" >> "$GITHUB_OUTPUT"
+          echo "package_summary=$(jq -r '[.packages[] | "\(.name) \(.version)"] | join(" · ")' "$manifest")" >> "$GITHUB_OUTPUT"
           {
             echo "## Release packages"
             echo
@@ -192,6 +222,7 @@ jobs:
           if-no-files-found: error
 
       - name: Create pull request into main
+        id: create-pr
         uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 #v2
         with:
           source_branch: ${{ steps.create-release.outputs.branch_name }}
@@ -199,3 +230,89 @@ jobs:
           github_token: ${{ steps.generate-token.outputs.token }}
           pr_title: 'chore(release): pull ${{ steps.create-release.outputs.branch_name }} into main'
           pr_body: ':crown: *An automated PR*'
+
+  notify-slack:
+    name: Notify the release Slack thread
+    needs: [draft-new-release]
+    if: ${{ needs.draft-new-release.result == 'success' }}
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+        with:
+          persist-credentials: false
+
+      - name: Read Slack thread from message URL
+        id: slack-thread
+        env:
+          SLACK_MESSAGE_LINK: ${{ inputs.slack_message_link }}
+        run: |
+          channel_id=$(sed -n 's|.*/archives/\([^/]*\)/.*|\1|p' <<< "$SLACK_MESSAGE_LINK")
+
+          if grep -q 'thread_ts=' <<< "$SLACK_MESSAGE_LINK"; then
+            thread_ts=${SLACK_MESSAGE_LINK#*thread_ts=}
+            thread_ts=${thread_ts%%&*}
+            thread_ts=${thread_ts//%2E/.}
+            thread_ts=${thread_ts//%2e/.}
+          else
+            raw_ts=$(sed -n 's|.*/p\([0-9]*\).*|\1|p' <<< "$SLACK_MESSAGE_LINK")
+            thread_ts="${raw_ts:0:10}.${raw_ts:10:6}"
+          fi
+
+          if [[ ! "$channel_id" =~ ^[A-Z0-9]+$ ]] || [[ ! "$thread_ts" =~ ^[0-9]{10}\.[0-9]{6}$ ]]; then
+            echo "Could not read the Slack channel or thread from the message URL." >&2
+            exit 1
+          fi
+
+          echo "channel_id=$channel_id" >> "$GITHUB_OUTPUT"
+          echo "thread_ts=$thread_ts" >> "$GITHUB_OUTPUT"
+
+      - name: Store release thread data
+        uses: ./.github/actions/slack-release-notify
+        with:
+          mode: upload-artifact
+          channel_id: ${{ steps.slack-thread.outputs.channel_id }}
+          thread_ts: ${{ steps.slack-thread.outputs.thread_ts }}
+          release_version: ${{ needs.draft-new-release.outputs.release_version }}
+          release_ticket_id: ${{ inputs.release_ticket_id }}
+
+      - name: Build release pull request message
+        id: message
+        env:
+          PACKAGE_SUMMARY: ${{ needs.draft-new-release.outputs.package_summary }}
+          RELEASE_BRANCH: ${{ needs.draft-new-release.outputs.release_branch }}
+          RELEASE_PR_URL: ${{ needs.draft-new-release.outputs.release_pr_url }}
+          RELEASE_TICKET_ID: ${{ inputs.release_ticket_id }}
+          RELEASE_VERSION: ${{ needs.draft-new-release.outputs.release_version }}
+        run: |
+          message=":rocket: *Flutter release PR is ready*"
+          message+=$'\n'"*Release:* v$RELEASE_VERSION"
+          message+=$'\n'"*Branch:* \`$RELEASE_BRANCH\`"
+          message+=$'\n'"*Packages:* $PACKAGE_SUMMARY"
+          message+=$'\n'"*Pull request:* <$RELEASE_PR_URL|Review release PR>"
+          message+=$'\n'"*Linear:* <https://linear.app/rudderstack/issue/$RELEASE_TICKET_ID|$RELEASE_TICKET_ID>"
+          message+=$'\n'"CC: <!subteam^S066Z6BUTAS> <!subteam^S03SW7DM8P3>"
+
+          delimiter=$(openssl rand -hex 16)
+          {
+            echo "text<<$delimiter"
+            echo "$message"
+            echo "$delimiter"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Post release pull request message
+        uses: ./.github/actions/slack-release-notify
+        with:
+          mode: post-thread
+          slack_bot_token: ${{ secrets.SLACK_BOT_TOKEN }}
+          channel_id: ${{ steps.slack-thread.outputs.channel_id }}
+          thread_ts: ${{ steps.slack-thread.outputs.thread_ts }}
+          message: ${{ steps.message.outputs.text }}
