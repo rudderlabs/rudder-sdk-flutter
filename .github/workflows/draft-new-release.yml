@@ -6,6 +6,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: draft-new-release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   draft-new-release:
     name: Draft a new release
@@ -25,7 +29,7 @@ jobs:
         with:
           app-id: ${{ vars.RELEASE_APP_ID }}
           private-key: ${{ secrets.RELEASE_PRIVATE_KEY }}
-          permission-contents: write # to create commits, tags, and branches
+          permission-contents: write # to create commits and branches
           permission-pull-requests: write # to create PRs that trigger CI checks
 
       - name: Checkout source branch
@@ -124,14 +128,8 @@ jobs:
       - name: Prepare version changes
         id: prepare-changes
         env:
-          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
           BASE_SHA: ${{ steps.create-branch.outputs.base_sha }}
         run: |
-          # Capture melos's tags before the rewind below moves HEAD off them.
-          PACKAGE_TAGS=$(git tag --points-at HEAD | tr '\n' ' ')
-          echo "package_tags=$PACKAGE_TAGS" >> $GITHUB_OUTPUT
-          echo "Package tags: $PACKAGE_TAGS"
-
           # The signed-commit action commits *staged* changes, and melos has already
           # committed them. Rewind so the release tree sits in the index instead.
           git add .
@@ -157,21 +155,41 @@ jobs:
           commit-message: "chore: version bump to ${{ steps.create-release.outputs.new_version }}"
           files: ${{ steps.prepare-changes.outputs.changed_files }}
 
-      - name: Push package tags
+      - name: Create ordered release package manifest
+        id: release-packages
         env:
-          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
-          COMMIT_SHA: ${{ steps.push-changes.outputs.commit-sha }}
-          PACKAGE_TAGS: ${{ steps.prepare-changes.outputs.package_tags }}
+          BASE_SHA: ${{ steps.create-branch.outputs.base_sha }}
+          BRANCH_NAME: ${{ steps.create-release.outputs.branch_name }}
+          HEAD_SHA: ${{ steps.push-changes.outputs.commit-sha }}
         run: |
-          # melos tagged a local commit, not the signed one pushed above. These tags must
-          # stay ancestors of main -- melos reads them to scope the next release.
-          for tag in $PACKAGE_TAGS; do
-            echo "Tagging ${tag} -> ${COMMIT_SHA}"
-            gh api "repos/${{ github.repository }}/git/refs" \
-              --method POST \
-              -f ref="refs/tags/${tag}" \
-              -f sha="$COMMIT_SHA"
-          done
+          manifest="$RUNNER_TEMP/release-packages.json"
+          git fetch origin "$BRANCH_NAME"
+          dart tool/release_packages.dart \
+            --base "$BASE_SHA" \
+            --head "$HEAD_SHA" \
+            --output "$manifest"
+
+          package_count=$(jq '.packages | length' "$manifest")
+          if [ "$package_count" -eq 0 ]; then
+            echo "No package version changes were found." >&2
+            exit 1
+          fi
+
+          echo "manifest=$manifest" >> "$GITHUB_OUTPUT"
+          {
+            echo "## Release packages"
+            echo
+            echo '| Order | Package | Version | Path | Tag |'
+            echo '| ---: | --- | --- | --- | --- |'
+            jq -r '.packages | to_entries[] | "| \(.key + 1) | `\(.value.name)` | `\(.value.version)` | `\(.value.path)` | `\(.value.tag)` |"' "$manifest"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload release package manifest
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: release-packages-${{ steps.create-release.outputs.new_version }}
+          path: ${{ steps.release-packages.outputs.manifest }}
+          if-no-files-found: error
 
       - name: Create pull request into main
         uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 #v2
