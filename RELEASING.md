@@ -20,7 +20,7 @@ Use a merge commit for both release pull requests. Do not use squash or rebase.
 
 Confirm these GitHub settings:
 
-- `RELEASE_APP_ID` repository variable
+- GitHub App client ID in the `RELEASE_APP_ID` repository variable
 - `RELEASE_PRIVATE_KEY` repository or organization secret
 - `SLACK_BOT_TOKEN` repository or organization secret
 - `SLACK_RELEASE_CHANNEL_ID` repository or organization secret
