@@ -19,13 +19,12 @@ jobs:
     name: Publish new release
     runs-on: ubuntu-latest
     permissions:
-      actions: read
       contents: read  # GITHUB_TOKEN only needs read for checkout
     if: (startsWith(github.event.pull_request.head.ref, 'release/') || startsWith(github.event.pull_request.head.ref, 'hotfix-release/')) && github.event.pull_request.merged == true # only merged pull requests must trigger this job
     outputs:
       backmerge_pr_url: ${{ steps.back-merge.outputs.pr_url }}
       failed_package: ${{ steps.package-publications.outputs.failed_package }}
-      failed_run_url: ${{ steps.package-publications.outputs.failed_run_url }}
+      failure_url: ${{ steps.package-publications.outputs.failure_url }}
       package_summary: ${{ steps.release-packages.outputs.package_summary }}
       release_version: ${{ steps.extract-version.outputs.release_version }}
     steps:
@@ -212,46 +211,32 @@ jobs:
       - name: Wait for package publications
         id: package-publications
         env:
-          GH_TOKEN: ${{ github.token }}
           MANIFEST: ${{ steps.release-packages.outputs.manifest }}
         run: |
-          while IFS=$'\t' read -r package tag; do
-            run_id=""
-            run_url=""
+          while IFS=$'\t' read -r package version; do
+            published=false
 
-            for attempt in $(seq 1 24); do
-              runs=$(gh api \
-                "repos/${{ github.repository }}/actions/workflows/deploy-pubdev.yml/runs?per_page=100")
-              run_id=$(jq -r --arg tag "$tag" \
-                '[.workflow_runs[] | select(.head_branch == $tag)] | sort_by(.created_at) | last | .id // empty' \
-                <<< "$runs")
-              run_url=$(jq -r --arg tag "$tag" \
-                '[.workflow_runs[] | select(.head_branch == $tag)] | sort_by(.created_at) | last | .html_url // empty' \
-                <<< "$runs")
-
-              if [ -n "$run_id" ]; then
+            for attempt in $(seq 1 60); do
+              package_data=$(curl --fail --silent --show-error --retry 3 \
+                "https://pub.dev/api/packages/$package" || true)
+              if jq -e --arg version "$version" \
+                'any(.versions[]?; .version == $version)' <<< "$package_data" >/dev/null; then
+                published=true
+                echo "$package $version is available on pub.dev."
                 break
               fi
 
-              echo "Attempt $attempt of 24: waiting for the $tag publication workflow."
-              sleep 5
+              echo "Attempt $attempt of 60: waiting for $package $version on pub.dev."
+              sleep 10
             done
 
-            if [ -z "$run_id" ]; then
-              echo "failed_package=$package" >> "$GITHUB_OUTPUT"
-              echo "failed_run_url=https://github.com/${{ github.repository }}/actions/workflows/deploy-pubdev.yml" >> "$GITHUB_OUTPUT"
-              echo "No publication workflow was found for $tag." >&2
+            if [ "$published" != "true" ]; then
+              echo "failed_package=$package $version" >> "$GITHUB_OUTPUT"
+              echo "failure_url=https://pub.dev/packages/$package/versions/$version" >> "$GITHUB_OUTPUT"
+              echo "pub.dev did not report $package $version after 10 minutes." >&2
               exit 1
             fi
-
-            echo "Waiting for $package in $run_url."
-            if ! gh run watch "$run_id" --exit-status; then
-              echo "failed_package=$package" >> "$GITHUB_OUTPUT"
-              echo "failed_run_url=$run_url" >> "$GITHUB_OUTPUT"
-              echo "$package failed to publish." >&2
-              exit 1
-            fi
-          done < <(jq -r '.packages[] | [.name, .tag] | @tsv' "$MANIFEST")
+          done < <(jq -r '.packages[] | [.name, .version] | @tsv' "$MANIFEST")
 
       - name: Create pull request into develop
         id: back-merge
@@ -390,12 +375,12 @@ jobs:
         if: ${{ needs.release.result != 'success' }}
         env:
           FAILED_PACKAGE: ${{ needs.release.outputs.failed_package || 'release workflow' }}
-          FAILED_RUN_URL: ${{ needs.release.outputs.failed_run_url || format('https://github.com/{0}/actions/runs/{1}', github.repository, github.run_id) }}
+          FAILURE_URL: ${{ needs.release.outputs.failure_url || format('https://github.com/{0}/actions/runs/{1}', github.repository, github.run_id) }}
           RELEASE_VERSION: ${{ steps.release-version.outputs.release_version }}
         run: |
           message=":x: *Flutter release v$RELEASE_VERSION failed*"
           message+=$'\n'"*Failed item:* $FAILED_PACKAGE"
-          message+=$'\n'"*Workflow:* <$FAILED_RUN_URL|View failed run>"
+          message+=$'\n'"*Details:* <$FAILURE_URL|View failure details>"
           message+=$'\n'"Fix the cause. Then restart the failed package workflow and this release workflow."
           message+=$'\n'"CC: <!subteam^S066Z6BUTAS> <!subteam^S03SW7DM8P3>"
 
