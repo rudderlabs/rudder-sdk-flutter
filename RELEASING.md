@@ -57,32 +57,6 @@ Replace `PACKAGE_TAG` with the last package tag. Replace `PACKAGE_PATH` with the
 
 Stop if a required package has no versionable commit.
 
-## Preview the versions
-
-Run Melos only in an isolated worktree. Melos can change generated files.
-
-1. Create a temporary worktree from `origin/develop`.
-2. Resolve the repository dependencies.
-3. Run the repository-pinned Melos version command.
-4. Review the predicted versions.
-5. Review the predicted changelogs.
-6. Remove the temporary worktree.
-
-```bash
-git worktree add /tmp/flutter-release-preview -b flutter-release-preview --track origin/develop
-cd /tmp/flutter-release-preview
-dart pub get
-dart run melos version -a --no-git-tag-version --no-git-commit-version --yes
-git diff -- '**/pubspec.yaml' '**/CHANGELOG.md'
-cd -
-git worktree remove --force /tmp/flutter-release-preview
-git branch -D flutter-release-preview
-```
-
-Use another temporary path and branch name if either name already exists.
-
-Record the predicted versions in the Linear release ticket.
-
 ## Create the release pull request
 
 The [Draft new release workflow](.github/workflows/draft-new-release.yml) creates the release pull request.
@@ -94,7 +68,8 @@ The [Draft new release workflow](.github/workflows/draft-new-release.yml) create
 5. Get approval to start the workflow.
 6. Start the workflow.
 7. Wait for the `release/X.Y.Z` pull request into `main`.
-8. Confirm that the workflow posted the pull request in the selected Slack thread.
+8. Record the generated package versions in the Linear release ticket.
+9. Confirm that the workflow posted the pull request in the selected Slack thread.
 
 For a hotfix, select the approved `hotfix/NAME` branch instead of `develop`.
 
