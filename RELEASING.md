@@ -97,7 +97,7 @@ The workflow does these actions:
 4. Each package workflow runs `flutter pub publish --dry-run`.
 5. Each package workflow publishes with pub.dev OpenID Connect (OIDC).
 6. Each package workflow verifies the version on pub.dev.
-7. The release workflow waits for all package workflows.
+7. The release workflow waits until every package version is available on pub.dev.
 8. The release workflow creates the `main` to `develop` pull request.
 9. The release workflow posts one release message in the Slack channel.
 10. The release workflow posts the result in the selected Slack thread.
