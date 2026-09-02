@@ -2,8 +2,6 @@
 
 This repository uses Melos and GitHub Actions.
 
-The current process does not use release-please.
-
 ## Release controls
 
 Get approval before these actions:
@@ -225,21 +223,5 @@ The person who publishes must sign in as an authorized publisher.
 5. Use a `fix:` commit for the customer fix.
 6. Start **Draft new release** from `hotfix/NAME` after approval.
 7. Use the normal review, publish, verify, and back-merge steps.
-
-## About release-please
-
-Release-please can maintain release pull requests from Conventional Commits.
-
-Release-please does not replace Melos package selection or pub.dev publishing.
-
-First prove the tag, OIDC, Slack, and restart paths in a controlled release.
-
-If the team later adopts release-please, keep these requirements:
-
-- Melos calculates package versions and changelogs.
-- Release pull requests use merge commits.
-- Only changed public packages get package tags.
-- Dependencies publish before dependents.
-- Failed publications are safe to restart.
 
 Update the shared release page only after this guide passes review and a controlled release.
