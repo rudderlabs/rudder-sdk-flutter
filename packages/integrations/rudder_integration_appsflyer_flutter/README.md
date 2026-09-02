@@ -6,15 +6,15 @@ With RudderStack, you can build customer data pipelines that connect your whole 
 
 Questions? Please join our [Slack channel](https://www.rudderstack.com/join-rudderstack-slack-community/) or read about us on [Product Hunt](https://www.producthunt.com/posts/rudderstack).
 
-## Integrating Appsflyer with the RudderStack Flutter SDK
+## Integrating AppsFlyer with the RudderStack Flutter SDK
 
-1. Add [Appsflyer](https://www.appsflyer.com/) as a destination in the [RudderStack dashboard](https://app.rudderstack.com/).
+1. Add [AppsFlyer](https://www.appsflyer.com/) as a destination in the [RudderStack dashboard](https://app.rudderstack.com/).
 
-2. Open `pubspec.yaml`  and add `rudder_integration_appsflyer_flutter` under `dependencies` section:
+2. Open `pubspec.yaml` and add `rudder_integration_appsflyer_flutter` under the `dependencies` section:
 
-```groovy
+```yaml
 dependencies:
-  rudder_integration_appsflyer_flutter: ^1.0.0
+  rudder_integration_appsflyer_flutter: ^2.1.5
 ```
 
 3. Navigate to your Application's root folder and install all the required dependencies with:
@@ -25,7 +25,7 @@ flutter pub get
 
 4. Import the module you added above and add it to your SDK initialization code as shown below:
 
-```typescript
+```dart
 import 'package:rudder_sdk_flutter/RudderController.dart';
 import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
 import 'package:rudder_integration_appsflyer_flutter/rudder_integration_appsflyer_flutter.dart';
@@ -46,7 +46,7 @@ dependencies {
 }
 ```
 
-6. And then initialize the Appsflyer Android SDK  by overriding the `onCreate` method in `MainActivity.java` file located at your app's `android/app/src/main/java/com/your_org/your_app_name/` folder, so that the Appsflyer's Android SDK is initialized even before the Rudderstack's RN SDK and is made available for the RN SDK. 
+6. Initialize the AppsFlyer Android SDK by overriding the `onCreate` method in the `MainActivity.java` file at `android/app/src/main/java/com/your_org/your_app_name/`. This initialization must run before the RudderStack Flutter SDK starts.
 
 ```java
 
@@ -62,7 +62,7 @@ dependencies {
   }
 ```
 
-7. And then initalize the Appsflyer iOS SDK by adding the below code at the top of the `didFinishLaunchingWithOptions` method in the `AppDelegate.swift` file located at your app's `ios/Runner/` folder. 
+7. Initialize the AppsFlyer iOS SDK by adding the following code at the top of the `didFinishLaunchingWithOptions` method in the `AppDelegate.swift` file at `ios/Runner/`.
 
 ```swift
       import AppsFlyerLib
