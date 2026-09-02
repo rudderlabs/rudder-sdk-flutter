@@ -2,5 +2,14 @@ version: 2
 updates:
   - package-ecosystem: 'github-actions'
     directory: '/'
+    open-pull-requests-limit: 10
     schedule:
       interval: 'weekly'
+    groups:
+      minor-and-patch:
+        applies-to: version-updates
+        patterns:
+          - '*'
+        update-types:
+          - 'minor'
+          - 'patch'

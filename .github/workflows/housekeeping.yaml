@@ -1,6 +1,7 @@
 name: Handle stale PRs
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '42 1 * * *'
 
@@ -21,7 +22,7 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: actions/stale@5bef64f19d7facfb25b37b414482c7164d639639 # v9.1.0
+      - uses: actions/stale@4391f3da665fdf50b6810c1a66712fb9ba21aa93 # v11.0.0
         with:
           repo-token: ${{ github.token }}
           operations-per-run: 200
@@ -42,7 +43,7 @@ jobs:
           egress-policy: audit
 
       - name: Checkout repository
-        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 0
 
