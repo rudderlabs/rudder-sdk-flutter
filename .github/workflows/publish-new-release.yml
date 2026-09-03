@@ -10,6 +10,9 @@ on:
 permissions:
   contents: read
 
+env:
+  SDK_SLACK_GROUP_MENTION: '<!subteam^S02AEQS0GSF>' # sdk-eng (@sdk)
+
 concurrency:
   group: publish-release-${{ github.event.pull_request.number }}
   cancel-in-progress: false
@@ -324,7 +327,7 @@ jobs:
           message=":rocket: *New release: Flutter SDK*"
           message+=$'\n'"*Release:* <https://github.com/${{ github.repository }}/releases/tag/v$RELEASE_VERSION|v$RELEASE_VERSION>"
           message+=$'\n'"*Packages:* $PACKAGE_SUMMARY"
-          message+=$'\n'"CC: <!subteam^S066Z6BUTAS> <!subteam^S03SW7DM8P3>"
+          message+=$'\n'"CC: $SDK_SLACK_GROUP_MENTION"
 
           delimiter=$(openssl rand -hex 16)
           {
@@ -355,7 +358,7 @@ jobs:
           message+=$'\n'"*Published to pub.dev:* $PACKAGE_SUMMARY"
           message+=$'\n'"*Back-merge:* <$BACKMERGE_PR_URL|Review back-merge PR>"
           message+=$'\n'"*Linear:* <https://linear.app/rudderstack/issue/$RELEASE_TICKET_ID|$RELEASE_TICKET_ID>"
-          message+=$'\n'"CC: <!subteam^S066Z6BUTAS> <!subteam^S03SW7DM8P3>"
+          message+=$'\n'"CC: $SDK_SLACK_GROUP_MENTION"
 
           delimiter=$(openssl rand -hex 16)
           {
@@ -386,7 +389,7 @@ jobs:
           message+=$'\n'"*Failed item:* $FAILED_PACKAGE"
           message+=$'\n'"*Details:* <$FAILURE_URL|View failure details>"
           message+=$'\n'"Fix the cause. Then restart the failed package workflow and this release workflow."
-          message+=$'\n'"CC: <!subteam^S066Z6BUTAS> <!subteam^S03SW7DM8P3>"
+          message+=$'\n'"CC: $SDK_SLACK_GROUP_MENTION"
 
           delimiter=$(openssl rand -hex 16)
           {

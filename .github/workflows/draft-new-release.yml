@@ -15,6 +15,9 @@ on:
 permissions:
   contents: read
 
+env:
+  SDK_SLACK_GROUP_MENTION: '<!subteam^S02AEQS0GSF>' # sdk-eng (@sdk)
+
 concurrency:
   group: draft-new-release-${{ github.ref }}
   cancel-in-progress: false
@@ -299,7 +302,7 @@ jobs:
           message+=$'\n'"*Packages:* $PACKAGE_SUMMARY"
           message+=$'\n'"*Pull request:* <$RELEASE_PR_URL|Review release PR>"
           message+=$'\n'"*Linear:* <https://linear.app/rudderstack/issue/$RELEASE_TICKET_ID|$RELEASE_TICKET_ID>"
-          message+=$'\n'"CC: <!subteam^S066Z6BUTAS> <!subteam^S03SW7DM8P3>"
+          message+=$'\n'"CC: $SDK_SLACK_GROUP_MENTION"
 
           delimiter=$(openssl rand -hex 16)
           {
