@@ -92,11 +92,13 @@ class RudderController {
   /// Creates an alias for the current user with a [newId].
   ///
   /// [newId] is the new identifier to associate with the current user.
+  /// [previousId] is the optional previous identifier to associate with [newId].
   /// [options] allows you to specify additional options for this call.
   ///
   /// This method links two user identities together.
-  void alias(String newId, {RudderOption? options}) {
-    RudderSdkPlatform.instance.alias(newId, options: options);
+  void alias(String newId, {String? previousId, RudderOption? options}) {
+    RudderSdkPlatform.instance
+        .alias(newId, previousId: previousId, options: options);
   }
 
   /// Resets the user identity and clears stored user data.

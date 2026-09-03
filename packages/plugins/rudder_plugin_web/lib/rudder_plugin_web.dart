@@ -128,6 +128,7 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   /// Creates an alias for the current user with a [newId].
   ///
   /// [newId] is the new identifier to associate with the current user.
+  /// [previousId] is the optional previous identifier to associate with [newId].
   /// [options] allows you to specify additional options for this call.
   ///
   /// This method links two user identities together. It is used to merge
@@ -135,8 +136,13 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
   ///
   /// Note: Not all analytics destinations support aliasing.
   @override
-  void alias(String newId, {RudderOption? options}) {
-    web_js.alias(newId.toJS, options?.toWebMap().jsify() as JSObject?);
+  void alias(String newId, {String? previousId, RudderOption? options}) {
+    final webOptions = options?.toWebMap().jsify() as JSObject?;
+    if (previousId == null) {
+      web_js.alias(newId.toJS, webOptions);
+      return;
+    }
+    web_js.aliasWithPreviousId(newId.toJS, previousId.toJS, webOptions);
   }
 
   /// Resets the user identity and clears stored user data.
