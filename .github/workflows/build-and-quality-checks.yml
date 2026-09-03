@@ -8,11 +8,14 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: build-quality-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build & Code Quality Checks
     runs-on: macos-latest
-    if: startsWith(github.event.pull_request.head.ref, 'release/') != true
 
     steps:
       - name: Harden the runner (Audit all outbound calls)
@@ -21,13 +24,15 @@ jobs:
           egress-policy: audit
 
       - name: Checkout
-        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4.3.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
 
       - name: Setup Dart
         uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c # v1.7.1
 
       - name: Setup Java
-        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+        uses: actions/setup-java@dd06d9cba3e5552c54d9f8ea23572deb30010f7c # v6.0.0
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -52,6 +57,50 @@ jobs:
       - name: Install dependencies
         run: |
           melos run setup:ci
+
+      - name: Validate pub.dev trusted publisher mappings
+        run: |
+          dart tool/pubdev_package.dart --validate-only
+
+      - name: Create ordered release package manifest
+        id: release-packages
+        if: startsWith(github.event.pull_request.head.ref, 'release/') || startsWith(github.event.pull_request.head.ref, 'hotfix-release/')
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          manifest="$RUNNER_TEMP/release-packages.json"
+          dart tool/release_packages.dart \
+            --base "$BASE_SHA" \
+            --head HEAD \
+            --output "$manifest"
+
+          package_count=$(jq '.packages | length' "$manifest")
+          if [ "$package_count" -eq 0 ]; then
+            echo "No package version changes were found." >&2
+            exit 1
+          fi
+
+          echo "manifest=$manifest" >> "$GITHUB_OUTPUT"
+          {
+            echo "## Release packages"
+            echo
+            echo '| Order | Package | Version | Path | Tag |'
+            echo '| ---: | --- | --- | --- | --- |'
+            jq -r '.packages | to_entries[] | "| \(.key + 1) | `\(.value.name)` | `\(.value.version)` | `\(.value.path)` | `\(.value.tag)` |"' "$manifest"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Validate packages for publication
+        if: startsWith(github.event.pull_request.head.ref, 'release/') || startsWith(github.event.pull_request.head.ref, 'hotfix-release/')
+        run: |
+          melos publish --dry-run --yes
+
+      - name: Upload release package manifest
+        if: always() && steps.release-packages.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: release-packages-${{ github.event.pull_request.number }}
+          path: ${{ steps.release-packages.outputs.manifest }}
+          if-no-files-found: error
 
       - name: Execute quality checks
         run: |
