@@ -10,7 +10,7 @@ Get approval before these actions:
 - Merge the release pull request into `main`.
 - Publish a package manually.
 - Merge the back-merge pull request into `develop`.
-- Change the release ticket status or send a manual Slack message.
+- Change a release-related Linear ticket status or send a manual Slack message.
 
 Use a merge commit for both release pull requests. Do not use squash or rebase.
 
@@ -40,7 +40,11 @@ See the [pub.dev trusted-publishing guide](https://dart.dev/tools/pub/automated-
 6. Do not use `chore:` for a customer change.
 7. Confirm that each required native Android or iOS version is public.
 8. Create the Linear release ticket.
-9. Create or select the Slack message for the release thread.
+9. Create or select the release coordination message in `#sdk-dev`.
+10. Copy the message URL for the release workflow.
+
+Use `#release-prep-meetings` only for a separate release announcement.
+Do not use it for the release workflow thread.
 
 Melos uses these versionable types: `feat`, `fix`, `bug`, `perf`, `refactor`, `revert`, and `docs`.
 
@@ -133,8 +137,13 @@ Package workflows can start at the same time. A dependent package waits until it
 9. Get approval to merge the back-merge pull request.
 10. Merge the back-merge pull request with a merge commit.
 11. Add the GitHub, pub.dev, Snyk, and Sonar links to the Linear release ticket.
-12. Get approval to close the Linear release ticket.
-13. Move the release ticket and completed release issues to `Done`.
+12. Get approval to close the Linear release ticket and the completed release
+    issues.
+13. Move the release ticket to `Done`.
+14. Move each completed release issue to `Done`.
+15. Confirm that every direct sub-issue of the release automation parent is
+    `Done`.
+16. Move the release automation parent to `Done`.
 
 The following evidence shows a successful release:
 
