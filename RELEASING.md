@@ -43,9 +43,6 @@ See the [pub.dev trusted-publishing guide](https://dart.dev/tools/pub/automated-
 9. Create or select the release coordination message in `#sdk-dev`.
 10. Copy the message URL for the release workflow.
 
-Use `#release-prep-meetings` only for a separate release announcement.
-Do not use it for the release workflow thread.
-
 Melos uses these versionable types: `feat`, `fix`, `bug`, `perf`, `refactor`, `revert`, and `docs`.
 
 Check the commits for each package that must ship:
