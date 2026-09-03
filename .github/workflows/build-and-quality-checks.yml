@@ -109,3 +109,7 @@ jobs:
       - name: Execute build check
         run: |
           melos run build:sdk:all
+
+      - name: Execute Flutter Web example build checks
+        run: |
+          melos run build:example:web:all
