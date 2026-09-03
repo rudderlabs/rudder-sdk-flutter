@@ -183,9 +183,13 @@ jobs:
         run: |
           create_tag() {
             tag="$1"
-            existing_sha=$(gh api \
+            # `gh api` writes the 404 response body to stdout. Clear the captured
+            # value when the tag does not exist so the response is not read as a SHA.
+            if ! existing_sha=$(gh api \
               "repos/${{ github.repository }}/git/ref/tags/$tag" \
-              --jq '.object.sha' 2>/dev/null || true)
+              --jq '.object.sha' 2>/dev/null); then
+              existing_sha=''
+            fi
 
             if [ -n "$existing_sha" ]; then
               if [ "$existing_sha" != "$MERGE_SHA" ]; then

@@ -155,6 +155,19 @@ The following evidence shows a successful release:
 3. Run the failed check again.
 4. Create a new release draft if the package versions must change.
 
+### Package tag creation fails
+
+The release workflow can reuse a tag only when it points to the expected merge commit.
+
+1. Open the failed **Publish new github release** workflow.
+2. Compare every existing release and package tag with the release merge commit.
+3. Stop if an existing tag points to a different commit.
+4. Fix the tag creation failure.
+5. Run the failed release job again.
+6. Confirm that the retry creates each missing tag and reuses each matching tag.
+
+Do not delete or move an existing tag.
+
 ### A package publication fails
 
 The package workflow skips publication when the exact version is already public.
