@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-09-03
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`rudder_integration_appsflyer_flutter` - `v2.1.6`](#rudder_integration_appsflyer_flutter---v216)
+ - [`rudder_sdk_flutter_monorepo` - `v5.4.3`](#rudder_sdk_flutter_monorepo---v543)
+
+---
+
+#### `rudder_integration_appsflyer_flutter` - `v2.1.6`
+
+ - **DOCS**: sdk-3669 improve appsflyer package score. ([a2c9ef7d](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a2c9ef7d72612cf31b19ddca193c559f1dede4a9))
+
+#### `rudder_sdk_flutter_monorepo` - `v5.4.3`
+
+ - **FIX**: sdk-5377 verify publications through pub.dev. ([a2153b8d](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a2153b8d2dbb6a44146e7b187b4cc7284ddbb29e))
+ - **FIX**: sdk-5377 avoid persisting notification credentials. ([a0a7be86](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a0a7be8633226e3998fa22576e456d10e6071f3d))
+ - **FIX**: sdk-5377 preserve early release failure alerts. ([1e700e59](https://github.com/rudderlabs/rudder-sdk-flutter/commit/1e700e59307c092573d8fca758c72623c17b933b))
+ - **FIX**: sdk-5376 pin publishing to the event commit. ([460b78b0](https://github.com/rudderlabs/rudder-sdk-flutter/commit/460b78b08e8ad183815da6b2e77553d7af032140))
+ - **FIX**: sdk-5376 bind publishing to pub-dev environment. ([6a1d1532](https://github.com/rudderlabs/rudder-sdk-flutter/commit/6a1d1532092ad2282d0678bc44a8222975e602a2))
+ - **FIX**: sdk-5376 exclude monorepo release tags. ([ec017b9a](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ec017b9a7063966c8b08f0fbe248df22219b2a05))
+ - **FIX**: sdk-5375 delay release write credentials. ([61524fa9](https://github.com/rudderlabs/rudder-sdk-flutter/commit/61524fa92f830cf2abb7e021c7c9185051fa3cfd))
+ - **FIX**: sdk-5375 validate release before creating tags. ([89083fe8](https://github.com/rudderlabs/rudder-sdk-flutter/commit/89083fe8e27be8a2a2932ed170b5b1581a74a9aa))
+ - **DOCS**: sdk-3669 improve appsflyer package score. ([a2c9ef7d](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a2c9ef7d72612cf31b19ddca193c559f1dede4a9))
+ - **DOCS**: sdk-5378 align publication verification. ([dfca2720](https://github.com/rudderlabs/rudder-sdk-flutter/commit/dfca2720c1d15d1d3c2f1bb1452dbb1875f331e7))
+ - **DOCS**: sdk-5378 remove unused release-please guidance. ([be72e6ce](https://github.com/rudderlabs/rudder-sdk-flutter/commit/be72e6ce83f44f16bbc2dc338f22114aa00f082b))
+ - **DOCS**: sdk-5378 remove duplicate tag verification. ([c7470dd2](https://github.com/rudderlabs/rudder-sdk-flutter/commit/c7470dd2346f8ddceec42a5c95fef7dbc7fbf6ca))
+ - **DOCS**: sdk-5378 remove manual version preview. ([16a34813](https://github.com/rudderlabs/rudder-sdk-flutter/commit/16a34813a08eb4797d62e7e73a9b9757b91a3f9f))
+ - **DOCS**: sdk-5378 clarify github app client id. ([8640bf14](https://github.com/rudderlabs/rudder-sdk-flutter/commit/8640bf1468b4a294ca50a13f9254c8fc3a75e91b))
+ - **DOCS**: sdk-5378 match manifest dependency order. ([abd0fbdd](https://github.com/rudderlabs/rudder-sdk-flutter/commit/abd0fbdd306277717eab24966321a2c60588b6c3))
+ - **DOCS**: sdk-5378 verify package tag provenance. ([893e12db](https://github.com/rudderlabs/rudder-sdk-flutter/commit/893e12dbedb82278d32223feecca45a3941c051c))
+ - **DOCS**: sdk-5378 document the flutter release process. ([f3116494](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f311649429d04a63904128d91632085980102dd5))
+
+## 5.4.3
+
+ - **FIX**: sdk-5377 verify publications through pub.dev. ([a2153b8d](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a2153b8d2dbb6a44146e7b187b4cc7284ddbb29e))
+ - **FIX**: sdk-5377 avoid persisting notification credentials. ([a0a7be86](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a0a7be8633226e3998fa22576e456d10e6071f3d))
+ - **FIX**: sdk-5377 preserve early release failure alerts. ([1e700e59](https://github.com/rudderlabs/rudder-sdk-flutter/commit/1e700e59307c092573d8fca758c72623c17b933b))
+ - **FIX**: sdk-5376 pin publishing to the event commit. ([460b78b0](https://github.com/rudderlabs/rudder-sdk-flutter/commit/460b78b08e8ad183815da6b2e77553d7af032140))
+ - **FIX**: sdk-5376 bind publishing to pub-dev environment. ([6a1d1532](https://github.com/rudderlabs/rudder-sdk-flutter/commit/6a1d1532092ad2282d0678bc44a8222975e602a2))
+ - **FIX**: sdk-5376 exclude monorepo release tags. ([ec017b9a](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ec017b9a7063966c8b08f0fbe248df22219b2a05))
+ - **FIX**: sdk-5375 delay release write credentials. ([61524fa9](https://github.com/rudderlabs/rudder-sdk-flutter/commit/61524fa92f830cf2abb7e021c7c9185051fa3cfd))
+ - **FIX**: sdk-5375 validate release before creating tags. ([89083fe8](https://github.com/rudderlabs/rudder-sdk-flutter/commit/89083fe8e27be8a2a2932ed170b5b1581a74a9aa))
+ - **DOCS**: sdk-3669 improve appsflyer package score. ([a2c9ef7d](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a2c9ef7d72612cf31b19ddca193c559f1dede4a9))
+ - **DOCS**: sdk-5378 align publication verification. ([dfca2720](https://github.com/rudderlabs/rudder-sdk-flutter/commit/dfca2720c1d15d1d3c2f1bb1452dbb1875f331e7))
+ - **DOCS**: sdk-5378 remove unused release-please guidance. ([be72e6ce](https://github.com/rudderlabs/rudder-sdk-flutter/commit/be72e6ce83f44f16bbc2dc338f22114aa00f082b))
+ - **DOCS**: sdk-5378 remove duplicate tag verification. ([c7470dd2](https://github.com/rudderlabs/rudder-sdk-flutter/commit/c7470dd2346f8ddceec42a5c95fef7dbc7fbf6ca))
+ - **DOCS**: sdk-5378 remove manual version preview. ([16a34813](https://github.com/rudderlabs/rudder-sdk-flutter/commit/16a34813a08eb4797d62e7e73a9b9757b91a3f9f))
+ - **DOCS**: sdk-5378 clarify github app client id. ([8640bf14](https://github.com/rudderlabs/rudder-sdk-flutter/commit/8640bf1468b4a294ca50a13f9254c8fc3a75e91b))
+ - **DOCS**: sdk-5378 match manifest dependency order. ([abd0fbdd](https://github.com/rudderlabs/rudder-sdk-flutter/commit/abd0fbdd306277717eab24966321a2c60588b6c3))
+ - **DOCS**: sdk-5378 verify package tag provenance. ([893e12db](https://github.com/rudderlabs/rudder-sdk-flutter/commit/893e12dbedb82278d32223feecca45a3941c051c))
+ - **DOCS**: sdk-5378 document the flutter release process. ([f3116494](https://github.com/rudderlabs/rudder-sdk-flutter/commit/f311649429d04a63904128d91632085980102dd5))
+
+
 ## 2026-09-01
 
 ### Changes
