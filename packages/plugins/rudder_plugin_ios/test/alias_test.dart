@@ -23,7 +23,7 @@ void main() {
   });
 
   test('alias sends previousId to the iOS channel', () async {
-    RudderSdkFlutterIos().alias('new-id', previousId: 'previous-id');
+    RudderSdkFlutterIos().aliasWithPreviousId('new-id', 'previous-id');
     await Future<void>.delayed(Duration.zero);
 
     expect(calls, hasLength(1));

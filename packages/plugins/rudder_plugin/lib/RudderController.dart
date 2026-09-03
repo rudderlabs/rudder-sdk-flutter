@@ -97,8 +97,12 @@ class RudderController {
   ///
   /// This method links two user identities together.
   void alias(String newId, {String? previousId, RudderOption? options}) {
+    if (previousId == null) {
+      RudderSdkPlatform.instance.alias(newId, options: options);
+      return;
+    }
     RudderSdkPlatform.instance
-        .alias(newId, previousId: previousId, options: options);
+        .aliasWithPreviousId(newId, previousId, options: options);
   }
 
   /// Resets the user identity and clears stored user data.

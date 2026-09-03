@@ -105,12 +105,24 @@ abstract class RudderSdkPlatform extends PlatformInterface {
   /// Use this when you want to merge two user identities.
   ///
   /// [newId] - The new user identifier to alias to the current user.
-  /// [previousId] - The optional previous identifier to associate with [newId].
   /// [options] - Optional per-call options (custom context, integrations, etc.).
-  void alias(String newId, {String? previousId, RudderOption? options}) {
+  void alias(String newId, {RudderOption? options}) {
     throw UnimplementedError(
-        'alias(String newId, {String? previousId, RudderOption? options}) '
-        'has not been implemented.');
+        'alias(String newId, {RudderOption? options}) has not been implemented.');
+  }
+
+  /// Creates an alias linking [previousId] to [newId].
+  ///
+  /// Platform implementations that support an explicit previous identifier
+  /// must override this method.
+  ///
+  /// [newId] - The new user identifier.
+  /// [previousId] - The previous user identifier to associate with [newId].
+  /// [options] - Optional per-call options (custom context, integrations, etc.).
+  void aliasWithPreviousId(String newId, String previousId,
+      {RudderOption? options}) {
+    throw UnsupportedError(
+        'aliasWithPreviousId is not supported by this platform implementation.');
   }
 
   /*void load(String writeKey, String dataPlaneUrl) {

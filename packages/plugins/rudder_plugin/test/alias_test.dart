@@ -8,13 +8,28 @@ class AliasRecordingPlatform extends RudderSdkPlatform {
   String? newId;
   String? previousId;
   RudderOption? options;
+  String? invokedMethod;
 
   @override
-  void alias(String newId, {String? previousId, RudderOption? options}) {
+  void alias(String newId, {RudderOption? options}) {
+    this.newId = newId;
+    this.options = options;
+    invokedMethod = 'alias';
+  }
+
+  @override
+  void aliasWithPreviousId(String newId, String previousId,
+      {RudderOption? options}) {
     this.newId = newId;
     this.previousId = previousId;
     this.options = options;
+    invokedMethod = 'aliasWithPreviousId';
   }
+}
+
+class LegacyAliasPlatform extends RudderSdkPlatform {
+  @override
+  void alias(String newId, {RudderOption? options}) {}
 }
 
 void main() {
@@ -34,6 +49,7 @@ void main() {
     expect(platform.newId, 'new-id');
     expect(platform.previousId, 'previous-id');
     expect(platform.options, same(options));
+    expect(platform.invokedMethod, 'aliasWithPreviousId');
   });
 
   test('controller keeps previousId optional', () {
@@ -41,6 +57,7 @@ void main() {
 
     expect(platform.newId, 'new-id');
     expect(platform.previousId, isNull);
+    expect(platform.invokedMethod, 'alias');
   });
 
   test('legacy client forwards an explicit previousId', () {
@@ -48,5 +65,16 @@ void main() {
 
     expect(platform.newId, 'new-id');
     expect(platform.previousId, 'previous-id');
+    expect(platform.invokedMethod, 'aliasWithPreviousId');
+  });
+
+  test('platform default rejects an unsupported explicit previousId', () {
+    expect(
+      () => LegacyAliasPlatform().aliasWithPreviousId(
+        'new-id',
+        'previous-id',
+      ),
+      throwsUnsupportedError,
+    );
   });
 }

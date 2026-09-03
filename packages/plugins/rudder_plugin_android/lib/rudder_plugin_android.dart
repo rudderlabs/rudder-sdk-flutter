@@ -145,19 +145,30 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform {
   /// Creates an alias for the current user with a [newId].
   ///
   /// [newId] is the new identifier to associate with the current user.
-  /// [previousId] is the optional previous identifier to associate with [newId].
   /// [options] allows you to specify additional options for this call.
   ///
   /// This method links two user identities together.
   @override
-  void alias(String newId, {String? previousId, RudderOption? options}) {
+  void alias(String newId, {RudderOption? options}) {
     Map<String, dynamic> params = {};
 
     params["newId"] = newId;
 
-    if (previousId != null) {
-      params["previousId"] = previousId;
+    if (options != null) {
+      params["options"] = options.toMobileMap();
     }
+
+    _platformChannel.invokeMethod("alias", params);
+  }
+
+  /// Creates an alias linking [previousId] to [newId].
+  @override
+  void aliasWithPreviousId(String newId, String previousId,
+      {RudderOption? options}) {
+    Map<String, dynamic> params = {
+      "newId": newId,
+      "previousId": previousId,
+    };
 
     if (options != null) {
       params["options"] = options.toMobileMap();

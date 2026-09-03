@@ -287,15 +287,17 @@ public class RudderSdkFlutterPlugin implements FlutterPlugin, MethodCallHandler 
 
   private void alias(@NonNull MethodCall call) {
     HashMap<String, Object> argumentsMap = (HashMap<String, Object>) call.arguments;
-    String previousId = null;
     RudderOption options = null;
-    if (argumentsMap.containsKey("previousId")) {
-      previousId = (String) argumentsMap.get("previousId");
-    }
     if (argumentsMap.containsKey(OPTIONS)) {
       options = getRudderOptionsObject((Map<String, Object>) argumentsMap.get(OPTIONS));
     }
-    RudderClient.getInstance().alias((String) argumentsMap.get("newId"), previousId, options);
+    String newId = (String) argumentsMap.get("newId");
+    if (argumentsMap.containsKey("previousId")) {
+      RudderClient.getInstance()
+          .alias(newId, (String) argumentsMap.get("previousId"), options);
+    } else {
+      RudderClient.getInstance().alias(newId, options);
+    }
     userSessionManager.updateLastEventTimestamp();
   }
 
