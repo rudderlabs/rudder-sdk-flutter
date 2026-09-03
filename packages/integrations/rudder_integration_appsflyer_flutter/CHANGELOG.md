@@ -1,3 +1,7 @@
+## 2.1.6
+
+ - **DOCS**: sdk-3669 improve appsflyer package score. ([a2c9ef7d](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a2c9ef7d72612cf31b19ddca193c559f1dede4a9))
+
 ## 2.1.5
 
  - Update a dependency to the latest release.
