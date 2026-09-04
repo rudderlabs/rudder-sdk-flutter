@@ -113,3 +113,175 @@ jobs:
       - name: Execute Flutter Web example build checks
         run: |
           melos run build:example:web:all
+
+  pana:
+    name: Report Pana Scores
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c # v1.7.1
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e #v2.21.0
+        with:
+          channel: 'stable'
+          architecture: x64
+
+      - name: Install CI tools
+        run: |
+          dart pub global activate melos 6.3.3
+          dart pub global activate pana 0.23.19
+
+      - name: Select packages for Pana
+        id: pana-packages
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          reports="$RUNNER_TEMP/pana-reports"
+          packages="$reports/packages.json"
+          summary="$RUNNER_TEMP/pana-summary.md"
+          mkdir -p "$reports"
+
+          changed_files=$(git diff --name-only "$BASE_SHA...HEAD")
+          if grep -Fxq 'analysis_options.yaml' <<< "$changed_files"; then
+            melos list --no-private --relative --json > "$packages"
+          else
+            melos list \
+              --diff="$BASE_SHA...HEAD" \
+              --no-private \
+              --relative \
+              --json > "$packages"
+          fi
+
+          jq -e '
+            type == "array" and
+            all(.[]; (.name | type == "string") and (.location | type == "string"))
+          ' "$packages" > /dev/null
+
+          package_count=$(jq 'length' "$packages")
+          echo "count=$package_count" >> "$GITHUB_OUTPUT"
+          echo "packages=$packages" >> "$GITHUB_OUTPUT"
+          echo "reports=$reports" >> "$GITHUB_OUTPUT"
+          echo "summary=$summary" >> "$GITHUB_OUTPUT"
+
+      - name: Analyze changed packages with Pana
+        if: steps.pana-packages.outputs.count != '0'
+        env:
+          PACKAGES_FILE: ${{ steps.pana-packages.outputs.packages }}
+          REPORTS_DIR: ${{ steps.pana-packages.outputs.reports }}
+          SUMMARY_FILE: ${{ steps.pana-packages.outputs.summary }}
+        run: |
+          pana_version=$(dart pub global list | awk '$1 == "pana" { print $2 }')
+          dart_version=$(dart --version 2>&1 | sed -E 's/^Dart SDK version: ([^ ]+).*/\1/')
+          flutter_version=$(flutter --version --machine | jq -r '.frameworkVersion')
+
+          {
+            echo '## Pana package scores'
+            echo
+            echo "- Pana: \`$pana_version\`"
+            echo "- Dart: \`$dart_version\`"
+            echo "- Flutter: \`$flutter_version\`"
+            echo
+            echo '| Package | Path | Points |'
+            echo '| --- | --- | ---: |'
+          } > "$SUMMARY_FILE"
+
+          while IFS=$'\t' read -r package_name package_path; do
+            report="$REPORTS_DIR/$package_name.json"
+            log="$REPORTS_DIR/$package_name.log"
+
+            if ! pana \
+              --json \
+              --project-root "$GITHUB_WORKSPACE" \
+              "$package_path" \
+              > "$report" \
+              2> "$log"; then
+              echo "| \`$package_name\` | \`$package_path\` | Failed |" >> "$SUMMARY_FILE"
+              echo "::error title=Pana analysis failed::$package_name could not be analyzed."
+              cat "$log" >&2
+              exit 1
+            fi
+
+            if ! jq -e '
+              (.scores.grantedPoints | type == "number") and
+              (.scores.maxPoints | type == "number") and
+              (.report.sections | type == "array")
+            ' "$report" > /dev/null; then
+              echo "| \`$package_name\` | \`$package_path\` | Invalid report |" >> "$SUMMARY_FILE"
+              echo "::error title=Invalid Pana report::$package_name produced invalid JSON."
+              exit 1
+            fi
+
+            granted=$(jq -r '.scores.grantedPoints' "$report")
+            maximum=$(jq -r '.scores.maxPoints' "$report")
+            echo "| \`$package_name\` | \`$package_path\` | $granted/$maximum |" >> "$SUMMARY_FILE"
+          done < <(jq -r '.[] | [.name, .location] | @tsv' "$PACKAGES_FILE")
+
+          {
+            echo
+            echo '### Score deductions'
+          } >> "$SUMMARY_FILE"
+
+          while IFS=$'\t' read -r package_name _; do
+            report="$REPORTS_DIR/$package_name.json"
+            echo >> "$SUMMARY_FILE"
+            echo "#### \`$package_name\`" >> "$SUMMARY_FILE"
+            jq -r '
+              [
+                .report.sections[]
+                | select(.grantedPoints < .maxPoints)
+                | "- **\(.title):** \(.grantedPoints)/\(.maxPoints) points"
+              ]
+              | if length == 0 then "- None" else .[] end
+            ' "$report" >> "$SUMMARY_FILE"
+          done < <(jq -r '.[] | [.name, .location] | @tsv' "$PACKAGES_FILE")
+
+      - name: Upload Pana reports
+        id: upload-pana-reports
+        if: always() && steps.pana-packages.outcome == 'success' && steps.pana-packages.outputs.count != '0'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: pana-reports-${{ github.event.pull_request.number }}-${{ github.run_attempt }}
+          path: ${{ steps.pana-packages.outputs.reports }}
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Publish Pana summary
+        if: always()
+        env:
+          ARTIFACT_URL: ${{ steps.upload-pana-reports.outputs.artifact-url }}
+          PACKAGE_COUNT: ${{ steps.pana-packages.outputs.count }}
+          SUMMARY_FILE: ${{ steps.pana-packages.outputs.summary }}
+        run: |
+          if [ "$PACKAGE_COUNT" = '0' ]; then
+            {
+              echo '## Pana package scores'
+              echo
+              echo 'No publishable package was affected by this pull request.'
+            } >> "$GITHUB_STEP_SUMMARY"
+          elif [ -f "$SUMMARY_FILE" ]; then
+            cat "$SUMMARY_FILE" >> "$GITHUB_STEP_SUMMARY"
+            if [ -n "$ARTIFACT_URL" ]; then
+              {
+                echo
+                echo "[Download complete Pana reports]($ARTIFACT_URL)"
+              } >> "$GITHUB_STEP_SUMMARY"
+            fi
+          else
+            {
+              echo '## Pana package scores'
+              echo
+              echo 'Package selection failed before Pana could produce a report.'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
