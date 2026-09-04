@@ -139,6 +139,14 @@ class RudderSdkFlutterWeb extends RudderSdkPlatform {
     web_js.alias(newId.toJS, options?.toWebMap().jsify() as JSObject?);
   }
 
+  /// Creates an alias linking [previousId] to [newId].
+  @override
+  void aliasWithPreviousId(String newId, String previousId,
+      {RudderOption? options}) {
+    web_js.aliasWithPreviousId(
+        newId.toJS, previousId.toJS, options?.toWebMap().jsify() as JSObject?);
+  }
+
   /// Resets the user identity and clears stored user data.
   ///
   /// [clearAnonymousId] determines whether to clear the anonymous ID.

@@ -111,6 +111,20 @@ abstract class RudderSdkPlatform extends PlatformInterface {
         'alias(String newId, {RudderOption? options}) has not been implemented.');
   }
 
+  /// Creates an alias linking [previousId] to [newId].
+  ///
+  /// Platform implementations that support an explicit previous identifier
+  /// must override this method.
+  ///
+  /// [newId] - The new user identifier.
+  /// [previousId] - The previous user identifier to associate with [newId].
+  /// [options] - Optional per-call options (custom context, integrations, etc.).
+  void aliasWithPreviousId(String newId, String previousId,
+      {RudderOption? options}) {
+    throw UnsupportedError(
+        'aliasWithPreviousId is not supported by this platform implementation.');
+  }
+
   /*void load(String writeKey, String dataPlaneUrl) {
     throw UnimplementedError('load(String writeKey, String dataPlaneUrl) has not been implemented.');
   }*/

@@ -120,7 +120,13 @@ BOOL isRegistrarDetached = NO;
         if ([call.arguments objectForKey:@"options"]) {
             options = [self getRudderOptionsObject:[call.arguments objectForKey:@"options"]];
         }
-        [[RSClient sharedInstance] alias:[call.arguments objectForKey:@"newId"] options:options];
+        if ([call.arguments objectForKey:@"previousId"]) {
+            [[RSClient sharedInstance] alias:[call.arguments objectForKey:@"newId"]
+                                  previousId:[call.arguments objectForKey:@"previousId"]
+                                     options:options];
+        } else {
+            [[RSClient sharedInstance] alias:[call.arguments objectForKey:@"newId"] options:options];
+        }
         return;
     } else if ([call.method isEqualToString:@"reset"]) {
         if ([call.arguments objectForKey:@"clearAnonymousId"]) {
