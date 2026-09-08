@@ -161,6 +161,22 @@ class RudderSdkFlutterAndroid extends RudderSdkPlatform {
     _platformChannel.invokeMethod("alias", params);
   }
 
+  /// Creates an alias linking [previousId] to [newId].
+  @override
+  void aliasWithPreviousId(String newId, String previousId,
+      {RudderOption? options}) {
+    Map<String, dynamic> params = {
+      "newId": newId,
+      "previousId": previousId,
+    };
+
+    if (options != null) {
+      params["options"] = options.toMobileMap();
+    }
+
+    _platformChannel.invokeMethod("alias", params);
+  }
+
   /// Resets the user identity and clears stored user data.
   ///
   /// [clearAnonymousId] determines whether to clear the anonymous ID.
