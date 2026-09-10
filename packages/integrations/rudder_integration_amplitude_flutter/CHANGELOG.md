@@ -1,3 +1,7 @@
+## 2.3.6
+
+ - **DOCS**: sdk-3666 improve amplitude package score ([#349](https://github.com/rudderlabs/rudder-sdk-flutter/issues/349)). ([d753b0aa](https://github.com/rudderlabs/rudder-sdk-flutter/commit/d753b0aa30adb341f5ff33941b1624b43e433a94))
+
 ## 2.3.5
 
  - Update a dependency to the latest release.

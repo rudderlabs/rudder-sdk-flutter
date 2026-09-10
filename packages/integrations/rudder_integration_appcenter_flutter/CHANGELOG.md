@@ -1,3 +1,7 @@
+## 2.3.6
+
+ - **DOCS**: sdk-3673 improve appcenter package score ([#352](https://github.com/rudderlabs/rudder-sdk-flutter/issues/352)). ([3cbb2037](https://github.com/rudderlabs/rudder-sdk-flutter/commit/3cbb20377b0fec59db68ab24734719c173f488fc))
+
 ## 2.3.5
 
  - Update a dependency to the latest release.

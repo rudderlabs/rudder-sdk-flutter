@@ -1,3 +1,7 @@
+## 4.4.6
+
+ - **DOCS**: sdk-3674 improve firebase package score ([#351](https://github.com/rudderlabs/rudder-sdk-flutter/issues/351)). ([e0f6bffb](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e0f6bffbcbb4ef144096fd5ed5091dbf32fe19c6))
+
 ## 4.4.5
 
  - Update a dependency to the latest release.

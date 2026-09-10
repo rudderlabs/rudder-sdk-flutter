@@ -1,3 +1,7 @@
+## 2.3.6
+
+ - **DOCS**: sdk-3668 improve kochava package score ([#353](https://github.com/rudderlabs/rudder-sdk-flutter/issues/353)). ([0ac55107](https://github.com/rudderlabs/rudder-sdk-flutter/commit/0ac55107089f6f2e75054066ef62352f2e11effe))
+
 ## 2.3.5
 
  - Update a dependency to the latest release.

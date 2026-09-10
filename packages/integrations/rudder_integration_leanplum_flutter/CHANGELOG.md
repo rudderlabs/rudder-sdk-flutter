@@ -1,3 +1,7 @@
+## 2.3.6
+
+ - **DOCS**: sdk-3670 improve leanplum package score ([#355](https://github.com/rudderlabs/rudder-sdk-flutter/issues/355)). ([744df4f6](https://github.com/rudderlabs/rudder-sdk-flutter/commit/744df4f6210b47a43498dd84816d7ee9f6ba0982))
+
 ## 2.3.5
 
  - Update a dependency to the latest release.
