@@ -1,3 +1,7 @@
+## 3.3.0
+
+ - **FEAT**: add previous id support to alias ([#348](https://github.com/rudderlabs/rudder-sdk-flutter/issues/348)). ([b25d87f1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b25d87f1e9afbfcd9c8cb2236f420cedf605f81e))
+
 ## 3.2.3
 
  - **FIX**: dedupe integration factories across flutter engines ([#326](https://github.com/rudderlabs/rudder-sdk-flutter/issues/326)). ([c4605403](https://github.com/rudderlabs/rudder-sdk-flutter/commit/c4605403afc1aa26dbbbe9445fd57b301fa1ce79))
