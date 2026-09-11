@@ -41,8 +41,12 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Setup Dart
-        uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d # v1.8.1
+      - name: Setup Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          flutter-version: '3.47.3'
+          channel: 'stable'
+          architecture: x64
 
       - name: Resolve package from tag
         id: package
@@ -104,13 +108,6 @@ jobs:
             fi
           done < <(jq -r '.dependencies[] | [.name, .version] | @tsv' "$METADATA")
 
-      - name: Setup Flutter
-        if: steps.published.outputs.already == 'false'
-        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
-        with:
-          channel: 'stable'
-          architecture: x64
-
       - name: Resolve package dependencies
         if: steps.published.outputs.already == 'false'
         working-directory: ${{ steps.package.outputs.path }}
@@ -122,6 +119,12 @@ jobs:
         working-directory: ${{ steps.package.outputs.path }}
         run: |
           flutter pub publish --dry-run
+
+      # Request credentials only after dependency resolution and archive checks.
+      # This also avoids aging the token while waiting for other packages.
+      - name: Authenticate to pub.dev
+        if: steps.published.outputs.already == 'false'
+        uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d # v1.8.1
 
       - name: Publish package
         id: publish
