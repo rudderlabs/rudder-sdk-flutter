@@ -105,6 +105,12 @@ The workflow does these actions:
 
 OIDC gives GitHub Actions a short-lived identity. The repository does not store a pub.dev credential.
 
+The package workflow installs Flutter, waits for dependencies, and validates the
+archive before requesting publication credentials. It requests the OIDC token
+immediately before publishing so dependency downloads do not use that token.
+The workflow pins the Flutter version used to validate release 5.5.0. Validate
+future Flutter version updates before changing that pin.
+
 ## Package publication order
 
 The release manifest puts dependencies before dependents.
