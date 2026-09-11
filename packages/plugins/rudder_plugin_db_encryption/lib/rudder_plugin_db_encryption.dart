@@ -20,7 +20,9 @@ class RudderDBEncryption implements DBEncryptionInterface {
   /// [enabled] determines whether database encryption is enabled.
   /// [key] is the encryption key used to encrypt the database.
   /// The key should be a strong, unique string for security purposes.
-  RudderDBEncryption(bool enabled, String key)
+  /// Parameters remain dynamic for source compatibility. Values must be a
+  /// [bool] and a [String]; the field assignments enforce these types at runtime.
+  RudderDBEncryption(dynamic enabled, dynamic key)
       : _enabled = enabled,
         _key = key;
 
