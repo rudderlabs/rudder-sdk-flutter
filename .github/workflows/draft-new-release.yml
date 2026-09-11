@@ -15,6 +15,9 @@ on:
 permissions:
   contents: read
 
+env:
+  SDK_SLACK_GROUP_MENTION: '<!subteam^S02AEQS0GSF>' # sdk-eng (@sdk)
+
 concurrency:
   group: draft-new-release-${{ github.ref }}
   cancel-in-progress: false
@@ -33,13 +36,13 @@ jobs:
       release_version: ${{ steps.create-release.outputs.new_version }}
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         with:
           egress-policy: audit
 
       - name: Generate GitHub App Token
         id: generate-token
-        uses: actions/create-github-app-token@67018539274d69449ef7c02e8e71183d1719ab42 # v2.1.4
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
           app-id: ${{ vars.RELEASE_APP_ID }}
           private-key: ${{ secrets.RELEASE_PRIVATE_KEY }}
@@ -53,7 +56,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Dart
-        uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c # v1.7.1
+        uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d # v1.8.1
 
       - name: Setup Java
         uses: actions/setup-java@dd06d9cba3e5552c54d9f8ea23572deb30010f7c # v6.0.0
@@ -62,7 +65,7 @@ jobs:
           java-version: '11'
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e #v2.21.0
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 #v2.23.0
         with:
           channel: 'stable'
           architecture: x64
@@ -176,7 +179,7 @@ jobs:
 
       - name: Push signed version changes
         id: push-changes
-        uses: ryancyq/github-signed-commit@e9f3b28c80da7be66d24b8f501a5abe82a6b855f # v1.2.0
+        uses: ryancyq/github-signed-commit@cb9b21ee83578fe8e26a9eda530015aedf0c7c5b # v1.4.1
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         with:
@@ -215,7 +218,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload release package manifest
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: release-packages-${{ steps.create-release.outputs.new_version }}
           path: ${{ steps.release-packages.outputs.manifest }}
@@ -241,7 +244,7 @@ jobs:
       contents: read
     steps:
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
         with:
           egress-policy: audit
 
@@ -299,7 +302,7 @@ jobs:
           message+=$'\n'"*Packages:* $PACKAGE_SUMMARY"
           message+=$'\n'"*Pull request:* <$RELEASE_PR_URL|Review release PR>"
           message+=$'\n'"*Linear:* <https://linear.app/rudderstack/issue/$RELEASE_TICKET_ID|$RELEASE_TICKET_ID>"
-          message+=$'\n'"CC: <!subteam^S066Z6BUTAS> <!subteam^S03SW7DM8P3>"
+          message+=$'\n'"CC: $SDK_SLACK_GROUP_MENTION"
 
           delimiter=$(openssl rand -hex 16)
           {

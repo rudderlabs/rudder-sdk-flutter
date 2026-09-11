@@ -1,3 +1,7 @@
+## 3.4.0
+
+ - **FEAT**: add previous id support to alias ([#348](https://github.com/rudderlabs/rudder-sdk-flutter/issues/348)). ([b25d87f1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b25d87f1e9afbfcd9c8cb2236f420cedf605f81e))
+
 ## 3.3.5
 
  - Update a dependency to the latest release.

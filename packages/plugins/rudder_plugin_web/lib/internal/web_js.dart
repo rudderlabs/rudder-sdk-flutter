@@ -22,6 +22,10 @@ external void track(JSString event, JSObject? properties, JSObject? options);
 @JS('alias')
 external void alias(JSString to, JSObject? options);
 
+@JS('alias')
+external void aliasWithPreviousId(
+    JSString to, JSString from, JSObject? options);
+
 @JS('group')
 external void group(JSString groupId, JSObject? traits, JSObject? options);
 

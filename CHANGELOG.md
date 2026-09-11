@@ -3,6 +3,122 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-09-10
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`rudder_integration_adjust_flutter` - `v2.3.6`](#rudder_integration_adjust_flutter---v236)
+ - [`rudder_integration_amplitude_flutter` - `v2.3.6`](#rudder_integration_amplitude_flutter---v236)
+ - [`rudder_integration_appcenter_flutter` - `v2.3.6`](#rudder_integration_appcenter_flutter---v236)
+ - [`rudder_integration_firebase_flutter` - `v4.4.6`](#rudder_integration_firebase_flutter---v446)
+ - [`rudder_integration_kochava_flutter` - `v2.3.6`](#rudder_integration_kochava_flutter---v236)
+ - [`rudder_integration_leanplum_flutter` - `v2.3.6`](#rudder_integration_leanplum_flutter---v236)
+ - [`rudder_plugin_android` - `v3.3.0`](#rudder_plugin_android---v330)
+ - [`rudder_plugin_db_encryption` - `v1.5.6`](#rudder_plugin_db_encryption---v156)
+ - [`rudder_plugin_ios` - `v3.3.0`](#rudder_plugin_ios---v330)
+ - [`rudder_plugin_web` - `v3.3.0`](#rudder_plugin_web---v330)
+ - [`rudder_sdk_flutter` - `v3.4.0`](#rudder_sdk_flutter---v340)
+ - [`rudder_sdk_flutter_monorepo` - `v5.5.0`](#rudder_sdk_flutter_monorepo---v550)
+ - [`rudder_sdk_flutter_platform_interface` - `v3.4.0`](#rudder_sdk_flutter_platform_interface---v340)
+ - [`rudder_integration_braze_flutter` - `v2.7.3`](#rudder_integration_braze_flutter---v273)
+ - [`rudder_integration_appsflyer_flutter` - `v2.1.7`](#rudder_integration_appsflyer_flutter---v217)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `rudder_integration_braze_flutter` - `v2.7.3`
+ - `rudder_integration_appsflyer_flutter` - `v2.1.7`
+
+---
+
+#### `rudder_integration_adjust_flutter` - `v2.3.6`
+
+ - **DOCS**: sdk-3672 improve adjust package score ([#350](https://github.com/rudderlabs/rudder-sdk-flutter/issues/350)). ([e7dcf8f7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e7dcf8f7a90535d28ded6d271494604109406d39))
+
+#### `rudder_integration_amplitude_flutter` - `v2.3.6`
+
+ - **DOCS**: sdk-3666 improve amplitude package score ([#349](https://github.com/rudderlabs/rudder-sdk-flutter/issues/349)). ([d753b0aa](https://github.com/rudderlabs/rudder-sdk-flutter/commit/d753b0aa30adb341f5ff33941b1624b43e433a94))
+
+#### `rudder_integration_appcenter_flutter` - `v2.3.6`
+
+ - **DOCS**: sdk-3673 improve appcenter package score ([#352](https://github.com/rudderlabs/rudder-sdk-flutter/issues/352)). ([3cbb2037](https://github.com/rudderlabs/rudder-sdk-flutter/commit/3cbb20377b0fec59db68ab24734719c173f488fc))
+
+#### `rudder_integration_firebase_flutter` - `v4.4.6`
+
+ - **DOCS**: sdk-3674 improve firebase package score ([#351](https://github.com/rudderlabs/rudder-sdk-flutter/issues/351)). ([e0f6bffb](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e0f6bffbcbb4ef144096fd5ed5091dbf32fe19c6))
+
+#### `rudder_integration_kochava_flutter` - `v2.3.6`
+
+ - **DOCS**: sdk-3668 improve kochava package score ([#353](https://github.com/rudderlabs/rudder-sdk-flutter/issues/353)). ([0ac55107](https://github.com/rudderlabs/rudder-sdk-flutter/commit/0ac55107089f6f2e75054066ef62352f2e11effe))
+
+#### `rudder_integration_leanplum_flutter` - `v2.3.6`
+
+ - **DOCS**: sdk-3670 improve leanplum package score ([#355](https://github.com/rudderlabs/rudder-sdk-flutter/issues/355)). ([744df4f6](https://github.com/rudderlabs/rudder-sdk-flutter/commit/744df4f6210b47a43498dd84816d7ee9f6ba0982))
+
+#### `rudder_plugin_android` - `v3.3.0`
+
+ - **FEAT**: add previous id support to alias ([#348](https://github.com/rudderlabs/rudder-sdk-flutter/issues/348)). ([b25d87f1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b25d87f1e9afbfcd9c8cb2236f420cedf605f81e))
+
+#### `rudder_plugin_db_encryption` - `v1.5.6`
+
+ - **FIX**: sdk-3675 add database encryption parameter types ([#354](https://github.com/rudderlabs/rudder-sdk-flutter/issues/354)). ([3b7c5929](https://github.com/rudderlabs/rudder-sdk-flutter/commit/3b7c5929c892b6dcca2a7c9bba670408c2f0a6e2))
+
+#### `rudder_plugin_ios` - `v3.3.0`
+
+ - **FEAT**: add previous id support to alias ([#348](https://github.com/rudderlabs/rudder-sdk-flutter/issues/348)). ([b25d87f1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b25d87f1e9afbfcd9c8cb2236f420cedf605f81e))
+
+#### `rudder_plugin_web` - `v3.3.0`
+
+ - **FEAT**: add previous id support to alias ([#348](https://github.com/rudderlabs/rudder-sdk-flutter/issues/348)). ([b25d87f1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b25d87f1e9afbfcd9c8cb2236f420cedf605f81e))
+
+#### `rudder_sdk_flutter` - `v3.4.0`
+
+ - **FEAT**: add previous id support to alias ([#348](https://github.com/rudderlabs/rudder-sdk-flutter/issues/348)). ([b25d87f1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b25d87f1e9afbfcd9c8cb2236f420cedf605f81e))
+
+#### `rudder_sdk_flutter_monorepo` - `v5.5.0`
+
+ - **FIX**: sdk-3675 add database encryption parameter types ([#354](https://github.com/rudderlabs/rudder-sdk-flutter/issues/354)). ([3b7c5929](https://github.com/rudderlabs/rudder-sdk-flutter/commit/3b7c5929c892b6dcca2a7c9bba670408c2f0a6e2))
+ - **FIX**: sdk-5426 use sdk slack group for releases ([#343](https://github.com/rudderlabs/rudder-sdk-flutter/issues/343)). ([595a5039](https://github.com/rudderlabs/rudder-sdk-flutter/commit/595a5039f76499d44761000ad8854719393e1513))
+ - **FIX**: sdk-5374 handle missing package tags ([#342](https://github.com/rudderlabs/rudder-sdk-flutter/issues/342)). ([39b4f599](https://github.com/rudderlabs/rudder-sdk-flutter/commit/39b4f599dc2325ca0d484559b5e97e894c5a97cb))
+ - **FEAT**: add previous id support to alias ([#348](https://github.com/rudderlabs/rudder-sdk-flutter/issues/348)). ([b25d87f1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b25d87f1e9afbfcd9c8cb2236f420cedf605f81e))
+ - **DOCS**: sdk-3666 improve amplitude package score ([#349](https://github.com/rudderlabs/rudder-sdk-flutter/issues/349)). ([d753b0aa](https://github.com/rudderlabs/rudder-sdk-flutter/commit/d753b0aa30adb341f5ff33941b1624b43e433a94))
+ - **DOCS**: sdk-3673 improve appcenter package score ([#352](https://github.com/rudderlabs/rudder-sdk-flutter/issues/352)). ([3cbb2037](https://github.com/rudderlabs/rudder-sdk-flutter/commit/3cbb20377b0fec59db68ab24734719c173f488fc))
+ - **DOCS**: sdk-3670 improve leanplum package score ([#355](https://github.com/rudderlabs/rudder-sdk-flutter/issues/355)). ([744df4f6](https://github.com/rudderlabs/rudder-sdk-flutter/commit/744df4f6210b47a43498dd84816d7ee9f6ba0982))
+ - **DOCS**: sdk-3672 improve adjust package score ([#350](https://github.com/rudderlabs/rudder-sdk-flutter/issues/350)). ([e7dcf8f7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e7dcf8f7a90535d28ded6d271494604109406d39))
+ - **DOCS**: sdk-3668 improve kochava package score ([#353](https://github.com/rudderlabs/rudder-sdk-flutter/issues/353)). ([0ac55107](https://github.com/rudderlabs/rudder-sdk-flutter/commit/0ac55107089f6f2e75054066ef62352f2e11effe))
+ - **DOCS**: sdk-3674 improve firebase package score ([#351](https://github.com/rudderlabs/rudder-sdk-flutter/issues/351)). ([e0f6bffb](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e0f6bffbcbb4ef144096fd5ed5091dbf32fe19c6))
+ - **DOCS**: sdk-5378 remove redundant slack guidance ([#345](https://github.com/rudderlabs/rudder-sdk-flutter/issues/345)). ([b95d7d1f](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b95d7d1f5d82ab8802127753c24dd6e0accf058f))
+ - **DOCS**: sdk-5378 capture flutter release validation ([#344](https://github.com/rudderlabs/rudder-sdk-flutter/issues/344)). ([bb14c119](https://github.com/rudderlabs/rudder-sdk-flutter/commit/bb14c1196d48eda3dd3f1c7668d7515a8a56f61b))
+
+#### `rudder_sdk_flutter_platform_interface` - `v3.4.0`
+
+ - **FEAT**: add previous id support to alias ([#348](https://github.com/rudderlabs/rudder-sdk-flutter/issues/348)). ([b25d87f1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b25d87f1e9afbfcd9c8cb2236f420cedf605f81e))
+
+## 5.5.0
+
+ - **FIX**: sdk-3675 add database encryption parameter types ([#354](https://github.com/rudderlabs/rudder-sdk-flutter/issues/354)). ([3b7c5929](https://github.com/rudderlabs/rudder-sdk-flutter/commit/3b7c5929c892b6dcca2a7c9bba670408c2f0a6e2))
+ - **FIX**: sdk-5426 use sdk slack group for releases ([#343](https://github.com/rudderlabs/rudder-sdk-flutter/issues/343)). ([595a5039](https://github.com/rudderlabs/rudder-sdk-flutter/commit/595a5039f76499d44761000ad8854719393e1513))
+ - **FIX**: sdk-5374 handle missing package tags ([#342](https://github.com/rudderlabs/rudder-sdk-flutter/issues/342)). ([39b4f599](https://github.com/rudderlabs/rudder-sdk-flutter/commit/39b4f599dc2325ca0d484559b5e97e894c5a97cb))
+ - **FEAT**: add previous id support to alias ([#348](https://github.com/rudderlabs/rudder-sdk-flutter/issues/348)). ([b25d87f1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b25d87f1e9afbfcd9c8cb2236f420cedf605f81e))
+ - **DOCS**: sdk-3666 improve amplitude package score ([#349](https://github.com/rudderlabs/rudder-sdk-flutter/issues/349)). ([d753b0aa](https://github.com/rudderlabs/rudder-sdk-flutter/commit/d753b0aa30adb341f5ff33941b1624b43e433a94))
+ - **DOCS**: sdk-3673 improve appcenter package score ([#352](https://github.com/rudderlabs/rudder-sdk-flutter/issues/352)). ([3cbb2037](https://github.com/rudderlabs/rudder-sdk-flutter/commit/3cbb20377b0fec59db68ab24734719c173f488fc))
+ - **DOCS**: sdk-3670 improve leanplum package score ([#355](https://github.com/rudderlabs/rudder-sdk-flutter/issues/355)). ([744df4f6](https://github.com/rudderlabs/rudder-sdk-flutter/commit/744df4f6210b47a43498dd84816d7ee9f6ba0982))
+ - **DOCS**: sdk-3672 improve adjust package score ([#350](https://github.com/rudderlabs/rudder-sdk-flutter/issues/350)). ([e7dcf8f7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e7dcf8f7a90535d28ded6d271494604109406d39))
+ - **DOCS**: sdk-3668 improve kochava package score ([#353](https://github.com/rudderlabs/rudder-sdk-flutter/issues/353)). ([0ac55107](https://github.com/rudderlabs/rudder-sdk-flutter/commit/0ac55107089f6f2e75054066ef62352f2e11effe))
+ - **DOCS**: sdk-3674 improve firebase package score ([#351](https://github.com/rudderlabs/rudder-sdk-flutter/issues/351)). ([e0f6bffb](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e0f6bffbcbb4ef144096fd5ed5091dbf32fe19c6))
+ - **DOCS**: sdk-5378 remove redundant slack guidance ([#345](https://github.com/rudderlabs/rudder-sdk-flutter/issues/345)). ([b95d7d1f](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b95d7d1f5d82ab8802127753c24dd6e0accf058f))
+ - **DOCS**: sdk-5378 capture flutter release validation ([#344](https://github.com/rudderlabs/rudder-sdk-flutter/issues/344)). ([bb14c119](https://github.com/rudderlabs/rudder-sdk-flutter/commit/bb14c1196d48eda3dd3f1c7668d7515a8a56f61b))
+
+
 ## 2026-09-03
 
 ### Changes

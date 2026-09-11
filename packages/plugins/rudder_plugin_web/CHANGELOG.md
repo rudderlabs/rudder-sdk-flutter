@@ -1,3 +1,7 @@
+## 3.3.0
+
+ - **FEAT**: add previous id support to alias ([#348](https://github.com/rudderlabs/rudder-sdk-flutter/issues/348)). ([b25d87f1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b25d87f1e9afbfcd9c8cb2236f420cedf605f81e))
+
 ## 3.2.0
 
  - **FEAT**: improve Flutter package score for core SDK plugins ([#259](https://github.com/rudderlabs/rudder-sdk-flutter/issues/259)). ([e489fa86](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e489fa8624e0742c35de38fd2f91b960754097c8))

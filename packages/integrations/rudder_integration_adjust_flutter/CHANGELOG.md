@@ -1,3 +1,7 @@
+## 2.3.6
+
+ - **DOCS**: sdk-3672 improve adjust package score ([#350](https://github.com/rudderlabs/rudder-sdk-flutter/issues/350)). ([e7dcf8f7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/e7dcf8f7a90535d28ded6d271494604109406d39))
+
 ## 2.3.5
 
  - Update a dependency to the latest release.
