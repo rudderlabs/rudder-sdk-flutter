@@ -27,8 +27,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
+    // Only configure the legacy kotlinOptions DSL when we applied the Kotlin plugin ourselves.
+    // On the AGP 9 built-in-Kotlin path the plugin isn't applied, so this DSL doesn't exist;
+    // there the Kotlin JVM target inherits from compileOptions.targetCompatibility above.
+    if (agpMajor < 9 || !builtInKotlin) {
+        kotlinOptions {
+            jvmTarget = '1.8'
+        }
     }
     namespace = "com.rudderstack.sdk.flutter"
 }
