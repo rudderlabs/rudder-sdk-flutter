@@ -2,13 +2,22 @@ group 'com.rudderstack.sdk.flutter'
 version '1.0'
 
 apply plugin: 'com.android.library'
-apply plugin: 'org.jetbrains.kotlin.android'
+// AGP 9+ ships built-in Kotlin support (unless Flutter opts out via android.builtInKotlin=false).
+// Apply our own Kotlin plugin only when AGP won't — otherwise it clashes with Flutter's built-in Kotlin.
+def agpMajor = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')[0] as int
+def builtInKotlin = providers.gradleProperty("android.builtInKotlin")
+        .map { it.toBoolean() }
+        .orElse(agpMajor >= 9)
+        .get()
+if (agpMajor < 9 || !builtInKotlin) {
+    apply plugin: 'org.jetbrains.kotlin.android'
+}
 
 android {
-    compileSdk 34
+    compileSdk = 34
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion = 16
     }
     lintOptions {
         disable 'InvalidPackage'
