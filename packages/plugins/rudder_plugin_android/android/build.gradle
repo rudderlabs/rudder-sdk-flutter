@@ -17,7 +17,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        minSdkVersion = 16
+        minSdk = 16
     }
     lintOptions {
         disable 'InvalidPackage'
