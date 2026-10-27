@@ -2,9 +2,11 @@ version: 2
 updates:
   - package-ecosystem: 'github-actions'
     directory: '/'
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 0
     schedule:
-      interval: 'weekly'
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
     groups:
       minor-and-patch:
         applies-to: version-updates
@@ -13,3 +15,131 @@ updates:
         update-types:
           - 'minor'
           - 'patch'
+
+  - package-ecosystem: 'pub'
+    directory: '/'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/example'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/packages/plugins/rudder_plugin'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/packages/plugins/rudder_plugin_android'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/packages/plugins/rudder_plugin_db_encryption'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/packages/plugins/rudder_plugin_interface'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/packages/plugins/rudder_plugin_ios'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/packages/plugins/rudder_plugin_web'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/packages/integrations/rudder_integration_adjust_flutter'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/packages/integrations/rudder_integration_amplitude_flutter'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/packages/integrations/rudder_integration_appcenter_flutter'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/packages/integrations/rudder_integration_appsflyer_flutter'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/packages/integrations/rudder_integration_braze_flutter'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/packages/integrations/rudder_integration_firebase_flutter'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/packages/integrations/rudder_integration_kochava_flutter'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/packages/integrations/rudder_integration_leanplum_flutter'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
