@@ -1,0 +1,177 @@
+name: Gradle Dependency Submission
+
+on:
+  push:
+    branches: [develop]
+    paths:
+      - '**/*.gradle'
+      - '**/*.gradle.kts'
+      - '**/gradle.properties'
+      - '**/gradle.lockfile'
+      - '**/gradle/dependency-locks/**'
+      - 'gradle/**'
+      - 'gradlew*'
+      - 'scripts/**'
+      - '.github/scripts/**'
+      - '**/pubspec.yaml'
+      - '**/pubspec.lock'
+      - '**/Package.swift'
+      - '**/Package.resolved'
+      - 'example/**'
+      - 'packages/**'
+      - '**/gradle/**'
+      - '**/gradlew*'
+      - '.github/workflows/dependency-submission.yml'
+  pull_request:
+    paths:
+      - '**/*.gradle'
+      - '**/*.gradle.kts'
+      - '**/gradle.properties'
+      - '**/gradle.lockfile'
+      - '**/gradle/dependency-locks/**'
+      - 'gradle/**'
+      - 'gradlew*'
+      - 'scripts/**'
+      - '.github/scripts/**'
+      - '**/pubspec.yaml'
+      - '**/pubspec.lock'
+      - '**/Package.swift'
+      - '**/Package.resolved'
+      - 'example/**'
+      - 'packages/**'
+      - '**/gradle/**'
+      - '**/gradlew*'
+      - '.github/workflows/dependency-submission.yml'
+  schedule:
+    - cron: '23 6 * * 1' # Weekly refresh for dependencies with version ranges.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generate-dependency-graph:
+    name: Generate graph (${{ matrix.context }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - context: published
+            root: .dependency-consumers/published/android
+          - context: local
+            root: .dependency-consumers/local/android
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      # Keep test/build dependencies in the graph, with development scope.
+      DEPENDENCY_GRAPH_RUNTIME_INCLUDE_CONFIGURATIONS: '.*[Rr]untimeClasspath'
+      DEPENDENCY_GRAPH_RUNTIME_EXCLUDE_CONFIGURATIONS: '.*[Tt]est.*'
+    steps:
+      - name: Harden the runner
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@dd06d9cba3e5552c54d9f8ea23572deb30010f7c # v6.0.0
+        with:
+          java-version: '17'
+          distribution: temurin
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          flutter-version: '3.41.9'
+          channel: stable
+
+      - name: Prepare native consumer
+        env:
+          CONSUMER_CONTEXT: ${{ matrix.context }}
+        run: python3 .github/scripts/prepare-dependency-consumer.py "$CONSUMER_CONTEXT"
+
+      - name: Grant execute permission for gradlew
+        working-directory: ${{ matrix.root }}
+        run: chmod +x gradlew
+
+      - name: Generate and save dependency graph
+        uses: gradle/actions/dependency-submission@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
+        with:
+          build-root-directory: ${{ matrix.root }}
+          dependency-resolution-task: :ForceDependencyResolutionPlugin_resolveAllDependencies
+          dependency-graph: generate-and-upload
+          artifact-retention-days: 7
+          cache-provider: basic
+          validate-wrappers: true
+          additional-arguments: --no-configuration-cache --no-configure-on-demand --no-daemon
+
+      - name: Check dependency inventory
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+
+          reports = list(Path('dependency-graph-reports').rglob('*.json'))
+          if not reports:
+              raise SystemExit('No dependency graph snapshot was generated')
+          packages = []
+          for report in reports:
+              snapshot = json.loads(report.read_text())
+              for manifest in snapshot['manifests'].values():
+                  packages.extend(manifest['resolved'].values())
+          maven = [p for p in packages if p['package_url'].startswith('pkg:maven/')]
+          if not maven:
+              raise SystemExit('The dependency graph contains no Maven packages')
+          if {p.get('relationship') for p in maven} != {'direct', 'indirect'}:
+              raise SystemExit('Expected both direct and indirect Maven dependencies')
+          if {p.get('scope') for p in maven} != {'runtime', 'development'}:
+              raise SystemExit('Expected runtime and development dependency scopes')
+          print(f'Validated {len(reports)} snapshots with {len(maven)} Maven entries')
+
+  submit-dependency-graph:
+    name: Submit dependency graph
+    needs: generate-dependency-graph
+    # Manual runs on other branches and all pull requests only generate artifacts.
+    if: github.ref == 'refs/heads/develop' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Harden the runner
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+
+      # Read artifacts from this successful run; no checkout or Gradle execution.
+      - name: Download and submit dependency graph
+        uses: gradle/actions/dependency-submission@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
+        with:
+          dependency-graph: download-and-submit
+          cache-disabled: true
+
+  validate-swift-resolution:
+    name: Validate embedded Swift package lock
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Resolve embedded package
+        working-directory: packages/plugins/rudder_plugin_ios/ios/rudder_plugin_ios
+        run: |
+          swift package resolve
+          swift package show-dependencies --format json
+          git diff --exit-code -- Package.resolved
