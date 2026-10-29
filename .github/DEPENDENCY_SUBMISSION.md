@@ -7,7 +7,7 @@ The workflow uses Flutter 3.41.9, JDK 17, and the example's existing AGP 8.8 / G
 
 Kochava's malformed core range is corrected from `[1.21.3 2.0.0)` to `[1.21.3,2.0.0)` so the intended bounds can resolve. No SDK runtime minimum or dependency family is upgraded.
 
-Pull requests generate read-only artifacts. Default-branch dependency changes, weekly refreshes and manual runs also resolve both contexts. Only successful runs on `develop` can submit, using a separate write-permission job. Matrix identities keep the contexts distinct. The pinned Gradle action needs organization allowlist approval.
+Pull requests generate read-only artifacts. Default-branch dependency changes, weekly refreshes and manual runs also resolve both contexts. Only successful runs on `develop` can submit, using a separate write-permission job. Matrix identities keep the contexts distinct. Unresolved dependencies fail graph generation before submission. Kotlin metadata in the example app cannot choose among Android variants for the listed Flutter plugin projects. The check permits only those known local project-variant mismatches; each plugin project is resolved separately. Other unresolved dependencies fail the run. The pinned Gradle action needs organization allowlist approval.
 
 The embedded Swift package now retains `Package.resolved`. A read-only macOS job verifies its resolution, and a Swift Dependabot entry follows the existing monthly/zero-routine policy. This covers the embedded package's external Swift selection; it does not build the iOS application or establish CocoaPods coverage. Standalone Swift SDK rollout remains separate.
 
