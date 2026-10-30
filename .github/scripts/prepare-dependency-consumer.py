@@ -54,6 +54,22 @@ if args.context == "local":
         lines.extend([f"  {name}:", f"    path: {os.path.relpath(path, consumer)}"])
     (consumer / "pubspec.yaml").write_text("\n".join(lines) + "\n")
 
+# The example ignores wrapper launchers and the JAR. Supply the same files
+# Flutter injects for Android builds, while preserving the checked-in version.
+wrapper_cache = flutter_root / "bin/cache/artifacts/gradle_wrapper"
+wrapper_files = ("gradlew", "gradlew.bat", "gradle/wrapper/gradle-wrapper.jar")
+if not all((wrapper_cache / name).is_file() for name in wrapper_files):
+    subprocess.run([flutter, "precache", "--android"], check=True)
+for name in wrapper_files:
+    source = wrapper_cache / name
+    target = consumer / "android" / name
+    if not source.is_file():
+        raise SystemExit(f"Flutter wrapper artifact is missing: {source}")
+    if not target.exists():
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+(consumer / "android/gradlew").chmod(0o755)
+
 # Flutter SDK-provided test packages can differ from the example's newer lock.
 # Resolve only the generated copy; never rewrite checked-in example inputs.
 subprocess.run([flutter, "pub", "get"], cwd=consumer, check=True)
