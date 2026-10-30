@@ -143,3 +143,12 @@ updates:
       interval: 'monthly'
     cooldown:
       default-days: 7
+
+  # The embedded iOS plugin's Swift package is active scope; this is not CocoaPods.
+  - package-ecosystem: 'swift'
+    directory: '/packages/plugins/rudder_plugin_ios/ios/rudder_plugin_ios'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
