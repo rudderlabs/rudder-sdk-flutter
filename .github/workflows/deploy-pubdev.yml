@@ -42,11 +42,13 @@ jobs:
           persist-credentials: false
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        uses: ./.github/actions/setup-flutter
         with:
-          flutter-version: '3.47.3'
-          channel: 'stable'
+          version: '3.47.3'
+          channel: stable
           architecture: x64
+          # The Linux archive sha256 from releases_linux.json (stable/linux/flutter_linux_3.47.3-stable.tar.xz). Update it with the version.
+          sha256: 988665565cad9091db1baa54bf6d3868bb40e29719592f3c3a164deefd4208e1
 
       - name: Resolve package from tag
         id: package

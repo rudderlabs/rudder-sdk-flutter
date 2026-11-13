@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "rudder-sdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rudderlabs/rudder-sdk-ios.git",
+      "state" : {
+        "revision" : "7f7b657caaf608dce606bc0027bab707d026e1fb",
+        "version" : "1.33.0"
+      }
+    }
+  ],
+  "version" : 2
+}

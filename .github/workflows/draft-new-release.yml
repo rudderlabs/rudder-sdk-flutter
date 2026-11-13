@@ -65,9 +65,9 @@ jobs:
           java-version: '11'
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 #v2.23.0
+        uses: ./.github/actions/setup-flutter
         with:
-          channel: 'stable'
+          channel: stable
           architecture: x64
 
       - name: Install Melos
