@@ -1,3 +1,7 @@
+## 3.3.1
+
+ - **FIX**: guard kotlin plugin apply for agp 9 built-in kotlin ([#368](https://github.com/rudderlabs/rudder-sdk-flutter/issues/368)). ([4c25cc28](https://github.com/rudderlabs/rudder-sdk-flutter/commit/4c25cc2866543a226c9f6335757a9f33174da106))
+
 ## 3.3.0
 
  - **FEAT**: add previous id support to alias ([#348](https://github.com/rudderlabs/rudder-sdk-flutter/issues/348)). ([b25d87f1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/b25d87f1e9afbfcd9c8cb2236f420cedf605f81e))

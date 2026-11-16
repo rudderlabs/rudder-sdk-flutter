@@ -1,3 +1,7 @@
+## 2.3.7
+
+ - **FIX**: raise ios deployment target to 15.0 for xcode 26 compatibility ([#369](https://github.com/rudderlabs/rudder-sdk-flutter/issues/369)). ([a80a8375](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a80a837515000beea7de80936db0eafaf8965134))
+
 ## 2.3.6
 
  - **DOCS**: sdk-3673 improve appcenter package score ([#352](https://github.com/rudderlabs/rudder-sdk-flutter/issues/352)). ([3cbb2037](https://github.com/rudderlabs/rudder-sdk-flutter/commit/3cbb20377b0fec59db68ab24734719c173f488fc))
