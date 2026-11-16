@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.static_framework = true
-  s.ios.deployment_target = '11.0'
+  s.ios.deployment_target = '15.0'
 
   s.dependency 'Flutter'
   s.dependency 'rudder_plugin_ios'

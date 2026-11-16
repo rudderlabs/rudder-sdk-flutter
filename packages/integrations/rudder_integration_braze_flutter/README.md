@@ -9,7 +9,7 @@ Questions? Please join our [Slack channel](https://www.rudderstack.com/join-rudd
 ## Requirements
 
 - **Android**: this integration requires a minimum Android SDK version of **25**. The underlying Braze Android SDK has enforced `minSdkVersion 25` since its `2.0.0` release, so your app's `minSdkVersion` must be `25` or higher.
-- **iOS**: minimum deployment target of **13.0**.
+- **iOS**: minimum deployment target of **15.0**.
 
 ## Integrating Braze with the RudderStack Flutter SDK
 

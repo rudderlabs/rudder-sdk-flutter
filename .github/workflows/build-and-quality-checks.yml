@@ -38,9 +38,9 @@ jobs:
           java-version: '11'
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 #v2.23.0
+        uses: ./.github/actions/setup-flutter
         with:
-          channel: 'stable'
+          channel: stable
           architecture: x64
 
       - name: Install Melos
@@ -133,9 +133,9 @@ jobs:
         uses: dart-lang/setup-dart@6afc89df92d6eb3834022f73cd65adc8cdfcb92d # v1.8.1
 
       - name: Setup Flutter
-        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 #v2.23.0
+        uses: ./.github/actions/setup-flutter
         with:
-          channel: 'stable'
+          channel: stable
           architecture: x64
 
       - name: Install CI tools

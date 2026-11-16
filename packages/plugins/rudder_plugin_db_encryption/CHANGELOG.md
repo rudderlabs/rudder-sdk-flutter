@@ -1,3 +1,7 @@
+## 1.5.7
+
+ - **FIX**: raise ios deployment target to 15.0 for xcode 26 compatibility ([#369](https://github.com/rudderlabs/rudder-sdk-flutter/issues/369)). ([a80a8375](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a80a837515000beea7de80936db0eafaf8965134))
+
 ## 1.5.6
 
  - **FIX**: sdk-3675 add database encryption parameter types ([#354](https://github.com/rudderlabs/rudder-sdk-flutter/issues/354)). ([3b7c5929](https://github.com/rudderlabs/rudder-sdk-flutter/commit/3b7c5929c892b6dcca2a7c9bba670408c2f0a6e2))
