@@ -97,7 +97,13 @@ jobs:
           fi
 
           echo "manifest=$manifest" >> "$GITHUB_OUTPUT"
-          echo "package_summary=$(jq -r '[.packages[] | "\(.name) \(.version)"] | join(" · ")' "$manifest")" >> "$GITHUB_OUTPUT"
+          package_summary=$(jq -r '.packages[] | "• `\(.name)` \(.version)"' "$manifest")
+          delimiter=$(openssl rand -hex 16)
+          {
+            echo "package_summary<<$delimiter"
+            echo "$package_summary"
+            echo "$delimiter"
+          } >> "$GITHUB_OUTPUT"
           {
             echo "## Release packages"
             echo
@@ -326,7 +332,8 @@ jobs:
         run: |
           message=":rocket: *New release: Flutter SDK*"
           message+=$'\n'"*Release:* <https://github.com/${{ github.repository }}/releases/tag/v$RELEASE_VERSION|v$RELEASE_VERSION>"
-          message+=$'\n'"*Packages:* $PACKAGE_SUMMARY"
+          message+=$'\n'"*Packages:*"
+          message+=$'\n'"$PACKAGE_SUMMARY"
           message+=$'\n'"CC: $SDK_SLACK_GROUP_MENTION"
 
           delimiter=$(openssl rand -hex 16)
@@ -355,7 +362,8 @@ jobs:
           RELEASE_VERSION: ${{ steps.release-version.outputs.release_version }}
         run: |
           message=":white_check_mark: *Flutter release v$RELEASE_VERSION is complete*"
-          message+=$'\n'"*Published to pub.dev:* $PACKAGE_SUMMARY"
+          message+=$'\n'"*Published to pub.dev:*"
+          message+=$'\n'"$PACKAGE_SUMMARY"
           message+=$'\n'"*Back-merge:* <$BACKMERGE_PR_URL|Review back-merge PR>"
           message+=$'\n'"*Linear:* <https://linear.app/rudderstack/issue/$RELEASE_TICKET_ID|$RELEASE_TICKET_ID>"
           message+=$'\n'"CC: $SDK_SLACK_GROUP_MENTION"
