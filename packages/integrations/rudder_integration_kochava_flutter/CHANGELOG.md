@@ -1,3 +1,8 @@
+## 2.3.7
+
+ - **FIX**: raise ios deployment target to 15.0 for xcode 26 compatibility ([#369](https://github.com/rudderlabs/rudder-sdk-flutter/issues/369)). ([a80a8375](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a80a837515000beea7de80936db0eafaf8965134))
+ - **FIX**: correct the kochava core dependency range separator. ([fa90f7d2](https://github.com/rudderlabs/rudder-sdk-flutter/commit/fa90f7d22bd53818fba8a6d9b2d8b42720a430de))
+
 ## 2.3.6
 
  - **DOCS**: sdk-3668 improve kochava package score ([#353](https://github.com/rudderlabs/rudder-sdk-flutter/issues/353)). ([0ac55107](https://github.com/rudderlabs/rudder-sdk-flutter/commit/0ac55107089f6f2e75054066ef62352f2e11effe))

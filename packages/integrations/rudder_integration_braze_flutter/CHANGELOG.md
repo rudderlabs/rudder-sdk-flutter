@@ -1,3 +1,7 @@
+## 2.7.4
+
+ - **FIX**: raise ios deployment target to 15.0 for xcode 26 compatibility ([#369](https://github.com/rudderlabs/rudder-sdk-flutter/issues/369)). ([a80a8375](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a80a837515000beea7de80936db0eafaf8965134))
+
 ## 2.7.3
 
  - Update a dependency to the latest release.
