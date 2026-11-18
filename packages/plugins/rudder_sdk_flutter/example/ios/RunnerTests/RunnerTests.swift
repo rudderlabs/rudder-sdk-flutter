@@ -4,10 +4,15 @@ import XCTest
 @testable import rudder_sdk_flutter
 
 final class InstanceListTests: XCTestCase {
-    private final class Instance {}
+    private final class Instance {
+        let name: String
+        init(_ name: String) { self.name = name }
+    }
 
+    // Stands in for the SDK registry: a started instance registers itself, and a stopped one leaves.
+    private var running: [String: Instance] = [:]
     private var stopped: [Instance] = []
-    private let stoppedLock = NSLock()
+    private let lock = NSLock()
     private var list: InstanceList<Instance>!
     private let engine1 = NSObject()
     private let engine2 = NSObject()
@@ -15,23 +20,47 @@ final class InstanceListTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        list = InstanceList { [unowned self] instance in
-            stoppedLock.lock()
-            stopped.append(instance)
-            stoppedLock.unlock()
+        list = makeList()
+    }
+
+    private func makeList(beforeStop: @escaping (Instance) -> Void = { _ in }) -> InstanceList<Instance> {
+        InstanceList(findRunning: { [unowned self] key in locked { running[key] } }) { [unowned self] instance in
+            beforeStop(instance)
+            locked {
+                running = running.filter { $0.value !== instance }
+                stopped.append(instance)
+            }
         }
     }
+
+    private func locked<T>(_ body: () -> T) -> T {
+        lock.lock()
+        defer { lock.unlock() }
+        return body()
+    }
+
+    private func starts(_ name: String, key: String? = nil) -> () -> Instance {
+        { [unowned self] in
+            let instance = Instance(name)
+            locked { running[key ?? self.key] = instance }
+            return instance
+        }
+    }
+
+    private func nativeStarts(_ name: String) -> Instance { starts(name)() }
+
+    private func nativeStops() { locked { running[key] = nil } }
 
     private func attachment(_ engine: NSObject, _ id: String) -> Attachment { Attachment(engine: engine, id: id) }
 
     private func mustAttach() -> Instance {
         XCTFail("must attach to the running instance")
-        return Instance()
+        return Instance("unexpected")
     }
 
     func testSecondEngineAttachesAndLastDartShutdownStopsTheInstance() {
-        let first = Instance()
-        XCTAssertFalse(list.create(writeKey: key, attachment: attachment(engine1, "a")) { first })
+        XCTAssertFalse(list.create(writeKey: key, attachment: attachment(engine1, "a"), make: starts("first")))
+        let first = list.find(writeKey: key)
         XCTAssertTrue(list.create(writeKey: key, attachment: attachment(engine2, "b"), make: mustAttach))
 
         list.detach(writeKey: key, attachment: attachment(engine2, "b"))
@@ -42,16 +71,12 @@ final class InstanceListTests: XCTestCase {
         XCTAssertNil(list.find(writeKey: key))
         XCTAssertTrue(stopped.count == 1 && stopped[0] === first)
 
-        let second = Instance()
-        XCTAssertFalse(list.create(writeKey: key, attachment: attachment(engine1, "c")) { second })
-        XCTAssertTrue(list.find(writeKey: key) === second)
+        XCTAssertFalse(list.create(writeKey: key, attachment: attachment(engine1, "c"), make: starts("second")))
+        XCTAssertEqual(list.find(writeKey: key)?.name, "second")
     }
 
-    func testHandedOverInstanceNeverStopsFromDartAndASecondHandoverIsRefused() {
-        let native = Instance()
-        XCTAssertTrue(list.handOver(writeKey: key, instance: native))
-        XCTAssertTrue(list.handOver(writeKey: key, instance: native))
-        XCTAssertFalse(list.handOver(writeKey: key, instance: Instance()))
+    func testInstanceThatNativeCodeStartedNeverStopsFromDart() {
+        let native = nativeStarts("native")
         XCTAssertTrue(list.create(writeKey: key, attachment: attachment(engine1, "a"), make: mustAttach))
         XCTAssertTrue(list.create(writeKey: key, attachment: attachment(engine2, "b"), make: mustAttach))
 
@@ -61,19 +86,83 @@ final class InstanceListTests: XCTestCase {
 
         XCTAssertTrue(list.find(writeKey: key) === native)
         XCTAssertTrue(stopped.isEmpty)
+        XCTAssertTrue(list.create(writeKey: key, attachment: attachment(engine1, "c"), make: mustAttach))
     }
 
-    func testHandoverAfterDartCreatedTheInstanceIsRefused() {
-        let dart = Instance()
-        _ = list.create(writeKey: key, attachment: attachment(engine1, "a")) { dart }
+    func testAfterNativeCodeStopsItsInstanceTheNextCreateStartsOneThatEveryAttachmentShares() {
+        _ = nativeStarts("native")
+        _ = list.create(writeKey: key, attachment: attachment(engine1, "a"), make: mustAttach)
+        nativeStops()
 
-        XCTAssertFalse(list.handOver(writeKey: key, instance: Instance()))
-        XCTAssertTrue(list.find(writeKey: key) === dart)
+        XCTAssertFalse(list.create(writeKey: key, attachment: attachment(engine2, "b"), make: starts("dart")))
+        let dart = list.find(writeKey: key)
+        XCTAssertEqual(dart?.name, "dart")
+
+        list.detach(writeKey: key, attachment: attachment(engine2, "b"))
+        XCTAssertTrue(stopped.isEmpty)
+        list.detach(writeKey: key, attachment: attachment(engine1, "a"))
+        XCTAssertTrue(stopped.count == 1 && stopped[0] === dart)
+    }
+
+    func testAfterNativeCodeReplacesItsInstanceTheNextCreateAttachesToTheNewOneAndNeverStopsIt() {
+        _ = nativeStarts("old")
+        _ = list.create(writeKey: key, attachment: attachment(engine1, "a"), make: mustAttach)
+        nativeStops()
+        let replacement = nativeStarts("new")
+
+        XCTAssertTrue(list.create(writeKey: key, attachment: attachment(engine2, "b"), make: mustAttach))
+        XCTAssertTrue(list.find(writeKey: key) === replacement)
+
+        list.detach(writeKey: key, attachment: attachment(engine1, "a"))
+        list.detach(writeKey: key, attachment: attachment(engine2, "b"))
+        XCTAssertTrue(stopped.isEmpty)
+    }
+
+    func testAfterNativeCodeReplacesItsInstanceCallsOfAnAttachedDartObjectGoToTheNewOne() {
+        _ = nativeStarts("old")
+        _ = list.create(writeKey: key, attachment: attachment(engine1, "a"), make: mustAttach)
+        nativeStops()
+        let replacement = nativeStarts("new")
+
+        XCTAssertTrue(list.find(writeKey: key) === replacement)
+        list.detach(writeKey: key, attachment: attachment(engine1, "a"))
+        XCTAssertTrue(stopped.isEmpty)
+    }
+
+    func testWhenNativeCodeStartsAnInstanceWhileDartStartsOneDartUsesTheNativeOne() {
+        var native: Instance?
+        let attached = list.create(writeKey: key, attachment: attachment(engine1, "a")) {
+            native = nativeStarts("native")
+            return Instance("refused")
+        }
+
+        XCTAssertTrue(attached)
+        XCTAssertTrue(list.find(writeKey: key) === native)
+        list.detach(writeKey: key, attachment: attachment(engine1, "a"))
+        XCTAssertTrue(stopped.isEmpty)
+    }
+
+    func testCreateOnAnotherThreadWhileTheLastShutdownStopsTheInstanceStartsANewInstance() {
+        var racing: InstanceList<Instance>!
+        let created = DispatchSemaphore(value: 0)
+        racing = makeList { [unowned self] _ in
+            DispatchQueue.global().async {
+                _ = racing.create(writeKey: self.key, attachment: self.attachment(self.engine2, "b"), make: self.starts("next"))
+                created.signal()
+            }
+            _ = created.wait(timeout: .now() + .milliseconds(200))
+        }
+        _ = racing.create(writeKey: key, attachment: attachment(engine1, "a"), make: starts("first"))
+
+        racing.detach(writeKey: key, attachment: attachment(engine1, "a"))
+        created.wait()
+
+        XCTAssertEqual(racing.find(writeKey: key)?.name, "next")
     }
 
     func testEngineThatGoesAwayDropsOnlyItsOwnAttachments() {
-        let shared = Instance()
-        _ = list.create(writeKey: key, attachment: attachment(engine1, "a")) { shared }
+        _ = list.create(writeKey: key, attachment: attachment(engine1, "a"), make: starts("shared"))
+        let shared = list.find(writeKey: key)
         _ = list.create(writeKey: key, attachment: attachment(engine2, "b"), make: mustAttach)
         _ = list.create(writeKey: key, attachment: attachment(engine2, "c"), make: mustAttach)
 
@@ -86,8 +175,8 @@ final class InstanceListTests: XCTestCase {
     }
 
     func testLastEngineGoingAwayWithoutShutdownKeepsTheInstanceForANewEngine() {
-        let orphan = Instance()
-        _ = list.create(writeKey: key, attachment: attachment(engine1, "a")) { orphan }
+        _ = list.create(writeKey: key, attachment: attachment(engine1, "a"), make: starts("orphan"))
+        let orphan = list.find(writeKey: key)
         list.detachEngine(engine1)
 
         XCTAssertTrue(list.find(writeKey: key) === orphan)
@@ -97,8 +186,7 @@ final class InstanceListTests: XCTestCase {
     }
 
     func testShutdownAndThenEngineGoingAwayRemoveTheAttachmentOnce() {
-        let shared = Instance()
-        _ = list.create(writeKey: key, attachment: attachment(engine1, "a")) { shared }
+        _ = list.create(writeKey: key, attachment: attachment(engine1, "a"), make: starts("shared"))
         _ = list.create(writeKey: key, attachment: attachment(engine2, "b"), make: mustAttach)
 
         list.detach(writeKey: key, attachment: attachment(engine2, "b"))
@@ -111,8 +199,8 @@ final class InstanceListTests: XCTestCase {
     }
 
     func testDetachForUnknownKeyOrAttachmentChangesNothing() {
-        let only = Instance()
-        _ = list.create(writeKey: key, attachment: attachment(engine1, "a")) { only }
+        _ = list.create(writeKey: key, attachment: attachment(engine1, "a"), make: starts("only"))
+        let only = list.find(writeKey: key)
 
         list.detach(writeKey: "other-key", attachment: attachment(engine1, "a"))
         list.detach(writeKey: key, attachment: attachment(engine1, "unknown"))
@@ -127,34 +215,28 @@ final class InstanceListTests: XCTestCase {
         XCTAssertThrowsError(try list.create(writeKey: key, attachment: attachment(engine1, "a")) { throw StartFailure() })
         XCTAssertNil(list.find(writeKey: key))
 
-        let retry = Instance()
-        XCTAssertFalse(list.create(writeKey: key, attachment: attachment(engine1, "a")) { retry })
-        XCTAssertTrue(list.find(writeKey: key) === retry)
+        XCTAssertFalse(list.create(writeKey: key, attachment: attachment(engine1, "a"), make: starts("retry")))
+        XCTAssertEqual(list.find(writeKey: key)?.name, "retry")
     }
 
     func testWriteKeysAreIndependent() {
-        let first = Instance()
-        let second = Instance()
-        _ = list.create(writeKey: key, attachment: attachment(engine1, "a")) { first }
-        _ = list.create(writeKey: "other-key", attachment: attachment(engine1, "a")) { second }
+        _ = list.create(writeKey: key, attachment: attachment(engine1, "a"), make: starts("first"))
+        _ = list.create(writeKey: "other-key", attachment: attachment(engine1, "a"), make: starts("second", key: "other-key"))
 
         list.detach(writeKey: key, attachment: attachment(engine1, "a"))
 
-        XCTAssertTrue(stopped.count == 1 && stopped[0] === first)
-        XCTAssertTrue(list.find(writeKey: "other-key") === second)
+        XCTAssertEqual(stopped.map(\.name), ["first"])
+        XCTAssertEqual(list.find(writeKey: "other-key")?.name, "second")
     }
 
     func testParallelCreatesAndShutdownsStopEveryInstanceThatTheyCreated() {
         var created: [Instance] = []
-        let createdLock = NSLock()
         DispatchQueue.concurrentPerform(iterations: 8) { thread in
             for round in 0..<200 {
                 let attachment = attachment(engine1, "\(thread)-\(round)")
                 _ = list.create(writeKey: key, attachment: attachment) {
-                    let instance = Instance()
-                    createdLock.lock()
-                    created.append(instance)
-                    createdLock.unlock()
+                    let instance = starts("\(thread)-\(round)")()
+                    locked { created.append(instance) }
                     return instance
                 }
                 list.detach(writeKey: key, attachment: attachment)

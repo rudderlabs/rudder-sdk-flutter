@@ -18,9 +18,9 @@ flutter test integration_test -d <device>
 
 - `events_test.dart`: event types, value types, identity, sessions and two write keys.
 - `delivery_test.dart`: gzip, flush policies, a disabled source and consent.
-- `instances_test.dart`: several Flutter engines on one write key, the shutdown rule and a native handover. The Activity test runs on Android only.
+- `instances_test.dart`: several Flutter engines on one write key, the shutdown rule and an SDK instance that native code starts. The Activity test runs on Android only.
 
-The native test host (`TestHost` on Android, in `AppDelegate.swift` on iOS) starts the extra engines and creates the handed-over instance.
+The native test host (`TestHost` on Android, in `AppDelegate.swift` on iOS) starts the extra engines and creates an SDK instance in native code.
 
 ## Run the native unit tests
 

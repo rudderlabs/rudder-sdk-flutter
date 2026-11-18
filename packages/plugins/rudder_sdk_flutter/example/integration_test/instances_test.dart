@@ -81,38 +81,114 @@ void main() {
     },
   );
 
-  testWidgets('a handed-over instance never stops from Dart, in any engine', (
-    tester,
-  ) async {
-    final writeKey = uniqueWriteKey('handover');
-    await handOverNativeInstance(writeKey, server.url);
-    final dart = analyticsFor(writeKey);
-    await dart.track('Dart 1');
-    expect(logs, contains(attachWarning));
-    final engine = await TestEngine.start();
-    await engine.create(writeKey, server.url);
-    await engine.track('Engine 1');
+  testWidgets(
+    'an instance that native code started never stops from Dart, in any engine',
+    (tester) async {
+      final writeKey = uniqueWriteKey('native');
+      await startNativeInstance(writeKey, server.url);
+      final dart = analyticsFor(writeKey);
+      await dart.track('Dart 1');
+      expect(logs, contains(attachWarning));
+      final engine = await TestEngine.start();
+      await engine.create(writeKey, server.url);
+      await engine.track('Engine 1');
 
-    await dart.shutdown();
-    await nativeTrack(writeKey, 'Native After Dart Shutdown');
-    await engine.track('Engine After Dart Shutdown');
-    await engine.shutdown();
-    await nativeTrack(writeKey, 'Native After Every Dart Shutdown');
-    await engine.destroy();
-    await nativeTrack(writeKey, 'Native After Engine Ended');
+      await dart.shutdown();
+      await nativeTrack(writeKey, 'Native After Dart Shutdown');
+      await engine.track('Engine After Dart Shutdown');
+      await engine.shutdown();
+      await nativeTrack(writeKey, 'Native After Every Dart Shutdown');
+      await engine.destroy();
+      await nativeTrack(writeKey, 'Native After Engine Ended');
 
-    final events = await server.waitForEvents(writeKey, (_) => true, count: 6);
-    expect(events.map(describe), [
-      'track:Dart 1',
-      'track:Engine 1',
-      'track:Native After Dart Shutdown',
-      'track:Engine After Dart Shutdown',
-      'track:Native After Every Dart Shutdown',
-      'track:Native After Engine Ended',
-    ]);
-    expect(events.map((event) => event['anonymousId']).toSet(), hasLength(1));
-    expect(await attachesToRunningInstance(writeKey), isTrue);
-  });
+      final events = await server.waitForEvents(
+        writeKey,
+        (_) => true,
+        count: 6,
+      );
+      expect(events.map(describe), [
+        'track:Dart 1',
+        'track:Engine 1',
+        'track:Native After Dart Shutdown',
+        'track:Engine After Dart Shutdown',
+        'track:Native After Every Dart Shutdown',
+        'track:Native After Engine Ended',
+      ]);
+      expect(events.map((event) => event['anonymousId']).toSet(), hasLength(1));
+      expect(await attachesToRunningInstance(writeKey), isTrue);
+    },
+  );
+
+  testWidgets(
+    'after native code stops its instance, the next Dart Analytics starts its own',
+    (tester) async {
+      final writeKey = uniqueWriteKey('native-stops');
+      await startNativeInstance(writeKey, server.url);
+      final attached = analyticsFor(writeKey);
+      await attached.track('Dart 1');
+      await stopNativeInstance(writeKey);
+      await attached.shutdown();
+      logs.clear();
+
+      final dart = analyticsFor(writeKey);
+      await dart.track('Dart After Native Stopped');
+
+      final events = await server.waitForEvents(
+        writeKey,
+        (_) => true,
+        count: 2,
+      );
+      expect(events.map(describe), [
+        'track:Dart 1',
+        'track:Dart After Native Stopped',
+      ]);
+      expect(logs, isNot(contains(attachWarning)));
+      await dart.shutdown();
+      expect(await attachesToRunningInstance(writeKey), isFalse);
+    },
+  );
+
+  testWidgets(
+    'after native code replaces its instance, an attached Dart Analytics sends through the new one',
+    (tester) async {
+      final writeKey = uniqueWriteKey('native-replaced');
+      await startNativeInstance(writeKey, server.url);
+      final dart = analyticsFor(writeKey);
+      await dart.track('Dart 1');
+      await server.waitForTrack(writeKey, 'Dart 1');
+
+      await stopNativeInstance(writeKey);
+      await startNativeInstance(writeKey, server.url);
+      await dart.track('Dart After Replacement');
+
+      await server.waitForTrack(writeKey, 'Dart After Replacement');
+      await dart.shutdown();
+      await nativeTrack(writeKey, 'Native After Dart Shutdown');
+      await server.waitForTrack(writeKey, 'Native After Dart Shutdown');
+    },
+  );
+
+  testWidgets(
+    'native code that starts an instance after Dart is refused, and Dart keeps sending',
+    (tester) async {
+      final writeKey = uniqueWriteKey('native-late');
+      final dart = analyticsFor(writeKey);
+      await dart.track('Dart 1');
+      await server.waitForTrack(writeKey, 'Dart 1');
+
+      await startNativeInstance(writeKey, server.url);
+      await nativeTrack(writeKey, 'Native Refused');
+      await dart.track('Dart 2');
+
+      final events = await server.waitForEvents(
+        writeKey,
+        (_) => true,
+        count: 2,
+      );
+      expect(events.map(describe), ['track:Dart 1', 'track:Dart 2']);
+      await dart.shutdown();
+    },
+  );
 
   testWidgets(
     'an engine that ends without a shutdown leaves the instance running for the other engines',
