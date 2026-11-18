@@ -11,7 +11,7 @@ public final class RudderSdkFlutterPlugin: NSObject, FlutterPlugin {
     }
 
     public func detachFromEngine(for registrar: FlutterPluginRegistrar) {
-        RudderSdkFlutter.instances.detachEngine(self)
+        instances.detachEngine(self)
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -25,7 +25,6 @@ public final class RudderSdkFlutterPlugin: NSObject, FlutterPlugin {
 
     private func handle(method: String, arguments: [String: Any]) throws -> Any? {
         let writeKey = try arguments.string("writeKey")
-        let instances = RudderSdkFlutter.instances
         switch method {
         case "create":
             let attachment = Attachment(engine: self, id: try arguments.string("attachmentId"))

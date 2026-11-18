@@ -3,7 +3,6 @@ package com.rudderstack.sdk.flutter.rudder_sdk_flutter_example
 import android.app.Activity
 import android.app.Application
 import android.content.Intent
-import com.rudderstack.sdk.flutter.RudderSdkFlutter
 import com.rudderstack.sdk.kotlin.android.Analytics
 import com.rudderstack.sdk.kotlin.android.Configuration
 import com.rudderstack.sdk.kotlin.core.internals.policies.CountFlushPolicy
@@ -14,7 +13,7 @@ import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 
-/** Native support for the device tests: extra Flutter engines, Activity re-creation and a native handover. */
+/** Native support for the device tests: extra Flutter engines, Activity re-creation and an instance that native code starts. */
 object TestHost {
     const val ENTRYPOINT_LIBRARY = "package:rudder_sdk_flutter_example/second_engine.dart"
     const val ENTRYPOINT = "secondEngineMain"
@@ -62,7 +61,7 @@ object TestHost {
                 result.success(null)
             }
             "engine" -> engines[call.argument<Int>("id")!!]!!.channel.invokeMethod(call.argument("method")!!, call.argument("arguments"), result)
-            "handOver" -> {
+            "startNativeInstance" -> {
                 val writeKey = call.argument<String>("writeKey")!!
                 val url = call.argument<String>("url")!!
                 val analytics = Analytics(
@@ -76,8 +75,11 @@ object TestHost {
                         flushPolicies = listOf(CountFlushPolicy(1)),
                     )
                 )
-                RudderSdkFlutter.use(analytics)
                 nativeInstances[writeKey] = analytics
+                result.success(null)
+            }
+            "stopNativeInstance" -> {
+                nativeInstances.getValue(call.argument<String>("writeKey")!!).shutdown()
                 result.success(null)
             }
             "nativeTrack" -> {
