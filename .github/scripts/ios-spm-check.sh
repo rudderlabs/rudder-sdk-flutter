@@ -96,7 +96,7 @@ setting = "enable-swift-package-manager: %s" % ("true" if spm == "on" else "fals
 pubspec = pubspec.replace("\nflutter:\n", "\nflutter:\n  config:\n    %s\n" % setting, 1)
 if setting not in pubspec:
     sys.exit("Unexpected pubspec.yaml template: flutter block")
-pubspec += "\ndependency_overrides:\n" + entries(sorted(packages))
+pubspec += "\ndependency_overrides:\n" + entries(sorted(n for n in packages if n not in excluded and n not in skipped))
 open("pubspec.yaml", "w").write(pubspec)
 PY
 
