@@ -39,10 +39,22 @@ android {
         getByName("main") {
             java.srcDirs("src/main/kotlin")
         }
+        getByName("test") {
+            java.srcDirs("src/test/kotlin")
+        }
     }
 
     defaultConfig {
         minSdk = 24
+    }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+            it.testLogging {
+                events("passed", "skipped", "failed")
+            }
+        }
     }
 }
 
@@ -54,4 +66,6 @@ kotlin {
 
 dependencies {
     api("com.rudderstack.sdk.kotlin:android:2.2.0")
+
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
 }
