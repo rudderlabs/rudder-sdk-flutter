@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "rudder-sdk-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rudderlabs/rudder-sdk-swift.git",
+      "state" : {
+        "revision" : "304a7157f187124737ea3f6f8d440f3228468fbe",
+        "version" : "2.1.0"
+      }
+    }
+  ],
+  "version" : 2
+}
