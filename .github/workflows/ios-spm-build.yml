@@ -1,0 +1,45 @@
+name: iOS Build (SPM on/off)
+
+on:
+  pull_request:
+    branches: ['develop', 'main']
+    types: ['opened', 'reopened', 'synchronize']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-spm-build-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  ios-build:
+    name: iOS build (SPM ${{ matrix.spm }})
+    runs-on: macos-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        spm: ['on', 'off']
+
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1 # v2.21.1
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Flutter
+        uses: ./.github/actions/setup-flutter
+        with:
+          channel: stable
+          architecture: arm64
+
+      - name: Build a fresh iOS app with the RudderStack plugins
+        env:
+          SPM: ${{ matrix.spm }}
+        run: bash .github/scripts/ios-spm-check.sh "$GITHUB_WORKSPACE" "$SPM" "$RUNNER_TEMP/ios-spm"
