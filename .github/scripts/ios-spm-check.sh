@@ -24,7 +24,7 @@ if ! flutter create --platforms=ios --project-name rudder_spm_check "$APP" >/dev
 fi
 cd "$APP" || exit 1
 
-python3 - "$ROOT" "$SPM" <<'PY'
+python3 - "$ROOT" "$SPM" <<'PY' || { echo "RESULT spm=$SPM: FAIL (pubspec setup)"; exit 1; }
 import sys
 
 root, spm = sys.argv[1], sys.argv[2]
