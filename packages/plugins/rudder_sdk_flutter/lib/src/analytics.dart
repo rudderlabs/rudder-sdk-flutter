@@ -8,10 +8,7 @@ import 'event.dart';
 import 'options.dart';
 import 'platform/analytics_platform.dart';
 
-/// One RudderStack SDK instance. An app can create one instance for each write key.
-///
-/// Every call goes into one queue for this instance and reaches the native SDK in call order.
-/// The returned futures never complete with an error. The SDK logs a failure at [LogLevel.error] instead.
+/// One RudderStack SDK instance for one write key. Calls reach the native SDK in call order, and a failure is logged, not thrown.
 class Analytics {
   /// Throws a [StateError] when an instance for the same write key is still active in this isolate.
   Analytics(this.configuration) : _platform = AnalyticsPlatform.instance {
@@ -137,10 +134,7 @@ class Analytics {
   Future<int?> get sessionId =>
       _query('sessionId', () => _platform.sessionId(writeKey));
 
-  /// Sends the calls made before it and lets go of the native instance. Later calls do nothing.
-  ///
-  /// When the returned future completes, the app can create a new instance for the same write key.
-  /// The native instance stops only when no other Analytics, in any Flutter engine, uses it.
+  /// Sends the earlier calls and lets go of the native instance. Afterwards the app can create a new instance for the write key.
   Future<void> shutdown() {
     if (_shutdown != null) return _shutdown!;
     if (_isShutdown) return _shutdown = Future.value();

@@ -76,7 +76,6 @@ void main() {
           'allowedConsentIds': <String>[],
           'deniedConsentIds': <String>[],
         },
-        'integrations': <String>[],
       });
       expect(
         Configuration(
@@ -103,7 +102,6 @@ void main() {
             allowedConsentIds: ['a'],
             deniedConsentIds: ['d'],
           ),
-          integrations: const [TestIntegration()],
         ).toMap(),
         {
           'writeKey': 'k',
@@ -129,7 +127,6 @@ void main() {
             'allowedConsentIds': ['a'],
             'deniedConsentIds': ['d'],
           },
-          'integrations': ['test-integration'],
         },
       );
     });
@@ -470,10 +467,6 @@ void main() {
       },
     );
   });
-}
-
-class TestIntegration extends Integration {
-  const TestIntegration() : super('test-integration');
 }
 
 class PlatformCall {

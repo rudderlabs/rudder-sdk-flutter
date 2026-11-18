@@ -14,8 +14,7 @@ abstract class AnalyticsPlatform {
   @visibleForTesting
   static set instance(AnalyticsPlatform platform) => _instance = platform;
 
-  /// Returns `true` when an instance for the write key already ran, and this call attached to it.
-  /// [attachmentId] names the Dart object, so that [shutdown] lets go of exactly this attachment.
+  /// Returns `true` when an instance for the write key already runs and the Dart object [attachmentId] attached to it.
   Future<bool> create(Configuration configuration, String attachmentId);
 
   Future<void> send(String writeKey, RudderEvent event);
