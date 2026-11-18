@@ -33,7 +33,7 @@ updates:
       default-days: 7
 
   - package-ecosystem: 'pub'
-    directory: '/packages/plugins/rudder_plugin'
+    directory: '/packages/plugins/rudder_sdk_flutter'
     open-pull-requests-limit: 0
     schedule:
       interval: 'monthly'

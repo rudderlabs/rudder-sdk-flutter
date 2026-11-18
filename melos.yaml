@@ -96,34 +96,10 @@ scripts:
   build:sdk:
     run: |
       melos exec -c 1 --fail-fast -- \
-        "flutter build bundle --target=lib/RudderController.dart"
+        "flutter build bundle --target=lib/rudder_sdk_flutter.dart"
     description: Build the SDK plugin.
     packageFilters:
       scope: 'rudder_sdk_flutter'
-
-  build:sdk:interface:
-    run: |
-      melos exec -c 1 --fail-fast -- \
-        "flutter build bundle --target=lib/rudder_sdk_platform.dart"
-    description: Build the SDK Interface plugin.
-    packageFilters:
-      scope: 'rudder_sdk_flutter_platform_interface'
-
-  build:sdk:android:
-    run: |
-      melos exec -c 1 --fail-fast -- \
-        "flutter build bundle --target=lib/rudder_plugin_android.dart"
-    description: Build the SDK Android plugin.
-    packageFilters:
-      scope: '*rudder_plugin_android*'
-
-  build:sdk:ios:
-    run: |
-      melos exec -c 1 --fail-fast -- \
-        "flutter build bundle --target=lib/rudder_plugin_ios.dart"
-    description: Build the SDK iOS plugin.
-    packageFilters:
-      scope: '*rudder_plugin_ios*'
 
   build:example:web:
     run: |
@@ -231,9 +207,6 @@ scripts:
   build:sdk:all:
     run: |
       melos run build:sdk --no-select && \
-      melos run build:sdk:interface --no-select && \
-      melos run build:sdk:android --no-select && \
-      melos run build:sdk:ios --no-select && \
       melos run build:sdk:db_encryption --no-select && \
       melos bootstrap
     description: Build all SDK bundles.

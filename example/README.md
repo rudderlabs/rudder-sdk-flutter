@@ -34,7 +34,7 @@ For local development with the SDK source code, uncomment the `dependency_overri
 ```yaml
 dependency_overrides:
   rudder_sdk_flutter:
-    path: "../packages/plugins/rudder_plugin"
+    path: "../packages/plugins/rudder_sdk_flutter"
   rudder_plugin_db_encryption:
     path: "../packages/plugins/rudder_plugin_db_encryption"
   rudder_integration_amplitude_flutter:
