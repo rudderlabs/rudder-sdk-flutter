@@ -4,6 +4,10 @@ on:
   pull_request:
     branches: ['develop', 'main']
     types: ['opened', 'reopened', 'synchronize']
+    paths:
+      - 'packages/**'
+      - '.github/scripts/ios-spm-check.sh'
+      - '.github/workflows/ios-spm-build.yml'
 
 permissions:
   contents: read
@@ -37,9 +41,19 @@ jobs:
         uses: ./.github/actions/setup-flutter
         with:
           channel: stable
+          version: '3.50.0'
           architecture: arm64
 
       - name: Build a fresh iOS app with the RudderStack plugins
         env:
           SPM: ${{ matrix.spm }}
         run: bash .github/scripts/ios-spm-check.sh "$GITHUB_WORKSPACE" "$SPM" "$RUNNER_TEMP/ios-spm"
+
+      - name: Upload logs
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ios-spm-${{ matrix.spm }}-logs
+          path: ${{ runner.temp }}/ios-spm/*.log
+          retention-days: 7
+          if-no-files-found: ignore

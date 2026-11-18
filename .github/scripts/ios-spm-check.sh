@@ -1,77 +1,109 @@
 #!/usr/bin/env bash
 # Build a fresh iOS app that depends, by local path, on the RudderStack Flutter
-# core and the active integrations, with Swift Package Manager on or off.
+# plugins, with Swift Package Manager on or off.
+#
+# The packages come from packages/*/*/pubspec.yaml. DISCONTINUED plugins are
+# never built. With SPM on, the plugins in COCOAPODS_ONLY are skipped too: they
+# have no Swift package and stay CocoaPods-only.
 #
 # usage: ios-spm-check.sh <repo-root> <on|off> <work-dir>
 set -uo pipefail
 
-ROOT=$1
-SPM=$2
-WORK=$3
-APP="$WORK/app-spm-$SPM"
-LOG="$WORK/build-spm-$SPM.log"
+usage() {
+  echo "usage: $0 <repo-root> <on|off> <work-dir>" >&2
+  exit 2
+}
 
+[ "$#" -eq 3 ] || usage
+SPM=$2
 case "$SPM" in
   on | off) ;;
-  *) echo "usage: $0 <repo-root> <on|off> <work-dir>" >&2; exit 2 ;;
+  *) usage ;;
 esac
+ROOT=$(cd "$1" && pwd) || usage
+mkdir -p "$3" || usage
+WORK=$(cd "$3" && pwd) || usage
 
-mkdir -p "$WORK"
-rm -rf "$APP"
-if ! flutter create --platforms=ios --project-name rudder_spm_check "$APP" >/dev/null; then
-  echo "RESULT spm=$SPM: FAIL (flutter create)"
+DISCONTINUED="rudder_integration_appcenter_flutter rudder_integration_kochava_flutter rudder_integration_leanplum_flutter"
+COCOAPODS_ONLY="rudder_plugin_db_encryption"
+APP="$WORK/app-spm-$SPM"
+CREATE_LOG="$WORK/create-spm-$SPM.log"
+PUB_LOG="$WORK/pub-get-spm-$SPM.log"
+BUILD_LOG="$WORK/build-spm-$SPM.log"
+
+fail() {
+  echo "RESULT spm=$SPM: FAIL ($1)"
+  if [ -n "${2:-}" ] && [ -f "$2" ]; then
+    echo "--- last 40 lines of $(basename "$2"):"
+    tail -40 "$2"
+  fi
   exit 1
-fi
-cd "$APP" || exit 1
-
-python3 - "$ROOT" "$SPM" <<'PY' || { echo "RESULT spm=$SPM: FAIL (pubspec setup)"; exit 1; }
-import sys
-
-root, spm = sys.argv[1], sys.argv[2]
-packages = root + "/packages"
-deps = {
-    "rudder_sdk_flutter": "plugins/rudder_plugin",
-    "rudder_integration_adjust_flutter": "integrations/rudder_integration_adjust_flutter",
-    "rudder_integration_amplitude_flutter": "integrations/rudder_integration_amplitude_flutter",
-    "rudder_integration_appsflyer_flutter": "integrations/rudder_integration_appsflyer_flutter",
-    "rudder_integration_braze_flutter": "integrations/rudder_integration_braze_flutter",
-    "rudder_integration_firebase_flutter": "integrations/rudder_integration_firebase_flutter",
 }
-overrides = dict(deps)
-overrides.update({
-    "rudder_sdk_flutter_platform_interface": "plugins/rudder_plugin_interface",
-    "rudder_plugin_android": "plugins/rudder_plugin_android",
-    "rudder_plugin_ios": "plugins/rudder_plugin_ios",
-    "rudder_plugin_web": "plugins/rudder_plugin_web",
-})
 
-def path_entries(entries):
-    return "".join(f"  {name}:\n    path: {packages}/{rel}\n" for name, rel in entries.items())
+rm -rf "$APP"
+flutter create --platforms=ios --project-name rudder_spm_check "$APP" >"$CREATE_LOG" 2>&1 ||
+  fail "flutter create" "$CREATE_LOG"
+cd "$APP" || fail "cd $APP"
+
+# The flutter create template targets an older iOS; the plugins need iOS 15.
+PBXPROJ=ios/Runner.xcodeproj/project.pbxproj
+sed -i.bak 's/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*;/IPHONEOS_DEPLOYMENT_TARGET = 15.0;/' "$PBXPROJ" && rm -f "$PBXPROJ.bak"
+if grep 'IPHONEOS_DEPLOYMENT_TARGET' "$PBXPROJ" | grep -qv '= 15.0;'; then
+  fail "deployment target"
+fi
+
+python3 - "$ROOT" "$SPM" "$DISCONTINUED" "$COCOAPODS_ONLY" <<'PY' || fail "pubspec setup"
+import re
+import sys
+from pathlib import Path
+
+root, spm = Path(sys.argv[1]), sys.argv[2]
+discontinued, cocoapods_only = set(sys.argv[3].split()), set(sys.argv[4].split())
+
+packages = {}
+for manifest in sorted((root / "packages").glob("*/*/pubspec.yaml")):
+    match = re.search(r"^name:\s*([a-zA-Z0-9_]+)", manifest.read_text(), re.MULTILINE)
+    if not match:
+        sys.exit(f"Missing package name: {manifest}")
+    packages[match[1]] = manifest.parent
+if "rudder_sdk_flutter" not in packages:
+    sys.exit("rudder_sdk_flutter not found under packages/")
+
+# Direct dependencies: the core, plus every plugin that has its own iOS code.
+# rudder_plugin_ios comes in through rudder_sdk_flutter.
+native = sorted(
+    name for name, path in packages.items()
+    if any((path / "ios").glob("*.podspec")) and name != "rudder_plugin_ios"
+)
+excluded = sorted(n for n in native if n in discontinued)
+skipped = sorted(n for n in native if spm == "on" and n in cocoapods_only)
+deps = ["rudder_sdk_flutter"] + [n for n in native if n not in excluded and n not in skipped]
+print("Plugins: " + ", ".join(deps))
+if excluded:
+    print("Excluded (discontinued): " + ", ".join(excluded))
+if skipped:
+    print("Skipped with SPM on (CocoaPods-only): " + ", ".join(skipped))
+
+def entries(names):
+    return "".join(f"  {n}:\n    path: {packages[n]}\n" for n in names)
 
 pubspec = open("pubspec.yaml").read()
 anchor = "dependencies:\n  flutter:\n    sdk: flutter\n"
-assert anchor in pubspec, "unexpected pubspec.yaml template"
-pubspec = pubspec.replace(anchor, anchor + path_entries(deps), 1)
-pubspec = pubspec.replace(
-    "\nflutter:\n",
-    "\nflutter:\n  config:\n    enable-swift-package-manager: %s\n" % ("true" if spm == "on" else "false"),
-    1,
-)
-pubspec += "\ndependency_overrides:\n" + path_entries(overrides)
+if anchor not in pubspec:
+    sys.exit("Unexpected pubspec.yaml template: dependencies block")
+pubspec = pubspec.replace(anchor, anchor + entries(deps), 1)
+setting = "enable-swift-package-manager: %s" % ("true" if spm == "on" else "false")
+pubspec = pubspec.replace("\nflutter:\n", "\nflutter:\n  config:\n    %s\n" % setting, 1)
+if setting not in pubspec:
+    sys.exit("Unexpected pubspec.yaml template: flutter block")
+pubspec += "\ndependency_overrides:\n" + entries(sorted(packages))
 open("pubspec.yaml", "w").write(pubspec)
 PY
 
-if ! flutter pub get >/dev/null 2>&1; then
-  echo "RESULT spm=$SPM: FAIL (pub get)"
-  flutter pub get 2>&1 | tail -5
-  exit 1
-fi
+flutter pub get >"$PUB_LOG" 2>&1 || fail "pub get" "$PUB_LOG"
 
-if flutter build ios --simulator --no-codesign --debug >"$LOG" 2>&1; then
+if flutter build ios --simulator --no-codesign --debug >"$BUILD_LOG" 2>&1; then
   echo "RESULT spm=$SPM: PASS"
   exit 0
 fi
-
-echo "RESULT spm=$SPM: FAIL (build). Key lines:"
-grep -E "Unable to find a specification|depended upon by|error:|\(Xcode\):|\[!\] (Unable|CocoaPods could not|Error)" "$LOG" | sort -u | head -8
-exit 1
+fail "build" "$BUILD_LOG"
