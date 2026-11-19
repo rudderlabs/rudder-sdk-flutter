@@ -1,4 +1,4 @@
-#import "RudderIntegrationAmplitudeFlutterPlugin.h"
+#import "./include/rudder_integration_amplitude_flutter/RudderIntegrationAmplitudeFlutterPlugin.h"
 #import <rudder_plugin_ios/RudderSdkFlutterPlugin.h>
 #import "RudderAmplitudeFactory.h"
 
