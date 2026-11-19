@@ -77,7 +77,16 @@ class ConsentManagementConfiguration {
   };
 }
 
+/// Web-only settings. Android and iOS ignore them.
+class WebConfiguration {
+  const WebConfiguration({this.loadOptions = const {}});
+
+  /// Extra JS SDK `load()` options, for example `{'setCookieDomain': 'example.com'}`. A key here replaces the value from the shared settings.
+  final Map<String, Object?> loadOptions;
+}
+
 /// The settings of one SDK instance. Each instance needs its own [writeKey].
+/// On web, the engine uses the URLs, [logLevel], the session timeout and automatic tracking, [consentManagement] and [web], and ignores the rest.
 class Configuration {
   /// Throws an [ArgumentError] for an empty [writeKey] or [dataPlaneUrl], or a negative session timeout.
   Configuration({
@@ -92,6 +101,7 @@ class Configuration {
     this.flushPolicies,
     this.sessionConfiguration = const SessionConfiguration(),
     this.consentManagement = const ConsentManagementConfiguration(),
+    this.web = const WebConfiguration(),
   }) {
     if (writeKey.trim().isEmpty) {
       throw ArgumentError.value(writeKey, 'writeKey', 'must not be empty');
@@ -129,6 +139,7 @@ class Configuration {
   final List<FlushPolicy>? flushPolicies;
   final SessionConfiguration sessionConfiguration;
   final ConsentManagementConfiguration consentManagement;
+  final WebConfiguration web;
 
   Map<String, Object?> toMap() => {
     'writeKey': writeKey,

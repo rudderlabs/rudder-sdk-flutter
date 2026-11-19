@@ -438,7 +438,7 @@ void main() {
         expect(analytics.isShutdown, isTrue);
         expect(platform.calls, isEmpty);
         expect(logs, [
-          'Rudder-Flutter: ERROR: The native SDK could not start: Bad state: native failure',
+          'Rudder-Flutter: ERROR: The SDK could not start: Bad state: native failure',
         ]);
         expect(Analytics(config()).writeKey, 'key-1');
       },

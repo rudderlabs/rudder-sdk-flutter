@@ -1,6 +1,6 @@
 name: rudder_sdk_flutter
 version: 4.0.0-dev.1
-description: The RudderStack Flutter SDK. It wraps the RudderStack Kotlin SDK on Android and the RudderStack Swift SDK on iOS.
+description: The RudderStack Flutter SDK. It wraps the RudderStack Kotlin SDK on Android, the Swift SDK on iOS, and the JavaScript SDK on web.
 homepage: https://github.com/rudderlabs/rudder-sdk-flutter
 repository: https://github.com/rudderlabs/rudder-sdk-flutter
 issue_tracker: https://github.com/rudderlabs/rudder-sdk-flutter/issues
@@ -12,6 +12,8 @@ environment:
 
 dependencies:
   flutter:
+    sdk: flutter
+  flutter_web_plugins:
     sdk: flutter
 
 dev_dependencies:
@@ -27,3 +29,6 @@ flutter:
         pluginClass: RudderSdkFlutterPlugin
       ios:
         pluginClass: RudderSdkFlutterPlugin
+      web:
+        pluginClass: WebAnalyticsPlatform
+        fileName: src/platform/web_analytics_platform.dart

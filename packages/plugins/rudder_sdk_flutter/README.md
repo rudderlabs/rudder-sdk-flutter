@@ -1,7 +1,7 @@
 # RudderStack Flutter SDK
 
 The RudderStack Flutter SDK sends events from your Flutter app to RudderStack.
-Version 4 wraps the RudderStack Kotlin SDK on Android and the RudderStack Swift SDK on iOS.
+Version 4 wraps the RudderStack Kotlin SDK on Android, the RudderStack Swift SDK on iOS, and the RudderStack JavaScript SDK v3 on web.
 
 ## Requirements
 
@@ -37,6 +37,23 @@ Without it, the instance cannot reach the native SDK, and it shuts down.
 
 Each call goes into one queue for its instance, and reaches the native SDK in call order.
 A getter answers after the calls made before it.
+
+## Web
+
+On web, the SDK calls the RudderStack JavaScript SDK v3 that the page loads.
+
+1. Add the [JavaScript SDK loading snippet](https://www.rudderstack.com/docs/sources/event-streams/sdks/rudderstack-javascript-sdk/load-js-sdk/) to `web/index.html`.
+2. Remove the `rudderanalytics.load(...)` line from the snippet. The SDK calls `load()` with your `Configuration`.
+
+The app code is the same on every platform. These rules apply on web:
+
+- The JavaScript SDK runs one write key per page. A second write key makes the `Analytics` constructor throw a `StateError`, also after `shutdown()`.
+- `screen()` sends a `page` event.
+- `flush()` and `shutdown()` do nothing. They log one line at the info level.
+- A getter answers `null` until the JavaScript SDK script has loaded.
+- The JavaScript SDK loads the device-mode destinations of the source by itself. The integration packages are for Android and iOS.
+- The SDK ignores the mobile-only settings: lifecycle events, deep links, device ID, gzip, flush policies, and background events in sessions.
+- `Configuration(web: WebConfiguration(loadOptions: {...}))` adds JavaScript SDK load options, for example `setCookieDomain` or `storage` ([load options](https://www.rudderstack.com/docs/sources/event-streams/sdks/rudderstack-javascript-sdk/load-js-sdk/#loading-options)). A key here replaces the value from the shared settings.
 
 ## Contact us
 
