@@ -15,9 +15,12 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
   static void registerWith(Registrar registrar) =>
       AnalyticsPlatform.instance = WebAnalyticsPlatform();
 
-  static const _readyTimeout = Duration(seconds: 10);
+  static const _loadTimeout = Duration(seconds: 10);
 
-  Configuration? _loadedConfiguration;
+  // The configuration of the newest instance. Its write key is the page write key.
+  Configuration? _configuration;
+  Future<void>? _initialized;
+  bool _initializationTimedOut = false;
 
   @override
   void checkCanCreate(String writeKey) {
@@ -31,17 +34,23 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
 
   @override
   Future<bool> create(Configuration configuration, String attachmentId) async {
-    // The JS SDK ignores a second load() for the same write key.
-    if (_pageWriteKey != null) {
-      _loadedConfiguration ??= configuration;
+    final attach = _pageWriteKey != null;
+    final sdk = _sdk;
+    // A loaded SDK object with a write key ran its initialization before this Dart isolate started.
+    _initialized ??= attach && !sdk.isA<JSArray>()
+        ? Future.value()
+        : _whenInitialized();
+    if (attach) {
+      // The JS SDK ignores a second load() for the same write key.
+      _configuration = configuration;
       return true;
     }
-    _sdk.load(
+    sdk.load(
       configuration.writeKey,
       configuration.dataPlaneUrl,
       _loadOptions(configuration).jsify(),
     );
-    _loadedConfiguration = configuration;
+    _configuration = configuration;
     return false;
   }
 
@@ -53,12 +62,17 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
       case EventType.track:
         sdk.track(event.name!, event.properties.jsify(), options);
       case EventType.screen:
-        sdk.page(
-          event.category,
-          event.name!,
-          event.properties.jsify(),
-          options,
-        );
+        final category = event.category;
+        // The JS SDK keeps a null category in the event, so the call leaves it out.
+        if (category == null) {
+          sdk.pageWithoutCategory(
+            event.name!,
+            event.properties.jsify(),
+            options,
+          );
+        } else {
+          sdk.page(category, event.name!, event.properties.jsify(), options);
+        }
       case EventType.group:
         sdk.group(event.groupId!, event.traits.jsify(), options);
       case EventType.identify:
@@ -134,15 +148,15 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
 
   @override
   Future<String?> anonymousId(String writeKey) async =>
-      (await _afterEarlierCalls('anonymousId'))?.getAnonymousId();
+      (await _afterBufferedCalls('anonymousId'))?.getAnonymousId();
 
   @override
   Future<String?> userId(String writeKey) async =>
-      (await _afterEarlierCalls('userId'))?.getUserId();
+      (await _afterBufferedCalls('userId'))?.getUserId();
 
   @override
   Future<Map<String, Object?>?> traits(String writeKey) async {
-    final traits = (await _afterEarlierCalls(
+    final traits = (await _afterBufferedCalls(
       'traits',
     ))?.getUserTraits().dartify();
     return traits is Map<Object?, Object?> ? stringKeyedMap(traits) : null;
@@ -150,7 +164,7 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
 
   @override
   Future<int?> sessionId(String writeKey) async =>
-      (await _afterEarlierCalls('sessionId'))?.getSessionId()?.toDartInt;
+      (await _afterBufferedCalls('sessionId'))?.getSessionId()?.toDartInt;
 
   _RudderAnalytics get _sdk =>
       _rudderanalytics ??
@@ -160,7 +174,7 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
 
   // The write key that this engine, the page snippet, or the page before a hot restart loaded.
   String? get _pageWriteKey =>
-      _loadedConfiguration?.writeKey ?? _writeKeyLoadedByPage();
+      _configuration?.writeKey ?? _writeKeyLoadedByPage();
 
   String? _writeKeyLoadedByPage() {
     final sdk = _rudderanalytics;
@@ -183,27 +197,37 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
     return null;
   }
 
-  // The JS SDK buffers ready() in call order and runs the callback after the earlier calls.
-  Future<_RudderAnalytics?> _afterEarlierCalls(String getter) async {
-    final ready = Completer<void>();
-    _sdk.ready((() => ready.complete()).toJS);
-    try {
-      await ready.future.timeout(_readyTimeout);
-    } on TimeoutException {
-      _log(
-        LogLevel.warn,
-        'The JS SDK is not ready after ${_readyTimeout.inSeconds} seconds, so $getter can miss earlier calls.',
-      );
+  // The JS SDK fires this event after it runs the buffered calls, before it loads the device-mode destinations.
+  Future<void> _whenInitialized() {
+    final initialized = Completer<void>();
+    _document.addEventListener(
+      'RSA_Initialised',
+      ((JSAny? _) {
+        if (!initialized.isCompleted) initialized.complete();
+      }).toJS,
+      {'once': true}.jsify(),
+    );
+    return initialized.future;
+  }
+
+  Future<_RudderAnalytics?> _afterBufferedCalls(String getter) async {
+    if (!_initializationTimedOut) {
+      try {
+        await _initialized!.timeout(_loadTimeout);
+      } on TimeoutException {
+        _initializationTimedOut = true;
+        _log(
+          LogLevel.warn,
+          'The JS SDK has not loaded after ${_loadTimeout.inSeconds} seconds, so $getter and later getters do not wait for it.',
+        );
+      }
     }
     final sdk = _sdk;
     return sdk.isA<JSArray>() ? null : sdk;
   }
 
-  void _log(LogLevel level, String message) => logger.log(
-    _loadedConfiguration?.logLevel ?? LogLevel.none,
-    level,
-    message,
-  );
+  void _log(LogLevel level, String message) =>
+      logger.log(_configuration?.logLevel ?? LogLevel.none, level, message);
 }
 
 Map<String, Object?> _loadOptions(Configuration configuration) {
@@ -253,13 +277,31 @@ JSAny? _apiOptions(RudderOption options) {
 @JS('rudderanalytics')
 external _RudderAnalytics? get _rudderanalytics;
 
+@JS('document')
+external _Document get _document;
+
+extension type _Document(JSObject _) implements JSObject {
+  external void addEventListener(
+    String type,
+    JSFunction listener,
+    JSAny? options,
+  );
+}
+
 extension type _RudderAnalytics(JSObject _) implements JSObject {
   external void load(String writeKey, String dataPlaneUrl, JSAny? loadOptions);
 
   external void track(String event, JSAny? properties, JSAny? options);
 
   external void page(
-    String? category,
+    String category,
+    String name,
+    JSAny? properties,
+    JSAny? options,
+  );
+
+  @JS('page')
+  external void pageWithoutCategory(
     String name,
     JSAny? properties,
     JSAny? options,
@@ -278,8 +320,6 @@ extension type _RudderAnalytics(JSObject _) implements JSObject {
   external void aliasToCurrentUser(String to, JSAny? options);
 
   external void reset(JSAny? options);
-
-  external void ready(JSFunction callback);
 
   external String? get defaultAnalyticsKey;
 
