@@ -5,18 +5,20 @@ import 'package:flutter/foundation.dart';
 
 import 'configuration.dart';
 import 'event.dart';
+import 'logger.dart' as logger;
 import 'options.dart';
 import 'platform/analytics_platform.dart';
 
 /// One RudderStack SDK instance for one write key. Calls reach the native SDK in call order, and a failure is logged, not thrown.
 class Analytics {
-  /// Throws a [StateError] when an instance for the same write key is still active in this isolate.
+  /// Throws a [StateError] when this write key is active in this isolate, or on web when the page runs another write key.
   Analytics(this.configuration) : _platform = AnalyticsPlatform.instance {
     if (_active.containsKey(writeKey)) {
       throw StateError(
         'An Analytics instance for this write key is already active. Shut it down before you create another one.',
       );
     }
+    _platform.checkCanCreate(writeKey);
     _active[writeKey] = this;
     _tail = _platform
         .create(configuration, _attachmentId)
@@ -32,12 +34,14 @@ class Analytics {
           _startFailed = true;
           _isShutdown = true;
           _releaseWriteKey();
-          _log(LogLevel.error, 'The native SDK could not start: $error');
+          _log(LogLevel.error, 'The SDK could not start: $error');
         });
   }
 
   static final Map<String, Analytics> _active = {};
-  static final String _isolateTag = Random().nextInt(1 << 32).toRadixString(16);
+  static final String _isolateTag = Random()
+      .nextInt(0xFFFFFFFF)
+      .toRadixString(16);
   static int _nextAttachment = 0;
 
   final Configuration configuration;
@@ -187,11 +191,8 @@ class Analytics {
     return result.future;
   }
 
-  void _log(LogLevel level, String message) {
-    final threshold = configuration.logLevel;
-    if (threshold == LogLevel.none || level.index < threshold.index) return;
-    debugPrint('Rudder-Flutter: ${level.name.toUpperCase()}: $message');
-  }
+  void _log(LogLevel level, String message) =>
+      logger.log(configuration.logLevel, level, message);
 
   @visibleForTesting
   static void debugResetActiveInstances() => _active.clear();
