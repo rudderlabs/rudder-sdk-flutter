@@ -44,13 +44,14 @@ On web, the SDK calls the RudderStack JavaScript SDK v3 that the page loads.
 
 1. Add the [JavaScript SDK loading snippet](https://www.rudderstack.com/docs/sources/event-streams/sdks/rudderstack-javascript-sdk/load-js-sdk/) to `web/index.html`.
 2. Remove the `rudderanalytics.load(...)` line from the snippet. The SDK calls `load()` with your `Configuration`.
+   When the snippet still loads a write key, the SDK uses that write key and ignores your `Configuration`.
 
 The app code is the same on every platform. These rules apply on web:
 
 - The JavaScript SDK runs one write key per page. A second write key makes the `Analytics` constructor throw a `StateError`, also after `shutdown()`.
 - `screen()` sends a `page` event.
 - `flush()` and `shutdown()` do nothing. They log one line at the info level.
-- A getter answers `null` until the JavaScript SDK script has loaded.
+- A getter waits until the JavaScript SDK is ready, so it answers after the earlier calls. After 10 seconds, it answers without the wait and logs a warning.
 - The JavaScript SDK loads the device-mode destinations of the source by itself. The integration packages are for Android and iOS.
 - The SDK ignores the mobile-only settings: lifecycle events, deep links, device ID, gzip, flush policies, and background events in sessions.
 - `Configuration(web: WebConfiguration(loadOptions: {...}))` adds JavaScript SDK load options, for example `setCookieDomain` or `storage` ([load options](https://www.rudderstack.com/docs/sources/event-streams/sdks/rudderstack-javascript-sdk/load-js-sdk/#loading-options)). A key here replaces the value from the shared settings.

@@ -39,7 +39,9 @@ class Analytics {
   }
 
   static final Map<String, Analytics> _active = {};
-  static final String _isolateTag = Random().nextInt(0xFFFFFFFF).toRadixString(16);
+  static final String _isolateTag = Random()
+      .nextInt(0xFFFFFFFF)
+      .toRadixString(16);
   static int _nextAttachment = 0;
 
   final Configuration configuration;

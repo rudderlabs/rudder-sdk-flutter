@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:js_interop';
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
@@ -14,12 +15,14 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
   static void registerWith(Registrar registrar) =>
       AnalyticsPlatform.instance = WebAnalyticsPlatform();
 
+  static const _readyTimeout = Duration(seconds: 10);
+
   Configuration? _loadedConfiguration;
 
   @override
   void checkCanCreate(String writeKey) {
-    final loaded = _loadedConfiguration;
-    if (loaded != null && loaded.writeKey != writeKey) {
+    final pageWriteKey = _pageWriteKey;
+    if (pageWriteKey != null && pageWriteKey != writeKey) {
       throw StateError(
         'The JS SDK runs one write key per page, and this page already runs another write key.',
       );
@@ -29,7 +32,10 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
   @override
   Future<bool> create(Configuration configuration, String attachmentId) async {
     // The JS SDK ignores a second load() for the same write key.
-    if (_loadedConfiguration != null) return true;
+    if (_pageWriteKey != null) {
+      _loadedConfiguration ??= configuration;
+      return true;
+    }
     _sdk.load(
       configuration.writeKey,
       configuration.dataPlaneUrl,
@@ -128,21 +134,23 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
 
   @override
   Future<String?> anonymousId(String writeKey) async =>
-      _loadedSdk('anonymousId')?.getAnonymousId();
+      (await _afterEarlierCalls('anonymousId'))?.getAnonymousId();
 
   @override
   Future<String?> userId(String writeKey) async =>
-      _loadedSdk('userId')?.getUserId();
+      (await _afterEarlierCalls('userId'))?.getUserId();
 
   @override
   Future<Map<String, Object?>?> traits(String writeKey) async {
-    final traits = _loadedSdk('traits')?.getUserTraits().dartify();
+    final traits = (await _afterEarlierCalls(
+      'traits',
+    ))?.getUserTraits().dartify();
     return traits is Map<Object?, Object?> ? stringKeyedMap(traits) : null;
   }
 
   @override
   Future<int?> sessionId(String writeKey) async =>
-      _loadedSdk('sessionId')?.getSessionId()?.toDartInt;
+      (await _afterEarlierCalls('sessionId'))?.getSessionId()?.toDartInt;
 
   _RudderAnalytics get _sdk =>
       _rudderanalytics ??
@@ -150,15 +158,45 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
         'The page has no RudderStack JS SDK. Add the loading snippet to web/index.html.',
       ));
 
-  // Until the SDK script loads, the global is the snippet's call buffer, which has no getters.
-  _RudderAnalytics? _loadedSdk(String getter) {
-    final sdk = _sdk;
-    if (!sdk.isA<JSArray>()) return sdk;
-    _log(
-      LogLevel.warn,
-      'The JS SDK has not loaded yet, so $getter answers null.',
-    );
+  // The write key that this engine, the page snippet, or the page before a hot restart loaded.
+  String? get _pageWriteKey =>
+      _loadedConfiguration?.writeKey ?? _writeKeyLoadedByPage();
+
+  String? _writeKeyLoadedByPage() {
+    final sdk = _rudderanalytics;
+    if (sdk == null) return null;
+    if (!sdk.isA<JSArray>()) {
+      final writeKey = sdk.defaultAnalyticsKey;
+      return writeKey == null || writeKey.isEmpty ? null : writeKey;
+    }
+    // Until the SDK script loads, the global is the snippet's buffer of [method, ...arguments] calls.
+    for (final call in (sdk as JSArray<JSAny?>).toDart) {
+      if (call == null || !call.isA<JSArray>()) continue;
+      final arguments = (call as JSArray<JSAny?>).toDart;
+      if (arguments.length > 1 &&
+          arguments[0].isA<JSString>() &&
+          (arguments[0] as JSString).toDart == 'load' &&
+          arguments[1].isA<JSString>()) {
+        return (arguments[1] as JSString).toDart;
+      }
+    }
     return null;
+  }
+
+  // The JS SDK buffers ready() in call order and runs the callback after the earlier calls.
+  Future<_RudderAnalytics?> _afterEarlierCalls(String getter) async {
+    final ready = Completer<void>();
+    _sdk.ready((() => ready.complete()).toJS);
+    try {
+      await ready.future.timeout(_readyTimeout);
+    } on TimeoutException {
+      _log(
+        LogLevel.warn,
+        'The JS SDK is not ready after ${_readyTimeout.inSeconds} seconds, so $getter can miss earlier calls.',
+      );
+    }
+    final sdk = _sdk;
+    return sdk.isA<JSArray>() ? null : sdk;
   }
 
   void _log(LogLevel level, String message) => logger.log(
@@ -172,9 +210,7 @@ Map<String, Object?> _loadOptions(Configuration configuration) {
   final consent = configuration.consentManagement;
   final session = configuration.sessionConfiguration;
   return {
-    'logLevel': configuration.logLevel == LogLevel.verbose
-        ? 'LOG'
-        : configuration.logLevel.name.toUpperCase(),
+    'logLevel': _jsLogLevel(configuration.logLevel),
     if (configuration.controlPlaneUrl != null)
       'configUrl': configuration.controlPlaneUrl,
     'sessions': {
@@ -192,13 +228,27 @@ Map<String, Object?> _loadOptions(Configuration configuration) {
   };
 }
 
-// The JS SDK puts each option key other than `integrations` into the event context.
-JSAny? _apiOptions(RudderOption options) => {
-  ...options.customContext,
-  if (options.integrations.isNotEmpty) 'integrations': options.integrations,
-  if (options.externalIds.isNotEmpty)
-    'externalId': [for (final id in options.externalIds) id.toMap()],
-}.jsify();
+// The JS SDK orders INFO below DEBUG, so INFO shows each line that Dart debug or info asks for.
+String _jsLogLevel(LogLevel level) => switch (level) {
+  LogLevel.verbose => 'LOG',
+  LogLevel.debug || LogLevel.info => 'INFO',
+  LogLevel.warn => 'WARN',
+  LogLevel.error => 'ERROR',
+  LogLevel.none => 'NONE',
+};
+
+// The JS SDK reads `anonymousId` and `originalTimestamp` at the top level, so the custom context goes under `context`.
+JSAny? _apiOptions(RudderOption options) {
+  final context = {
+    ...options.customContext,
+    if (options.externalIds.isNotEmpty)
+      'externalId': [for (final id in options.externalIds) id.toMap()],
+  };
+  return {
+    if (options.integrations.isNotEmpty) 'integrations': options.integrations,
+    if (context.isNotEmpty) 'context': context,
+  }.jsify();
+}
 
 @JS('rudderanalytics')
 external _RudderAnalytics? get _rudderanalytics;
@@ -228,6 +278,10 @@ extension type _RudderAnalytics(JSObject _) implements JSObject {
   external void aliasToCurrentUser(String to, JSAny? options);
 
   external void reset(JSAny? options);
+
+  external void ready(JSFunction callback);
+
+  external String? get defaultAnalyticsKey;
 
   external void startSession([int sessionId]);
 

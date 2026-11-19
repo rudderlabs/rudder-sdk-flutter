@@ -4,6 +4,7 @@ library;
 import 'dart:js_interop';
 import 'dart:js_interop_unsafe';
 
+import 'package:fake_async/fake_async.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rudder_sdk_flutter/rudder_sdk_flutter.dart';
@@ -12,6 +13,7 @@ import 'package:rudder_sdk_flutter/src/platform/web_analytics_platform.dart';
 
 const _sdkMethods = [
   'load',
+  'ready',
   'track',
   'page',
   'group',
@@ -30,6 +32,7 @@ const _sdkMethods = [
 // The loading snippet stubs these methods on an array until the SDK script loads.
 const _snippetMethods = [
   'load',
+  'ready',
   'page',
   'track',
   'identify',
@@ -50,6 +53,7 @@ void _installLoadedSdk() => _runJs('''
     ${_jsArray(_sdkMethods)}.forEach(function (name) {
       sdk[name] = function () {
         sdk.calls.push([name].concat(Array.prototype.slice.call(arguments)));
+        if (name === 'ready') arguments[0]();
         return sdk.returns[name];
       };
     });
@@ -74,14 +78,20 @@ String _jsArray(List<String> names) =>
 
 JSObject get _sdk => globalContext['rudderanalytics']! as JSObject;
 
-/// Each call that reached the JS SDK, as `[method, ...arguments]`, getters left out.
+/// Each call that reached the JS SDK, as `[method, ...arguments]`, without `ready` and the getters.
 List<List<Object?>> _calls() {
-  final calls = (_sdk['calls'] ?? _sdk).dartify()! as List<Object?>;
-  return calls
-      .cast<List<Object?>>()
-      .where((call) => !(call.first as String).startsWith('get'))
-      .toList();
+  final calls = (_sdk['calls'] ?? _sdk) as JSArray<JSArray<JSAny?>>;
+  return [
+    for (final call in calls.toDart)
+      if (!RegExp(
+        '^(get|ready)',
+      ).hasMatch(call.toDart.first.dartify()! as String))
+        [for (final argument in call.toDart) _dartifyArgument(argument)],
+  ];
 }
+
+Object? _dartifyArgument(JSAny? argument) =>
+    argument.isA<JSFunction>() ? 'function' : argument.dartify();
 
 void _returnFromSdk(String method, JSAny? value) =>
     (_sdk['returns']! as JSObject)[method] = value;
@@ -203,11 +213,13 @@ void main() {
         await analytics.alias('u-3', options: options);
 
         const jsOptions = {
-          'campaign': 'spring',
           'integrations': {'Amplitude': false},
-          'externalId': [
-            {'type': 'crm', 'id': 'c-1'},
-          ],
+          'context': {
+            'campaign': 'spring',
+            'externalId': [
+              {'type': 'crm', 'id': 'c-1'},
+            ],
+          },
         };
         expect(_calls().skip(1), [
           [
@@ -317,7 +329,7 @@ void main() {
       expect(await analytics.sessionId, 1234567890123);
     });
 
-    test('the getters answer null when the JS SDK has no value', () async {
+    test('the getters answer null when the JS SDK answers undefined', () async {
       final analytics = Analytics(config());
 
       expect(await analytics.anonymousId, isNull);
@@ -392,19 +404,78 @@ void main() {
     );
 
     test(
-      'before the SDK script loads, calls go to the snippet buffer and the getters answer null',
+      'before the SDK script loads, calls go to the snippet buffer and a getter answers after them',
       () async {
         _installSnippet();
-        final analytics = Analytics(config(logLevel: LogLevel.warn));
+        final analytics = Analytics(config());
         analytics.identify(userId: 'u-1');
-        expect(await analytics.userId, isNull);
-
+        final userId = analytics.userId;
+        await pumpEventQueue();
         expect(_calls().map((call) => call.first), ['load', 'identify']);
+
+        _runJs('''
+          var buffer = window.rudderanalytics;
+          window.rudderanalytics = { getUserId: function () { return 'u-1'; } };
+          buffer.forEach(function (call) { if (call[0] === 'ready') call[1](); });
+        ''');
+        expect(await userId, 'u-1');
+      },
+    );
+
+    test(
+      'a getter answers after 10 seconds when the SDK script does not load',
+      () {
+        _installSnippet();
+        fakeAsync((async) {
+          String? userId = 'not answered';
+          Analytics(
+            config(logLevel: LogLevel.warn),
+          ).userId.then((value) => userId = value);
+          async.elapse(const Duration(seconds: 9));
+          expect(userId, 'not answered');
+          async.elapse(const Duration(seconds: 1));
+          expect(userId, isNull);
+        });
         expect(logs, [
-          'Rudder-Flutter: WARN: The JS SDK has not loaded yet, so userId answers null.',
+          'Rudder-Flutter: WARN: The JS SDK is not ready after 10 seconds, so userId can miss earlier calls.',
         ]);
       },
     );
+
+    test(
+      'a write key that the page snippet loads counts as the page write key',
+      () async {
+        _installSnippet();
+        _runJs("window.rudderanalytics.load('key-1', 'https://dp.example');");
+        expect(() => Analytics(config(writeKey: 'key-2')), throwsStateError);
+        await Analytics(config(logLevel: LogLevel.warn)).endSession();
+
+        expect(_calls().map((call) => call.first), ['load', 'endSession']);
+        expect(logs, [
+          'Rudder-Flutter: WARN: An SDK instance for this write key already runs, so this Analytics uses it and ignores its own configuration.',
+        ]);
+      },
+    );
+
+    test(
+      'after a hot restart, the write key of the loaded JS SDK counts as the page write key',
+      () async {
+        _runJs("window.rudderanalytics.defaultAnalyticsKey = 'key-1';");
+        expect(() => Analytics(config(writeKey: 'key-2')), throwsStateError);
+        await Analytics(config()).endSession();
+
+        expect(_calls().map((call) => call.first), ['endSession']);
+      },
+    );
+
+    test('debug and info both map to the JS INFO level', () async {
+      await Analytics(config(logLevel: LogLevel.debug)).shutdown();
+      _installLoadedSdk();
+      AnalyticsPlatform.instance = WebAnalyticsPlatform();
+      await Analytics(config(logLevel: LogLevel.info)).shutdown();
+
+      expect(_calls().first[3], containsPair('logLevel', 'INFO'));
+    });
   });
 
   test(
