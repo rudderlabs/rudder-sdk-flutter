@@ -44,7 +44,7 @@ On web, the SDK calls the RudderStack JavaScript SDK v3 that the page loads.
 
 1. Add the [JavaScript SDK loading snippet](https://www.rudderstack.com/docs/sources/event-streams/sdks/rudderstack-javascript-sdk/load-js-sdk/) to `web/index.html`.
 2. Remove the `rudderanalytics.load(...)` line from the snippet. The SDK calls `load()` with your `Configuration`.
-   When the snippet still loads a write key, the SDK uses that write key and ignores your `Configuration`.
+   When the snippet still loads the same write key, the SDK ignores your `Configuration`. Another write key makes the `Analytics` constructor throw a `StateError`.
 
 The app code is the same on every platform. These rules apply on web:
 

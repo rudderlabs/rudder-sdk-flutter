@@ -8,7 +8,6 @@ import '../event.dart';
 import '../logger.dart' as logger;
 import '../options.dart';
 import 'analytics_platform.dart';
-import 'string_keyed_map.dart';
 
 /// Maps each call to the RudderStack JS SDK v3 that the page loads. The JS SDK runs one write key per page.
 class WebAnalyticsPlatform extends AnalyticsPlatform {
@@ -36,8 +35,7 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
   Future<bool> create(Configuration configuration, String attachmentId) async {
     final attach = _pageWriteKey != null;
     final sdk = _sdk;
-    // A loaded SDK object with a write key ran its initialization before this Dart isolate started.
-    _initialized ??= attach && !sdk.isA<JSArray>()
+    _initialized ??= attach && _initializedBeforeAttach(sdk)
         ? Future.value()
         : _whenInitialized();
     if (attach) {
@@ -159,7 +157,9 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
     final traits = (await _afterBufferedCalls(
       'traits',
     ))?.getUserTraits().dartify();
-    return traits is Map<Object?, Object?> ? stringKeyedMap(traits) : null;
+    return traits is Map<Object?, Object?>
+        ? _dartValue(traits)! as Map<String, Object?>
+        : null;
   }
 
   @override
@@ -197,6 +197,10 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
     return null;
   }
 
+  // A loaded SDK object can still fetch its source config, so only its own flag says that it ran the buffered calls.
+  bool _initializedBeforeAttach(_RudderAnalytics sdk) =>
+      !sdk.isA<JSArray>() && (sdk.getAnalyticsInstance()?.initialized ?? false);
+
   // The JS SDK fires this event after it runs the buffered calls, before it loads the device-mode destinations.
   Future<void> _whenInitialized() {
     final initialized = Completer<void>();
@@ -229,6 +233,17 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
   void _log(LogLevel level, String message) =>
       logger.log(_configuration?.logLevel ?? LogLevel.none, level, message);
 }
+
+// dartify() makes each JS number a double on WASM, so a whole number becomes an int, as with the JS compiler.
+Object? _dartValue(Object? value) => switch (value) {
+  Map<Object?, Object?>() => value.map(
+    (key, nested) => MapEntry(key.toString(), _dartValue(nested)),
+  ),
+  List<Object?>() => value.map(_dartValue).toList(),
+  double() when value.isFinite && value == value.truncateToDouble() =>
+    value.toInt(),
+  _ => value,
+};
 
 Map<String, Object?> _loadOptions(Configuration configuration) {
   final consent = configuration.consentManagement;
@@ -323,6 +338,8 @@ extension type _RudderAnalytics(JSObject _) implements JSObject {
 
   external String? get defaultAnalyticsKey;
 
+  external _AnalyticsInstance? getAnalyticsInstance();
+
   external void startSession([int sessionId]);
 
   external void endSession();
@@ -336,4 +353,8 @@ extension type _RudderAnalytics(JSObject _) implements JSObject {
   external JSAny? getUserTraits();
 
   external JSNumber? getSessionId();
+}
+
+extension type _AnalyticsInstance(JSObject _) implements JSObject {
+  external bool? get initialized;
 }

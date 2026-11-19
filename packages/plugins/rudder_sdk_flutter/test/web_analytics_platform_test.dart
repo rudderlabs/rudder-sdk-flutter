@@ -51,7 +51,7 @@ void _installLoadedSdk() => _runJs('''
     document.dispatchEvent(new CustomEvent('RSA_Initialised'));
   }
   (function () {
-    var sdk = { calls: [], returns: {} };
+    var sdk = { calls: [], returns: {}, defaultAnalyticsKey: '' };
     ${_jsArray(_sdkMethods)}.forEach(function (name) {
       sdk[name] = function () {
         sdk.calls.push([name].concat(Array.prototype.slice.call(arguments)));
@@ -314,18 +314,33 @@ void main() {
         'getUserTraits',
         {
           'name': 'A',
-          'address': {'city': 'Pune'},
+          'age': 30,
+          'score': 1.5,
+          'address': {
+            'city': 'Pune',
+            'floors': [2],
+          },
         }.jsify(),
       );
       _returnFromSdk('getSessionId', 1234567890123.toJS);
 
       expect(await analytics.anonymousId, 'anon-1');
       expect(await analytics.userId, 'u-1');
-      expect(await analytics.traits, {
+      final traits = await analytics.traits;
+      expect(traits, {
         'name': 'A',
-        'address': {'city': 'Pune'},
+        'age': 30,
+        'score': 1.5,
+        'address': {
+          'city': 'Pune',
+          'floors': [2],
+        },
       });
-      expect(await analytics.traits, isA<Map<String, Object?>>());
+      expect(traits!['age'], isA<int>());
+      expect(
+        ((traits['address']! as Map)['floors'] as List).single,
+        isA<int>(),
+      );
       expect(await analytics.sessionId, 1234567890123);
     });
 
@@ -463,7 +478,12 @@ void main() {
     test(
       'after a hot restart, the write key of the loaded JS SDK counts as the page write key',
       () async {
-        _runJs("window.rudderanalytics.defaultAnalyticsKey = 'key-1';");
+        _runJs('''
+          window.rudderanalytics.defaultAnalyticsKey = 'key-1';
+          window.rudderanalytics.getAnalyticsInstance = function () {
+            return { initialized: true };
+          };
+        ''');
         expect(() => Analytics(config(writeKey: 'key-2')), throwsStateError);
         final analytics = Analytics(config(logLevel: LogLevel.warn));
         await analytics.endSession();
@@ -473,6 +493,29 @@ void main() {
         expect(logs, [
           'Rudder-Flutter: WARN: An SDK instance for this write key already runs, so this Analytics uses it and ignores its own configuration.',
         ]);
+      },
+    );
+
+    test(
+      'a getter waits when the snippet loaded the write key and the JS SDK still initializes',
+      () async {
+        _runJs('''
+          window.rudderanalytics.defaultAnalyticsKey = 'key-1';
+          window.rudderanalytics.getAnalyticsInstance = function () {
+            return { initialized: false };
+          };
+        ''');
+        final analytics = Analytics(config());
+        analytics.identify(userId: 'u-1');
+        String? userId = 'not answered';
+        final answered = analytics.userId.then((value) => userId = value);
+        await pumpEventQueue();
+        expect(userId, 'not answered');
+
+        _returnFromSdk('getUserId', 'u-1'.toJS);
+        _runJs("document.dispatchEvent(new CustomEvent('RSA_Initialised'));");
+        await answered;
+        expect(userId, 'u-1');
       },
     );
 

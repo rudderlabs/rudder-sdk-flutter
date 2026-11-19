@@ -4,7 +4,6 @@ import '../configuration.dart';
 import '../event.dart';
 import '../options.dart';
 import 'analytics_platform.dart';
-import 'string_keyed_map.dart';
 
 /// Sends each call to the native SDK on one method channel, so that the native side gets the calls in order.
 class MethodChannelAnalyticsPlatform extends AnalyticsPlatform {
@@ -56,7 +55,7 @@ class MethodChannelAnalyticsPlatform extends AnalyticsPlatform {
   @override
   Future<Map<String, Object?>?> traits(String writeKey) async {
     final traits = await _call<Map<Object?, Object?>>('traits', writeKey);
-    return traits == null ? null : stringKeyedMap(traits);
+    return traits == null ? null : _stringKeyed(traits);
   }
 
   @override
@@ -68,3 +67,13 @@ class MethodChannelAnalyticsPlatform extends AnalyticsPlatform {
     Map<String, Object?> arguments = const {},
   ]) => channel.invokeMethod<T>(method, {'writeKey': writeKey, ...arguments});
 }
+
+// The codec returns nested maps as Map<Object?, Object?>.
+Map<String, Object?> _stringKeyed(Map<Object?, Object?> map) =>
+    map.map((key, value) => MapEntry(key.toString(), _dartValue(value)));
+
+Object? _dartValue(Object? value) => switch (value) {
+  Map<Object?, Object?>() => _stringKeyed(value),
+  List<Object?>() => value.map(_dartValue).toList(),
+  _ => value,
+};
