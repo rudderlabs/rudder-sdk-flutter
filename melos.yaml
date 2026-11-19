@@ -218,9 +218,19 @@ scripts:
       melos bootstrap
     description: Build all.
 
+  test:web:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter test --no-pub --platform chrome test/analytics_test.dart test/web_analytics_platform_test.dart && \
+        flutter test --no-pub --platform chrome --wasm test/analytics_test.dart test/web_analytics_platform_test.dart"
+    description: Run the SDK tests that apply to web in Chrome, compiled to JavaScript and to WebAssembly.
+    packageFilters:
+      scope: 'rudder_sdk_flutter'
+
   test:all:
     run: |
-      melos run test --no-select
+      melos run test --no-select && \
+      melos run test:web --no-select
     description: |
       Run all tests available.
 
