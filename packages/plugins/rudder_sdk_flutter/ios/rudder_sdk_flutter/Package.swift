@@ -8,7 +8,7 @@ let package = Package(
         .iOS("15.0")
     ],
     products: [
-        .library(name: "rudder-sdk-flutter", targets: ["rudder_sdk_flutter"])
+        .library(name: "rudder-sdk-flutter", targets: ["rudder_sdk_flutter", "rudder_sdk_flutter_startup"])
     ],
     dependencies: [
         .package(name: "FlutterFramework", path: "../FlutterFramework"),
@@ -21,6 +21,8 @@ let package = Package(
                 .product(name: "FlutterFramework", package: "FlutterFramework"),
                 .product(name: "RudderStackAnalytics", package: "rudder-sdk-swift")
             ]
-        )
+        ),
+        // Swift has no +load, so this Objective-C target calls the Swift setter at load time.
+        .target(name: "rudder_sdk_flutter_startup", dependencies: ["rudder_sdk_flutter"], publicHeadersPath: ".")
     ]
 )
