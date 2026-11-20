@@ -6,6 +6,7 @@ import 'package:rudder_sdk_flutter/rudder_sdk_flutter.dart';
 import 'package:rudder_sdk_flutter_example/second_engine.dart';
 
 import 'support/mock_data_plane.dart';
+import 'support/test_host.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -264,6 +265,42 @@ void main() {
       expect(await again.userId, 'first-user');
       await again.shutdown();
       await second.shutdown();
+    },
+  );
+
+  testWidgets(
+    'every event carries the Flutter wrapper library, on the Dart path and the native path',
+    (tester) async {
+      final dartKey = uniqueWriteKey('wrapper-dart');
+      final nativeKey = uniqueWriteKey('wrapper-native');
+      final dart = Analytics(
+        testConfiguration(
+          dartKey,
+          server.url,
+          trackApplicationLifecycleEvents: true,
+        ),
+      );
+      dart.track('Dart');
+      await startNativeInstance(nativeKey, server.url);
+      await nativeTrack(nativeKey, 'Native');
+      await server.waitForTrack(dartKey, 'Dart');
+      await server.waitForTrack(nativeKey, 'Native');
+
+      final events = [...server.events(dartKey), ...server.events(nativeKey)];
+      for (final event in events) {
+        final context = event['context'] as Map<String, dynamic>;
+        final wrapper = context['wrapperLibrary'] as Map<String, dynamic>?;
+        final library = context['library'] as Map<String, dynamic>;
+        expect(wrapper?['name'], 'rudder-sdk-flutter', reason: describe(event));
+        expect(
+          wrapper?['version'],
+          isNot(anyOf(isNull, isEmpty, library['version'])),
+        );
+        expect(library['name'], isNot('rudder-sdk-flutter'));
+      }
+
+      await dart.shutdown();
+      await stopNativeInstance(nativeKey);
     },
   );
 }
