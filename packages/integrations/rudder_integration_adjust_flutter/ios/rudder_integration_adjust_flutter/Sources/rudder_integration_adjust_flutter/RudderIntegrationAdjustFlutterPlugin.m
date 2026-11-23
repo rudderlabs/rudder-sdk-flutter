@@ -1,4 +1,4 @@
-#import "RudderIntegrationAdjustFlutterPlugin.h"
+#import "./include/rudder_integration_adjust_flutter/RudderIntegrationAdjustFlutterPlugin.h"
 #import <rudder_plugin_ios/RudderSdkFlutterPlugin.h>
 #import "RudderAdjustFactory.h"
 
