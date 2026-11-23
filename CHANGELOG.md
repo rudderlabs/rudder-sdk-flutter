@@ -3,6 +3,88 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-11-23
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - [`rudder_integration_adjust_flutter` - `v3.0.0`](#rudder_integration_adjust_flutter---v300)
+ - [`rudder_integration_amplitude_flutter` - `v3.0.0`](#rudder_integration_amplitude_flutter---v300)
+ - [`rudder_sdk_flutter_monorepo` - `v6.0.0`](#rudder_sdk_flutter_monorepo---v600)
+
+Packages with other changes:
+
+ - [`rudder_integration_appsflyer_flutter` - `v2.2.0`](#rudder_integration_appsflyer_flutter---v220)
+ - [`rudder_integration_braze_flutter` - `v2.8.0`](#rudder_integration_braze_flutter---v280)
+ - [`rudder_integration_firebase_flutter` - `v4.5.0`](#rudder_integration_firebase_flutter---v450)
+ - [`rudder_plugin_db_encryption` - `v1.5.8`](#rudder_plugin_db_encryption---v158)
+ - [`rudder_sdk_flutter` - `v3.4.2`](#rudder_sdk_flutter---v342)
+ - [`rudder_integration_kochava_flutter` - `v2.3.8`](#rudder_integration_kochava_flutter---v238)
+ - [`rudder_integration_leanplum_flutter` - `v2.3.8`](#rudder_integration_leanplum_flutter---v238)
+ - [`rudder_integration_appcenter_flutter` - `v2.3.8`](#rudder_integration_appcenter_flutter---v238)
+
+Packages with dependency updates only:
+
+> Packages listed below depend on other packages in this workspace that have had changes. Their versions have been incremented to bump the minimum dependency versions of the packages they depend upon in this project.
+
+ - `rudder_integration_kochava_flutter` - `v2.3.8`
+ - `rudder_integration_leanplum_flutter` - `v2.3.8`
+ - `rudder_integration_appcenter_flutter` - `v2.3.8`
+
+---
+
+#### `rudder_integration_adjust_flutter` - `v3.0.0`
+
+ - **BREAKING** **FEAT**: add swift package manager support to the adjust plugin ([#386](https://github.com/rudderlabs/rudder-sdk-flutter/issues/386)). ([1a4a3c1f](https://github.com/rudderlabs/rudder-sdk-flutter/commit/1a4a3c1f4731ab307d4a011b47219028e3072b87))
+
+#### `rudder_integration_amplitude_flutter` - `v3.0.0`
+
+ - **BREAKING** **FEAT**: add swift package manager support to the amplitude plugin ([#385](https://github.com/rudderlabs/rudder-sdk-flutter/issues/385)). ([ee473d87](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ee473d8730ccddeb6efb00c52a5fa772129df9c7))
+
+#### `rudder_sdk_flutter_monorepo` - `v6.0.0`
+
+ - **FEAT**: add swift package manager support to the firebase plugin ([#384](https://github.com/rudderlabs/rudder-sdk-flutter/issues/384)). ([dcad30cd](https://github.com/rudderlabs/rudder-sdk-flutter/commit/dcad30cde39c07ad1f803a16bb7d9faf43f513d9))
+ - **FEAT**: add swift package manager support to the appsflyer plugin ([#383](https://github.com/rudderlabs/rudder-sdk-flutter/issues/383)). ([15964cf8](https://github.com/rudderlabs/rudder-sdk-flutter/commit/15964cf866f4f8bc232aef44661888895ce917e5))
+ - **FEAT**: add swift package manager support to the braze plugin ([#382](https://github.com/rudderlabs/rudder-sdk-flutter/issues/382)). ([fb9fbcd7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/fb9fbcd708bd15d1864536e5b472d839af81ef27))
+ - **DOCS**: document swift package manager on ios ([#389](https://github.com/rudderlabs/rudder-sdk-flutter/issues/389)). ([621d34d1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/621d34d1298a19c365a70af4d3fa4349dcc3452a))
+ - **BREAKING** **FEAT**: add swift package manager support to the adjust plugin ([#386](https://github.com/rudderlabs/rudder-sdk-flutter/issues/386)). ([1a4a3c1f](https://github.com/rudderlabs/rudder-sdk-flutter/commit/1a4a3c1f4731ab307d4a011b47219028e3072b87))
+ - **BREAKING** **FEAT**: add swift package manager support to the amplitude plugin ([#385](https://github.com/rudderlabs/rudder-sdk-flutter/issues/385)). ([ee473d87](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ee473d8730ccddeb6efb00c52a5fa772129df9c7))
+
+#### `rudder_integration_appsflyer_flutter` - `v2.2.0`
+
+ - **FEAT**: add swift package manager support to the appsflyer plugin ([#383](https://github.com/rudderlabs/rudder-sdk-flutter/issues/383)). ([15964cf8](https://github.com/rudderlabs/rudder-sdk-flutter/commit/15964cf866f4f8bc232aef44661888895ce917e5))
+
+#### `rudder_integration_braze_flutter` - `v2.8.0`
+
+ - **FEAT**: add swift package manager support to the braze plugin ([#382](https://github.com/rudderlabs/rudder-sdk-flutter/issues/382)). ([fb9fbcd7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/fb9fbcd708bd15d1864536e5b472d839af81ef27))
+
+#### `rudder_integration_firebase_flutter` - `v4.5.0`
+
+ - **FEAT**: add swift package manager support to the firebase plugin ([#384](https://github.com/rudderlabs/rudder-sdk-flutter/issues/384)). ([dcad30cd](https://github.com/rudderlabs/rudder-sdk-flutter/commit/dcad30cde39c07ad1f803a16bb7d9faf43f513d9))
+
+#### `rudder_plugin_db_encryption` - `v1.5.8`
+
+ - **DOCS**: document swift package manager on ios ([#389](https://github.com/rudderlabs/rudder-sdk-flutter/issues/389)). ([621d34d1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/621d34d1298a19c365a70af4d3fa4349dcc3452a))
+
+#### `rudder_sdk_flutter` - `v3.4.2`
+
+ - **DOCS**: document swift package manager on ios ([#389](https://github.com/rudderlabs/rudder-sdk-flutter/issues/389)). ([621d34d1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/621d34d1298a19c365a70af4d3fa4349dcc3452a))
+
+## 6.0.0
+
+> Note: This release has breaking changes.
+
+ - **FEAT**: add swift package manager support to the firebase plugin ([#384](https://github.com/rudderlabs/rudder-sdk-flutter/issues/384)). ([dcad30cd](https://github.com/rudderlabs/rudder-sdk-flutter/commit/dcad30cde39c07ad1f803a16bb7d9faf43f513d9))
+ - **FEAT**: add swift package manager support to the appsflyer plugin ([#383](https://github.com/rudderlabs/rudder-sdk-flutter/issues/383)). ([15964cf8](https://github.com/rudderlabs/rudder-sdk-flutter/commit/15964cf866f4f8bc232aef44661888895ce917e5))
+ - **FEAT**: add swift package manager support to the braze plugin ([#382](https://github.com/rudderlabs/rudder-sdk-flutter/issues/382)). ([fb9fbcd7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/fb9fbcd708bd15d1864536e5b472d839af81ef27))
+ - **DOCS**: document swift package manager on ios ([#389](https://github.com/rudderlabs/rudder-sdk-flutter/issues/389)). ([621d34d1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/621d34d1298a19c365a70af4d3fa4349dcc3452a))
+ - **BREAKING** **FEAT**: add swift package manager support to the adjust plugin ([#386](https://github.com/rudderlabs/rudder-sdk-flutter/issues/386)). ([1a4a3c1f](https://github.com/rudderlabs/rudder-sdk-flutter/commit/1a4a3c1f4731ab307d4a011b47219028e3072b87))
+ - **BREAKING** **FEAT**: add swift package manager support to the amplitude plugin ([#385](https://github.com/rudderlabs/rudder-sdk-flutter/issues/385)). ([ee473d87](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ee473d8730ccddeb6efb00c52a5fa772129df9c7))
+
+
 ## 2026-11-16
 
 ### Changes

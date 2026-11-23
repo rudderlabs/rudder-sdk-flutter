@@ -1,3 +1,7 @@
+## 1.5.8
+
+ - **DOCS**: document swift package manager on ios ([#389](https://github.com/rudderlabs/rudder-sdk-flutter/issues/389)). ([621d34d1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/621d34d1298a19c365a70af4d3fa4349dcc3452a))
+
 ## 1.5.7
 
  - **FIX**: raise ios deployment target to 15.0 for xcode 26 compatibility ([#369](https://github.com/rudderlabs/rudder-sdk-flutter/issues/369)). ([a80a8375](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a80a837515000beea7de80936db0eafaf8965134))

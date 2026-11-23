@@ -1,3 +1,7 @@
+## 2.8.0
+
+ - **FEAT**: add swift package manager support to the braze plugin ([#382](https://github.com/rudderlabs/rudder-sdk-flutter/issues/382)). ([fb9fbcd7](https://github.com/rudderlabs/rudder-sdk-flutter/commit/fb9fbcd708bd15d1864536e5b472d839af81ef27))
+
 ## 2.7.4
 
  - **FIX**: raise ios deployment target to 15.0 for xcode 26 compatibility ([#369](https://github.com/rudderlabs/rudder-sdk-flutter/issues/369)). ([a80a8375](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a80a837515000beea7de80936db0eafaf8965134))
