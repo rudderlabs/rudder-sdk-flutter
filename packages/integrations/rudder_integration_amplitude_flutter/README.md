@@ -38,6 +38,13 @@ rudderClient.initialize(WRITE_KEY,
     config: builder.build(), options:null);
 ```
 
+## Upgrading from 2.x (iOS)
+
+On iOS, this plugin now uses the native `Rudder-Amplitude` 1.3.x, which is built on the Amplitude iOS SDK 8:
+
+- If your app also uses the Amplitude SDK directly, it must use Amplitude iOS SDK 8.
+- The **Use IDFA for Device ID** destination setting no longer applies on iOS.
+
 ## Sending Events
 
 Follow the steps from our [RudderStack Flutter SDK](https://github.com/rudderlabs/rudder-sdk-flutter#send-events) repo.
