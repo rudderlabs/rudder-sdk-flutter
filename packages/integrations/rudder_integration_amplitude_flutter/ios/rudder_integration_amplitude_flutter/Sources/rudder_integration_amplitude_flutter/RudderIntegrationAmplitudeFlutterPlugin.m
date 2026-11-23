@@ -1,20 +1,20 @@
-#import "RudderIntegrationBrazeFlutterPlugin.h"
+#import "./include/rudder_integration_amplitude_flutter/RudderIntegrationAmplitudeFlutterPlugin.h"
 #import <rudder_plugin_ios/RudderSdkFlutterPlugin.h>
-#import "RudderBrazeFactory.h"
+#import "RudderAmplitudeFactory.h"
 
-@implementation RudderIntegrationBrazeFlutterPlugin
+@implementation RudderIntegrationAmplitudeFlutterPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel =
-      [FlutterMethodChannel methodChannelWithName:@"rudder_integration_braze_flutter"
+      [FlutterMethodChannel methodChannelWithName:@"rudder_integration_amplitude_flutter"
                                   binaryMessenger:[registrar messenger]];
-  RudderIntegrationBrazeFlutterPlugin* instance =
-      [[RudderIntegrationBrazeFlutterPlugin alloc] init];
+  RudderIntegrationAmplitudeFlutterPlugin* instance =
+      [[RudderIntegrationAmplitudeFlutterPlugin alloc] init];
   [registrar addMethodCallDelegate:instance channel:channel];
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
   if ([call.method isEqualToString:@"addFactory"]) {
-    [RudderSdkFlutterPlugin addIntegration:[RudderBrazeFactory instance]];
+    [RudderSdkFlutterPlugin addIntegration:[RudderAmplitudeFactory instance]];
     // To do with result
   } else {
     result(FlutterMethodNotImplemented);

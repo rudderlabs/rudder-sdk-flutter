@@ -1,19 +1,20 @@
-#import "RudderIntegrationFirebaseFlutterPlugin.h"
+#import "./include/rudder_integration_braze_flutter/RudderIntegrationBrazeFlutterPlugin.h"
 #import <rudder_plugin_ios/RudderSdkFlutterPlugin.h>
-#import "RudderFirebaseFactory.h"
-@implementation RudderIntegrationFirebaseFlutterPlugin
+#import "RudderBrazeFactory.h"
+
+@implementation RudderIntegrationBrazeFlutterPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel =
-      [FlutterMethodChannel methodChannelWithName:@"rudder_integration_firebase_flutter"
+      [FlutterMethodChannel methodChannelWithName:@"rudder_integration_braze_flutter"
                                   binaryMessenger:[registrar messenger]];
-  RudderIntegrationFirebaseFlutterPlugin* instance =
-      [[RudderIntegrationFirebaseFlutterPlugin alloc] init];
+  RudderIntegrationBrazeFlutterPlugin* instance =
+      [[RudderIntegrationBrazeFlutterPlugin alloc] init];
   [registrar addMethodCallDelegate:instance channel:channel];
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
   if ([call.method isEqualToString:@"addFactory"]) {
-    [RudderSdkFlutterPlugin addIntegration:[RudderFirebaseFactory instance]];
+    [RudderSdkFlutterPlugin addIntegration:[RudderBrazeFactory instance]];
     // To do with result
   } else {
     result(FlutterMethodNotImplemented);
