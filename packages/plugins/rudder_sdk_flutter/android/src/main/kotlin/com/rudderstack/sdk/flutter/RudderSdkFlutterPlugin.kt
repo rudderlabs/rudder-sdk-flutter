@@ -47,9 +47,11 @@ class RudderSdkFlutterPlugin : FlutterPlugin, MethodCallHandler {
         val writeKey = arguments.string("writeKey")
         if (method == "create") {
             val migration = v3Migration(application)
+            // A bad configuration must fail before the migration moves the user to its write key.
+            val configuration = arguments.toConfiguration(application)
             return instances.create(writeKey, attachment(arguments)) {
                 migration.runBeforeFirstDartStart(writeKey)
-                Analytics(arguments.toConfiguration(application))
+                Analytics(configuration)
             }.also { migration.closeFallback() }
         }
         if (method == "shutdown") {
