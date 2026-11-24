@@ -3,7 +3,7 @@ package com.rudderstack.sdk.flutter
 /** A Flutter 3.x app stored its user with the v1 Android SDK. */
 internal interface V1Files {
     fun userData(): Map<String, Any?>
-    fun storedWriteKey(anonymousId: String): String?
+    fun storedWriteKey(): String?
     fun delete()
 }
 
@@ -18,8 +18,8 @@ internal class V3Migration(private val v1: V1Files, private val kotlin: KotlinSt
 
     @Synchronized
     fun runAtStartup() {
-        val anonymousId = v1AnonymousId() ?: return
-        val writeKey = v1.storedWriteKey(anonymousId)
+        if (!hasV1UserToMove()) return
+        val writeKey = v1.storedWriteKey()
         if (writeKey == null) {
             log("The 3.x user has no stored write key. The first instance that Dart starts gets the user.")
             return
@@ -32,8 +32,8 @@ internal class V3Migration(private val v1: V1Files, private val kotlin: KotlinSt
     fun runBeforeFirstDartStart(writeKey: String) {
         if (!fallbackOpen) return
         fallbackOpen = false
-        val anonymousId = v1AnonymousId() ?: return
-        migrate(v1.storedWriteKey(anonymousId) ?: writeKey)
+        if (!hasV1UserToMove()) return
+        migrate(v1.storedWriteKey() ?: writeKey)
     }
 
     /** The first Dart create ends the fallback, also when it found an instance that native code started. */
@@ -42,14 +42,14 @@ internal class V3Migration(private val v1: V1Files, private val kotlin: KotlinSt
         fallbackOpen = false
     }
 
-    /** Returns the anonymous ID of a 3.x user to move. A user who opted out does not move, and the 3.x data goes. */
-    private fun v1AnonymousId(): String? {
+    /** A user who opted out does not move, and the 3.x data goes. */
+    private fun hasV1UserToMove(): Boolean {
         val data = v1.userData()
-        val anonymousId = data[V1_ANONYMOUS_ID] as? String ?: return null
-        if (data[V1_OPT_STATUS] != true) return anonymousId
+        if (data[V1_ANONYMOUS_ID] !is String) return false
+        if (data[V1_OPT_STATUS] != true) return true
         v1.delete()
         log("The 3.x user opted out, so the user does not move. The SDK starts as a new install.")
-        return null
+        return false
     }
 
     private fun migrate(writeKey: String) {

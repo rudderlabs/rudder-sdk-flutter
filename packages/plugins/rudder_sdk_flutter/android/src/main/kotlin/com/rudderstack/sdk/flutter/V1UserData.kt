@@ -31,23 +31,55 @@ internal fun kotlinStoreValues(v1: Map<String, Any?>): Map<String, Any> = buildM
 
 private fun parseObject(json: String): JsonObject? = runCatching { Json.parseToJsonElement(json) as? JsonObject }.getOrNull()
 
-private const val JAVA_SERIALIZED_STRING: Byte = 0x74
+/** v1 saved `RudderFlushConfig` with Java serialization. Its auth header is base64("<write key>:"). */
+internal fun writeKeyFromFlushConfig(bytes: ByteArray): String? =
+    runCatching { serializedStringFields(bytes)["authHeaderString"] }.getOrNull()
+        ?.let { runCatching { Base64.decode(it).decodeToString() }.getOrNull() }
+        ?.let(::writeKeyFromAuthHeader)
 
-/** The auth header of `RudderFlushConfig` is base64("<write key>:"); its anonymous ID header comes first and can look the same. */
-internal fun writeKeyFromFlushConfig(bytes: ByteArray, anonymousId: String): String? =
-    bytes.indices.asSequence()
-        .filter { bytes[it] == JAVA_SERIALIZED_STRING }
-        .mapNotNull { serializedStringAt(bytes, it + 1) }
-        .mapNotNull { runCatching { Base64.decode(it).decodeToString() }.getOrNull() }
-        .toMutableList()
-        .apply { remove(anonymousId) }
-        .firstNotNullOfOrNull(::writeKeyFromAuthHeader)
+private const val STREAM_MAGIC = 0xACED
+private const val STREAM_VERSION = 5
+private const val TC_NULL = 0x70
+private const val TC_REFERENCE = 0x71
+private const val TC_CLASSDESC = 0x72
+private const val TC_OBJECT = 0x73
+private const val TC_STRING = 0x74
+private const val TC_ENDBLOCKDATA = 0x78
+private const val SC_SERIALIZABLE = 0x02
+private const val BASE_HANDLE = 0x7E0000
+private val PRIMITIVE_SIZES = mapOf('B' to 1, 'Z' to 1, 'C' to 2, 'S' to 2, 'I' to 4, 'F' to 4, 'J' to 8, 'D' to 8)
 
-private fun serializedStringAt(bytes: ByteArray, lengthIndex: Int): String? {
-    if (lengthIndex + 2 > bytes.size) return null
-    val length = ((bytes[lengthIndex].toInt() and 0xFF) shl 8) or (bytes[lengthIndex + 1].toInt() and 0xFF)
-    if (length == 0 || lengthIndex + 2 + length > bytes.size) return null
-    return runCatching { DataInputStream(bytes.inputStream(lengthIndex, length + 2)).readUTF() }.getOrNull()
+/** Reads the String fields of one serialized object whose class extends Object and has no writeObject method. */
+private fun serializedStringFields(bytes: ByteArray): Map<String, String?> {
+    val input = DataInputStream(bytes.inputStream())
+    // The stream refers back to an earlier string by its handle, in the order that the writer assigned them.
+    val handles = mutableListOf<Any?>()
+    fun string(): String? = when (input.readUnsignedByte()) {
+        TC_STRING -> input.readUTF().also { handles += it }
+        TC_REFERENCE -> handles[input.readInt() - BASE_HANDLE] as String
+        TC_NULL -> null
+        else -> error("Not a string")
+    }
+    check(input.readUnsignedShort() == STREAM_MAGIC && input.readUnsignedShort() == STREAM_VERSION)
+    check(input.readUnsignedByte() == TC_OBJECT && input.readUnsignedByte() == TC_CLASSDESC)
+    input.readUTF()
+    input.readLong()
+    handles += null
+    check(input.readUnsignedByte() == SC_SERIALIZABLE)
+    val fields = List(input.readUnsignedShort()) {
+        val type = input.readUnsignedByte().toChar()
+        val name = input.readUTF()
+        if (type !in PRIMITIVE_SIZES) string()
+        type to name
+    }
+    check(input.readUnsignedByte() == TC_ENDBLOCKDATA && input.readUnsignedByte() == TC_NULL)
+    handles += null
+    return buildMap {
+        fields.forEach { (type, name) ->
+            val size = PRIMITIVE_SIZES[type]
+            if (size != null) input.readFully(ByteArray(size)) else put(name, string())
+        }
+    }
 }
 
 private fun writeKeyFromAuthHeader(decoded: String): String? {

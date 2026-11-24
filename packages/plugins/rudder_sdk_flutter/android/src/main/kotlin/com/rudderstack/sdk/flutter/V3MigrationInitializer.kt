@@ -24,8 +24,8 @@ internal fun v3Migration(context: Context): V3Migration = migration ?: synchroni
 private class AndroidV1Files(private val context: Context) : V1Files {
     override fun userData(): Map<String, Any?> = context.getSharedPreferences("rl_prefs", Context.MODE_PRIVATE).all
 
-    override fun storedWriteKey(anonymousId: String): String? = File(context.filesDir, "RudderFlushConfig").takeIf { it.isFile }
-        ?.let { runCatching { writeKeyFromFlushConfig(it.readBytes(), anonymousId) }.getOrNull() }
+    override fun storedWriteKey(): String? = File(context.filesDir, "RudderFlushConfig").takeIf { it.isFile }
+        ?.let { runCatching { writeKeyFromFlushConfig(it.readBytes()) }.getOrNull() }
 
     override fun delete() {
         listOf("rl_prefs", "rl_prefs_flutter").forEach(context::deleteSharedPreferences)

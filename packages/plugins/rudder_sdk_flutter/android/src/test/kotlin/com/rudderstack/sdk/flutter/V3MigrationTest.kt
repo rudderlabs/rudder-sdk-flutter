@@ -40,37 +40,49 @@ class V3MigrationTest {
         assertEquals(mapOf("anonymous_id" to "anon-2", "rudder.app_build" to 7L), older)
     }
 
+    /** The fields of the v1 `RudderFlushConfig`. */
+    @Suppress("unused")
     private class RudderFlushConfig(
         val dataPlaneUrl: String,
         val authHeaderString: String,
         val anonymousHeaderString: String,
+        val logLevel: Int = 2,
+        val flushQueueSize: Int = 30,
+        val isGzipConfigured: Boolean = true,
+        val isDbEncrypted: Boolean = false,
+        val encryptionKey: String? = null,
     ) : Serializable
 
-    private fun flushConfig(writeKey: String, anonymousId: String = "anon-1"): ByteArray = ByteArrayOutputStream().also { bytes ->
-        ObjectOutputStream(bytes).use {
-            it.writeObject(
-                RudderFlushConfig(
-                    dataPlaneUrl = "https://hosted.rudderlabs.com",
-                    authHeaderString = Base64.getEncoder().encodeToString("$writeKey:".toByteArray()),
-                    anonymousHeaderString = Base64.getEncoder().encodeToString(anonymousId.toByteArray()),
-                ),
-            )
-        }
+    private fun base64(text: String) = Base64.getEncoder().encodeToString(text.toByteArray())
+
+    private fun serialized(config: RudderFlushConfig): ByteArray = ByteArrayOutputStream().also { bytes ->
+        ObjectOutputStream(bytes).use { it.writeObject(config) }
     }.toByteArray()
 
+    private fun flushConfig(writeKey: String, anonymousIdHeader: String = "anon-1", encryptionKey: String? = null) = serialized(
+        RudderFlushConfig("https://hosted.rudderlabs.com", base64("$writeKey:"), base64(anonymousIdHeader), encryptionKey = encryptionKey),
+    )
+
     @Test
-    fun `the write key comes from the auth header of the serialized flush config`() {
-        assertEquals("2AbC_de-9", writeKeyFromFlushConfig(flushConfig("2AbC_de-9"), "anon-1"))
-        assertEquals("2AbC_de-9", writeKeyFromFlushConfig(flushConfig("2AbC_de-9", anonymousId = "user42:"), "user42:"))
-        assertEquals("2AbC_de-9", writeKeyFromFlushConfig(flushConfig("2AbC_de-9", anonymousId = "2AbC_de-9:"), "2AbC_de-9:"))
-        assertNull(writeKeyFromFlushConfig(byteArrayOf(0x74, 0x00, 0x7F, 0x41), "anon-1"))
-        assertNull(writeKeyFromFlushConfig(ByteArray(0), "anon-1"))
+    fun `the write key comes from the auth header field of the serialized flush config`() {
+        assertEquals("2AbC_de-9", writeKeyFromFlushConfig(flushConfig("2AbC_de-9")))
+        // v1 can change the saved anonymous ID after it writes the flush config, so the anonymous ID header can be anything.
+        assertEquals("2AbC_de-9", writeKeyFromFlushConfig(flushConfig("2AbC_de-9", anonymousIdHeader = "old-user:")))
+        assertEquals("2AbC_de-9", writeKeyFromFlushConfig(flushConfig("2AbC_de-9", anonymousIdHeader = "2AbC_de-9:")))
+        assertEquals("2AbC_de-9", writeKeyFromFlushConfig(flushConfig("2AbC_de-9", encryptionKey = base64("other:"))))
+        val shared = base64("2AbC_de-9:")
+        assertEquals("2AbC_de-9", writeKeyFromFlushConfig(serialized(RudderFlushConfig("https://dp", shared, shared))))
+
+        assertNull(writeKeyFromFlushConfig(serialized(RudderFlushConfig("https://dp", base64("no-colon"), base64("a:")))))
+        assertNull(writeKeyFromFlushConfig(flushConfig("2AbC_de-9").copyOf(60)))
+        assertNull(writeKeyFromFlushConfig(byteArrayOf(0x74, 0x00, 0x7F, 0x41)))
+        assertNull(writeKeyFromFlushConfig(ByteArray(0)))
     }
 
     private class FakeV1(var data: Map<String, Any?>, val writeKey: String?) : V1Files {
         var deleted = false
         override fun userData() = if (deleted) emptyMap() else data
-        override fun storedWriteKey(anonymousId: String) = if (deleted) null else writeKey
+        override fun storedWriteKey() = if (deleted) null else writeKey
         override fun delete() {
             deleted = true
         }
