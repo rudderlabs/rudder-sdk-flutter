@@ -1,4 +1,4 @@
-#import "RudderIntegrationAppsflyerFlutterPlugin.h"
+#import "./include/rudder_integration_appsflyer_flutter/RudderIntegrationAppsflyerFlutterPlugin.h"
 #import <rudder_plugin_ios/RudderSdkFlutterPlugin.h>
 #import "RudderAppsflyerFactory.h"
 

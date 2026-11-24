@@ -1,3 +1,9 @@
+## 3.0.0
+
+> Note: This release has breaking changes.
+
+ - **BREAKING** **FEAT**: add swift package manager support to the amplitude plugin ([#385](https://github.com/rudderlabs/rudder-sdk-flutter/issues/385)). ([ee473d87](https://github.com/rudderlabs/rudder-sdk-flutter/commit/ee473d8730ccddeb6efb00c52a5fa772129df9c7))
+
 ## 2.3.7
 
  - **FIX**: raise ios deployment target to 15.0 for xcode 26 compatibility ([#369](https://github.com/rudderlabs/rudder-sdk-flutter/issues/369)). ([a80a8375](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a80a837515000beea7de80936db0eafaf8965134))

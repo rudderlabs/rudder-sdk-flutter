@@ -1,3 +1,7 @@
+## 2.2.0
+
+ - **FEAT**: add swift package manager support to the appsflyer plugin ([#383](https://github.com/rudderlabs/rudder-sdk-flutter/issues/383)). ([15964cf8](https://github.com/rudderlabs/rudder-sdk-flutter/commit/15964cf866f4f8bc232aef44661888895ce917e5))
+
 ## 2.1.8
 
  - **FIX**: raise ios deployment target to 15.0 for xcode 26 compatibility ([#369](https://github.com/rudderlabs/rudder-sdk-flutter/issues/369)). ([a80a8375](https://github.com/rudderlabs/rudder-sdk-flutter/commit/a80a837515000beea7de80936db0eafaf8965134))

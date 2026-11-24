@@ -1,4 +1,4 @@
-#import "RudderIntegrationBrazeFlutterPlugin.h"
+#import "./include/rudder_integration_braze_flutter/RudderIntegrationBrazeFlutterPlugin.h"
 #import <rudder_plugin_ios/RudderSdkFlutterPlugin.h>
 #import "RudderBrazeFactory.h"
 

@@ -1,4 +1,4 @@
-#import "RudderIntegrationFirebaseFlutterPlugin.h"
+#import "./include/rudder_integration_firebase_flutter/RudderIntegrationFirebaseFlutterPlugin.h"
 #import <rudder_plugin_ios/RudderSdkFlutterPlugin.h>
 #import "RudderFirebaseFactory.h"
 @implementation RudderIntegrationFirebaseFlutterPlugin
