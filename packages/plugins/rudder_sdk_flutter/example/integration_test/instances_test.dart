@@ -126,6 +126,7 @@ void main() {
       await startNativeInstance(writeKey, server.url);
       final attached = analyticsFor(writeKey);
       await attached.track('Dart 1');
+      await server.waitForTrack(writeKey, 'Dart 1');
       await stopNativeInstance(writeKey);
       await attached.shutdown();
       logs.clear();
