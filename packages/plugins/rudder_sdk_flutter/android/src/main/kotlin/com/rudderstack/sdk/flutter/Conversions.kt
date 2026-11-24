@@ -52,7 +52,8 @@ internal fun Map<String, Any?>.toConfiguration(application: Application): Config
 }
 
 private fun Map<String, Any?>.toFlushPolicy(): FlushPolicy = when (val type = string("type")) {
-    "count" -> CountFlushPolicy(long("flushAt").toInt())
+    // A count out of the Int range stays out of range, so the Kotlin SDK uses its default, as iOS does.
+    "count" -> CountFlushPolicy(long("flushAt").coerceIn(Int.MIN_VALUE.toLong(), Int.MAX_VALUE.toLong()).toInt())
     "frequency" -> FrequencyFlushPolicy(long("flushIntervalInMillis"))
     "startup" -> StartupFlushPolicy()
     else -> throw IllegalArgumentException("Unknown flush policy $type")
