@@ -28,6 +28,8 @@ command:
       chore(release): release new package versions
 
       {new_package_versions}
+    hooks:
+      preCommit: dart run tools/write_ios_package_version.dart
 
 scripts:
   setup:

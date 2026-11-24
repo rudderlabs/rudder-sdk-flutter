@@ -25,6 +25,9 @@ plugins {
     id("com.android.library")
 }
 
+val packageVersion = Regex("""(?m)^version:\s*(\S+)""").find(file("../pubspec.yaml").readText())?.groupValues?.get(1)
+    ?: error("pubspec.yaml has no version")
+
 android {
     namespace = "com.rudderstack.sdk.flutter"
 
@@ -44,8 +47,13 @@ android {
         }
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         minSdk = 24
+        buildConfigField("String", "PACKAGE_VERSION", "\"$packageVersion\"")
     }
 
     testOptions {
@@ -66,6 +74,7 @@ kotlin {
 
 dependencies {
     api("com.rudderstack.sdk.kotlin:android:2.3.0")
+    implementation("androidx.startup:startup-runtime:1.1.1")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
 }
