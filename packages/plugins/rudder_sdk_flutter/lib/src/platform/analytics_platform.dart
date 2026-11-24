@@ -1,18 +1,15 @@
-import 'package:flutter/foundation.dart';
-
 import '../configuration.dart';
 import '../event.dart';
 import '../options.dart';
 import 'method_channel_analytics_platform.dart';
 
-/// The one seam between the Dart API and the code that processes events, on Android and iOS the native SDKs.
+/// The one seam between the Dart API and the code that processes events: the native SDKs on Android and iOS, the JS SDK on web.
 abstract class AnalyticsPlatform {
-  static AnalyticsPlatform _instance = MethodChannelAnalyticsPlatform();
+  /// The method channel engine; the web plugin registration sets the web engine.
+  static AnalyticsPlatform instance = MethodChannelAnalyticsPlatform();
 
-  static AnalyticsPlatform get instance => _instance;
-
-  @visibleForTesting
-  static set instance(AnalyticsPlatform platform) => _instance = platform;
+  /// Throws a [StateError] when this engine cannot run [writeKey] next to the write keys it already runs.
+  void checkCanCreate(String writeKey) {}
 
   /// Returns `true` when an instance for the write key already runs and the Dart object [attachmentId] attached to it.
   Future<bool> create(Configuration configuration, String attachmentId);
