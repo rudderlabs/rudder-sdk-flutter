@@ -34,7 +34,7 @@ dev_dependencies:
 
 # dependency_overrides:
 #   rudder_sdk_flutter:
-#     path: "../packages/plugins/rudder_plugin"
+#     path: "../packages/plugins/rudder_sdk_flutter"
 #   rudder_sdk_flutter_platform_interface:
 #     path: "../packages/plugins/rudder_plugin_interface"
 #   rudder_plugin_android:

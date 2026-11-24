@@ -164,8 +164,24 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+      # Flutter generates this package next to each plugin when it builds an app.
+      - name: Add the FlutterFramework package
+        working-directory: packages/plugins/rudder_sdk_flutter/ios
+        run: |
+          mkdir -p FlutterFramework/Sources/FlutterFramework
+          touch FlutterFramework/Sources/FlutterFramework/FlutterFramework.swift
+          cat > FlutterFramework/Package.swift <<'EOF'
+          // swift-tools-version: 5.9
+          import PackageDescription
+
+          let package = Package(
+              name: "FlutterFramework",
+              products: [.library(name: "FlutterFramework", targets: ["FlutterFramework"])],
+              targets: [.target(name: "FlutterFramework")]
+          )
+          EOF
       - name: Resolve embedded package
-        working-directory: packages/plugins/rudder_plugin_ios/ios/rudder_plugin_ios
+        working-directory: packages/plugins/rudder_sdk_flutter/ios/rudder_sdk_flutter
         run: |
           swift package resolve
           swift package show-dependencies --format json

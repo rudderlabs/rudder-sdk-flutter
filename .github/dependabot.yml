@@ -33,15 +33,7 @@ updates:
       default-days: 7
 
   - package-ecosystem: 'pub'
-    directory: '/packages/plugins/rudder_plugin'
-    open-pull-requests-limit: 0
-    schedule:
-      interval: 'monthly'
-    cooldown:
-      default-days: 7
-
-  - package-ecosystem: 'pub'
-    directory: '/packages/plugins/rudder_plugin_android'
+    directory: '/packages/plugins/rudder_sdk_flutter'
     open-pull-requests-limit: 0
     schedule:
       interval: 'monthly'
@@ -50,30 +42,6 @@ updates:
 
   - package-ecosystem: 'pub'
     directory: '/packages/plugins/rudder_plugin_db_encryption'
-    open-pull-requests-limit: 0
-    schedule:
-      interval: 'monthly'
-    cooldown:
-      default-days: 7
-
-  - package-ecosystem: 'pub'
-    directory: '/packages/plugins/rudder_plugin_interface'
-    open-pull-requests-limit: 0
-    schedule:
-      interval: 'monthly'
-    cooldown:
-      default-days: 7
-
-  - package-ecosystem: 'pub'
-    directory: '/packages/plugins/rudder_plugin_ios'
-    open-pull-requests-limit: 0
-    schedule:
-      interval: 'monthly'
-    cooldown:
-      default-days: 7
-
-  - package-ecosystem: 'pub'
-    directory: '/packages/plugins/rudder_plugin_web'
     open-pull-requests-limit: 0
     schedule:
       interval: 'monthly'
@@ -144,9 +112,9 @@ updates:
     cooldown:
       default-days: 7
 
-  # The embedded iOS plugin's Swift package is active scope; this is not CocoaPods.
+  # The core plugin's Swift package is active scope; this is not CocoaPods.
   - package-ecosystem: 'swift'
-    directory: '/packages/plugins/rudder_plugin_ios/ios/rudder_plugin_ios'
+    directory: '/packages/plugins/rudder_sdk_flutter/ios/rudder_sdk_flutter'
     open-pull-requests-limit: 0
     schedule:
       interval: 'monthly'

@@ -27,7 +27,7 @@
     },
     {
       "name": "rudder_sdk_flutter",
-      "path": "packages/plugins/rudder_plugin",
+      "path": "packages/plugins/rudder_sdk_flutter",
       "tagPattern": "rudder_sdk_flutter-v{{version}}"
     },
     {
