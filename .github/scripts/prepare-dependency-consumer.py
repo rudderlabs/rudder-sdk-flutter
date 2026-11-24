@@ -17,8 +17,9 @@ if not sdk:
 flutter_root = Path(os.environ.get("FLUTTER_ROOT", Path(flutter).resolve().parents[1]))
 consumer = root / ".dependency-consumers" / "local"
 packages = {}
-# These 3.x integrations need the removed rudder_plugin_android until their 4.0 versions replace them.
+# These 3.x packages need the removed rudder_plugin_android; 4.0 replaces or drops them.
 skipped = {
+    "rudder_plugin_db_encryption",
     "rudder_integration_adjust_flutter", "rudder_integration_amplitude_flutter",
     "rudder_integration_appcenter_flutter", "rudder_integration_appsflyer_flutter",
     "rudder_integration_braze_flutter", "rudder_integration_firebase_flutter",
