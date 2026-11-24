@@ -155,7 +155,13 @@ class Analytics {
   }
 
   Future<void> _send(RudderEvent event) {
-    final snapshot = event.snapshot();
+    final RudderEvent snapshot;
+    try {
+      snapshot = event.snapshot();
+    } catch (error) {
+      // A map or list that contains itself has no copy.
+      return _enqueue('send ${event.type.name}', () => Future.error(error));
+    }
     return _enqueue(
       'send ${event.type.name}',
       () => _platform.send(writeKey, snapshot),
