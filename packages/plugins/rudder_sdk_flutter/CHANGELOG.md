@@ -1,3 +1,7 @@
+## 3.4.2
+
+ - **DOCS**: document swift package manager on ios ([#389](https://github.com/rudderlabs/rudder-sdk-flutter/issues/389)). ([621d34d1](https://github.com/rudderlabs/rudder-sdk-flutter/commit/621d34d1298a19c365a70af4d3fa4349dcc3452a))
+
 ## 3.4.1
 
  - Update a dependency to the latest release.
