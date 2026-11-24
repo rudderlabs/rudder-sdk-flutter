@@ -17,14 +17,6 @@ if not sdk:
 flutter_root = Path(os.environ.get("FLUTTER_ROOT", Path(flutter).resolve().parents[1]))
 consumer = root / ".dependency-consumers" / "local"
 packages = {}
-# These 3.x packages need the removed rudder_plugin_android; 4.0 replaces or drops them.
-skipped = {
-    "rudder_plugin_db_encryption",
-    "rudder_integration_adjust_flutter", "rudder_integration_amplitude_flutter",
-    "rudder_integration_appcenter_flutter", "rudder_integration_appsflyer_flutter",
-    "rudder_integration_braze_flutter", "rudder_integration_firebase_flutter",
-    "rudder_integration_kochava_flutter", "rudder_integration_leanplum_flutter",
-}
 
 if consumer.exists():
     shutil.rmtree(consumer)
@@ -41,8 +33,7 @@ for manifest in sorted((root / "packages").glob("*/*/pubspec.yaml")):
     match = re.search(r"^name:\s*([a-zA-Z0-9_]+)", manifest.read_text(), re.MULTILINE)
     if not match:
         raise SystemExit(f"Missing package name: {manifest}")
-    if match[1] not in skipped:
-        packages[match[1]] = manifest.parent
+    packages[match[1]] = manifest.parent
 if not packages:
     raise SystemExit("No local Flutter packages found")
 lines = [
@@ -83,13 +74,10 @@ subprocess.run([flutter, "pub", "get"], cwd=consumer, check=True)
 
 plugins = json.loads((consumer / ".flutter-plugins-dependencies").read_text())
 android = {p["name"]: Path(p["path"]).resolve() for p in plugins["plugins"]["android"]}
-expected = {
-    n: p for n, p in packages.items()
-    if (p / "android/build.gradle").exists() or (p / "android/build.gradle.kts").exists()
-}
+expected = {n: p for n, p in packages.items() if (p / "android/build.gradle").exists()}
 for name, path in expected.items():
     if android.get(name) != path.resolve():
         raise SystemExit(f"Android consumer omitted local package {name}")
 if not expected:
     raise SystemExit("No local Android plugins found")
-print(f"Verified {len(expected)} local Android plugins: {', '.join(sorted(expected))}")
+print(f"Verified {len(expected)} local Android plugins, including Kochava")
