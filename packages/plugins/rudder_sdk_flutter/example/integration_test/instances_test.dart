@@ -343,9 +343,7 @@ void main() {
       expect(dart.isShutdown, isTrue);
       expect(
         logs,
-        contains(
-          startsWith('Rudder-Flutter: ERROR: The native SDK could not start:'),
-        ),
+        contains(startsWith('Rudder-Flutter: ERROR: The SDK could not start:')),
       );
       await nativeTrack(writeKey, 'Native');
       await server.waitForTrack(writeKey, 'Native');

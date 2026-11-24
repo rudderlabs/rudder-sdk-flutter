@@ -286,3 +286,175 @@ final class ConversionTests: XCTestCase {
         XCTAssertEqual(try arguments.uint64("positive"), 1_234_567_890_123)
     }
 }
+
+final class V3MigrationTests: XCTestCase {
+    private let v1User: [String: Any] = [
+        "rl_anonymous_id": "anon-1",
+        "rl_traits": #"{"anonymousId":"anon-1","userId":"user-1","plan":"gold","age":30}"#,
+        "rl_session_id": NSNumber(value: 1_700_000_000),
+        "rl_application_version_key": "1.2.0",
+        "rl_application_build_key": "12",
+        "rl_opt_status": false,
+    ]
+
+    private final class FakeV1: V1Store {
+        let data: [String: Any]
+        let writeKey: String?
+        var deleted = false
+        init(_ data: [String: Any], writeKey: String?) {
+            self.data = data
+            self.writeKey = writeKey
+        }
+        func userData() -> [String: Any] { deleted ? [:] : data }
+        func storedWriteKey() -> String? { deleted ? nil : writeKey }
+        func delete() { deleted = true }
+    }
+
+    private final class FakeSwift: SwiftStores {
+        let existing: Set<String>
+        let failingWrites: Set<String>
+        var written: [String: [String: Any]] = [:]
+        init(existing: Set<String> = [], failingWrites: Set<String> = []) {
+            self.existing = existing
+            self.failingWrites = failingWrites
+        }
+        func isEmpty(writeKey: String) -> Bool { !existing.contains(writeKey) && written[writeKey] == nil }
+        func write(writeKey: String, values: [String: Any]) -> Bool {
+            guard !failingWrites.contains(writeKey) else { return false }
+            written[writeKey] = values
+            return true
+        }
+    }
+
+    private func migration(_ v1: FakeV1, _ swift: FakeSwift) -> V3Migration { V3Migration(v1: v1, swift: swift) { _ in } }
+
+    func testV1ValuesMapToTheSwiftKeysAndTypesWithoutTheSession() throws {
+        let values = swiftStoreValues(v1User)
+
+        XCTAssertEqual(Set(values.keys), ["anonymous_id", "user_id", "traits", "rudder.app_version", "rudder.app_build"])
+        XCTAssertEqual(values["anonymous_id"] as? String, "anon-1")
+        XCTAssertEqual(values["user_id"] as? String, "user-1")
+        let traits = try JSONSerialization.jsonObject(with: Data((values["traits"] as! String).utf8)) as! NSDictionary
+        XCTAssertEqual(traits, ["plan": "gold", "age": 30] as NSDictionary)
+        XCTAssertEqual(values["rudder.app_version"] as? String, "1.2.0")
+        XCTAssertEqual(values["rudder.app_build"] as? Int, 12)
+
+        let older = swiftStoreValues(["rl_anonymous_id": "anon-2", "rl_traits": "not json", "rl_application_build_key": "1.0.3"])
+        XCTAssertEqual(older.keys.sorted(), ["anonymous_id", "rudder.app_build"])
+        XCTAssertEqual(older["rudder.app_build"] as? Int, 0)
+    }
+
+    func testTheWriteKeyComesFromTheCachedSourceConfig() {
+        XCTAssertEqual(writeKeyFromServerConfig(#"{"source":{"id":"s","writeKey":"2AbC_de-9","enabled":true}}"#), "2AbC_de-9")
+        XCTAssertNil(writeKeyFromServerConfig(#"{"source":{"writeKey":""}}"#))
+        XCTAssertNil(writeKeyFromServerConfig("not json"))
+    }
+
+    func testWithAStoredWriteKeyTheStartupRunMigratesIntoThatKey() {
+        let v1 = FakeV1(v1User, writeKey: "A")
+        let swift = FakeSwift()
+        let migration = migration(v1, swift)
+
+        migration.runAtStartup()
+        migration.runBeforeFirstDartStart(writeKey: "B")
+
+        XCTAssertEqual(Set(swift.written.keys), ["A"])
+        XCTAssertEqual(swift.written["A"]?["user_id"] as? String, "user-1")
+        XCTAssertTrue(v1.deleted)
+    }
+
+    func testWhenTheStartupRunDidNotRunTheFirstDartStartMigratesIntoTheStoredWriteKey() {
+        let v1 = FakeV1(v1User, writeKey: "A")
+        let swift = FakeSwift()
+
+        migration(v1, swift).runBeforeFirstDartStart(writeKey: "B")
+
+        XCTAssertEqual(Set(swift.written.keys), ["A"])
+        XCTAssertTrue(v1.deleted)
+    }
+
+    func testAFailedWriteKeepsThe3xDataAndNeverMovesTheUserToAnotherKey() {
+        let v1 = FakeV1(v1User, writeKey: "A")
+        let swift = FakeSwift(failingWrites: ["A"])
+        let migration = migration(v1, swift)
+        migration.runAtStartup()
+        migration.runBeforeFirstDartStart(writeKey: "B")
+        XCTAssertTrue(swift.written.isEmpty)
+        XCTAssertFalse(v1.deleted)
+
+        let noKeyV1 = FakeV1(v1User, writeKey: nil)
+        let noKeySwift = FakeSwift(failingWrites: ["B"])
+        let noKeyMigration = self.migration(noKeyV1, noKeySwift)
+        noKeyMigration.runBeforeFirstDartStart(writeKey: "B")
+        noKeyMigration.runBeforeFirstDartStart(writeKey: "A")
+        XCTAssertTrue(noKeySwift.written.isEmpty)
+        XCTAssertFalse(noKeyV1.deleted)
+    }
+
+    func testAnExistingSwiftStoreForTheKeyBlocksTheMigration() {
+        let v1 = FakeV1(v1User, writeKey: "A")
+        let swift = FakeSwift(existing: ["A"])
+
+        migration(v1, swift).runAtStartup()
+
+        XCTAssertTrue(swift.written.isEmpty)
+        XCTAssertFalse(v1.deleted)
+    }
+
+    func testWithoutAStoredWriteKeyOnlyTheFirstInstanceThatDartStartsGetsTheUser() {
+        let v1 = FakeV1(v1User, writeKey: nil)
+        let swift = FakeSwift()
+        let migration = migration(v1, swift)
+
+        migration.runAtStartup()
+        XCTAssertTrue(swift.written.isEmpty)
+        migration.runBeforeFirstDartStart(writeKey: "B")
+        migration.closeFallback()
+        migration.runBeforeFirstDartStart(writeKey: "A")
+
+        XCTAssertEqual(Set(swift.written.keys), ["B"])
+        XCTAssertTrue(v1.deleted)
+    }
+
+    func testAFirstDartCreateThatFindsANativeInstanceClosesTheFallback() {
+        let v1 = FakeV1(v1User, writeKey: nil)
+        let swift = FakeSwift()
+        let migration = migration(v1, swift)
+
+        migration.runAtStartup()
+        migration.closeFallback()
+        migration.runBeforeFirstDartStart(writeKey: "B")
+
+        XCTAssertTrue(swift.written.isEmpty)
+        XCTAssertFalse(v1.deleted)
+    }
+
+    func testA3xUserWhoOptedOutDoesNotMoveAndThe3xDataIsDeleted() {
+        var optedOut = v1User
+        optedOut["rl_opt_status"] = true
+        let v1 = FakeV1(optedOut, writeKey: "A")
+        let swift = FakeSwift()
+        let migration = migration(v1, swift)
+        migration.runAtStartup()
+        migration.runBeforeFirstDartStart(writeKey: "A")
+        XCTAssertTrue(swift.written.isEmpty)
+        XCTAssertTrue(v1.deleted)
+
+        let noKeyV1 = FakeV1(optedOut, writeKey: nil)
+        self.migration(noKeyV1, swift).runBeforeFirstDartStart(writeKey: "B")
+        XCTAssertTrue(swift.written.isEmpty)
+        XCTAssertTrue(noKeyV1.deleted)
+    }
+
+    func testAnInstallWithNo3xUserWritesNothing() {
+        let v1 = FakeV1(["rl_opt_status": false], writeKey: "A")
+        let swift = FakeSwift()
+        let migration = migration(v1, swift)
+
+        migration.runAtStartup()
+        migration.runBeforeFirstDartStart(writeKey: "A")
+
+        XCTAssertTrue(swift.written.isEmpty)
+        XCTAssertFalse(v1.deleted)
+    }
+}

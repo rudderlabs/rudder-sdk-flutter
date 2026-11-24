@@ -77,6 +77,14 @@ class ConsentManagementConfiguration {
   };
 }
 
+/// Web-only settings. Android and iOS ignore them.
+class WebConfiguration {
+  const WebConfiguration({this.loadOptions = const {}});
+
+  /// Extra JS SDK `load()` options, for example `{'setCookieDomain': 'example.com'}`. A key here replaces the value from the shared settings.
+  final Map<String, Object?> loadOptions;
+}
+
 /// A device-mode integration. Each integration package exports a subclass, such as `FirebaseIntegration`.
 abstract class Integration {
   const Integration(this.name);
@@ -86,6 +94,7 @@ abstract class Integration {
 }
 
 /// The settings of one SDK instance. Each instance needs its own [writeKey].
+/// On web, the engine uses the URLs, [logLevel], the session timeout and automatic tracking, [consentManagement] and [web], and ignores the rest.
 class Configuration {
   /// Throws an [ArgumentError] for an empty [writeKey] or [dataPlaneUrl], or a negative session timeout.
   Configuration({
@@ -100,6 +109,7 @@ class Configuration {
     this.flushPolicies,
     this.sessionConfiguration = const SessionConfiguration(),
     this.consentManagement = const ConsentManagementConfiguration(),
+    this.web = const WebConfiguration(),
     this.integrations = const [],
   }) {
     if (writeKey.trim().isEmpty) {
@@ -138,6 +148,7 @@ class Configuration {
   final List<FlushPolicy>? flushPolicies;
   final SessionConfiguration sessionConfiguration;
   final ConsentManagementConfiguration consentManagement;
+  final WebConfiguration web;
 
   /// Android and iOS only. A new native instance adds these integrations. An instance that already runs keeps its own.
   final List<Integration> integrations;
