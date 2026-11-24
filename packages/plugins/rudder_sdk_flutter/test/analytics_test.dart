@@ -387,6 +387,18 @@ void main() {
     );
 
     test(
+      'a write key that the platform rejects is not kept, and calls create only when accepted',
+      () {
+        platform.rejectedWriteKey = 'key-1';
+        expect(() => Analytics(config()), throwsStateError);
+        platform.rejectedWriteKey = null;
+
+        expect(Analytics(config()).writeKey, 'key-1');
+        expect(platform.calls.map((call) => call.method), ['create']);
+      },
+    );
+
+    test(
       'an attach to a running native instance logs a warning at the warn level only',
       () async {
         platform.attach = true;
@@ -466,7 +478,7 @@ void main() {
         expect(analytics.isShutdown, isTrue);
         expect(platform.calls, isEmpty);
         expect(logs, [
-          'Rudder-Flutter: ERROR: The native SDK could not start: Bad state: native failure',
+          'Rudder-Flutter: ERROR: The SDK could not start: Bad state: native failure',
         ]);
         expect(Analytics(config()).writeKey, 'key-1');
       },
@@ -509,6 +521,7 @@ class FakePlatform extends AnalyticsPlatform {
   final calls = <PlatformCall>[];
   final attachmentIds = <String, String>{};
   bool attach = false;
+  String? rejectedWriteKey;
   bool failCreate = false;
   bool failing = false;
   Future<bool>? createGate;
@@ -527,6 +540,11 @@ class FakePlatform extends AnalyticsPlatform {
     if (failing) throw StateError('platform failure');
     calls.add(call);
     return value;
+  }
+
+  @override
+  void checkCanCreate(String writeKey) {
+    if (writeKey == rejectedWriteKey) throw StateError('write key rejected');
   }
 
   @override
