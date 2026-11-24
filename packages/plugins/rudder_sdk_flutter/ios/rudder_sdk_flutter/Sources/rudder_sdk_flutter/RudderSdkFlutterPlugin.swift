@@ -28,7 +28,9 @@ public final class RudderSdkFlutterPlugin: NSObject, FlutterPlugin {
         switch method {
         case "create":
             let attachment = Attachment(engine: self, id: try arguments.string("attachmentId"))
-            return try instances.create(writeKey: writeKey, attachment: attachment) { Analytics(configuration: try Configuration.from(arguments)) }
+            return try instances.create(writeKey: writeKey, attachment: attachment) {
+                Analytics(configuration: try Configuration.from(arguments)).addIntegrations(arguments.strings("integrations"))
+            }
         case "shutdown":
             instances.detach(writeKey: writeKey, attachment: Attachment(engine: self, id: try arguments.string("attachmentId")))
             return nil

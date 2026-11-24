@@ -76,6 +76,7 @@ void main() {
           'allowedConsentIds': <String>[],
           'deniedConsentIds': <String>[],
         },
+        'integrations': <String>[],
       });
       expect(
         Configuration(
@@ -102,6 +103,7 @@ void main() {
             allowedConsentIds: ['a'],
             deniedConsentIds: ['d'],
           ),
+          integrations: const [_Integration('firebase'), _Integration('braze')],
         ).toMap(),
         {
           'writeKey': 'k',
@@ -127,6 +129,7 @@ void main() {
             'allowedConsentIds': ['a'],
             'deniedConsentIds': ['d'],
           },
+          'integrations': ['firebase', 'braze'],
         },
       );
     });
@@ -584,4 +587,8 @@ class FakePlatform extends AnalyticsPlatform {
   @override
   Future<int?> sessionId(String writeKey) =>
       _record(PlatformCall('sessionId', writeKey), sessionIdValue);
+}
+
+class _Integration extends Integration {
+  const _Integration(super.name);
 }

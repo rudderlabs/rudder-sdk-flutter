@@ -46,7 +46,9 @@ class RudderSdkFlutterPlugin : FlutterPlugin, MethodCallHandler {
     private fun handle(method: String, arguments: Map<String, Any?>): Any? {
         val writeKey = arguments.string("writeKey")
         if (method == "create") {
-            return instances.create(writeKey, attachment(arguments)) { Analytics(arguments.toConfiguration(application)) }
+            return instances.create(writeKey, attachment(arguments)) {
+                Analytics(arguments.toConfiguration(application)).addIntegrations(arguments.strings("integrations"))
+            }
         }
         if (method == "shutdown") {
             instances.detach(writeKey, attachment(arguments))

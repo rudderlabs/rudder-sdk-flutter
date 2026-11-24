@@ -72,3 +72,7 @@ Future<void> stopNativeInstance(String writeKey) =>
 /// Tracks an event with the native instance that [startNativeInstance] created.
 Future<void> nativeTrack(String writeKey, String name) => _host
     .invokeMethod<void>('nativeTrack', {'writeKey': writeKey, 'name': name});
+
+/// The names of the track events that the recording integration of the host received, in every instance.
+Future<List<String>> integrationEvents() async =>
+    (await _host.invokeListMethod<String>('integrationEvents'))!;

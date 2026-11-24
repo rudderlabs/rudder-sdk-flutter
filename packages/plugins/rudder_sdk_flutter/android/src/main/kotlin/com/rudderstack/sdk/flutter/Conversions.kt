@@ -121,6 +121,6 @@ internal fun Map<String, Any?>.map(key: String): Map<String, Any?> = this[key]?.
 
 private fun Map<String, Any?>.list(key: String): List<Any?>? = this[key] as List<*>?
 
-private fun Map<String, Any?>.strings(key: String): List<String> = list(key).orEmpty().map { it as String }
+internal fun Map<String, Any?>.strings(key: String): List<String> = list(key).orEmpty().map { it as String }
 
 private fun Any?.asMap(): Map<String, Any?> = (this as Map<*, *>).entries.associate { (key, value) -> key.toString() to value }

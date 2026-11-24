@@ -14,6 +14,7 @@ Configuration testConfiguration(
   List<FlushPolicy> flushPolicies = const [CountFlushPolicy(flushAt: 1)],
   ConsentManagementConfiguration consentManagement =
       const ConsentManagementConfiguration(),
+  List<Integration> integrations = const [],
 }) => Configuration(
   writeKey: writeKey,
   dataPlaneUrl: url,
@@ -22,6 +23,7 @@ Configuration testConfiguration(
   trackApplicationLifecycleEvents: trackApplicationLifecycleEvents,
   flushPolicies: flushPolicies,
   consentManagement: consentManagement,
+  integrations: integrations,
   logLevel: LogLevel.warn,
 );
 

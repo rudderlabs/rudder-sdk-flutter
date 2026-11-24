@@ -1,6 +1,7 @@
 import Flutter
 import RudderStackAnalytics
 import UIKit
+@_spi(RudderIntegrationPackage) import rudder_sdk_flutter
 
 @main
 @objc class AppDelegate: FlutterAppDelegate, FlutterImplicitEngineDelegate {
@@ -26,8 +27,18 @@ final class TestHost {
   private var engines: [Int: (engine: FlutterEngine, channel: FlutterMethodChannel)] = [:]
   private var nativeInstances: [String: Analytics] = [:]
   private var nextId = 0
+  private var integrationEvents: [String] = []
+  private let integrationLock = NSLock()
 
   func register(messenger: FlutterBinaryMessenger) {
+    IntegrationRegistry.register("flutter_test") { [weak self] in
+      RecordingIntegration { name in
+        guard let self else { return }
+        self.integrationLock.lock()
+        self.integrationEvents.append(name)
+        self.integrationLock.unlock()
+      }
+    }
     let channel = FlutterMethodChannel(name: "rudder_sdk_flutter_example/host", binaryMessenger: messenger)
     channel.setMethodCallHandler { [weak self] call, result in self?.handle(call, result) }
   }
@@ -74,8 +85,36 @@ final class TestHost {
       }
       analytics.track(name: name)
       result(nil)
+    case "integrationEvents":
+      integrationLock.lock()
+      let events = integrationEvents
+      integrationLock.unlock()
+      result(events)
     default:
       result(FlutterMethodNotImplemented)
     }
+  }
+}
+
+/// A custom integration, so it needs no destination in the source config. It records the track events that reach it.
+private final class RecordingIntegration: IntegrationPlugin {
+  var pluginType: PluginType = .terminal
+  var analytics: Analytics?
+  var key = "Flutter Test"
+  private var created = false
+  private let record: (String) -> Void
+
+  init(record: @escaping (String) -> Void) {
+    self.record = record
+  }
+
+  func getDestinationInstance() -> Any? { created ? record : nil }
+
+  func create(destinationConfig: [String: Any]) throws {
+    created = true
+  }
+
+  func track(payload: TrackEvent) {
+    record(payload.event)
   }
 }

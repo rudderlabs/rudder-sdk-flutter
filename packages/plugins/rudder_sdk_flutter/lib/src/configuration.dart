@@ -77,6 +77,14 @@ class ConsentManagementConfiguration {
   };
 }
 
+/// A device-mode integration. Each integration package exports a subclass, such as `FirebaseIntegration`.
+abstract class Integration {
+  const Integration(this.name);
+
+  /// The name under which the integration package registers its Kotlin and Swift integration.
+  final String name;
+}
+
 /// The settings of one SDK instance. Each instance needs its own [writeKey].
 class Configuration {
   /// Throws an [ArgumentError] for an empty [writeKey] or [dataPlaneUrl], or a negative session timeout.
@@ -92,6 +100,7 @@ class Configuration {
     this.flushPolicies,
     this.sessionConfiguration = const SessionConfiguration(),
     this.consentManagement = const ConsentManagementConfiguration(),
+    this.integrations = const [],
   }) {
     if (writeKey.trim().isEmpty) {
       throw ArgumentError.value(writeKey, 'writeKey', 'must not be empty');
@@ -130,6 +139,9 @@ class Configuration {
   final SessionConfiguration sessionConfiguration;
   final ConsentManagementConfiguration consentManagement;
 
+  /// Android and iOS only. A new native instance adds these integrations. An instance that already runs keeps its own.
+  final List<Integration> integrations;
+
   Map<String, Object?> toMap() => {
     'writeKey': writeKey,
     'dataPlaneUrl': dataPlaneUrl,
@@ -142,5 +154,6 @@ class Configuration {
     'flushPolicies': flushPolicies?.map((policy) => policy.toMap()).toList(),
     'sessionConfiguration': sessionConfiguration.toMap(),
     'consentManagement': consentManagement.toMap(),
+    'integrations': [for (final integration in integrations) integration.name],
   };
 }
