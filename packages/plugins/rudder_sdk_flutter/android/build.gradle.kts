@@ -65,7 +65,7 @@ kotlin {
 }
 
 dependencies {
-    api("com.rudderstack.sdk.kotlin:android:2.2.0")
+    api("com.rudderstack.sdk.kotlin:android:2.3.0")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
 }

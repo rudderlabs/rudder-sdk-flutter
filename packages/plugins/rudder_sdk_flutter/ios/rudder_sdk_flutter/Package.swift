@@ -12,7 +12,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "FlutterFramework", path: "../FlutterFramework"),
-        .package(url: "https://github.com/rudderlabs/rudder-sdk-swift.git", from: "2.1.0")
+        .package(url: "https://github.com/rudderlabs/rudder-sdk-swift.git", from: "2.2.0")
     ],
     targets: [
         .target(

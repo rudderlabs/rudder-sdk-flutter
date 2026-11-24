@@ -1,7 +1,6 @@
 import Flutter
 import RudderStackAnalytics
 import UIKit
-import rudder_sdk_flutter
 
 @main
 @objc class AppDelegate: FlutterAppDelegate, FlutterImplicitEngineDelegate {
@@ -22,7 +21,7 @@ import rudder_sdk_flutter
   }
 }
 
-/// Native support for the device tests: extra Flutter engines and a native handover.
+/// Native support for the device tests: extra Flutter engines and an instance that native code starts.
 final class TestHost {
   private var engines: [Int: (engine: FlutterEngine, channel: FlutterMethodChannel)] = [:]
   private var nativeInstances: [String: Analytics] = [:]
@@ -58,13 +57,16 @@ final class TestHost {
     case "engine":
       guard let id = arguments["id"] as? Int, let engine = engines[id], let method = arguments["method"] as? String else { return result(badArguments) }
       engine.channel.invokeMethod(method, arguments: arguments["arguments"]) { result($0) }
-    case "handOver":
+    case "startNativeInstance":
       guard let writeKey = arguments["writeKey"] as? String, let url = arguments["url"] as? String else { return result(badArguments) }
       let analytics = Analytics(configuration: Configuration(
         writeKey: writeKey, dataPlaneUrl: url, controlPlaneUrl: url, gzipEnabled: false,
         flushPolicies: [CountFlushPolicy(flushAt: 1)], trackApplicationLifecycleEvents: false))
-      RudderSdkFlutter.use(analytics, writeKey: writeKey)
       nativeInstances[writeKey] = analytics
+      result(nil)
+    case "stopNativeInstance":
+      guard let writeKey = arguments["writeKey"] as? String, let analytics = nativeInstances[writeKey] else { return result(badArguments) }
+      analytics.shutdown()
       result(nil)
     case "nativeTrack":
       guard let writeKey = arguments["writeKey"] as? String, let analytics = nativeInstances[writeKey], let name = arguments["name"] as? String else {

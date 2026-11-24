@@ -1,7 +1,6 @@
 package com.rudderstack.sdk.flutter
 
 import android.app.Application
-import com.rudderstack.sdk.flutter.RudderSdkFlutter.instances
 import com.rudderstack.sdk.kotlin.android.Analytics
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.plugins.FlutterPlugin

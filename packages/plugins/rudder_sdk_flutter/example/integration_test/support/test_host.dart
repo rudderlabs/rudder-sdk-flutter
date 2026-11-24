@@ -51,10 +51,24 @@ class TestEngine {
   });
 }
 
-/// Creates an SDK instance in native code, and hands it over with `RudderSdkFlutter.use`.
-Future<void> handOverNativeInstance(String writeKey, String url) =>
-    _host.invokeMethod<void>('handOver', {'writeKey': writeKey, 'url': url});
+/// Creates an SDK instance in native code. A Dart `Analytics` for [writeKey] then uses it.
+Future<void> startNativeInstance(String writeKey, String url) =>
+    _host.invokeMethod<void>('startNativeInstance', {
+      'writeKey': writeKey,
+      'url': url,
+    });
 
-/// Tracks an event with the native instance that [handOverNativeInstance] created.
+/// Creates a Kotlin core instance, which has no Android features, in native code. Android only.
+Future<void> startNativeCoreInstance(String writeKey, String url) =>
+    _host.invokeMethod<void>('startNativeCoreInstance', {
+      'writeKey': writeKey,
+      'url': url,
+    });
+
+/// Shuts down the native instance that [startNativeInstance] created.
+Future<void> stopNativeInstance(String writeKey) =>
+    _host.invokeMethod<void>('stopNativeInstance', {'writeKey': writeKey});
+
+/// Tracks an event with the native instance that [startNativeInstance] created.
 Future<void> nativeTrack(String writeKey, String name) => _host
     .invokeMethod<void>('nativeTrack', {'writeKey': writeKey, 'name': name});
