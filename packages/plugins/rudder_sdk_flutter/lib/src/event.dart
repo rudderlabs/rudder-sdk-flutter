@@ -118,12 +118,25 @@ class RudderEvent {
   );
 }
 
-Map<String, Object?> _copyMap(Map<String, Object?> map) =>
-    map.map((key, value) => MapEntry(key, _copyValue(value)));
+Map<String, Object?> _copyMap(Map<String, Object?> map) {
+  final ancestors = Set<Object>.identity()..add(map);
+  return map.map((key, value) => MapEntry(key, _copyValue(value, ancestors)));
+}
 
-Object? _copyValue(Object? value) => switch (value) {
-  Map() => value.map((key, nested) => MapEntry(key, _copyValue(nested))),
-  Uint8List() => Uint8List.fromList(value),
-  List() => value.map(_copyValue).toList(),
-  _ => value,
-};
+// A stack overflow is not catchable on Wasm, so the copy finds a container that contains itself.
+Object? _copyValue(Object? value, Set<Object> ancestors) {
+  if (value is Uint8List) return Uint8List.fromList(value);
+  if (value is! Map && value is! List) return value;
+  if (!ancestors.add(value!)) {
+    throw ArgumentError('The event data contains itself.');
+  }
+  final copy = switch (value) {
+    Map() => value.map(
+      (key, nested) => MapEntry(key, _copyValue(nested, ancestors)),
+    ),
+    List() => [for (final nested in value) _copyValue(nested, ancestors)],
+    _ => value,
+  };
+  ancestors.remove(value);
+  return copy;
+}
