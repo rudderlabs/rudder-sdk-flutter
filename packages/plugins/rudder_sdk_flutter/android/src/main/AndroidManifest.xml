@@ -12,6 +12,9 @@
             <meta-data
                 android:name="com.rudderstack.sdk.flutter.WrapperLibraryInitializer"
                 android:value="androidx.startup" />
+            <meta-data
+                android:name="com.rudderstack.sdk.flutter.V3MigrationInitializer"
+                android:value="androidx.startup" />
         </provider>
     </application>
 </manifest>
