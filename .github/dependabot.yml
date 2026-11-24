@@ -57,22 +57,6 @@ updates:
       default-days: 7
 
   - package-ecosystem: 'pub'
-    directory: '/packages/integrations/rudder_integration_amplitude_flutter'
-    open-pull-requests-limit: 0
-    schedule:
-      interval: 'monthly'
-    cooldown:
-      default-days: 7
-
-  - package-ecosystem: 'pub'
-    directory: '/packages/integrations/rudder_integration_appcenter_flutter'
-    open-pull-requests-limit: 0
-    schedule:
-      interval: 'monthly'
-    cooldown:
-      default-days: 7
-
-  - package-ecosystem: 'pub'
     directory: '/packages/integrations/rudder_integration_appsflyer_flutter'
     open-pull-requests-limit: 0
     schedule:
@@ -90,22 +74,6 @@ updates:
 
   - package-ecosystem: 'pub'
     directory: '/packages/integrations/rudder_integration_firebase_flutter'
-    open-pull-requests-limit: 0
-    schedule:
-      interval: 'monthly'
-    cooldown:
-      default-days: 7
-
-  - package-ecosystem: 'pub'
-    directory: '/packages/integrations/rudder_integration_kochava_flutter'
-    open-pull-requests-limit: 0
-    schedule:
-      interval: 'monthly'
-    cooldown:
-      default-days: 7
-
-  - package-ecosystem: 'pub'
-    directory: '/packages/integrations/rudder_integration_leanplum_flutter'
     open-pull-requests-limit: 0
     schedule:
       interval: 'monthly'

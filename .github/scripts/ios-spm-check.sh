@@ -24,7 +24,7 @@ ROOT=$(cd "$1" && pwd) || usage
 mkdir -p "$3" || usage
 WORK=$(cd "$3" && pwd) || usage
 
-DISCONTINUED="rudder_integration_appcenter_flutter rudder_integration_kochava_flutter rudder_integration_leanplum_flutter"
+DISCONTINUED=""
 COCOAPODS_ONLY="rudder_plugin_db_encryption"
 APP="$WORK/app-spm-$SPM"
 CREATE_LOG="$WORK/create-spm-$SPM.log"

@@ -121,7 +121,7 @@ The required dependency order is:
 2. `rudder_plugin_android`, `rudder_plugin_ios`, and `rudder_plugin_web` come before `rudder_sdk_flutter`.
 3. `rudder_sdk_flutter` comes before database encryption and integration packages.
 
-Integration packages are Adjust, Amplitude, App Center, AppsFlyer, Braze, Firebase, Kochava, and Leanplum.
+Integration packages are Adjust, AppsFlyer, Braze, and Firebase.
 
 The manifest sorts independent packages by package name. Integration packages and database encryption have no dependency on each other.
 

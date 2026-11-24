@@ -22,10 +22,8 @@ gradle.beforeProject { project ->
                                 // Flutter plugin projects are resolved separately. Kotlin metadata
                                 // cannot choose among their Android build variants.
                                 def pluginProjects = [
-                                    ':rudder_integration_adjust_flutter', ':rudder_integration_amplitude_flutter',
-                                    ':rudder_integration_appcenter_flutter', ':rudder_integration_appsflyer_flutter',
+                                    ':rudder_integration_adjust_flutter', ':rudder_integration_appsflyer_flutter',
                                     ':rudder_integration_braze_flutter', ':rudder_integration_firebase_flutter',
-                                    ':rudder_integration_kochava_flutter', ':rudder_integration_leanplum_flutter',
                                     ':rudder_plugin_db_encryption', ':rudder_sdk_flutter',
                                 ]
                                 def knownMetadataMismatch = (project.path == ':app' &&

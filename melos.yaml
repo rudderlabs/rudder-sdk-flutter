@@ -137,22 +137,6 @@ scripts:
     packageFilters:
       scope: '*rudder_integration_adjust_flutter'
 
-  build:integration:amplitude:
-    run: |
-      melos exec -c 1 --fail-fast -- \
-        "flutter build bundle --target=lib/rudder_integration_amplitude_flutter.dart"
-    description: Build the Amplitude integration plugin.
-    packageFilters:
-      scope: '*rudder_integration_amplitude_flutter'
-
-  build:integration:appcenter:
-    run: |
-      melos exec -c 1 --fail-fast -- \
-        "flutter build bundle --target=lib/rudder_integration_appcenter_flutter.dart"
-    description: Build the AppCenter integration plugin.
-    packageFilters:
-      scope: '*rudder_integration_appcenter_flutter'
-
   build:integration:appsflyer:
     run: |
       melos exec -c 1 --fail-fast -- \
@@ -177,32 +161,12 @@ scripts:
     packageFilters:
       scope: '*rudder_integration_firebase_flutter'
 
-  build:integration:leanplum:
-    run: |
-      melos exec -c 1 --fail-fast -- \
-        "flutter build bundle --target=lib/rudder_integration_leanplum_flutter.dart"
-    description: Build the Leanplum integration plugin.
-    packageFilters:
-      scope: '*rudder_integration_leanplum_flutter'
-
-  build:integration:kochava:
-    run: |
-      melos exec -c 1 --fail-fast -- \
-        "flutter build bundle --target=lib/rudder_integration_kochava_flutter.dart"
-    description: Build the Kochava integration plugin.
-    packageFilters:
-      scope: '*rudder_integration_kochava_flutter'
-
   build:integration:all:
     run: |
       melos run build:integration:adjust --no-select && \
-      melos run build:integration:amplitude --no-select && \
       melos run build:integration:appsflyer --no-select && \
-      melos run build:integration:appcenter --no-select && \
       melos run build:integration:braze --no-select && \
       melos run build:integration:firebase --no-select && \
-      melos run build:integration:leanplum --no-select && \
-      melos run build:integration:kochava --no-select && \
       melos bootstrap
     description: Build all the integrations.
 

@@ -2,7 +2,7 @@
 
 The workflow uses Flutter 3.41.9, JDK 17, and the example's existing AGP 8.8 / Gradle 8.10.2 / Kotlin 1.8.10 toolchain. Flutter 3.47.3 rejects this wrapper, so dependency resolution uses a compatible Flutter version without upgrading the SDK build.
 
-The single generated consumer at `.dependency-consumers/local` uses the example's Android project. Its manifest selects every current local package and overrides transitive published selections with those sources. A guard checks all ten local Android plugins, including Kochava. Generated files are ignored; checked-in example inputs are never rewritten.
+The single generated consumer at `.dependency-consumers/local` uses the example's Android project. Its manifest selects every current local package and overrides transitive published selections with those sources. A guard checks every local Android plugin. Generated files are ignored; checked-in example inputs are never rewritten.
 
 Preparation supplies the ignored wrapper launchers and JAR from the pinned Flutter SDK cache. It preserves the checked-in Gradle version and keeps wrapper checksum validation enabled.
 
