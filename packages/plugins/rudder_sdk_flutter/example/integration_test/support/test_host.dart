@@ -58,6 +58,13 @@ Future<void> startNativeInstance(String writeKey, String url) =>
       'url': url,
     });
 
+/// Creates a Kotlin core instance, which has no Android features, in native code. Android only.
+Future<void> startNativeCoreInstance(String writeKey, String url) =>
+    _host.invokeMethod<void>('startNativeCoreInstance', {
+      'writeKey': writeKey,
+      'url': url,
+    });
+
 /// Shuts down the native instance that [startNativeInstance] created.
 Future<void> stopNativeInstance(String writeKey) =>
     _host.invokeMethod<void>('stopNativeInstance', {'writeKey': writeKey});

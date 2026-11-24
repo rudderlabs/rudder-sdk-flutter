@@ -331,6 +331,29 @@ void main() {
     },
     skip: !Platform.isAndroid,
   );
+
+  testWidgets(
+    'when native code runs a Kotlin core instance for the write key, the Dart start fails and the core instance keeps working',
+    (tester) async {
+      final writeKey = uniqueWriteKey('core-instance');
+      await startNativeCoreInstance(writeKey, server.url);
+      final dart = analyticsFor(writeKey);
+      await dart.track('Dart');
+
+      expect(dart.isShutdown, isTrue);
+      expect(
+        logs,
+        contains(
+          startsWith('Rudder-Flutter: ERROR: The native SDK could not start:'),
+        ),
+      );
+      await nativeTrack(writeKey, 'Native');
+      await server.waitForTrack(writeKey, 'Native');
+      expect(server.events(writeKey).map(describe), ['track:Native']);
+      await stopNativeInstance(writeKey);
+    },
+    skip: !Platform.isAndroid,
+  );
 }
 
 /// The names of the application lifecycle events, in order.
