@@ -353,16 +353,23 @@ void main() {
         final analytics = Analytics(config('key-1', LogLevel.warn));
         final cyclic = <String, Object?>{};
         cyclic['self'] = cyclic;
+        final cyclicList = <Object?>[];
+        cyclicList.add({'list': cyclicList});
+        final shared = {'a': 1};
         await analytics.track('cyclic', properties: cyclic);
-        await analytics.track('works');
+        await analytics.screen('cyclic', properties: {'items': cyclicList});
+        await analytics.track('works', properties: {'x': shared, 'y': shared});
         await analytics.shutdown();
         await analytics.identify(traits: cyclic);
 
         expect(platform.sentEvents.map((event) => event.name), ['works']);
+        expect(platform.sentEvents.single.properties, {
+          'x': {'a': 1},
+          'y': {'a': 1},
+        });
         expect(logs, [
-          startsWith(
-            'Rudder-Flutter: ERROR: Failed to send track: Stack Overflow',
-          ),
+          'Rudder-Flutter: ERROR: Failed to send track: Invalid argument(s): The event data contains itself.',
+          'Rudder-Flutter: ERROR: Failed to send screen: Invalid argument(s): The event data contains itself.',
           'Rudder-Flutter: WARN: Ignored send identify, because this instance is shut down.',
         ]);
       },
