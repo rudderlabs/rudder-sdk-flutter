@@ -93,6 +93,11 @@ List<List<Object?>> _calls() {
 Object? _dartifyArgument(JSAny? argument) =>
     argument.isA<JSFunction>() ? 'function' : argument.dartify();
 
+String _json(JSAny? value) =>
+    ((globalContext['JSON']! as JSObject).callMethod('stringify'.toJS, value)!
+            as JSString)
+        .toDart;
+
 void _returnFromSdk(String method, JSAny? value) =>
     (_sdk['returns']! as JSObject)[method] = value;
 
@@ -303,6 +308,31 @@ void main() {
             },
           ],
         ]);
+      },
+    );
+
+    test(
+      'a byte list reaches the JS SDK as an array, as Android and iOS send it',
+      () async {
+        final analytics = Analytics(config());
+        final bytes = Uint8List.fromList([0, 255]);
+        await analytics.track(
+          'Bytes',
+          properties: {
+            'bytes': bytes,
+            'nested': [bytes],
+          },
+          options: RudderOption(customContext: {'bytes': bytes}),
+        );
+        await analytics.identify(traits: {'bytes': bytes});
+
+        final calls = (_sdk['calls']! as JSArray<JSArray<JSAny?>>).toDart;
+        final track = calls
+            .firstWhere((c) => _json(c.toDart.first) == '"track"')
+            .toDart;
+        expect(_json(track[2]), '{"bytes":[0,255],"nested":[[0,255]]}');
+        expect(_json(track[3]), '{"context":{"bytes":[0,255]}}');
+        expect(_json(calls.last.toDart[1]), '{"bytes":[0,255]}');
       },
     );
 

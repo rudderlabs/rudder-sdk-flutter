@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:js_interop';
+import 'dart:typed_data';
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
@@ -58,28 +59,28 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
     final options = _apiOptions(event.options);
     switch (event.type) {
       case EventType.track:
-        sdk.track(event.name!, event.properties.jsify(), options);
+        sdk.track(event.name!, _jsData(event.properties), options);
       case EventType.screen:
         final category = event.category;
         // The JS SDK keeps a null category in the event, so the call leaves it out.
         if (category == null) {
           sdk.pageWithoutCategory(
             event.name!,
-            event.properties.jsify(),
+            _jsData(event.properties),
             options,
           );
         } else {
-          sdk.page(category, event.name!, event.properties.jsify(), options);
+          sdk.page(category, event.name!, _jsData(event.properties), options);
         }
       case EventType.group:
-        sdk.group(event.groupId!, event.traits.jsify(), options);
+        sdk.group(event.groupId!, _jsData(event.traits), options);
       case EventType.identify:
         final userId = event.userId;
         // The JS SDK reads a null user ID as the traits-only overload, and then takes the traits as options.
         if (userId == null) {
-          sdk.identifyTraits(event.traits.jsify(), options);
+          sdk.identifyTraits(_jsData(event.traits), options);
         } else {
-          sdk.identify(userId, event.traits.jsify(), options);
+          sdk.identify(userId, _jsData(event.traits), options);
         }
       case EventType.alias:
         final previousId = event.previousId;
@@ -286,11 +287,21 @@ JSAny? _apiOptions(RudderOption options) {
     if (options.externalIds.isNotEmpty)
       'externalId': [for (final id in options.externalIds) id.toMap()],
   };
-  return {
+  return _jsData({
     if (options.integrations.isNotEmpty) 'integrations': options.integrations,
     if (context.isNotEmpty) 'context': context,
-  }.jsify();
+  });
 }
+
+JSAny? _jsData(Map<String, Object?> data) => _plainLists(data).jsify();
+
+// jsify() makes a typed list a JS typed array, which the JS SDK sends as an object. Android and iOS send an array.
+Object? _plainLists(Object? value) => switch (value) {
+  Map() => value.map((key, nested) => MapEntry(key, _plainLists(nested))),
+  List() when value is TypedData => List.of(value),
+  List() => value.map(_plainLists).toList(),
+  _ => value,
+};
 
 @JS('rudderanalytics')
 external _RudderAnalytics? get _rudderanalytics;
