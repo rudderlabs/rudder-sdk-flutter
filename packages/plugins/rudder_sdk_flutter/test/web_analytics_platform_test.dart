@@ -316,6 +316,7 @@ void main() {
           'name': 'A',
           'age': 30,
           'score': 1.5,
+          'large': 1e20,
           'address': {
             'city': 'Pune',
             'floors': [2],
@@ -331,6 +332,7 @@ void main() {
         'name': 'A',
         'age': 30,
         'score': 1.5,
+        'large': 1e20,
         'address': {
           'city': 'Pune',
           'floors': [2],

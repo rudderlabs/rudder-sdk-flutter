@@ -234,16 +234,19 @@ class WebAnalyticsPlatform extends AnalyticsPlatform {
       logger.log(_configuration?.logLevel ?? LogLevel.none, level, message);
 }
 
-// dartify() makes each JS number a double on WASM, so a whole number becomes an int, as with the JS compiler.
+// dartify() makes each JS number a double on WASM, so a whole number that fits in 64 bits becomes an int.
 Object? _dartValue(Object? value) => switch (value) {
   Map<Object?, Object?>() => value.map(
     (key, nested) => MapEntry(key.toString(), _dartValue(nested)),
   ),
   List<Object?>() => value.map(_dartValue).toList(),
-  double() when value.isFinite && value == value.truncateToDouble() =>
+  double()
+      when value.abs() < _twoToThe63 && value == value.truncateToDouble() =>
     value.toInt(),
   _ => value,
 };
+
+const _twoToThe63 = 9223372036854775808.0;
 
 Map<String, Object?> _loadOptions(Configuration configuration) {
   final consent = configuration.consentManagement;
