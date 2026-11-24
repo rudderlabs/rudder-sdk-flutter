@@ -283,6 +283,7 @@ void main() {
       dart.track('Dart');
       await startNativeInstance(nativeKey, server.url);
       await nativeTrack(nativeKey, 'Native');
+      await server.waitForTrack(dartKey, 'Application Installed');
       await server.waitForTrack(dartKey, 'Dart');
       await server.waitForTrack(nativeKey, 'Native');
 
