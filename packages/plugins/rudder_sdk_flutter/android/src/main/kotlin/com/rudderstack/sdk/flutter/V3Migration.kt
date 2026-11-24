@@ -21,7 +21,7 @@ internal class V3Migration(private val v1: V1Files, private val kotlin: KotlinSt
         val anonymousId = v1AnonymousId() ?: return
         val writeKey = v1.storedWriteKey(anonymousId)
         if (writeKey == null) {
-            log("3.x user data has no stored write key. The first Analytics that Dart creates gets it.")
+            log("The 3.x user has no stored write key. The first instance that Dart starts gets the user.")
             return
         }
         migrate(writeKey)
@@ -48,20 +48,20 @@ internal class V3Migration(private val v1: V1Files, private val kotlin: KotlinSt
         val anonymousId = data[V1_ANONYMOUS_ID] as? String ?: return null
         if (data[V1_OPT_STATUS] != true) return anonymousId
         v1.delete()
-        log("The 3.x user opted out, so the user data does not move. The SDK starts as a new install.")
+        log("The 3.x user opted out, so the user does not move. The SDK starts as a new install.")
         return null
     }
 
     private fun migrate(writeKey: String) {
         if (!kotlin.isEmpty(writeKey)) {
-            log("3.x user data was not migrated: the Kotlin SDK store of this write key has data.")
+            log("The 3.x user did not move: the Kotlin SDK store of this write key has data.")
             return
         }
         if (!kotlin.write(writeKey, kotlinStoreValues(v1.userData()))) {
-            log("3.x user data was not migrated: the write failed. The 3.x data stays on the device.")
+            log("The 3.x user did not move: the write failed. The 3.x data stays on the device.")
             return
         }
         v1.delete()
-        log("3.x user data moved to the Kotlin SDK store.")
+        log("The 3.x user moved to the Kotlin SDK store.")
     }
 }
