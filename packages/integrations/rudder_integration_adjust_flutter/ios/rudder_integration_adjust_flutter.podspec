@@ -13,11 +13,11 @@ Pod::Spec.new do |s|
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'RudderStack' => 'sdk-accounts@rudderstack.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
-  s.public_header_files = 'Classes/**/*.h'
+  s.source_files = 'rudder_integration_adjust_flutter/Sources/rudder_integration_adjust_flutter/**/*'
+  s.public_header_files = 'rudder_integration_adjust_flutter/Sources/rudder_integration_adjust_flutter/include/**/*.h'
   s.dependency 'Flutter'
   s.dependency 'rudder_plugin_ios'
-  s.dependency 'Rudder-Adjust', '1.0.0'
+  s.dependency 'Rudder-Adjust', '~> 2.3'
   s.platform = :ios, '15.0'
 
   # Flutter.framework does not contain a i386 slice.
