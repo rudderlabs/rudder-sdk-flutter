@@ -13,8 +13,8 @@ Pod::Spec.new do |s|
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'RudderStack' => 'sdk-accounts@rudderstack.com' }
   s.source           = { :path => '.' }
-  s.source_files = 'Classes/**/*'
-  s.public_header_files = 'Classes/**/*.h'
+  s.source_files = 'rudder_integration_braze_flutter/Sources/rudder_integration_braze_flutter/**/*'
+  s.public_header_files = 'rudder_integration_braze_flutter/Sources/rudder_integration_braze_flutter/include/**/*.h'
   s.static_framework = true
   s.dependency 'Flutter'
   s.dependency 'rudder_plugin_ios'

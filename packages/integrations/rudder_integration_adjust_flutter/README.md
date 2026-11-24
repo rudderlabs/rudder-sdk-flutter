@@ -38,6 +38,14 @@ rudderClient.initialize(WRITE_KEY,
     config: builder.build(), options:null);
 ```
 
+## Upgrading from 2.x (iOS)
+
+On iOS, this plugin now uses the native `Rudder-Adjust` 2.x, which is built on the Adjust iOS SDK v5:
+
+- If your `ios/Podfile` pins Adjust 4.x (for example, `pod 'Adjust', '4.38.1'`), remove that line.
+- If your app also uses the Adjust SDK directly, it must use Adjust iOS SDK v5.
+- The **Delay Time before SDK initialization** destination setting no longer applies on iOS.
+
 ## Sending Events
 
 Follow the steps from our [RudderStack Flutter SDK](https://github.com/rudderlabs/rudder-sdk-flutter#send-events) repo.
