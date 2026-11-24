@@ -62,6 +62,7 @@ class V3MigrationTest {
     fun `the write key comes from the auth header of the serialized flush config`() {
         assertEquals("2AbC_de-9", writeKeyFromFlushConfig(flushConfig("2AbC_de-9"), "anon-1"))
         assertEquals("2AbC_de-9", writeKeyFromFlushConfig(flushConfig("2AbC_de-9", anonymousId = "user42:"), "user42:"))
+        assertEquals("2AbC_de-9", writeKeyFromFlushConfig(flushConfig("2AbC_de-9", anonymousId = "2AbC_de-9:"), "2AbC_de-9:"))
         assertNull(writeKeyFromFlushConfig(byteArrayOf(0x74, 0x00, 0x7F, 0x41), "anon-1"))
         assertNull(writeKeyFromFlushConfig(ByteArray(0), "anon-1"))
     }

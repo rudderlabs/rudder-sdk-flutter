@@ -33,13 +33,14 @@ private fun parseObject(json: String): JsonObject? = runCatching { Json.parseToJ
 
 private const val JAVA_SERIALIZED_STRING: Byte = 0x74
 
-/** The auth header of `RudderFlushConfig` is base64("<write key>:"); its anonymous ID header can look the same. */
+/** The auth header of `RudderFlushConfig` is base64("<write key>:"); its anonymous ID header comes first and can look the same. */
 internal fun writeKeyFromFlushConfig(bytes: ByteArray, anonymousId: String): String? =
     bytes.indices.asSequence()
         .filter { bytes[it] == JAVA_SERIALIZED_STRING }
         .mapNotNull { serializedStringAt(bytes, it + 1) }
         .mapNotNull { runCatching { Base64.decode(it).decodeToString() }.getOrNull() }
-        .filter { it != anonymousId }
+        .toMutableList()
+        .apply { remove(anonymousId) }
         .firstNotNullOfOrNull(::writeKeyFromAuthHeader)
 
 private fun serializedStringAt(bytes: ByteArray, lengthIndex: Int): String? {
