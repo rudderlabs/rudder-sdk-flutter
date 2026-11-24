@@ -28,7 +28,14 @@ public final class RudderSdkFlutterPlugin: NSObject, FlutterPlugin {
         switch method {
         case "create":
             let attachment = Attachment(engine: self, id: try arguments.string("attachmentId"))
-            return try instances.create(writeKey: writeKey, attachment: attachment) { Analytics(configuration: try Configuration.from(arguments)) }
+            // A bad configuration must fail before the migration moves the user to its write key.
+            let configuration = try Configuration.from(arguments)
+            let attached = instances.create(writeKey: writeKey, attachment: attachment) {
+                v3Migration.runBeforeFirstDartStart(writeKey: writeKey)
+                return Analytics(configuration: configuration)
+            }
+            v3Migration.closeFallback()
+            return attached
         case "shutdown":
             instances.detach(writeKey: writeKey, attachment: Attachment(engine: self, id: try arguments.string("attachmentId")))
             return nil
