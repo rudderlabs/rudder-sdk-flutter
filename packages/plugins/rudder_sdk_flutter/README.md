@@ -50,6 +50,7 @@ The app code is the same on every platform. These rules apply on web:
 
 - The JavaScript SDK runs one write key per page. A second write key makes the `Analytics` constructor throw a `StateError`, also after `shutdown()`.
 - `screen()` sends a `page` event.
+- `alias()` does not change the user ID. The `userId` getter and the later events keep the old ID, but on Android and iOS they use the new one. To use the new ID on web, call `identify()` with it.
 - `flush()` and `shutdown()` do nothing. They log one line at the info level.
 - A getter waits until the JavaScript SDK has loaded, so it answers after the earlier calls. When the SDK has not loaded after 10 seconds, the getter logs a warning and answers without the wait. Later getters do not wait.
 - The shared session settings apply on web. The default session timeout is 5 minutes, and the JavaScript SDK default is 30 minutes.
