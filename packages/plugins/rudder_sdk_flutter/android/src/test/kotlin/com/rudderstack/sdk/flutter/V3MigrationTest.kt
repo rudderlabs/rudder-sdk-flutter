@@ -177,6 +177,25 @@ class V3MigrationTest {
     }
 
     @Test
+    fun `a 3x user who opted out does not move, and the 3x data is deleted`() {
+        val v1 = FakeV1(v1User + ("rl_opt_status" to true), writeKey = "A")
+        val kotlin = FakeKotlin()
+        val migration = migration(v1, kotlin)
+
+        migration.runAtStartup()
+        migration.runBeforeFirstDartStart("A")
+
+        assertTrue(kotlin.written.isEmpty())
+        assertTrue(v1.deleted)
+
+        val noKeyV1 = FakeV1(v1User + ("rl_opt_status" to true), writeKey = null)
+        migration(noKeyV1, kotlin).runBeforeFirstDartStart("B")
+
+        assertTrue(kotlin.written.isEmpty())
+        assertTrue(noKeyV1.deleted)
+    }
+
+    @Test
     fun `an install with no 3x user writes nothing`() {
         val v1 = FakeV1(mapOf("rl_opt_status" to false), writeKey = "A")
         val kotlin = FakeKotlin()

@@ -42,7 +42,15 @@ internal class V3Migration(private val v1: V1Files, private val kotlin: KotlinSt
         fallbackOpen = false
     }
 
-    private fun v1AnonymousId() = v1.userData()[V1_ANONYMOUS_ID] as? String
+    /** Returns the anonymous ID of a 3.x user to move. A user who opted out does not move, and the 3.x data goes. */
+    private fun v1AnonymousId(): String? {
+        val data = v1.userData()
+        val anonymousId = data[V1_ANONYMOUS_ID] as? String ?: return null
+        if (data[V1_OPT_STATUS] != true) return anonymousId
+        v1.delete()
+        log("The 3.x user opted out, so the user data does not move. The SDK starts as a new install.")
+        return null
+    }
 
     private fun migrate(writeKey: String) {
         if (!kotlin.isEmpty(writeKey)) {

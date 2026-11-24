@@ -8,6 +8,7 @@ import java.io.DataInputStream
 import kotlin.io.encoding.Base64
 
 internal const val V1_ANONYMOUS_ID = "rl_anonymous_id_key"
+internal const val V1_OPT_STATUS = "rl_opt_status"
 private const val V1_TRAITS = "rl_traits"
 private const val V1_APP_VERSION = "rl_application_version_key"
 private const val V1_APP_BUILD = "rl_application_build_key"
