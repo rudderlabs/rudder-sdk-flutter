@@ -155,7 +155,7 @@ final class InstanceListTests: XCTestCase {
         _ = racing.create(writeKey: key, attachment: attachment(engine1, "a"), make: starts("first"))
 
         racing.detach(writeKey: key, attachment: attachment(engine1, "a"))
-        created.wait()
+        XCTAssertEqual(created.wait(timeout: .now() + .seconds(5)), .success)
 
         XCTAssertEqual(racing.find(writeKey: key)?.name, "next")
     }

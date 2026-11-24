@@ -346,6 +346,27 @@ void main() {
         ]);
       },
     );
+
+    test(
+      'an event with data that contains itself is logged and dropped, also after shutdown',
+      () async {
+        final analytics = Analytics(config('key-1', LogLevel.warn));
+        final cyclic = <String, Object?>{};
+        cyclic['self'] = cyclic;
+        await analytics.track('cyclic', properties: cyclic);
+        await analytics.track('works');
+        await analytics.shutdown();
+        await analytics.identify(traits: cyclic);
+
+        expect(platform.sentEvents.map((event) => event.name), ['works']);
+        expect(logs, [
+          startsWith(
+            'Rudder-Flutter: ERROR: Failed to send track: Stack Overflow',
+          ),
+          'Rudder-Flutter: WARN: Ignored send identify, because this instance is shut down.',
+        ]);
+      },
+    );
   });
 
   group('Instances', () {
