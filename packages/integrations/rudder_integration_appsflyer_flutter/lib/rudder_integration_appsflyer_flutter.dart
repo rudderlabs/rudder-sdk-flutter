@@ -1,23 +1,11 @@
-import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart';
-import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
+/// AppsFlyer device-mode integration for the RudderStack Flutter SDK.
+library;
 
-/// Adds AppsFlyer as a device-mode destination to the RudderStack Flutter SDK.
-class RudderIntegrationAppsflyerFlutter implements RudderIntegration {
-  static const MethodChannel _channel =
-      MethodChannel('rudder_integration_appsflyer_flutter');
+import 'package:rudder_sdk_flutter/rudder_sdk_flutter.dart';
 
-  /// Registers the native AppsFlyer integration factory with the RudderStack SDK.
-  @override
-  void addFactory() {
-    if (!kIsWeb) {
-      _channel.invokeMethod("addFactory");
-    }
-  }
-
-  /// Returns the destination key used to identify the AppsFlyer integration.
-  @override
-  String getKey() {
-    return "AppsFlyer";
-  }
+/// Sends the events to AppsFlyer on the device, through the RudderStack Kotlin and Swift AppsFlyer integrations.
+///
+/// Add it to `Configuration.integrations`. Android and iOS only.
+class AppsFlyerIntegration extends Integration {
+  const AppsFlyerIntegration() : super('appsflyer');
 }

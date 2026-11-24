@@ -1,4 +1,5 @@
 // swift-tools-version: 5.9
+
 import PackageDescription
 
 let package = Package(
@@ -10,18 +11,18 @@ let package = Package(
         .library(name: "rudder-integration-adjust-flutter", targets: ["rudder_integration_adjust_flutter"])
     ],
     dependencies: [
-        .package(name: "rudder_plugin_ios", path: "../rudder_plugin_ios"),
-        .package(url: "https://github.com/rudderlabs/rudder-integration-adjust-ios.git", "2.3.0"..<"3.0.0")
+        .package(name: "FlutterFramework", path: "../FlutterFramework"),
+        .package(name: "rudder_sdk_flutter", path: "../rudder_sdk_flutter"),
+        .package(url: "https://github.com/rudderlabs/integration-swift-adjust.git", from: "2.1.0")
     ],
     targets: [
         .target(
             name: "rudder_integration_adjust_flutter",
             dependencies: [
-                .product(name: "rudder-plugin-ios", package: "rudder_plugin_ios"),
-                .product(name: "Rudder-Adjust", package: "rudder-integration-adjust-ios")
-            ],
-            path: "Sources/rudder_integration_adjust_flutter",
-            publicHeadersPath: "include"
+                .product(name: "FlutterFramework", package: "FlutterFramework"),
+                .product(name: "rudder-sdk-flutter", package: "rudder_sdk_flutter"),
+                .product(name: "RudderIntegrationAdjust", package: "integration-swift-adjust")
+            ]
         )
     ]
 )
