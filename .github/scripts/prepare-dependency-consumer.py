@@ -20,15 +20,10 @@ packages = {}
 
 if consumer.exists():
     shutil.rmtree(consumer)
-shutil.copytree(
-    root / "example",
-    consumer,
-    ignore=shutil.ignore_patterns(
-        ".dart_tool", "build", "node_modules", "ios", "macos", "linux",
-        "windows", "web", ".env", "local.properties", ".gradle",
-    ),
+subprocess.run(
+    [flutter, "create", "--platforms=android", "--project-name", "rudder_dependency_consumer", str(consumer)],
+    check=True,
 )
-(consumer / "pubspec.lock").unlink(missing_ok=True)
 for manifest in sorted((root / "packages").glob("*/*/pubspec.yaml")):
     match = re.search(r"^name:\s*([a-zA-Z0-9_]+)", manifest.read_text(), re.MULTILINE)
     if not match:
@@ -49,8 +44,7 @@ for name, path in packages.items():
     lines.extend([f"  {name}:", f"    path: {os.path.relpath(path, consumer)}"])
 (consumer / "pubspec.yaml").write_text("\n".join(lines) + "\n")
 
-# The example ignores wrapper launchers and the JAR. Supply the same files
-# Flutter injects for Android builds, while preserving the checked-in version.
+# Supply the wrapper launchers and the JAR from the Flutter SDK cache when the template has none.
 wrapper_cache = flutter_root / "bin/cache/artifacts/gradle_wrapper"
 wrapper_files = ("gradlew", "gradlew.bat", "gradle/wrapper/gradle-wrapper.jar")
 if not all((wrapper_cache / name).is_file() for name in wrapper_files):
@@ -65,8 +59,6 @@ for name in wrapper_files:
         shutil.copy2(source, target)
 (consumer / "android/gradlew").chmod(0o755)
 
-# Flutter SDK-provided test packages can differ from the example's newer lock.
-# Resolve only the generated copy; never rewrite checked-in example inputs.
 subprocess.run([flutter, "pub", "get"], cwd=consumer, check=True)
 (consumer / "android/local.properties").write_text(
     f"sdk.dir={sdk}\nflutter.sdk={flutter_root}\n"
