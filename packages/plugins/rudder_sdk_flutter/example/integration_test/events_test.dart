@@ -304,4 +304,45 @@ void main() {
       await stopNativeInstance(nativeKey);
     },
   );
+
+  testWidgets(
+    'a new instance adds each listed integration once, and an unknown name does not stop the SDK',
+    (tester) async {
+      final writeKey = uniqueWriteKey('integrations');
+      final analytics = Analytics(
+        testConfiguration(
+          writeKey,
+          server.url,
+          integrations: const [
+            _NamedIntegration('missing'),
+            _NamedIntegration('flutter_test'),
+            _NamedIntegration('flutter_test'),
+          ],
+        ),
+      );
+      // The integration gets events only after the SDK has loaded the source config.
+      var ready = false;
+      for (var attempt = 0; attempt < 20 && !ready; attempt++) {
+        await analytics.track('$writeKey warm-up');
+        await Future<void>.delayed(const Duration(milliseconds: 500));
+        ready = (await integrationEvents()).contains('$writeKey warm-up');
+      }
+      expect(ready, isTrue);
+
+      await analytics.track('$writeKey checked');
+      await server.waitForTrack(writeKey, '$writeKey checked');
+      await Future<void>.delayed(const Duration(seconds: 1));
+      expect(
+        (await integrationEvents()).where(
+          (name) => name == '$writeKey checked',
+        ),
+        hasLength(1),
+      );
+      await analytics.shutdown();
+    },
+  );
+}
+
+class _NamedIntegration extends Integration {
+  const _NamedIntegration(super.name);
 }

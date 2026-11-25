@@ -51,7 +51,7 @@ class RudderSdkFlutterPlugin : FlutterPlugin, MethodCallHandler {
             val configuration = arguments.toConfiguration(application)
             return instances.create(writeKey, attachment(arguments)) {
                 migration.runBeforeFirstDartStart(writeKey)
-                Analytics(configuration)
+                Analytics(configuration).addIntegrations(arguments.strings("integrations"))
             }.also { migration.closeFallback() }
         }
         if (method == "shutdown") {

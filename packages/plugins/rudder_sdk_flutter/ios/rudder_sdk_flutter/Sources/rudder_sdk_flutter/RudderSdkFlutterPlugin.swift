@@ -32,7 +32,7 @@ public final class RudderSdkFlutterPlugin: NSObject, FlutterPlugin {
             let configuration = try Configuration.from(arguments)
             let attached = instances.create(writeKey: writeKey, attachment: attachment) {
                 v3Migration.runBeforeFirstDartStart(writeKey: writeKey)
-                return Analytics(configuration: configuration)
+                return Analytics(configuration: configuration).addIntegrations(arguments.strings("integrations"))
             }
             v3Migration.closeFallback()
             return attached

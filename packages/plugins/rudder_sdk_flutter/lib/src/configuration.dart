@@ -85,6 +85,14 @@ class WebConfiguration {
   final Map<String, Object?> loadOptions;
 }
 
+/// A device-mode integration. Each integration package exports a subclass, such as `FirebaseIntegration`.
+abstract class Integration {
+  const Integration(this.name);
+
+  /// The name under which the integration package registers its Kotlin and Swift integration.
+  final String name;
+}
+
 /// The settings of one SDK instance. Each instance needs its own [writeKey].
 /// On web, the engine uses the URLs, [logLevel], the session timeout and automatic tracking, [consentManagement] and [web], and ignores the rest.
 class Configuration {
@@ -102,6 +110,7 @@ class Configuration {
     this.sessionConfiguration = const SessionConfiguration(),
     this.consentManagement = const ConsentManagementConfiguration(),
     this.web = const WebConfiguration(),
+    this.integrations = const [],
   }) {
     if (writeKey.trim().isEmpty) {
       throw ArgumentError.value(writeKey, 'writeKey', 'must not be empty');
@@ -141,6 +150,9 @@ class Configuration {
   final ConsentManagementConfiguration consentManagement;
   final WebConfiguration web;
 
+  /// Android and iOS only. A new native instance adds these integrations. An instance that already runs keeps its own.
+  final List<Integration> integrations;
+
   Map<String, Object?> toMap() => {
     'writeKey': writeKey,
     'dataPlaneUrl': dataPlaneUrl,
@@ -153,5 +165,6 @@ class Configuration {
     'flushPolicies': flushPolicies?.map((policy) => policy.toMap()).toList(),
     'sessionConfiguration': sessionConfiguration.toMap(),
     'consentManagement': consentManagement.toMap(),
+    'integrations': [for (final integration in integrations) integration.name],
   };
 }

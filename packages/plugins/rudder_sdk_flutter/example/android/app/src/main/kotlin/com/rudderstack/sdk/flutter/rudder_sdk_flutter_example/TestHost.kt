@@ -5,6 +5,11 @@ import android.app.Application
 import android.content.Intent
 import com.rudderstack.sdk.kotlin.android.Analytics
 import com.rudderstack.sdk.kotlin.android.Configuration
+import com.rudderstack.sdk.kotlin.android.plugins.devicemode.IntegrationPlugin
+import com.rudderstack.sdk.flutter.IntegrationRegistry
+import com.rudderstack.sdk.flutter.RudderIntegrationPackageApi
+import com.rudderstack.sdk.kotlin.core.internals.models.TrackEvent
+import com.rudderstack.sdk.kotlin.core.internals.utils.InternalRudderApi
 import com.rudderstack.sdk.kotlin.core.internals.policies.CountFlushPolicy
 import com.rudderstack.sdk.kotlin.core.Analytics as CoreAnalytics
 import com.rudderstack.sdk.kotlin.core.Configuration as CoreConfiguration
@@ -14,6 +19,7 @@ import io.flutter.embedding.engine.dart.DartExecutor
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import kotlinx.serialization.json.JsonObject
 
 /** Native support for the device tests: extra Flutter engines, Activity re-creation and an instance that native code starts. */
 object TestHost {
@@ -27,7 +33,11 @@ object TestHost {
 
     private class Engine(val channel: MethodChannel, val headless: FlutterEngine?, var activity: Activity?)
 
+    private val integrationEvents = mutableListOf<String>()
+
+    @OptIn(RudderIntegrationPackageApi::class)
     fun register(messenger: BinaryMessenger, application: Application) {
+        IntegrationRegistry.register("flutter_test") { RecordingIntegration(integrationEvents) }
         MethodChannel(messenger, "rudder_sdk_flutter_example/host").setMethodCallHandler { call, result ->
             try {
                 handle(call, application, result)
@@ -96,6 +106,7 @@ object TestHost {
                 nativeInstances.getValue(call.argument<String>("writeKey")!!).track(call.argument<String>("name")!!)
                 result.success(null)
             }
+            "integrationEvents" -> result.success(synchronized(integrationEvents) { integrationEvents.toList() })
             else -> result.notImplemented()
         }
     }
@@ -116,5 +127,22 @@ object TestHost {
         val onReady = pendingReady ?: return
         pendingReady = null
         waitForReady(messenger, headless = null, activity = activity, onReady)
+    }
+}
+
+/** A custom integration, so it needs no destination in the source config. It records the track events that reach it. */
+@OptIn(InternalRudderApi::class)
+private class RecordingIntegration(private val events: MutableList<String>) : IntegrationPlugin() {
+    override val key = "Flutter Test"
+    private var destination: Any? = null
+
+    override fun create(destinationConfig: JsonObject) {
+        destination = events
+    }
+
+    override fun getDestinationInstance(): Any? = destination
+
+    override fun track(payload: TrackEvent) {
+        synchronized(events) { events += payload.event }
     }
 }
