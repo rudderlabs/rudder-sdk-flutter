@@ -73,7 +73,31 @@ updates:
       default-days: 7
 
   - package-ecosystem: 'pub'
+    directory: '/packages/integrations/rudder_integration_clevertap_flutter'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/packages/integrations/rudder_integration_facebook_flutter'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
     directory: '/packages/integrations/rudder_integration_firebase_flutter'
+    open-pull-requests-limit: 0
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: 'pub'
+    directory: '/packages/integrations/rudder_integration_sprig_flutter'
     open-pull-requests-limit: 0
     schedule:
       interval: 'monthly'
