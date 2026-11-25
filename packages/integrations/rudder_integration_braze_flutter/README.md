@@ -28,7 +28,7 @@ An SDK instance adds the integration when it starts. When native code starts the
 
 ## Braze setup
 
-The Braze Android SDK needs Android API level 25 or later.
+This package needs Android API level 25 or later. Set `minSdk = 25` in `android/app/build.gradle.kts`.
 
 ## iOS: next to the Braze Flutter plugin
 
