@@ -25,23 +25,7 @@ updates:
       default-days: 7
 
   - package-ecosystem: 'pub'
-    directory: '/example'
-    open-pull-requests-limit: 0
-    schedule:
-      interval: 'monthly'
-    cooldown:
-      default-days: 7
-
-  - package-ecosystem: 'pub'
     directory: '/packages/plugins/rudder_sdk_flutter'
-    open-pull-requests-limit: 0
-    schedule:
-      interval: 'monthly'
-    cooldown:
-      default-days: 7
-
-  - package-ecosystem: 'pub'
-    directory: '/packages/plugins/rudder_plugin_db_encryption'
     open-pull-requests-limit: 0
     schedule:
       interval: 'monthly'

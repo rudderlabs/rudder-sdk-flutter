@@ -11,11 +11,6 @@
       "tagPattern": "rudder_sdk_flutter-v{{version}}"
     },
     {
-      "name": "rudder_plugin_db_encryption",
-      "path": "packages/plugins/rudder_plugin_db_encryption",
-      "tagPattern": "rudder_plugin_db_encryption-v{{version}}"
-    },
-    {
       "name": "rudder_integration_adjust_flutter",
       "path": "packages/integrations/rudder_integration_adjust_flutter",
       "tagPattern": "rudder_integration_adjust_flutter-v{{version}}"

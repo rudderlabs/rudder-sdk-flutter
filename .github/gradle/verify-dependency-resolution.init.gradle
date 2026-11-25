@@ -26,7 +26,7 @@ gradle.beforeProject { project ->
                                     ':rudder_integration_braze_flutter', ':rudder_integration_clevertap_flutter',
                                     ':rudder_integration_facebook_flutter', ':rudder_integration_firebase_flutter',
                                     ':rudder_integration_sprig_flutter',
-                                    ':rudder_plugin_db_encryption', ':rudder_sdk_flutter',
+                                    ':rudder_sdk_flutter',
                                 ]
                                 def knownMetadataMismatch = (project.path == ':app' &&
                                     configuration.name ==~ /(debug|profile|release)(Api|Implementation)DependenciesMetadata/ &&

@@ -103,32 +103,6 @@ scripts:
     packageFilters:
       scope: 'rudder_sdk_flutter'
 
-  build:example:web:
-    run: |
-      cd example && \
-      flutter build web --no-wasm-dry-run
-    description: Build the example app for Web with JavaScript.
-
-  build:example:web:wasm:
-    run: |
-      cd example && \
-      flutter build web --wasm
-    description: Build the example app for Web with WebAssembly.
-
-  build:example:web:all:
-    run: |
-      melos run build:example:web --no-select && \
-      melos run build:example:web:wasm --no-select
-    description: Build the example app for all supported Web compilation modes.
-
-  build:sdk:db_encryption:
-    run: |
-      melos exec -c 1 --fail-fast -- \
-        "flutter build bundle --target=lib/rudder_plugin_db_encryption.dart"
-    description: Build the DB Encryption plugin.
-    packageFilters:
-      scope: '*rudder_plugin_db_encryption*'
-
   build:integration:adjust:
     run: |
       melos exec -c 1 --fail-fast -- \
@@ -200,7 +174,6 @@ scripts:
   build:sdk:all:
     run: |
       melos run build:sdk --no-select && \
-      melos run build:sdk:db_encryption --no-select && \
       melos bootstrap
     description: Build all SDK bundles.
 

@@ -117,13 +117,11 @@ The release manifest puts dependencies before dependents.
 
 The required dependency order is:
 
-1. `rudder_sdk_flutter_platform_interface` comes before its dependents.
-2. `rudder_plugin_android`, `rudder_plugin_ios`, and `rudder_plugin_web` come before `rudder_sdk_flutter`.
-3. `rudder_sdk_flutter` comes before database encryption and integration packages.
+1. `rudder_sdk_flutter` comes before the integration packages.
 
 Integration packages are Adjust, AppsFlyer, Braze, CleverTap, Facebook, Firebase, and Sprig.
 
-The manifest sorts independent packages by package name. Integration packages and database encryption have no dependency on each other.
+The manifest sorts independent packages by package name. Integration packages have no dependency on each other.
 
 Package workflows can start at the same time. A dependent package waits until its required version is public.
 

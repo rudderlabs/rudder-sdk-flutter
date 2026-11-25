@@ -46,13 +46,6 @@ jobs:
           channel: stable
           architecture: x64
 
-      - name: Setup .env file
-        run: |
-          cat <<EOF > example/.env
-            WRITE_KEY=${{ secrets.TEST_WRITE_KEY }}
-            DATA_PLANE_URL=${{ secrets.TEST_DATAPLANE_URL }}
-           EOF
-
       # The 4.0 core supports only Swift Package Manager on iOS.
       - name: Enable Swift Package Manager
         run: flutter config --enable-swift-package-manager
