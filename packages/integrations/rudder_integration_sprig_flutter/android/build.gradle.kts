@@ -39,10 +39,22 @@ android {
         getByName("main") {
             java.srcDirs("src/main/kotlin")
         }
+        getByName("test") {
+            java.srcDirs("src/test/kotlin")
+        }
     }
 
     defaultConfig {
         minSdk = 24
+    }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+            it.testLogging {
+                events("passed", "skipped", "failed")
+            }
+        }
     }
 }
 
@@ -56,4 +68,6 @@ kotlin {
 dependencies {
     api("com.rudderstack.integration.kotlin:sprig:2.1.2")
     api("com.userleap:userleap-android-sdk") { version { require("2.23.0") } }
+
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
 }
