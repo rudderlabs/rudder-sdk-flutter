@@ -2,7 +2,7 @@ name: Build & Code Quality Checks
 
 on:
   pull_request:
-    branches: ['develop', 'main']
+    branches: ['develop', 'main', 'feat/flutter-v4']
     types: ['opened', 'reopened', 'synchronize']
 
 permissions:
@@ -42,6 +42,10 @@ jobs:
         with:
           channel: stable
           architecture: x64
+
+      # The 4.0 core supports only Swift Package Manager on iOS.
+      - name: Enable Swift Package Manager
+        run: flutter config --enable-swift-package-manager
 
       - name: Install Melos
         run: |

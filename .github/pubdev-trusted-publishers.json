@@ -6,26 +6,6 @@
   "githubEnvironment": "pub-dev",
   "packages": [
     {
-      "name": "rudder_sdk_flutter_platform_interface",
-      "path": "packages/plugins/rudder_plugin_interface",
-      "tagPattern": "rudder_sdk_flutter_platform_interface-v{{version}}"
-    },
-    {
-      "name": "rudder_plugin_android",
-      "path": "packages/plugins/rudder_plugin_android",
-      "tagPattern": "rudder_plugin_android-v{{version}}"
-    },
-    {
-      "name": "rudder_plugin_ios",
-      "path": "packages/plugins/rudder_plugin_ios",
-      "tagPattern": "rudder_plugin_ios-v{{version}}"
-    },
-    {
-      "name": "rudder_plugin_web",
-      "path": "packages/plugins/rudder_plugin_web",
-      "tagPattern": "rudder_plugin_web-v{{version}}"
-    },
-    {
       "name": "rudder_sdk_flutter",
       "path": "packages/plugins/rudder_sdk_flutter",
       "tagPattern": "rudder_sdk_flutter-v{{version}}"

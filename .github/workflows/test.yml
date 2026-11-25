@@ -5,7 +5,7 @@ on:
   push:
     branches: ['develop', 'main']
   pull_request:
-    branches: ['develop', 'main']
+    branches: ['develop', 'main', 'feat/flutter-v4']
     types: ['opened', 'reopened', 'synchronize']
 
 permissions:
@@ -52,6 +52,10 @@ jobs:
             WRITE_KEY=${{ secrets.TEST_WRITE_KEY }}
             DATA_PLANE_URL=${{ secrets.TEST_DATAPLANE_URL }}
            EOF
+
+      # The 4.0 core supports only Swift Package Manager on iOS.
+      - name: Enable Swift Package Manager
+        run: flutter config --enable-swift-package-manager
 
       - name: Install Melos
         run: |
