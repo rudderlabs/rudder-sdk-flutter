@@ -11,7 +11,19 @@ This package sends events to AppsFlyer on the device. It adds the RudderStack Ko
    flutter pub add rudder_integration_appsflyer_flutter
    ```
 
-3. Add the integration to the configuration:
+3. Start the AppsFlyer SDK before you create `Analytics`. The integration sends each event to the shared AppsFlyer SDK, but AppsFlyer sends nothing until the app initializes and starts it. No error shows this.
+   - With the AppsFlyer Flutter plugin `appsflyer_sdk`:
+
+     ```dart
+     import 'package:appsflyer_sdk/appsflyer_sdk.dart';
+
+     await AppsFlyerSdk.instance.init(devKey: '<AppsFlyer dev key>', appId: '<Apple app ID>');
+     await AppsFlyerSdk.instance.start();
+     ```
+
+   - In native code, follow the AppsFlyer SDK v7 setup in the [Kotlin integration guide](https://github.com/rudderlabs/rudder-sdk-kotlin/blob/develop/integrations/appsflyer/README.md) and the [Swift integration guide](https://github.com/rudderlabs/rudder-monorepo-swift/blob/main/Integrations/AppsFlyer/README.md). SDK v7 calls `start()` inside `registerSessionReadyListener`.
+
+4. Add the integration to the configuration:
 
    ```dart
    import 'package:rudder_integration_appsflyer_flutter/rudder_integration_appsflyer_flutter.dart';
@@ -28,7 +40,7 @@ An SDK instance adds the integration when it starts. When native code starts the
 
 ## Native code
 
-On Android, this package exposes the Kotlin integration and the AppsFlyer Android SDK to the app. On iOS, Swift Package Manager makes both modules importable. So native code can build the integration with its own AppsFlyer instance, with no extra Gradle or Xcode setting.
+On Android, this package exposes the Kotlin integration and the AppsFlyer Android SDK to the app. On iOS, Swift Package Manager makes both modules importable. So native code can start AppsFlyer and add the integration with no extra Gradle or Xcode setting. The integration always uses the shared AppsFlyer instance. It has no constructor that takes your own instance.
 
 ## Contact us
 

@@ -30,9 +30,11 @@ An SDK instance adds the integration when it starts. When native code starts the
 
 Add `google-services.json` (Android) and `GoogleService-Info.plist` (iOS), for example with `flutterfire configure`.
 
+On iOS, the Swift integration configures the default Firebase app when the source config arrives, unless the app configured it before. So when your app configures Firebase itself, with `Firebase.initializeApp()` or a native `FirebaseApp.configure()`, do it before you create `Analytics`. A later native `FirebaseApp.configure()` can raise a duplicate-configuration exception.
+
 ## Native code
 
-On Android, this package exposes the Kotlin integration and the Firebase Android SDK to the app. On iOS, Swift Package Manager makes both modules importable. So native code can build the integration with its own Firebase instance, with no extra Gradle or Xcode setting.
+On Android, this package exposes the Kotlin integration and Firebase Analytics to the app. On iOS, Swift Package Manager makes both modules importable. So native code can add the integration with no extra Gradle or Xcode setting. The integration always uses the default Firebase app. It has no constructor that takes your own instance.
 
 ## Contact us
 
