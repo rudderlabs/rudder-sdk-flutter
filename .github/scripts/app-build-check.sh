@@ -85,6 +85,27 @@ if setting not in pubspec:
 pubspec += "\ndependency_overrides:\n" + entries(sorted(packages))
 open("pubspec.yaml", "w").write(pubspec)
 
+# The build compiles only the Dart code that main.dart reaches, so main.dart uses the public API of every package.
+integrations = sorted(
+    found for n in deps if n != "rudder_sdk_flutter"
+    for found in re.findall(r"^class (\w+) extends Integration\b", (packages[n] / "lib" / f"{n}.dart").read_text(), re.MULTILINE)
+)
+if len(integrations) < len(deps) - 1:
+    sys.exit("Each integration package must declare its Integration class in lib/<package>.dart")
+imports = "".join(f"import 'package:{n}/{n}.dart';\n" for n in deps)
+Path("lib/main.dart").write_text(
+    "import 'package:flutter/widgets.dart';\n" + imports + "\n"
+    "void main() {\n"
+    "  WidgetsFlutterBinding.ensureInitialized();\n"
+    "  Analytics(Configuration(\n"
+    "    writeKey: 'write-key',\n"
+    "    dataPlaneUrl: 'https://example.com',\n"
+    f"    integrations: [{', '.join(f'{c}()' for c in integrations)}],\n"
+    "  ));\n"
+    "}\n"
+)
+print("Integrations: " + (", ".join(integrations) or "-"))
+
 if platform == "android":
     # The app uses the highest minSdk that a package declares, as each package README tells it to.
     min_sdks = [int(m) for n in deps for f in (packages[n] / "android").glob("build.gradle*")
