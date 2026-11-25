@@ -55,11 +55,18 @@ private enum SprigScreens {
         integrations.allObjects.forEach { $0.setViewController(controller) }
     }
 
-    /// The newest engine's view controller that is in a window and presents nothing, because UIKit refuses a second presentation.
-    /// Without one, the newest in a window, or else the newest.
+    /// The newest engine's view controller that is visible in an active scene and presents nothing, because UIKit refuses a
+    /// second presentation. Without one, the newest visible one, or else the newest.
     private static func viewController() -> UIViewController? {
         let controllers = registrars.reversed().compactMap { $0.value?.viewController }
-        let visible = controllers.filter { $0.viewIfLoaded?.window != nil }
+        let visible = controllers.filter(isVisible)
         return visible.first { $0.presentedViewController == nil } ?? visible.first ?? controllers.first
+    }
+
+    /// A window can keep its view controller while its scene is in the background.
+    private static func isVisible(_ controller: UIViewController) -> Bool {
+        guard let window = controller.viewIfLoaded?.window, !window.isHidden else { return false }
+        guard let scene = window.windowScene else { return true }
+        return scene.activationState == .foregroundActive
     }
 }

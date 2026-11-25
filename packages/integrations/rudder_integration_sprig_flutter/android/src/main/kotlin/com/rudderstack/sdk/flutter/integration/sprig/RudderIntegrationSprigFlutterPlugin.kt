@@ -36,6 +36,7 @@ class RudderIntegrationSprigFlutterPlugin : FlutterPlugin, ActivityAware {
             return
         }
         this.activity = activity
+        screens.onAttached(activity)
         activity.lifecycle.addObserver(lifecycleObserver)
     }
 
@@ -43,9 +44,11 @@ class RudderIntegrationSprigFlutterPlugin : FlutterPlugin, ActivityAware {
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) = onAttachedToActivity(binding)
 
-    // The observer already reports the pause. Another engine can still show on this resumed activity.
     override fun onDetachedFromActivity() {
-        activity?.lifecycle?.removeObserver(lifecycleObserver)
+        activity?.let {
+            it.lifecycle.removeObserver(lifecycleObserver)
+            screens.onDetached(it)
+        }
         activity = null
     }
 }

@@ -100,4 +100,36 @@ class ScreenTrackerTest {
 
         assertNull(integration.screen)
     }
+
+    @Test
+    fun `when the last engine detaches from a resumed screen, the integrations get the screen that resumed before it`() {
+        val integration = Integration()
+        val older = Screen("other resumed screen")
+        val host = Screen("native activity that removes its Flutter fragment")
+        tracker.track(integration)
+        tracker.onAttached(older)
+        tracker.onResumed(older)
+        tracker.onAttached(host)
+        tracker.onResumed(host)
+
+        tracker.onDetached(host)
+
+        assertSame(older, integration.screen)
+    }
+
+    @Test
+    fun `a screen stays while another engine still shows on it`() {
+        val integration = Integration()
+        val screen = Screen("activity with two Flutter engines")
+        tracker.track(integration)
+        tracker.onAttached(screen)
+        tracker.onAttached(screen)
+        tracker.onResumed(screen)
+
+        tracker.onDetached(screen)
+        assertSame(screen, integration.screen)
+
+        tracker.onDetached(screen)
+        assertNull(integration.screen)
+    }
 }
