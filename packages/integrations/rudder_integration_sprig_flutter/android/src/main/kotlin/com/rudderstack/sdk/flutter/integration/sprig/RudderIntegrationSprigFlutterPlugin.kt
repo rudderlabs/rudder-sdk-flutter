@@ -1,5 +1,6 @@
 package com.rudderstack.sdk.flutter.integration.sprig
 
+import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import com.rudderstack.integration.kotlin.sprig.SprigIntegration
 import com.rudderstack.sdk.flutter.IntegrationRegistry
@@ -25,7 +26,13 @@ class RudderIntegrationSprigFlutterPlugin : FlutterPlugin, ActivityAware {
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) = Unit
 
-    override fun onAttachedToActivity(binding: ActivityPluginBinding) = useActivity(binding.activity as? FragmentActivity)
+    override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+        val activity = binding.activity as? FragmentActivity
+        if (activity == null) {
+            Log.w(TAG, "Sprig cannot show surveys, because MainActivity does not extend FlutterFragmentActivity.")
+        }
+        useActivity(activity)
+    }
 
     override fun onDetachedFromActivityForConfigChanges() = useActivity(null)
 
@@ -39,3 +46,5 @@ class RudderIntegrationSprigFlutterPlugin : FlutterPlugin, ActivityAware {
         integrations.forEach { it.get()?.setFragmentActivity(activity) }
     }
 }
+
+private const val TAG = "Rudder-Flutter"
