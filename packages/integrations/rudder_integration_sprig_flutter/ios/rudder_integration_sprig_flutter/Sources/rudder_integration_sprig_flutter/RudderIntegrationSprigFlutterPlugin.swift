@@ -38,6 +38,12 @@ private enum SprigScreens {
             observers = events.map { event in
                 NotificationCenter.default.addObserver(forName: event, object: nil, queue: .main) { _ in showAll() }
             }
+            // A scene can still report that it is active while it posts these events, so the presenter leaves it out.
+            observers += [UIScene.willDeactivateNotification, UIScene.didEnterBackgroundNotification].map { event in
+                NotificationCenter.default.addObserver(forName: event, object: nil, queue: .main) {
+                    showAll(leaving: $0.object as? UIScene)
+                }
+            }
         }
         // An engine can get its view controller after its plugins register.
         DispatchQueue.main.async { showAll() }
@@ -50,23 +56,24 @@ private enum SprigScreens {
         return integration
     }
 
-    private static func showAll() {
-        let controller = viewController()
+    private static func showAll(leaving scene: UIScene? = nil) {
+        let controller = viewController(leaving: scene)
         integrations.allObjects.forEach { $0.setViewController(controller) }
     }
 
-    /// The newest engine's view controller that is visible in an active scene and presents nothing, because UIKit refuses a
-    /// second presentation. Without one, the newest visible one, or else the newest.
-    private static func viewController() -> UIViewController? {
+    /// Sprig presents only from a view controller in a window, so one with no window is safe and can get a window later.
+    private static func viewController(leaving: UIScene? = nil) -> UIViewController? {
         let controllers = registrars.reversed().compactMap { $0.value?.viewController }
-        let visible = controllers.filter(isVisible)
-        return visible.first { $0.presentedViewController == nil } ?? visible.first ?? controllers.first
+        let visible = controllers.filter { isVisible($0, leaving: leaving) }
+        // UIKit refuses a second presentation.
+        return visible.first { $0.presentedViewController == nil } ?? visible.first
+            ?? controllers.first { $0.viewIfLoaded?.window == nil }
     }
 
     /// A window can keep its view controller while its scene is in the background.
-    private static func isVisible(_ controller: UIViewController) -> Bool {
+    private static func isVisible(_ controller: UIViewController, leaving: UIScene?) -> Bool {
         guard let window = controller.viewIfLoaded?.window, !window.isHidden else { return false }
         guard let scene = window.windowScene else { return true }
-        return scene.activationState == .foregroundActive
+        return scene !== leaving && scene.activationState == .foregroundActive
     }
 }
