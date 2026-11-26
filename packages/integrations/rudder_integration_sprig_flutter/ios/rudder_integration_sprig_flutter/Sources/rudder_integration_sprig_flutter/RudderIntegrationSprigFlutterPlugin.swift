@@ -34,6 +34,8 @@ private enum SprigScreens {
                 UIApplication.didBecomeActiveNotification,
                 UIScene.didActivateNotification,
                 UIWindow.didBecomeKeyNotification,
+                UIWindow.didBecomeVisibleNotification,
+                UIWindow.didBecomeHiddenNotification,
             ]
             observers = events.map { event in
                 NotificationCenter.default.addObserver(forName: event, object: nil, queue: .main) { _ in showAll() }
