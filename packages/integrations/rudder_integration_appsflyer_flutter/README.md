@@ -12,13 +12,16 @@ This package sends events to AppsFlyer on the device. It adds the RudderStack Ko
    ```
 
 3. Start the AppsFlyer SDK before you create `Analytics`. The integration sends each event to the shared AppsFlyer SDK, but AppsFlyer sends nothing until the app initializes and starts it. No error shows this.
-   - With the AppsFlyer Flutter plugin `appsflyer_sdk`:
+   - With the AppsFlyer Flutter plugin `appsflyer_sdk` 7.x, call `start()` from the session-ready listener. AppsFlyer calls the listener once in each foreground cycle, because the SDK resets its started state when the app goes to the background. A single `start()` call leaves later sessions without a start.
 
      ```dart
      import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 
-     await AppsFlyerSdk.instance.init(devKey: '<AppsFlyer dev key>', appId: '<Apple app ID>');
-     await AppsFlyerSdk.instance.start();
+     final appsFlyer = AppsFlyerSdk.instance;
+     await appsFlyer.init(devKey: '<AppsFlyer dev key>', appId: '<Apple app ID>');
+     await appsFlyer.registerSessionReadyListener(() async {
+       await appsFlyer.start();
+     });
      ```
 
    - In native code, follow the AppsFlyer SDK v7 setup in the [Kotlin integration guide](https://github.com/rudderlabs/rudder-sdk-kotlin/blob/develop/integrations/appsflyer/README.md) and the [Swift integration guide](https://github.com/rudderlabs/rudder-monorepo-swift/blob/main/Integrations/AppsFlyer/README.md). SDK v7 calls `start()` inside `registerSessionReadyListener`.
