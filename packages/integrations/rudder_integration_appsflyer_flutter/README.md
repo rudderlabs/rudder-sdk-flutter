@@ -62,7 +62,7 @@ dependencies {
   }
 ```
 
-7. Initialize the AppsFlyer iOS SDK by adding the following code at the top of the `didFinishLaunchingWithOptions` method in the `AppDelegate.swift` file at `ios/Runner/`.
+7. Initialize the AppsFlyer iOS SDK by adding the following code at the top of the `didFinishLaunchingWithOptions` method in the `AppDelegate.swift` file at `ios/Runner/`. AppsFlyer must start each time the app becomes active, so each return to the foreground starts a session. Observing `UIApplication.didBecomeActiveNotification` also covers the first launch, and works whether or not your app uses scenes.
 
 ```swift
       import AppsFlyerLib
@@ -70,8 +70,13 @@ dependencies {
       AppsFlyerLib.shared().appsFlyerDevKey = "AF_DEV_KEY"
       AppsFlyerLib.shared().appleAppID = "APPLE_APP_ID"
       AppsFlyerLib.shared().isDebug = true
-      AppsFlyerLib.shared().start()
+      NotificationCenter.default.addObserver(
+        forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main
+      ) { _ in
+        AppsFlyerLib.shared().start()
+      }
 ```
+
 ## Sending Events
 
 Follow the steps from our [RudderStack Flutter SDK](https://github.com/rudderlabs/rudder-sdk-flutter#send-events) repo.
