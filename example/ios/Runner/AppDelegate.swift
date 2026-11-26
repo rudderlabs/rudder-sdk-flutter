@@ -15,7 +15,13 @@ import AppsFlyerLib
     if !devKey.isEmpty && !appleAppID.isEmpty {
       AppsFlyerLib.shared().appsFlyerDevKey = devKey
       AppsFlyerLib.shared().appleAppID = appleAppID
-      AppsFlyerLib.shared().start()
+      // Start on every return to the foreground (this also covers the first launch).
+      // This app uses scenes, so applicationDidBecomeActive isn't called; observe the notification.
+      NotificationCenter.default.addObserver(
+        forName: UIApplication.didBecomeActiveNotification, object: nil, queue: .main
+      ) { _ in
+        AppsFlyerLib.shared().start()
+      }
     }
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
