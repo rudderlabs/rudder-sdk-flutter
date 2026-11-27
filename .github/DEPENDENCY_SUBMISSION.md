@@ -1,10 +1,10 @@
 # Native dependency inventory
 
-The workflow uses Flutter 3.41.9, JDK 17, and the example's existing AGP 8.8 / Gradle 8.10.2 / Kotlin 1.8.10 toolchain. Flutter 3.47.3 rejects this wrapper, so dependency resolution uses a compatible Flutter version without upgrading the SDK build.
+The workflow uses Flutter 3.50.0 and JDK 17. The consumer uses the Android toolchain of the `flutter create` template of that Flutter version.
 
-The single generated consumer at `.dependency-consumers/local` uses the example's Android project. Its manifest selects every current local package and overrides transitive published selections with those sources. A guard checks every local Android plugin. Generated files are ignored; checked-in example inputs are never rewritten.
+The single generated consumer at `.dependency-consumers/local` is a new app from `flutter create`. Its manifest selects every current local package and overrides transitive published selections with those sources. A guard checks every local Android plugin. Generated files are ignored.
 
-Preparation supplies the ignored wrapper launchers and JAR from the pinned Flutter SDK cache. It preserves the checked-in Gradle version and keeps wrapper checksum validation enabled.
+When the template has no wrapper launchers or JAR, preparation supplies them from the pinned Flutter SDK cache. Wrapper checksum validation stays enabled.
 
 The published example is not resolved separately. The [October 30 hosted comparison](https://github.com/rudderlabs/rudder-sdk-flutter/actions/runs/41058706925) found 571 shared Maven package/version pairs: 576 in the local-source inventory and 572 in the published inventory. The published inventory added only `com.rudderstack.android.integration:appsflyer:1.0.4`. This accepted limit avoids a second Android resolution job and dual consumer preparation. The local-source inventory does not certify older published selections or arbitrary customer applications. Revisit this choice if a concrete missed advisory or remediation requires published-version coverage. [SDK-5570](https://linear.app/rudderstack/issue/SDK-5570) tracks this boundary.
 
