@@ -49,5 +49,9 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-4271859468376006~9737595580" />
+        <!-- Set to your AppsFlyer dev key to start the AppsFlyer SDK. -->
+        <meta-data
+            android:name="AFDevKey"
+            android:value="" />
     </application>
 </manifest>

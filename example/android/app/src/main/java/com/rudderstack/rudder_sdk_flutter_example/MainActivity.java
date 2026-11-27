@@ -1,7 +1,10 @@
 package com.rudderstack.rudder_sdk_flutter_example;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import com.appsflyer.AppsFlyerLib;
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.embedding.engine.FlutterEngineGroup;
@@ -18,8 +21,25 @@ public class MainActivity extends FlutterActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startAppsFlyer();
         // Create FlutterEngineGroup for spawning multiple engines efficiently
         engineGroup = new FlutterEngineGroup(getApplicationContext());
+    }
+
+    // The AppsFlyer integration needs the app to start the AppsFlyer SDK.
+    // Set the AFDevKey meta-data in AndroidManifest.xml to enable it.
+    private void startAppsFlyer() {
+        try {
+            ApplicationInfo info = getPackageManager()
+                .getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            String devKey = info.metaData != null ? info.metaData.getString("AFDevKey", "") : "";
+            if (!devKey.isEmpty()) {
+                AppsFlyerLib.getInstance().init(devKey, null, getApplicationContext());
+                AppsFlyerLib.getInstance().start(this);
+            }
+        } catch (PackageManager.NameNotFoundException ignored) {
+            // The app's own package is always present.
+        }
     }
 
     @Override

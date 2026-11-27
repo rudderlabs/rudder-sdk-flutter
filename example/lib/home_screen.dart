@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:rudder_plugin_db_encryption/rudder_plugin_db_encryption.dart';
 import 'package:rudder_sdk_flutter/RudderController.dart';
-import 'package:rudder_integration_appcenter_flutter/rudder_integration_appcenter_flutter.dart';
+import 'package:rudder_integration_adjust_flutter/rudder_integration_adjust_flutter.dart';
+import 'package:rudder_integration_appsflyer_flutter/rudder_integration_appsflyer_flutter.dart';
 import 'package:rudder_integration_braze_flutter/rudder_integration_braze_flutter.dart';
 import 'package:rudder_integration_firebase_flutter/rudder_integration_firebase_flutter.dart';
 import 'package:rudder_integration_amplitude_flutter/rudder_integration_amplitude_flutter.dart';
@@ -88,10 +89,11 @@ class HomeScreenState extends State<HomeScreen> {
 
     RudderConfigBuilder builder = RudderConfigBuilder();
     builder
-      ..withFactory(RudderIntegrationAppcenterFlutter())
       ..withFactory(RudderIntegrationFirebaseFlutter())
       ..withFactory(RudderIntegrationBrazeFlutter())
       ..withFactory(RudderIntegrationAmplitudeFlutter())
+      ..withFactory(RudderIntegrationAppsflyerFlutter())
+      ..withFactory(RudderIntegrationAdjustFlutter())
       ..withDataPlaneUrl(initArgs["Data Plane URL"] as String)
       ..withMobileConfig(mc)
       ..withWebConfig(wc)
