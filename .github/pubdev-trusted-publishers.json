@@ -51,9 +51,24 @@
       "tagPattern": "rudder_integration_braze_flutter-v{{version}}"
     },
     {
+      "name": "rudder_integration_clevertap_flutter",
+      "path": "packages/integrations/rudder_integration_clevertap_flutter",
+      "tagPattern": "rudder_integration_clevertap_flutter-v{{version}}"
+    },
+    {
+      "name": "rudder_integration_facebook_flutter",
+      "path": "packages/integrations/rudder_integration_facebook_flutter",
+      "tagPattern": "rudder_integration_facebook_flutter-v{{version}}"
+    },
+    {
       "name": "rudder_integration_firebase_flutter",
       "path": "packages/integrations/rudder_integration_firebase_flutter",
       "tagPattern": "rudder_integration_firebase_flutter-v{{version}}"
+    },
+    {
+      "name": "rudder_integration_sprig_flutter",
+      "path": "packages/integrations/rudder_integration_sprig_flutter",
+      "tagPattern": "rudder_integration_sprig_flutter-v{{version}}"
     }
   ]
 }

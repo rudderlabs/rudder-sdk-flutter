@@ -153,6 +153,22 @@ scripts:
     packageFilters:
       scope: '*rudder_integration_braze_flutter'
 
+  build:integration:clevertap:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build bundle --target=lib/rudder_integration_clevertap_flutter.dart"
+    description: Build the CleverTap integration plugin.
+    packageFilters:
+      scope: '*rudder_integration_clevertap_flutter'
+
+  build:integration:facebook:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build bundle --target=lib/rudder_integration_facebook_flutter.dart"
+    description: Build the Facebook integration plugin.
+    packageFilters:
+      scope: '*rudder_integration_facebook_flutter'
+
   build:integration:firebase:
     run: |
       melos exec -c 1 --fail-fast -- \
@@ -161,12 +177,23 @@ scripts:
     packageFilters:
       scope: '*rudder_integration_firebase_flutter'
 
+  build:integration:sprig:
+    run: |
+      melos exec -c 1 --fail-fast -- \
+        "flutter build bundle --target=lib/rudder_integration_sprig_flutter.dart"
+    description: Build the Sprig integration plugin.
+    packageFilters:
+      scope: '*rudder_integration_sprig_flutter'
+
   build:integration:all:
     run: |
       melos run build:integration:adjust --no-select && \
       melos run build:integration:appsflyer --no-select && \
       melos run build:integration:braze --no-select && \
+      melos run build:integration:clevertap --no-select && \
+      melos run build:integration:facebook --no-select && \
       melos run build:integration:firebase --no-select && \
+      melos run build:integration:sprig --no-select && \
       melos bootstrap
     description: Build all the integrations.
 
