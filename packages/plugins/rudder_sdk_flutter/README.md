@@ -38,6 +38,57 @@ Without it, the instance cannot reach the native SDK, and it shuts down.
 Each call goes into one queue for its instance, and reaches the native SDK in call order.
 A getter answers after the calls made before it.
 
+## Start the SDK in native code
+
+Start the SDK in native code when you need one of these:
+
+- Events from an Android process that starts without a screen, for example for a push message or a scheduled job. Android runs no Flutter engine then, so Dart cannot create the instance.
+- A custom plugin, or an integration that uses your own vendor instance (lite mode). Only native code can add them.
+
+Create the instance with the Kotlin or Swift SDK before the Flutter engine starts.
+Then create a Dart `Analytics` with the same write key. It finds the running instance and sends its events through it.
+
+Android, in `Application.onCreate()`:
+
+```kotlin
+class MyApplication : Application() {
+    lateinit var analytics: Analytics
+
+    override fun onCreate() {
+        super.onCreate()
+        analytics = Analytics(Configuration(application = this, writeKey = "<write key>", dataPlaneUrl = "<data plane URL>"))
+        analytics.add(MyPlugin())
+    }
+}
+```
+
+iOS, in the app delegate:
+
+```swift
+var analytics: Analytics?
+
+override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    analytics = Analytics(configuration: Configuration(writeKey: "<write key>", dataPlaneUrl: "<data plane URL>"))
+    analytics?.add(plugin: MyPlugin())
+    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+}
+```
+
+Dart:
+
+```dart
+final analytics = Analytics(Configuration(writeKey: '<write key>', dataPlaneUrl: '<data plane URL>'));
+```
+
+These rules apply:
+
+- The Dart `Analytics` ignores its own `Configuration` and logs a warning. Native code sets every setting, also the integrations. Add an integration package in native code, as its README shows.
+- The Dart events go through the plugins and integrations that native code adds.
+- `shutdown()` in Dart does not stop the native instance. Only native code stops it.
+- On Android, create an `Analytics` of the Android SDK (`com.rudderstack.sdk.kotlin.android`). With an `Analytics` of the core SDK, the Dart `Analytics` cannot start.
+- On iOS, keep the instance in a property, as in the example. The SDK finds a running instance only while the app keeps it.
+- Create the native instance before Dart creates one. When Dart already runs an instance for the write key, the SDK refuses the native one and logs an error.
+
 ## Web
 
 On web, the SDK calls the RudderStack JavaScript SDK v3 that the page loads.
