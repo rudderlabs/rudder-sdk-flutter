@@ -1,19 +1,15 @@
 import 'package:flutter/widgets.dart';
 import 'package:rudder_integration_appsflyer_flutter/rudder_integration_appsflyer_flutter.dart';
-import 'package:rudder_sdk_flutter/RudderController.dart';
-import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
+import 'package:rudder_sdk_flutter/rudder_sdk_flutter.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
-  final config = RudderConfigBuilder()
-    ..withDataPlaneUrl('YOUR_DATA_PLANE_URL')
-    ..withFactory(RudderIntegrationAppsflyerFlutter());
-
-  RudderController.instance.initialize(
-    'YOUR_WRITE_KEY',
-    config: config.build(),
+  Analytics(
+    Configuration(
+      writeKey: '<write key>',
+      dataPlaneUrl: '<data plane URL>',
+      integrations: const [AppsFlyerIntegration()],
+    ),
   );
-
   runApp(const SizedBox.shrink());
 }

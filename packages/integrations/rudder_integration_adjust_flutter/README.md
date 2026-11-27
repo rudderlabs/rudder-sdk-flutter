@@ -1,55 +1,39 @@
-# What is RudderStack?
+# Adjust integration for the RudderStack Flutter SDK
 
-[RudderStack](https://rudderstack.com/) is a **customer data pipeline tool** for collecting, routing and processing data from your websites, apps, cloud tools, and data warehouse.
+This package sends events to Adjust on the device. It adds the RudderStack Kotlin Adjust integration on Android and the RudderStack Swift Adjust integration on iOS. It works with the RudderStack Flutter SDK 4.0 on Android and iOS.
 
-With RudderStack, you can build customer data pipelines that connect your whole customer data stack and then make them smarter by triggering enrichment and activation in customer tools based on analysis in your data warehouse. Its easy-to-use SDKs and event source integrations, Cloud Extract integrations, transformations, and expansive library of destination and warehouse integrations makes building customer data pipelines for both event streaming and cloud-to-warehouse ELT simple.
+## Use
 
-Questions? Please join our [Slack channel](https://www.rudderstack.com/join-rudderstack-slack-community/) or read about us on [Product Hunt](https://www.producthunt.com/posts/rudderstack).
+1. Add Adjust as a destination of your source in the [RudderStack dashboard](https://app.rudderstack.com/).
+2. Add the package:
 
-## Integrating Adjust with the RudderStack Flutter SDK
+   ```bash
+   flutter pub add rudder_integration_adjust_flutter
+   ```
 
-1. Add [Adjust](https://www.adjust.com/) as a destination in the [RudderStack dashboard](https://app.rudderstack.com/).
+3. Add the integration to the configuration:
 
-2. Open `pubspec.yaml`  and add `rudder_integration_adjust_flutter` under `dependencies` section:
+   ```dart
+   import 'package:rudder_integration_adjust_flutter/rudder_integration_adjust_flutter.dart';
+   import 'package:rudder_sdk_flutter/rudder_sdk_flutter.dart';
 
-```groovy
-dependencies:
-  rudder_integration_adjust_flutter: ^1.0.0
-```
+   final analytics = Analytics(Configuration(
+     writeKey: '<write key>',
+     dataPlaneUrl: '<data plane URL>',
+     integrations: const [AdjustIntegration()],
+   ));
+   ```
 
-3. Navigate to your Application's root folder and install all the required dependencies with:
+An SDK instance adds the integration when it starts. When native code starts the instance, add the Kotlin or Swift integration in native code instead. Then the Dart list has no effect.
 
-```bash
-flutter pub get
-```
+## Adjust setup
 
-4. Import the module you added above and add it to your SDK initialization code as shown below:
+Keep `logLevel` at `LogLevel.none` in release builds. The Kotlin Adjust integration uses the Adjust sandbox environment when logging is on.
 
-```typescript
-import 'package:rudder_sdk_flutter/RudderController.dart';
-import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
-import 'package:rudder_integration_adjust_flutter/rudder_integration_adjust_flutter.dart';
+## Native code
 
-RudderConfigBuilder builder = RudderConfigBuilder();
-builder.withDataPlaneUrl(DATA_PLANE_URL);
-builder.withFactory(RudderIntegrationAdjustFlutter());
-final RudderController rudderClient = RudderController.instance;
-rudderClient.initialize(WRITE_KEY,
-    config: builder.build(), options:null);
-```
+On Android, this package exposes the Kotlin integration and the Adjust Android SDK to the app. On iOS, Swift Package Manager makes both modules importable. So native code can build the integration with its own Adjust instance, with no extra Gradle or Xcode setting.
 
-## Upgrading from 2.x (iOS)
+## Contact us
 
-On iOS, this plugin now uses the native `Rudder-Adjust` 2.x, which is built on the Adjust iOS SDK v5:
-
-- If your `ios/Podfile` pins Adjust 4.x (for example, `pod 'Adjust', '4.38.1'`), remove that line.
-- If your app also uses the Adjust SDK directly, it must use Adjust iOS SDK v5.
-- The **Delay Time before SDK initialization** destination setting no longer applies on iOS.
-
-## Sending Events
-
-Follow the steps from our [RudderStack Flutter SDK](https://github.com/rudderlabs/rudder-sdk-flutter#send-events) repo.
-
-## Contact Us
-
-If you come across any issues while configuring or using this integration, please feel free to start a conversation on our [Slack](https://www.rudderstack.com/join-rudderstack-slack-community/) channel. We will be happy to help you.
+For questions, open an issue in [rudder-sdk-flutter](https://github.com/rudderlabs/rudder-sdk-flutter/issues) or contact [RudderStack support](https://www.rudderstack.com/contact/).

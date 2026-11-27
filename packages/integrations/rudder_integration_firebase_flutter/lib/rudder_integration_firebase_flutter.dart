@@ -1,24 +1,11 @@
-import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart';
-import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
+/// Firebase device-mode integration for the RudderStack Flutter SDK.
+library;
 
-/// Adds Firebase as a device-mode destination to the RudderStack Flutter SDK.
-class RudderIntegrationFirebaseFlutter implements RudderIntegration {
-  static const MethodChannel _channel = MethodChannel(
-    'rudder_integration_firebase_flutter',
-  );
+import 'package:rudder_sdk_flutter/rudder_sdk_flutter.dart';
 
-  /// Registers the native Firebase integration factory with the RudderStack SDK.
-  @override
-  void addFactory() {
-    if (!kIsWeb) {
-      _channel.invokeMethod("addFactory");
-    }
-  }
-
-  /// Returns the destination key used to identify the Firebase integration.
-  @override
-  String getKey() {
-    return "Firebase";
-  }
+/// Sends the events to Firebase on the device, through the RudderStack Kotlin and Swift Firebase integrations.
+///
+/// Add it to `Configuration.integrations`. Android and iOS only.
+class FirebaseIntegration extends Integration {
+  const FirebaseIntegration() : super('firebase');
 }

@@ -1,52 +1,64 @@
-# What is RudderStack?
+# Braze integration for the RudderStack Flutter SDK
 
-[RudderStack](https://rudderstack.com/) is a **customer data pipeline tool** for collecting, routing and processing data from your websites, apps, cloud tools, and data warehouse.
+This package sends events to Braze on the device. It adds the RudderStack Kotlin Braze integration on Android and the RudderStack Swift Braze integration on iOS. It works with the RudderStack Flutter SDK 4.0 on Android and iOS.
 
-With RudderStack, you can build customer data pipelines that connect your whole customer data stack and then make them smarter by triggering enrichment and activation in customer tools based on analysis in your data warehouse. Its easy-to-use SDKs and event source integrations, Cloud Extract integrations, transformations, and expansive library of destination and warehouse integrations makes building customer data pipelines for both event streaming and cloud-to-warehouse ELT simple.
+## Use
 
-Questions? Please join our [Slack channel](https://www.rudderstack.com/join-rudderstack-slack-community/) or read about us on [Product Hunt](https://www.producthunt.com/posts/rudderstack).
+1. Add Braze as a destination of your source in the [RudderStack dashboard](https://app.rudderstack.com/).
+2. Add the package:
 
-## Requirements
+   ```bash
+   flutter pub add rudder_integration_braze_flutter
+   ```
 
-- **Android**: this integration requires a minimum Android SDK version of **25**. The underlying Braze Android SDK has enforced `minSdkVersion 25` since its `2.0.0` release, so your app's `minSdkVersion` must be `25` or higher.
-- **iOS**: minimum deployment target of **15.0**.
+3. Add the integration to the configuration:
 
-## Integrating Braze with the RudderStack Flutter SDK
+   ```dart
+   import 'package:rudder_integration_braze_flutter/rudder_integration_braze_flutter.dart';
+   import 'package:rudder_sdk_flutter/rudder_sdk_flutter.dart';
 
-1. Add [Braze](https://www.braze.com/) as a destination in the [RudderStack dashboard](https://app.rudderstack.com/).
+   final analytics = Analytics(Configuration(
+     writeKey: '<write key>',
+     dataPlaneUrl: '<data plane URL>',
+     integrations: const [BrazeIntegration()],
+   ));
+   ```
 
-2. Open `pubspec.yaml`  and add `rudder_integration_braze_flutter` under `dependencies` section:
+An SDK instance adds the integration when it starts. When native code starts the instance, add the Kotlin or Swift integration in native code instead. Then the Dart list has no effect.
 
-```groovy
-dependencies:
-  rudder_integration_braze_flutter: ^2.6.2
-```
+## Braze setup
 
-3. Navigate to your Application's root folder and install all the required dependencies with:
+This package needs Android API level 25 or later. Set `minSdk = 25` in `android/app/build.gradle.kts`.
 
-```bash
-flutter pub get
-```
+## iOS: next to the Braze Flutter plugin
 
-4. Import the module you added above and add it to your SDK initialization code as shown below:
+The RudderStack Swift Braze integration uses the package `braze-swift-sdk-prebuilt-static`. The Braze Flutter plugin `braze_plugin` uses `braze-swift-sdk`. Swift Package Manager cannot resolve an app that has both, so an app with `braze_plugin` adds a mirror from the second package to the first.
 
-```typescript
-import 'package:rudder_sdk_flutter/RudderController.dart';
-import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
-import 'package:rudder_integration_braze_flutter/rudder_integration_braze_flutter.dart';
+1. Add this `mirrors.json` file in two folders of your app:
+   - `ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/configuration/`
+   - `ios/Runner.xcworkspace/xcshareddata/swiftpm/configuration/`
 
-RudderConfigBuilder builder = RudderConfigBuilder();
-builder.withDataPlaneUrl(DATA_PLANE_URL);
-builder.withFactory(RudderIntegrationBrazeFlutter());
-final RudderController rudderClient = RudderController.instance;
-rudderClient.initialize(WRITE_KEY,
-    config: builder.build(), options:null);
-```
+   ```json
+   {
+     "object" : [
+       {
+         "mirror" : "https://github.com/braze-inc/braze-swift-sdk-prebuilt-static",
+         "original" : "https://github.com/braze-inc/braze-swift-sdk"
+       }
+     ],
+     "version" : 1
+   }
+   ```
 
-## Sending Events
+2. Add an empty file `config.lock` next to each `mirrors.json`.
+3. Delete the `Package.resolved` files in `ios/`, and build the app again.
 
-Follow the steps from our [RudderStack Flutter SDK](https://github.com/rudderlabs/rudder-sdk-flutter#send-events) repo.
+The mirror works when both packages accept the same Braze major version.
 
-## Contact Us
+## Native code
 
-If you come across any issues while configuring or using this integration, please feel free to start a conversation on our [Slack](https://www.rudderstack.com/join-rudderstack-slack-community/) channel. We will be happy to help you.
+On Android, this package exposes the Kotlin integration and the Braze Android SDK to the app. On iOS, Swift Package Manager makes both modules importable. So native code can build the integration with its own Braze instance, with no extra Gradle or Xcode setting.
+
+## Contact us
+
+For questions, open an issue in [rudder-sdk-flutter](https://github.com/rudderlabs/rudder-sdk-flutter/issues) or contact [RudderStack support](https://www.rudderstack.com/contact/).

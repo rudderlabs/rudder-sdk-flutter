@@ -1,4 +1,5 @@
 // swift-tools-version: 5.9
+
 import PackageDescription
 
 let package = Package(
@@ -10,18 +11,18 @@ let package = Package(
         .library(name: "rudder-integration-braze-flutter", targets: ["rudder_integration_braze_flutter"])
     ],
     dependencies: [
-        .package(name: "rudder_plugin_ios", path: "../rudder_plugin_ios"),
-        .package(url: "https://github.com/rudderlabs/rudder-integration-braze-ios.git", "4.5.0"..<"5.0.0")
+        .package(name: "FlutterFramework", path: "../FlutterFramework"),
+        .package(name: "rudder_sdk_flutter", path: "../rudder_sdk_flutter"),
+        .package(url: "https://github.com/rudderlabs/integration-swift-braze.git", from: "4.0.0")
     ],
     targets: [
         .target(
             name: "rudder_integration_braze_flutter",
             dependencies: [
-                .product(name: "rudder-plugin-ios", package: "rudder_plugin_ios"),
-                .product(name: "Rudder-Braze", package: "rudder-integration-braze-ios")
-            ],
-            path: "Sources/rudder_integration_braze_flutter",
-            publicHeadersPath: "include"
+                .product(name: "FlutterFramework", package: "FlutterFramework"),
+                .product(name: "rudder-sdk-flutter", package: "rudder_sdk_flutter"),
+                .product(name: "RudderIntegrationBraze", package: "integration-swift-braze")
+            ]
         )
     ]
 )

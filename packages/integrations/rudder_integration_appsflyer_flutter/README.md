@@ -1,81 +1,50 @@
-# What is RudderStack?
+# AppsFlyer integration for the RudderStack Flutter SDK
 
-[RudderStack](https://rudderstack.com/) is a **customer data pipeline tool** for collecting, routing and processing data from your websites, apps, cloud tools, and data warehouse.
+This package sends events to AppsFlyer on the device. It adds the RudderStack Kotlin AppsFlyer integration on Android and the RudderStack Swift AppsFlyer integration on iOS. It works with the RudderStack Flutter SDK 4.0 on Android and iOS.
 
-With RudderStack, you can build customer data pipelines that connect your whole customer data stack and then make them smarter by triggering enrichment and activation in customer tools based on analysis in your data warehouse. Its easy-to-use SDKs and event source integrations, Cloud Extract integrations, transformations, and expansive library of destination and warehouse integrations makes building customer data pipelines for both event streaming and cloud-to-warehouse ELT simple.
+## Use
 
-Questions? Please join our [Slack channel](https://www.rudderstack.com/join-rudderstack-slack-community/) or read about us on [Product Hunt](https://www.producthunt.com/posts/rudderstack).
+1. Add AppsFlyer as a destination of your source in the [RudderStack dashboard](https://app.rudderstack.com/).
+2. Add the package:
 
-## Integrating AppsFlyer with the RudderStack Flutter SDK
+   ```bash
+   flutter pub add rudder_integration_appsflyer_flutter
+   ```
 
-1. Add [AppsFlyer](https://www.appsflyer.com/) as a destination in the [RudderStack dashboard](https://app.rudderstack.com/).
+3. Start the AppsFlyer SDK before you create `Analytics`. The integration sends each event to the shared AppsFlyer SDK, but AppsFlyer sends nothing until the app initializes and starts it. No error shows this.
+   - With the AppsFlyer Flutter plugin `appsflyer_sdk` 7.x, call `start()` from the session-ready listener. AppsFlyer calls the listener once in each foreground cycle, because the SDK resets its started state when the app goes to the background. A single `start()` call leaves later sessions without a start.
 
-2. Open `pubspec.yaml` and add `rudder_integration_appsflyer_flutter` under the `dependencies` section:
+     ```dart
+     import 'package:appsflyer_sdk/appsflyer_sdk.dart';
 
-```yaml
-dependencies:
-  rudder_integration_appsflyer_flutter: ^2.1.5
-```
+     final appsFlyer = AppsFlyerSdk.instance;
+     await appsFlyer.init(devKey: '<AppsFlyer dev key>', appId: '<Apple app ID>');
+     await appsFlyer.registerSessionReadyListener(() async {
+       await appsFlyer.start();
+     });
+     ```
 
-3. Navigate to your Application's root folder and install all the required dependencies with:
+   - In native code, follow the AppsFlyer SDK v7 setup in the [Kotlin integration guide](https://github.com/rudderlabs/rudder-sdk-kotlin/blob/develop/integrations/appsflyer/README.md) and the [Swift integration guide](https://github.com/rudderlabs/rudder-monorepo-swift/blob/main/Integrations/AppsFlyer/README.md). SDK v7 calls `start()` inside `registerSessionReadyListener`.
 
-```bash
-flutter pub get
-```
+4. Add the integration to the configuration:
 
-4. Import the module you added above and add it to your SDK initialization code as shown below:
+   ```dart
+   import 'package:rudder_integration_appsflyer_flutter/rudder_integration_appsflyer_flutter.dart';
+   import 'package:rudder_sdk_flutter/rudder_sdk_flutter.dart';
 
-```dart
-import 'package:rudder_sdk_flutter/RudderController.dart';
-import 'package:rudder_sdk_flutter_platform_interface/platform.dart';
-import 'package:rudder_integration_appsflyer_flutter/rudder_integration_appsflyer_flutter.dart';
+   final analytics = Analytics(Configuration(
+     writeKey: '<write key>',
+     dataPlaneUrl: '<data plane URL>',
+     integrations: const [AppsFlyerIntegration()],
+   ));
+   ```
 
-RudderConfigBuilder builder = RudderConfigBuilder();
-builder.withDataPlaneUrl(DATA_PLANE_URL);
-builder.withFactory(RudderIntegrationAppsflyerFlutter());
-final RudderController rudderClient = RudderController.instance;
-rudderClient.initialize(WRITE_KEY,
-    config: builder.build(), options:null);
-```
+An SDK instance adds the integration when it starts. When native code starts the instance, add the Kotlin or Swift integration in native code instead. Then the Dart list has no effect.
 
-5. Add the below dependency to the `android/app/build.gradle` file of your app:
+## Native code
 
-```groovy
-dependencies {
-    implementation 'com.appsflyer:af-android-sdk:6.+'
-}
-```
+On Android, this package exposes the Kotlin integration and the AppsFlyer Android SDK to the app. On iOS, Swift Package Manager makes both modules importable. So native code can start AppsFlyer and add the integration with no extra Gradle or Xcode setting. The integration always uses the shared AppsFlyer instance. It has no constructor that takes your own instance.
 
-6. Initialize the AppsFlyer Android SDK by overriding the `onCreate` method in the `MainActivity.java` file at `android/app/src/main/java/com/your_org/your_app_name/`. This initialization must run before the RudderStack Flutter SDK starts.
+## Contact us
 
-```java
-
-  import com.appsflyer.AppsFlyerLib;
-  import com.appsflyer.AFLogger;
-
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    AppsFlyerLib.getInstance().init("AF_DEV_KEY", null, this);
-    AppsFlyerLib.getInstance().setLogLevel(AFLogger.LogLevel.DEBUG);
-    AppsFlyerLib.getInstance().start(this);
-  }
-```
-
-7. Initialize the AppsFlyer iOS SDK by adding the following code at the top of the `didFinishLaunchingWithOptions` method in the `AppDelegate.swift` file at `ios/Runner/`.
-
-```swift
-      import AppsFlyerLib
-
-      AppsFlyerLib.shared().appsFlyerDevKey = "AF_DEV_KEY"
-      AppsFlyerLib.shared().appleAppID = "APPLE_APP_ID"
-      AppsFlyerLib.shared().isDebug = true
-      AppsFlyerLib.shared().start()
-```
-## Sending Events
-
-Follow the steps from our [RudderStack Flutter SDK](https://github.com/rudderlabs/rudder-sdk-flutter#send-events) repo.
-
-## Contact Us
-
-If you come across any issues while configuring or using this integration, please feel free to start a conversation on our [Slack](https://www.rudderstack.com/join-rudderstack-slack-community/) channel. We will be happy to help you.
+For questions, open an issue in [rudder-sdk-flutter](https://github.com/rudderlabs/rudder-sdk-flutter/issues) or contact [RudderStack support](https://www.rudderstack.com/contact/).

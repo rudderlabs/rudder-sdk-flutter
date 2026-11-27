@@ -74,10 +74,10 @@ subprocess.run([flutter, "pub", "get"], cwd=consumer, check=True)
 
 plugins = json.loads((consumer / ".flutter-plugins-dependencies").read_text())
 android = {p["name"]: Path(p["path"]).resolve() for p in plugins["plugins"]["android"]}
-expected = {n: p for n, p in packages.items() if (p / "android/build.gradle").exists()}
+expected = {n: p for n, p in packages.items() if any((p / "android").glob("build.gradle*"))}
 for name, path in expected.items():
     if android.get(name) != path.resolve():
         raise SystemExit(f"Android consumer omitted local package {name}")
 if not expected:
     raise SystemExit("No local Android plugins found")
-print(f"Verified {len(expected)} local Android plugins, including Kochava")
+print(f"Verified {len(expected)} local Android plugins")
