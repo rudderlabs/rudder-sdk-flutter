@@ -172,106 +172,90 @@ packages:
     dependency: "direct main"
     description:
       name: rudder_integration_adjust_flutter
-      sha256: "8244e1562cca2acf8972f52146d8755adf809c0377dacf56f3cb02f4ed3bcf8c"
+      sha256: aa6142e826ba4d5752fab7eecd9626b261325eeaf9a52a09977c8d880af2ee14
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "3.0.0"
   rudder_integration_amplitude_flutter:
     dependency: "direct main"
     description:
       name: rudder_integration_amplitude_flutter
-      sha256: cfffda407f6e640ae0e90755f2ad764c3d4ce7b3493284550e7e520f8d7cd492
+      sha256: f0f2b4c2061506cde1cacff10f6492e576407a4f46e8f1659de7055cfe68e981
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
-  rudder_integration_appcenter_flutter:
-    dependency: "direct main"
-    description:
-      name: rudder_integration_appcenter_flutter
-      sha256: "9fd12df96443b715264ed512074fdc8f0822d4be647300b6847394ec47ba201e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.0"
+    version: "3.0.0"
   rudder_integration_appsflyer_flutter:
     dependency: "direct main"
     description:
       name: rudder_integration_appsflyer_flutter
-      sha256: "522ad7555c1fd4c15ed300bb82f2ecd707796ad782ef55c6f2d9e55ef9c09149"
+      sha256: "1fe5ced11e72ad49cda18683a3f21062d6480e84baada036f002d67706ff634c"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.0"
+    version: "2.2.0"
   rudder_integration_braze_flutter:
     dependency: "direct main"
     description:
       name: rudder_integration_braze_flutter
-      sha256: "4bec55a7ab37f9e3e8fa162329c2d35131619cb2ab3be6b54713965d21af42e4"
+      sha256: b0adc9c3d180b7d688f2fd38750b68f7611bb0ab35a264aefee9e3b4ca4e8ff0
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.8.0"
   rudder_integration_firebase_flutter:
     dependency: "direct main"
     description:
       name: rudder_integration_firebase_flutter
-      sha256: bca7369ae9feae1883f3aa0754d7890d7517c11e6bcc4c3ecbe9669b99ebdf50
+      sha256: "7e476ad8ab3ac8aebb680706c749584c12f75308186d81a8becf1f1d1bc0db67"
       url: "https://pub.dev"
     source: hosted
-    version: "4.3.0"
-  rudder_integration_leanplum_flutter:
-    dependency: "direct main"
-    description:
-      name: rudder_integration_leanplum_flutter
-      sha256: a55f91edd4ff591d0ad8dd2dd75239fc9cd3797356615b5e3169799c7b11e8db
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.0"
+    version: "4.5.0"
   rudder_plugin_android:
     dependency: transitive
     description:
       name: rudder_plugin_android
-      sha256: "3dd271cd1c30f7b1f1bdaa22ee6b2e7161903a181840af60c97fc265e9a3e6ca"
+      sha256: "299753126077411cc446b3bc395e8ef0cdb39dbe5c2e67d4d8243eb30306c4bc"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.1"
+    version: "3.3.1"
   rudder_plugin_db_encryption:
     dependency: "direct main"
     description:
       name: rudder_plugin_db_encryption
-      sha256: ecaeb66bebd66d5e80e4b8faf38422b95ee3715aad31a389cd92b06ce6795cc1
+      sha256: "593f8a01257d4faabb99caaa9c85d499c64b1081cde50687543eef4120de3da0"
       url: "https://pub.dev"
     source: hosted
-    version: "1.3.0"
+    version: "1.5.8"
   rudder_plugin_ios:
     dependency: transitive
     description:
       name: rudder_plugin_ios
-      sha256: "8f2fbd2a7b10ab1d54a0e06e93799b3a978a0c426d226a91fd4a184c31302f5f"
+      sha256: "10bef195d722595e0fa5177be29282646b07ed49dca8cc8902a0cf376d87d6fd"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.0"
+    version: "3.3.1"
   rudder_plugin_web:
     dependency: transitive
     description:
       name: rudder_plugin_web
-      sha256: "579cd2ec736abf86526b5f8252dbfd80647a5ade2598a090ccb017d60dbcd9d6"
+      sha256: b5c45585f1070ab56a6c57ffbd3efdaccab4909c7206b355a71a2487c9bafc59
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.0"
+    version: "3.3.0"
   rudder_sdk_flutter:
     dependency: "direct main"
     description:
       name: rudder_sdk_flutter
-      sha256: "4c9b006a468ed48a4317a8dbbfdaddab97a8b5462f398c01568143a792091233"
+      sha256: "9bf9b3bccef6fbede2bed68014eb4603be68ec969611bca630c8ad164e2accc4"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.0"
+    version: "3.4.2"
   rudder_sdk_flutter_platform_interface:
     dependency: transitive
     description:
       name: rudder_sdk_flutter_platform_interface
-      sha256: f3514c96f9e64acc5d1c7c6325cbbaa96971cf5e479e675f06bc9cd8d6321583
+      sha256: "8cfb9c3be5740a65e82afe6aac21a2c17f6fef029eea8383efd77ff78cc1f73e"
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.0"
+    version: "3.4.0"
   sky_engine:
     dependency: transitive
     description: flutter

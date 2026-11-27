@@ -74,4 +74,5 @@ flutter {
 
 dependencies {
     implementation 'com.google.android.gms:play-services-ads:19.3.0'
+    implementation 'com.appsflyer:af-android-sdk:6.+'
 }
